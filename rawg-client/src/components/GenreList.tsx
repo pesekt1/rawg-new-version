@@ -11,7 +11,7 @@ import useGenres, { Genre } from "../hooks/useGenres";
 import getCroppedImageUrl from "../services/image-url";
 
 interface Props {
-  onSelectedGenre: (genre: Genre) => void;
+  onSelectedGenre: (genre: Genre | null) => void;
   selectedGenre: Genre | null;
 }
 
@@ -27,7 +27,9 @@ const GenreList = ({ onSelectedGenre, selectedGenre }: Props) => {
 
   return (
     <>
-      <Heading>Genres</Heading>
+      <Button variant="link" onClick={() => onSelectedGenre(null)}>
+        <Heading>Genres</Heading>
+      </Button>
       <List>
         {genres.map((genre) => (
           <ListItem key={genre.id} paddingY="5px">

@@ -13,7 +13,8 @@ function App() {
     null
   );
 
-  const handleOnSelectedGenre = (genre: Genre) => setSelectedGenre(genre);
+  const handleOnSelectedGenre = (genre: Genre | null) =>
+    setSelectedGenre(genre);
   const handleOnSelectedPlatform = (platform: Platform | null) =>
     setSelectedPlatform(platform);
 
