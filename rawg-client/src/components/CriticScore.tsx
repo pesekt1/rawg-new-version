@@ -11,6 +11,8 @@ const CriticScore = ({ score }: Props) => {
     return "red";
   };
 
+  if (!score) return null;
+
   return (
     <Badge
       border="1px solid"
