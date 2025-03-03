@@ -13,7 +13,7 @@ export const AppDataSource = new DataSource({
   password: "123456", // Change to your MySQL password
   database: "rawgDatabase",
   synchronize: true, // Set to false in production and use migrations instead
-  logging: true,
+  logging: false,
   entities: [Game, Genre, Store, ParentPlatform],
   migrations: [],
   subscribers: [],
