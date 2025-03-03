@@ -7,6 +7,8 @@ import { ParentPlatform } from "./entities/ParentPlatform";
 import { Store } from "./entities/Store";
 
 async function insertData() {
+  //TODO: connect to mysql server and create if not exist rawgDatabase
+
   await AppDataSource.initialize();
 
   const rawData = fs.readFileSync("games.json", "utf-8");
@@ -22,8 +24,6 @@ async function insertData() {
   const genreRepo = AppDataSource.getRepository(Genre);
   const platformRepo = AppDataSource.getRepository(ParentPlatform);
   const storeRepo = AppDataSource.getRepository(Store);
-
-  //TODO: drop and recreate the database
 
   await gameRepo.delete({});
   console.log("Games deleted");
