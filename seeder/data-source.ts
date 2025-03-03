@@ -4,7 +4,6 @@ import { Game } from "./entities/Game";
 import { Genre } from "./entities/Genre";
 import { Store } from "./entities/Store";
 import { ParentPlatform } from "./entities/ParentPlatform";
-import { GameOriginal } from "./entities/GameOriginal";
 
 export const AppDataSource = new DataSource({
   type: "mysql",
@@ -14,8 +13,8 @@ export const AppDataSource = new DataSource({
   password: "123456", // Change to your MySQL password
   database: "rawgDatabase",
   synchronize: true, // Set to false in production and use migrations instead
-  logging: true,
-  entities: [Game, GameOriginal, Genre, Store, ParentPlatform],
+  logging: false,
+  entities: [Game, Genre, Store, ParentPlatform],
   migrations: [],
   subscribers: [],
 });

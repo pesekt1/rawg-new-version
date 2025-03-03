@@ -1,0 +1,32 @@
+{
+  "sqltools.connections": [
+    {
+      "mysqlOptions": {
+        "authProtocol": "default"
+      },
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 3306,
+      "driver": "MySQL",
+      "name": "MySQL",
+      "database": "sql_store",
+      "username": "VSCode",
+      "password": "123456",
+      "connectionTimeout": 60
+    },
+    {
+      "mysqlOptions": {
+        "authProtocol": "default",
+        "enableSsl": "Disabled"
+      },
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 3307,
+      "driver": "MySQL",
+      "name": "dockerMySQL",
+      "database": "rawgDatabase",
+      "username": "root",
+      "password": "123456"
+    }
+  ]
+}

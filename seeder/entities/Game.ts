@@ -9,7 +9,7 @@ import { Genre } from "./Genre";
 import { ParentPlatform } from "./ParentPlatform";
 import { Store } from "./Store";
 
-@Entity()
+@Entity("games")
 export class Game {
   @PrimaryGeneratedColumn()
   id: number;
