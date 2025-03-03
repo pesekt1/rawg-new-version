@@ -5,6 +5,7 @@ import { Genre } from "./entities/Genre";
 import { Store } from "./entities/Store";
 import { ParentPlatform } from "./entities/ParentPlatform";
 
+//NOTE: There needs to be existing database named rawgDatabase in your MySQL server
 export const AppDataSource = new DataSource({
   type: "mysql",
   host: "localhost",
