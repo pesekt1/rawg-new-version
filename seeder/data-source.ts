@@ -4,6 +4,7 @@ import { Game } from "./entities/Game";
 import { Genre } from "./entities/Genre";
 import { Store } from "./entities/Store";
 import { ParentPlatform } from "./entities/ParentPlatform";
+import { GameOriginal } from "./entities/GameOriginal";
 
 export const AppDataSource = new DataSource({
   type: "mysql",
@@ -14,16 +15,7 @@ export const AppDataSource = new DataSource({
   database: "rawgDatabase",
   synchronize: true, // Set to false in production and use migrations instead
   logging: true,
-  entities: [Game, Genre, Store, ParentPlatform],
+  entities: [Game, GameOriginal, Genre, Store, ParentPlatform],
   migrations: [],
   subscribers: [],
 });
-
-// Initialize the data source
-AppDataSource.initialize()
-  .then(() => {
-    console.log("Data Source has been initialized!");
-  })
-  .catch((err) => {
-    console.error("Error during Data Source initialization:", err);
-  });

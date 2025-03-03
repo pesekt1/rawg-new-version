@@ -10,7 +10,7 @@ import { ParentPlatform } from "./ParentPlatform";
 import { Store } from "./Store";
 
 @Entity()
-export class Game {
+export class GameOriginal {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -29,9 +29,9 @@ export class Game {
 
   @ManyToMany(() => ParentPlatform, (platform) => platform.games)
   @JoinTable()
-  parent_platforms: ParentPlatform[];
+  parent_platforms: { platform: ParentPlatform }[];
 
   @ManyToMany(() => Store, (store) => store.games)
   @JoinTable()
-  stores: Store[];
+  stores: { store: Store }[];
 }

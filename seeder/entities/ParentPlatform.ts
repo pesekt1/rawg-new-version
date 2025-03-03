@@ -12,6 +12,6 @@ export class ParentPlatform {
   @Column()
   slug: string;
 
-  @ManyToMany(() => Game, (game) => game.parentPlatforms)
+  @ManyToMany(() => Game, (game) => game.parent_platforms)
   games: Game[];
 }
