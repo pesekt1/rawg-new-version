@@ -9,6 +9,8 @@ services:
       - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+    networks:
+      - backend
 
   seeder:
     container_name: seeder
@@ -19,6 +21,8 @@ services:
       - mysql
     environment:
       MYSQL_URL: mysql://root:rootpassword@mysql:3306/rawgDatabase
+    networks:
+      - backend
 
   rawg-server:
     container_name: rawg-server
@@ -31,6 +35,9 @@ services:
       DATABASE_URL: mysql://root:rootpassword@mysql:3306/rawgDatabase
     ports:
       - "5000:5000"
+    networks:
+      - backend
+      - frontend
 
   rawg-client:
     container_name: rawg-client
@@ -43,6 +50,12 @@ services:
       - rawg-server
     ports:
       - "3000:3000"
+    networks:
+      - frontend
 
 volumes:
   mysql_data:
+
+networks:
+  backend:
+  frontend:
