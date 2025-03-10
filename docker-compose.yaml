@@ -23,6 +23,8 @@ services:
       MYSQL_URL: mysql://root:rootpassword@mysql:3306/rawgDatabase
     networks:
       - backend
+    volumes:
+      - ./seeder:/app
 
   rawg-server:
     container_name: rawg-server
@@ -38,6 +40,8 @@ services:
     networks:
       - backend
       - frontend
+    volumes:
+      - ./rawg-server:/app
 
   rawg-client:
     container_name: rawg-client
@@ -52,6 +56,9 @@ services:
       - "3000:3000"
     networks:
       - frontend
+    volumes:
+      - ./rawg-client:/app
+      - /app/node_modules
 
 volumes:
   mysql_data:
