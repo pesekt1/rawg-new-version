@@ -32,6 +32,17 @@ services:
     ports:
       - "5000:5000"
 
+  rawg-client:
+    container_name: rawg-client
+    build:
+      context: ./rawg-client
+      dockerfile: Dockerfile
+    environment:
+      VITE_API_URL: http://localhost:5000
+    depends_on:
+      - rawg-server
+    ports:
+      - "3000:3000"
 
 volumes:
   mysql_data:
