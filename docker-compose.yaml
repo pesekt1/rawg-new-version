@@ -50,6 +50,7 @@ services:
       dockerfile: Dockerfile
     environment:
       VITE_API_URL: http://localhost:5000
+      CHOKIDAR_USEPOLLING: true
     depends_on:
       - rawg-server
     ports:
