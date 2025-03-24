@@ -8,6 +8,7 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import getCroppedImageUrl from "../services/image-url";
+import { useState } from "react";
 
 interface Props<T> {
   title: string;
@@ -28,7 +29,10 @@ const CustomList = <T extends Item>({
   title,
   useDataHook,
 }: Props<T>) => {
+  const [isExpanded, setIsExpanded] = useState(false);
   const { data: items, isLoading, error } = useDataHook();
+
+  const displayedItems = isExpanded ? items : items.slice(0, 5);
 
   if (error) return null;
 
@@ -40,7 +44,7 @@ const CustomList = <T extends Item>({
         <Heading>{title}</Heading>
       </Button>
       <List>
-        {items.map((item) => (
+        {displayedItems.map((item) => (
           <ListItem key={item.id} paddingY="5px">
             <HStack>
               <Image
@@ -50,6 +54,8 @@ const CustomList = <T extends Item>({
                 objectFit="cover"
               />
               <Button
+                textAlign="left"
+                whiteSpace="normal"
                 colorScheme={selectedItem?.id === item.id ? "yellow" : "gray"}
                 variant="link"
                 fontSize="lg"
@@ -60,6 +66,9 @@ const CustomList = <T extends Item>({
             </HStack>
           </ListItem>
         ))}
+        <Button onClick={() => setIsExpanded(!isExpanded)}>
+          {isExpanded ? "Show less" : "Show more"}
+        </Button>
       </List>
     </>
   );
