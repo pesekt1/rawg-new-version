@@ -3,11 +3,12 @@ import NavBar from "./components/NavBar";
 import GameGrid from "./components/GameGrid";
 import GenreList from "./components/GenreList";
 import { useState } from "react";
-import { Genre } from "./hooks/useGenres";
+import useGenres, { Genre } from "./hooks/useGenres";
 import PlatformSelector from "./components/PlatformSelector";
 import { Platform } from "./hooks/usePlatforms";
-import { Store } from "./hooks/useStores";
+import useStores, { Store } from "./hooks/useStores";
 import StoreList from "./components/StoreList";
+import CustomList from "./components/CustomList";
 
 export interface GameQuery {
   genre: Genre | null;
@@ -38,13 +39,25 @@ function App() {
       </GridItem>
       <Show above="lg">
         <GridItem pl="2" area={"aside"}>
-          <GenreList
+          {/* <GenreList
             onSelectedGenre={handleOnSelectedGenre}
             selectedGenre={gameQuery.genre}
           />
           <StoreList
             onSelectedStore={handleSelectedStore}
             selectedStore={gameQuery.store}
+          /> */}
+          <CustomList
+            title="Genres"
+            onSelectedItem={handleOnSelectedGenre}
+            selectedItem={gameQuery.genre}
+            useDataHook={useGenres}
+          />
+          <CustomList
+            title="Stores"
+            onSelectedItem={handleSelectedStore}
+            selectedItem={gameQuery.store}
+            useDataHook={useStores}
           />
         </GridItem>
       </Show>
