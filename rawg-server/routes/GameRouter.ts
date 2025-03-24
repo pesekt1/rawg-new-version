@@ -4,7 +4,7 @@ import { AppDataSource } from "../startup/data-source";
 import { Game } from "../entities/Game";
 import { Store } from "../entities/Store";
 import { ParentPlatform } from "../entities/ParentPlatform";
-import { SelectQueryBuilder } from "typeorm";
+import { QueryBuilder, SelectQueryBuilder } from "typeorm";
 
 //interface for response object matching what our rawg-client expects
 interface ModifinedGame {
@@ -107,6 +107,17 @@ const addOrdering = (
   }
 };
 
+const addSearch = (
+  QueryBuilder: SelectQueryBuilder<Game>,
+  search: string | undefined
+) => {
+  if (search) {
+    QueryBuilder.andWhere("LOWER(game.name) LIKE :search", {
+      search: `%${search}%`,
+    });
+  }
+};
+
 function modifyGameResponse(games: Game[]) {
   return games.map((game) => ({
     ...game,
@@ -123,6 +134,7 @@ gameRouter.get("/", async (req, res) => {
     ? Number(req.query.parent_platforms)
     : undefined;
   const ordering = req.query.ordering ? String(req.query.ordering) : undefined;
+  const search = req.query.search ? String(req.query.search) : undefined;
 
   //query builder to get all games with their genres, parent_platforms, and stores
   const queryBuilder = gameRepository
@@ -135,6 +147,7 @@ gameRouter.get("/", async (req, res) => {
   addStoreFilter(queryBuilder, storeId);
   addParentPlatformFilter(queryBuilder, parentPlatformId);
   addOrdering(queryBuilder, ordering);
+  addSearch(queryBuilder, search);
 
   const games = await queryBuilder.getMany(); //execute query
 
