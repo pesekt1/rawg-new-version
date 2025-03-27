@@ -32,6 +32,9 @@ export class Game {
   @Column({ nullable: true })
   added?: number;
 
+  @Column({ nullable: true })
+  rating_top?: number;
+
   @ManyToMany(() => Genre, (genre) => genre.games)
   @JoinTable()
   genres: Genre[];
