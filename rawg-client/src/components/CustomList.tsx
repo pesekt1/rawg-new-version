@@ -66,7 +66,7 @@ const CustomList = <T extends Item>({
             </HStack>
           </ListItem>
         ))}
-        <Button onClick={() => setIsExpanded(!isExpanded)}>
+        <Button marginY="4" onClick={() => setIsExpanded(!isExpanded)}>
           {isExpanded ? "Show less" : "Show more"}
         </Button>
       </List>

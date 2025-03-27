@@ -34,17 +34,18 @@ function App() {
 
   return (
     <Grid
+      paddingX="4"
       templateAreas={{
         base: `"header" "main"`,
         lg: `"header header" "aside main"`,
       }}
       templateColumns={{ base: "1fr", lg: "200px 1fr" }}
     >
-      <GridItem pl="2" area={"header"}>
+      <GridItem area={"header"}>
         <NavBar onSearch={handleOnSearch} />
       </GridItem>
       <Show above="lg">
-        <GridItem pl="2" area={"aside"}>
+        <GridItem area={"aside"}>
           {/* <GenreList
             onSelectedGenre={handleOnSelectedGenre}
             selectedGenre={gameQuery.genre}
@@ -67,7 +68,7 @@ function App() {
           />
         </GridItem>
       </Show>
-      <GridItem pl="2" area={"main"}>
+      <GridItem area={"main"}>
         <Box paddingLeft={2}>
           <GameHeading gameQuery={gameQuery} />
           <HStack>
@@ -80,8 +81,8 @@ function App() {
               onSelectSortOrder={handleOnSelectedSortOrder}
             />
           </HStack>
+          <GameGrid gameQuery={gameQuery} />
         </Box>
-        <GameGrid gameQuery={gameQuery} />
       </GridItem>
     </Grid>
   );
