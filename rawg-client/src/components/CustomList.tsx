@@ -9,12 +9,14 @@ import {
 } from "@chakra-ui/react";
 import getCroppedImageUrl from "../services/image-url";
 import { useState } from "react";
+import { UseQueryResult } from "@tanstack/react-query";
+import { Response } from "../hooks/useData";
 
 interface Props<T> {
   title: string;
   onSelectedItem: (item: T | null) => void;
   selectedItem: T | null;
-  useDataHook: () => { data: T[]; isLoading: boolean; error: string };
+  useDataHook: () => UseQueryResult<Response<T>, Error>;
 }
 
 interface Item {
@@ -30,9 +32,11 @@ const CustomList = <T extends Item>({
   useDataHook,
 }: Props<T>) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const { data: items, isLoading, error } = useDataHook();
+  const { data, isLoading, error } = useDataHook();
 
-  const displayedItems = isExpanded ? items : items.slice(0, 5);
+  const items = data?.results;
+
+  const displayedItems = isExpanded ? items : items?.slice(0, 5);
 
   if (error) return null;
 
@@ -44,7 +48,7 @@ const CustomList = <T extends Item>({
         <Heading>{title}</Heading>
       </Button>
       <List>
-        {displayedItems.map((item) => (
+        {displayedItems?.map((item) => (
           <ListItem key={item.id} paddingY="5px">
             <HStack>
               <Image

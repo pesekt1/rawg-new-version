@@ -9,7 +9,6 @@ import useStores, { Store } from "./hooks/useStores";
 import CustomList from "./components/CustomList";
 import SortSelector from "./components/SortSelector";
 import GameHeading from "./components/GameHeading";
-import GenreList from "./components/GenreList";
 
 export interface GameQuery {
   genre: Genre | null;
@@ -47,15 +46,7 @@ function App() {
       </GridItem>
       <Show above="lg">
         <GridItem area={"aside"}>
-          <GenreList
-            onSelectedGenre={handleOnSelectedGenre}
-            selectedGenre={gameQuery.genre}
-          />
-          {/* <StoreList
-            onSelectedStore={handleSelectedStore}
-            selectedStore={gameQuery.store}
-          /> */}
-          {/* <CustomList
+          <CustomList
             title="Genres"
             onSelectedItem={handleOnSelectedGenre}
             selectedItem={gameQuery.genre}
@@ -66,7 +57,7 @@ function App() {
             onSelectedItem={handleSelectedStore}
             selectedItem={gameQuery.store}
             useDataHook={useStores}
-          /> */}
+          />
         </GridItem>
       </Show>
       <GridItem area={"main"}>

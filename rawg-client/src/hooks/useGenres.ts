@@ -11,7 +11,7 @@ export interface Genre {
 }
 
 const useGenres = () =>
-  useQuery({
+  useQuery<Response<Genre>, Error>({
     queryKey: ["genres"],
     queryFn: () =>
       apiClient.get<Response<Genre>>("/genres").then((res) => res.data),
