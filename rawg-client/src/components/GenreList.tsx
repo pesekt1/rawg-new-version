@@ -16,7 +16,7 @@ interface Props {
 }
 
 const GenreList = ({ onSelectedGenre, selectedGenre }: Props) => {
-  const { data: genres, isLoading, error } = useGenres();
+  const { data, isLoading, error } = useGenres();
 
   const getColor = (genre: Genre) =>
     selectedGenre?.id === genre.id ? "yellow" : "gray";
@@ -31,7 +31,7 @@ const GenreList = ({ onSelectedGenre, selectedGenre }: Props) => {
         <Heading>Genres</Heading>
       </Button>
       <List>
-        {genres.map((genre) => (
+        {data?.results.map((genre) => (
           <ListItem key={genre.id} paddingY="5px">
             <HStack>
               <Image
