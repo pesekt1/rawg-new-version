@@ -5,11 +5,7 @@ const gameRouter = Router();
 
 gameRouter.get("/", async (req, res) => {
   //getGames returns the modified object to with the client
-  const modifiedGames = await getGames(req);
-  const response = {
-    count: modifiedGames.length,
-    results: modifiedGames,
-  };
+  const response = await getGames(req);
   res.send(response);
 });
 

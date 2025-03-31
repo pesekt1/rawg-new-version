@@ -134,7 +134,28 @@ const modifyGameResponse = (games: Game[]) => {
 };
 
 export const getGames = async (req: any) => {
+  const DEFAULT_PAGE_SIZE = 10;
+  const DEFAULT_PAGE = 1;
+
+  const page = req.query.page ? Number(req.query.page) : DEFAULT_PAGE;
+  const pageSize = req.query.page_size
+    ? Number(req.query.page_size)
+    : DEFAULT_PAGE_SIZE;
+
   const queryBuilder = buildGameQuery(req);
-  const games = await queryBuilder.getMany();
-  return modifyGameResponse(games);
+  queryBuilder.skip((page - 1) * pageSize).take(pageSize);
+
+  const [games, total] = await queryBuilder.getManyAndCount();
+  const modifiedGames = modifyGameResponse(games);
+
+  return {
+    count: total,
+    next:
+      total > page * pageSize
+        ? `${process.env.SERVER_URL}/games?page=${
+            page + 1
+          }&page_size=${pageSize}`
+        : null,
+    results: modifiedGames,
+  };
 };
