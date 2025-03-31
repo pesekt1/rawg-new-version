@@ -1,5 +1,10 @@
 import axios from "axios";
 
+export interface Response<T> {
+  count: number;
+  results: T[];
+}
+
 const apiClient = axios.create({
   // baseURL: "https://api.rawg.io/api",
   baseURL: import.meta.env.VITE_API_URL,

@@ -10,7 +10,7 @@ import {
 import getCroppedImageUrl from "../services/image-url";
 import { useState } from "react";
 import { UseQueryResult } from "@tanstack/react-query";
-import { Response } from "../hooks/useData";
+import { Response } from "../services/api-client";
 
 interface Props<T> {
   title: string;
