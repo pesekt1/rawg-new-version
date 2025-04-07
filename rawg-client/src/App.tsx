@@ -12,7 +12,7 @@ import GameHeading from "./components/GameHeading";
 
 export interface GameQuery {
   genreId?: number;
-  platform: Platform | null;
+  platformId?: number;
   storeId?: number;
   sortOrder: string;
   searchText: string;
@@ -24,7 +24,7 @@ function App() {
   const handleOnSelectedGenre = (genre: Genre | null) =>
     setGameQuery({ ...gameQuery, genreId: genre?.id });
   const handleOnSelectedPlatform = (platform: Platform | null) =>
-    setGameQuery({ ...gameQuery, platform });
+    setGameQuery({ ...gameQuery, platformId: platform?.id });
   const handleSelectedStore = (store: Store | null) =>
     setGameQuery({ ...gameQuery, storeId: store?.id });
   const handleOnSelectedSortOrder = (sortOrder: string) =>
@@ -65,7 +65,7 @@ function App() {
           <GameHeading gameQuery={gameQuery} />
           <HStack>
             <PlatformSelector
-              selectedPlatform={gameQuery.platform}
+              selectedPlatformId={gameQuery.platformId}
               onSelectedPlatform={handleOnSelectedPlatform}
             />
             <SortSelector
