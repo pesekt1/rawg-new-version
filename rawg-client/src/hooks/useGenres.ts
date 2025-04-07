@@ -16,8 +16,8 @@ const useGenres = () =>
   useQuery<Response<Genre>, Error>({
     queryKey: ["genres"],
     queryFn: apiClient.getAll,
-    staleTime: 24 * 60 * 60 * 1000, // 24 hours
-    cacheTime: 1000, // 24 hours
+    staleTime: 24 * 60 * 60 * 1000,
+    cacheTime: 1000,
     initialData: genres,
   });
 
