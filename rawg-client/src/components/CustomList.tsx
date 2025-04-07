@@ -14,7 +14,7 @@ import { Response } from "../services/api-client";
 
 interface Props<T> {
   title: string;
-  onSelectedItem: (item: T | null) => void;
+  onSelectedItemId: (id?: number) => void;
   selectedItemId?: number;
   useDataHook: () => UseQueryResult<Response<T>, Error>;
 }
@@ -26,7 +26,7 @@ interface Item {
 }
 
 const CustomList = <T extends Item>({
-  onSelectedItem,
+  onSelectedItemId,
   selectedItemId,
   title,
   useDataHook,
@@ -44,7 +44,7 @@ const CustomList = <T extends Item>({
 
   return (
     <>
-      <Button variant="link" onClick={() => onSelectedItem(null)}>
+      <Button variant="link" onClick={() => onSelectedItemId(undefined)}>
         <Heading>{title}</Heading>
       </Button>
       <List>
@@ -63,7 +63,7 @@ const CustomList = <T extends Item>({
                 colorScheme={selectedItemId === item.id ? "yellow" : "gray"}
                 variant="link"
                 fontSize="lg"
-                onClick={() => onSelectedItem(item)}
+                onClick={() => onSelectedItemId(item.id)}
               >
                 {item.name}
               </Button>
