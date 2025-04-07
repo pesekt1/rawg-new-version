@@ -9,7 +9,7 @@ on:
       - main
     paths:
       - "rawg-server/**"
-      - "rawg-server/.github/workflows/main_rawg-server.yml"
+      - ".github/workflows/main_rawg-server.yml"
   workflow_dispatch:
 
 jobs:
