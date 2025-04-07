@@ -6,16 +6,16 @@ const gameRepository = AppDataSource.getRepository(Game);
 
 const addGenreFilter = (
   queryBuilder: SelectQueryBuilder<Game>,
-  genreSlug: String | undefined
+  genreId: String | undefined
 ) => {
-  if (genreSlug) {
+  if (genreId) {
     queryBuilder.andWhere((qb) => {
       const subQuery = qb
         .subQuery()
         .select("game.id")
         .from(Game, "game")
         .leftJoin("game.genres", "genres")
-        .where("genres.slug = :genreSlug", { genreSlug })
+        .where("genres.id = :genreId", { genreId })
         .getQuery();
       return "game.id IN " + subQuery;
     });
@@ -98,7 +98,7 @@ const addSearch = (
 };
 
 const buildGameQuery = (req: any) => {
-  const genreSlug = req.query.genres ? String(req.query.genres) : undefined;
+  const genreId = req.query.genres ? String(req.query.genres) : undefined;
   const storeId = req.query.stores ? Number(req.query.stores) : undefined;
   const parentPlatformId = req.query.parent_platforms
     ? Number(req.query.parent_platforms)
@@ -115,7 +115,7 @@ const buildGameQuery = (req: any) => {
     .leftJoinAndSelect("game.parent_platforms", "parent_platforms")
     .leftJoinAndSelect("game.stores", "stores");
 
-  addGenreFilter(queryBuilder, genreSlug);
+  addGenreFilter(queryBuilder, genreId);
   addStoreFilter(queryBuilder, storeId);
   addParentPlatformFilter(queryBuilder, parentPlatformId);
   addOrdering(queryBuilder, ordering);
