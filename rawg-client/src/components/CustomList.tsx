@@ -15,7 +15,7 @@ import { Response } from "../services/api-client";
 interface Props<T> {
   title: string;
   onSelectedItem: (item: T | null) => void;
-  selectedItem: T | null;
+  selectedItemId?: number;
   useDataHook: () => UseQueryResult<Response<T>, Error>;
 }
 
@@ -27,7 +27,7 @@ interface Item {
 
 const CustomList = <T extends Item>({
   onSelectedItem,
-  selectedItem,
+  selectedItemId,
   title,
   useDataHook,
 }: Props<T>) => {
@@ -60,7 +60,7 @@ const CustomList = <T extends Item>({
               <Button
                 textAlign="left"
                 whiteSpace="normal"
-                colorScheme={selectedItem?.id === item.id ? "yellow" : "gray"}
+                colorScheme={selectedItemId === item.id ? "yellow" : "gray"}
                 variant="link"
                 fontSize="lg"
                 onClick={() => onSelectedItem(item)}
