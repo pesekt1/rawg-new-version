@@ -13,7 +13,7 @@ import GameHeading from "./components/GameHeading";
 export interface GameQuery {
   genreId?: number;
   platform: Platform | null;
-  store: Store | null;
+  storeId?: number;
   sortOrder: string;
   searchText: string;
 }
@@ -26,7 +26,7 @@ function App() {
   const handleOnSelectedPlatform = (platform: Platform | null) =>
     setGameQuery({ ...gameQuery, platform });
   const handleSelectedStore = (store: Store | null) =>
-    setGameQuery({ ...gameQuery, store });
+    setGameQuery({ ...gameQuery, storeId: store?.id });
   const handleOnSelectedSortOrder = (sortOrder: string) =>
     setGameQuery({ ...gameQuery, sortOrder });
   const handleOnSearch = (searchText: string) =>
@@ -52,12 +52,12 @@ function App() {
             selectedItemId={gameQuery.genreId}
             useDataHook={useGenres}
           />
-          {/* <CustomList
+          <CustomList
             title="Stores"
             onSelectedItem={handleSelectedStore}
-            selectedItem={gameQuery.store}
+            selectedItemId={gameQuery.storeId}
             useDataHook={useStores}
-          /> */}
+          />
         </GridItem>
       </Show>
       <GridItem area={"main"}>
