@@ -34,18 +34,3 @@ const useGames = (gameQuery: GameQuery) =>
   });
 
 export default useGames;
-
-// const useGames = (gameQuery: GameQuery) =>
-//   useData<Game>(
-//     "/games",
-//     {
-//       params: {
-//         genres: gameQuery.genre?.slug,
-//         parent_platforms: gameQuery.platform?.id,
-//         stores: gameQuery.store?.id,
-//         ordering: gameQuery.sortOrder,
-//         search: gameQuery.searchText,
-//       },
-//     },
-//     [gameQuery]
-//   );
