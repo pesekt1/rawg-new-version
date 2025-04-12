@@ -159,3 +159,24 @@ export const getGames = async (req: any) => {
     results: modifiedGames,
   };
 };
+
+export const getGame = async (slug: string) => {
+  const game = await gameRepository
+    .createQueryBuilder("game")
+    .leftJoinAndSelect("game.genres", "genres")
+    .leftJoinAndSelect("game.parent_platforms", "parent_platforms")
+    .leftJoinAndSelect("game.stores", "stores")
+    .where("game.slug = :slug", { slug })
+    .getOne();
+
+  if (!game) {
+    throw new Error(`Game with slug "${slug}" not found`);
+  }
+
+  return {
+    ...game,
+    parent_platforms: game.parent_platforms?.map((parent_platform) => ({
+      platform: parent_platform,
+    })),
+  };
+};

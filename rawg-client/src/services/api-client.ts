@@ -25,6 +25,9 @@ class ApiClient<T> {
     axiosInstance
       .get<Response<T>>(this.endpoint, config)
       .then((res) => res.data);
+
+  get = (slug: string) =>
+    axiosInstance.get<T>(`${this.endpoint}/${slug}`).then((res) => res.data);
 }
 
 export default ApiClient;
