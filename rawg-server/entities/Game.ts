@@ -4,11 +4,13 @@ import {
   Column,
   ManyToMany,
   JoinTable,
+  OneToMany,
 } from "typeorm";
 import { Genre } from "./Genre";
 import { ParentPlatform } from "./ParentPlatform";
 import { Store } from "./Store";
 import { Publisher } from "./Publisher";
+import { Trailer } from "./Trailer";
 
 @Entity("games")
 export class Game {
@@ -57,4 +59,7 @@ export class Game {
   @ManyToMany(() => Publisher, (publisher) => publisher.games)
   @JoinTable()
   publishers: Publisher[];
+
+  @OneToMany(() => Trailer, (trailer) => trailer.game) // Define the one-to-many relationship
+  trailers: Trailer[];
 }

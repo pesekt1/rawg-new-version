@@ -1,6 +1,7 @@
 import { SelectQueryBuilder } from "typeorm";
 import { Game } from "../entities/Game";
 import { AppDataSource } from "../startup/data-source";
+import { Trailer } from "../entities/Trailer";
 
 const gameRepository = AppDataSource.getRepository(Game);
 
@@ -179,5 +180,22 @@ export const getGame = async (slug: string) => {
     parent_platforms: game.parent_platforms?.map((parent_platform) => ({
       platform: parent_platform,
     })),
+  };
+};
+
+export const getTrailers = async (gameId: number) => {
+  const game = await gameRepository
+    .createQueryBuilder("game")
+    .leftJoinAndSelect("game.trailers", "trailers") // Assuming a relation exists
+    .where("game.id = :gameId", { gameId })
+    .getOne();
+
+  if (!game || !game.trailers) {
+    throw new Error(`No trailers found for game with ID "${gameId}"`);
+  }
+
+  return {
+    count: game.trailers.length,
+    results: game.trailers,
   };
 };

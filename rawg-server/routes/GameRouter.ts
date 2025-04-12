@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getGame, getGames } from "../services/gameService";
+import { getGame, getGames, getTrailers } from "../services/gameService";
 
 const gameRouter = Router();
 
@@ -19,7 +19,17 @@ gameRouter.get("/:slug", async (req, res) => {
     const game = await getGame(slug);
     res.send(game);
   } catch (error) {
-    res.status(404).send({ error: "An unexpected error occurred." });
+    res.status(500).send({ error: "An unexpected error occurred." });
+  }
+});
+
+gameRouter.get("/:id/movies", async (req, res) => {
+  try {
+    const gameId = parseInt(req.params.id, 10);
+    const trailers = await getTrailers(gameId);
+    res.send(trailers);
+  } catch (error) {
+    res.status(500).send({ error: "An unexpected error occurred." });
   }
 });
 

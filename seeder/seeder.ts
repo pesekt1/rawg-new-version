@@ -6,6 +6,25 @@ import { ParentPlatform } from "./entities/ParentPlatform";
 import { Store } from "./entities/Store";
 import { Publisher } from "./entities/Publisher";
 import axios from "axios";
+import { Trailer } from "./entities/Trailer";
+import { Repository } from "typeorm";
+
+interface Response<T> {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: T[];
+}
+
+interface TrailerOriginal {
+  id: number;
+  name: string;
+  preview: string;
+  data: {
+    "480": string;
+    max: string;
+  };
+}
 
 //We need this because the original data has a different structure
 type GameOriginal = Omit<Game, "parent_platforms" | "stores"> & {
@@ -42,6 +61,33 @@ async function fetchPublishers(slug: string): Promise<Publisher[]> {
   }
 }
 
+async function fetchTrailers(
+  gameId: number,
+  trailerRepo: Repository<Trailer>
+): Promise<Trailer[]> {
+  const apiKey = process.env.RAWG_API_KEY;
+  try {
+    const response = await axios.get<Response<TrailerOriginal>>(
+      `https://api.rawg.io/api/games/${gameId}/movies?key=${apiKey}`
+    );
+    const trailers = response.data.results || []; // Fallback to an empty array if no results
+
+    // Use TypeORM's create method to ensure proper entity management
+    return trailers.map((trailer) =>
+      trailerRepo.create({
+        id: trailer.id,
+        name: trailer.name,
+        preview: trailer.preview,
+        data480: trailer.data["480"],
+        dataMax: trailer.data["max"],
+      })
+    );
+  } catch (error) {
+    console.error(`Failed to fetch trailers for game ID: ${gameId}`, error);
+    return []; // Return an empty array if the API call fails
+  }
+}
+
 async function insertData() {
   await AppDataSource.initialize(); //initialize connection
 
@@ -63,8 +109,12 @@ async function insertData() {
   const platformRepo = AppDataSource.getRepository(ParentPlatform);
   const storeRepo = AppDataSource.getRepository(Store);
   const publisherRepo = AppDataSource.getRepository(Publisher);
+  const trailerRepo = AppDataSource.getRepository(Trailer);
 
   //before inserting data, delete all existing data
+
+  await trailerRepo.delete({});
+  console.log("Trailers deleted");
   await gameRepo.delete({});
   console.log("Games deleted");
   await genreRepo.delete({});
@@ -73,6 +123,8 @@ async function insertData() {
   console.log("Platforms deleted");
   await storeRepo.delete({});
   console.log("Stores deleted");
+  await publisherRepo.delete({});
+  console.log("Publishers deleted");
 
   //loop through the games and insert data in all tables
   for (const game of gamesData) {
@@ -130,8 +182,19 @@ async function insertData() {
     game.description_raw = await fetchDescription(game.slug);
 
     //save the game - this will also save the relationships in the join tables
-    await gameRepo.save(game);
-    console.log(`Game ${game.name} created`);
+    const savedGame = await gameRepo.save(game);
+    console.log(`Game ${savedGame.name} created`);
+
+    // Fetch and save trailers for the game
+    const trailers = await fetchTrailers(savedGame.id, trailerRepo);
+    if (trailers.length > 0) {
+      // Assign game to each trailer
+      trailers.forEach((trailer) => (trailer.game = savedGame));
+      await trailerRepo.save(trailers);
+      console.log(
+        `${trailers.length} trailers created for game ID ${savedGame.id}`
+      );
+    }
   }
 
   //terminate the process

@@ -6,13 +6,14 @@ import { Genre } from "../entities/Genre";
 import { Store } from "../entities/Store";
 import { ParentPlatform } from "../entities/ParentPlatform";
 import { Publisher } from "../entities/Publisher";
+import { Trailer } from "../entities/Trailer";
 
 export const AppDataSource = new DataSource({
   type: "mysql",
   url: process.env.DATABASE_URL,
   synchronize: false, // Set to false in production and use migrations instead
   logging: true,
-  entities: [Game, Genre, Store, ParentPlatform, Publisher],
+  entities: [Game, Genre, Store, ParentPlatform, Publisher, Trailer],
   migrations: [],
   subscribers: [],
 });
