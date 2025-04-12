@@ -15,6 +15,7 @@ const SearchInput = () => {
         event.preventDefault();
         onSearch(ref.current?.value || "");
         navigate("/");
+        if (ref.current) ref.current.value = ""; // Clear the input field
       }}
     >
       <InputGroup>
