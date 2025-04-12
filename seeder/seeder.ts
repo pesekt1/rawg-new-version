@@ -4,22 +4,16 @@ import { Game } from "./entities/Game";
 import { Genre } from "./entities/Genre";
 import { ParentPlatform } from "./entities/ParentPlatform";
 import { Store } from "./entities/Store";
+import { Publisher } from "./entities/Publisher";
 import axios from "axios";
 
 //We need this because the original data has a different structure
-interface GameOriginal {
-  id: number;
-  slug: string;
-  name: string;
-  description_raw?: string;
-  background_image?: string;
-  metacritic?: number;
+type GameOriginal = Omit<Game, "parent_platforms" | "stores"> & {
   parent_platforms: { platform: ParentPlatform }[];
-  genres: Genre[];
   stores: { store: Store }[];
-}
+};
 
-async function generateDescription(slug: string): Promise<string> {
+async function fetchDescription(slug: string): Promise<string> {
   const apiKey = process.env.RAWG_API_KEY;
   try {
     const response = await axios.get(
@@ -34,6 +28,20 @@ async function generateDescription(slug: string): Promise<string> {
   }
 }
 
+async function fetchPublishers(slug: string): Promise<Publisher[]> {
+  const apiKey = process.env.RAWG_API_KEY;
+  try {
+    const response = await axios.get<Game>(
+      `https://api.rawg.io/api/games/${slug}?key=${apiKey}`
+    );
+    const publishers = response.data.publishers || [];
+    return publishers;
+  } catch (error) {
+    console.error(`Failed to fetch publishers for slug: ${slug}`, error);
+    return [];
+  }
+}
+
 async function insertData() {
   await AppDataSource.initialize(); //initialize connection
 
@@ -41,6 +49,7 @@ async function insertData() {
   const rawData = fs.readFileSync("games.json", "utf-8");
   const parsedData = JSON.parse(rawData);
   const gamesOriginalData: GameOriginal[] = parsedData.results;
+
   //transform original data to match our entities
   const gamesData: Game[] = gamesOriginalData.map((game) => ({
     ...game,
@@ -53,6 +62,7 @@ async function insertData() {
   const genreRepo = AppDataSource.getRepository(Genre);
   const platformRepo = AppDataSource.getRepository(ParentPlatform);
   const storeRepo = AppDataSource.getRepository(Store);
+  const publisherRepo = AppDataSource.getRepository(Publisher);
 
   //before inserting data, delete all existing data
   await gameRepo.delete({});
@@ -66,6 +76,9 @@ async function insertData() {
 
   //loop through the games and insert data in all tables
   for (const game of gamesData) {
+    // Fetch publishers for the current game
+    game.publishers = await fetchPublishers(game.slug);
+
     //check each genre for a game and save it if it doesn't exist
     await Promise.all(
       game.genres.map(async (g) => {
@@ -75,6 +88,18 @@ async function insertData() {
           console.log(`Genre ${genre.name} created`);
         }
         return genre;
+      })
+    );
+
+    // Check each publisher for a game and save it if it doesn't exist
+    await Promise.all(
+      game.publishers.map(async (pub) => {
+        let publisher = await publisherRepo.findOne({ where: { id: pub.id } });
+        if (!publisher) {
+          publisher = await publisherRepo.save(pub);
+          console.log(`Publisher ${publisher.name} created`);
+        }
+        return publisher;
       })
     );
 
@@ -102,7 +127,7 @@ async function insertData() {
       })
     );
 
-    game.description_raw = await generateDescription(game.slug);
+    game.description_raw = await fetchDescription(game.slug);
 
     //save the game - this will also save the relationships in the join tables
     await gameRepo.save(game);

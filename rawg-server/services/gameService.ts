@@ -166,6 +166,7 @@ export const getGame = async (slug: string) => {
     .leftJoinAndSelect("game.genres", "genres")
     .leftJoinAndSelect("game.parent_platforms", "parent_platforms")
     .leftJoinAndSelect("game.stores", "stores")
+    .leftJoinAndSelect("game.publishers", "publishers")
     .where("game.slug = :slug", { slug })
     .getOne();
 
