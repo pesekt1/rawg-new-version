@@ -11,6 +11,7 @@ import { ParentPlatform } from "./ParentPlatform";
 import { Store } from "./Store";
 import { Publisher } from "./Publisher";
 import { Trailer } from "./Trailer";
+import { Screenshot } from "./Screenshot";
 
 @Entity("games")
 export class Game {
@@ -60,6 +61,9 @@ export class Game {
   @JoinTable()
   publishers: Publisher[];
 
-  @OneToMany(() => Trailer, (trailer) => trailer.game) // Define the one-to-many relationship
+  @OneToMany(() => Trailer, (trailer) => trailer.game)
   trailers: Trailer[];
+
+  @OneToMany(() => Screenshot, (screenshot) => screenshot.game)
+  screenshots: Screenshot[];
 }

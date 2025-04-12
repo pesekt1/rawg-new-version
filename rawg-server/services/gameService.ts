@@ -199,3 +199,20 @@ export const getTrailers = async (gameId: number) => {
     results: game.trailers,
   };
 };
+
+export const getScreenshots = async (gameId: number) => {
+  const game = await gameRepository
+    .createQueryBuilder("game")
+    .leftJoinAndSelect("game.screenshots", "screenshots") // Assuming a relation exists
+    .where("game.id = :gameId", { gameId })
+    .getOne();
+
+  if (!game || !game.screenshots) {
+    throw new Error(`No screenshots found for game with ID "${gameId}"`);
+  }
+
+  return {
+    count: game.screenshots.length,
+    results: game.screenshots,
+  };
+};

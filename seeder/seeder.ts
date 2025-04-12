@@ -8,6 +8,7 @@ import { Publisher } from "./entities/Publisher";
 import axios from "axios";
 import { Trailer } from "./entities/Trailer";
 import { Repository } from "typeorm";
+import { Screenshot } from "./entities/Screenshot";
 
 interface Response<T> {
   count: number;
@@ -88,6 +89,20 @@ async function fetchTrailers(
   }
 }
 
+async function fetchScreenshots(gameId: number): Promise<Screenshot[]> {
+  const apiKey = process.env.RAWG_API_KEY;
+  try {
+    const response = await axios.get<Response<Screenshot>>(
+      `https://api.rawg.io/api/games/${gameId}/screenshots?key=${apiKey}`
+    );
+    const screenshots = response.data.results || []; // Fallback to an empty array if no results
+    return screenshots;
+  } catch (error) {
+    console.error(`Failed to fetch screenshots for game ID: ${gameId}`, error);
+    return []; // Return an empty array if the API call fails
+  }
+}
+
 async function insertData() {
   await AppDataSource.initialize(); //initialize connection
 
@@ -110,11 +125,13 @@ async function insertData() {
   const storeRepo = AppDataSource.getRepository(Store);
   const publisherRepo = AppDataSource.getRepository(Publisher);
   const trailerRepo = AppDataSource.getRepository(Trailer);
+  const screenshotRepo = AppDataSource.getRepository(Screenshot);
 
   //before inserting data, delete all existing data
-
   await trailerRepo.delete({});
   console.log("Trailers deleted");
+  await screenshotRepo.delete({});
+  console.log("Screenshots deleted");
   await gameRepo.delete({});
   console.log("Games deleted");
   await genreRepo.delete({});
@@ -195,8 +212,19 @@ async function insertData() {
         `${trailers.length} trailers created for game ID ${savedGame.id}`
       );
     }
+
+    // Fetch and save screenshots for the game
+    const screenshots = await fetchScreenshots(savedGame.id);
+    if (screenshots.length > 0) {
+      screenshots.forEach((screenshot) => (screenshot.game = savedGame));
+      await screenshotRepo.save(screenshots); // Save screenshots in bulk
+      console.log(
+        `${screenshots.length} screenshots created for game ID ${savedGame.id}`
+      );
+    }
   }
 
+  console.log("Seeding completed successfully.");
   //terminate the process
   process.exit();
 }

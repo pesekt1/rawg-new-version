@@ -11,6 +11,7 @@ import { ParentPlatform } from "./ParentPlatform";
 import { Store } from "./Store";
 import { Publisher } from "./Publisher";
 import { Trailer } from "./Trailer";
+import { Screenshot } from "./Screenshot";
 
 @Entity("games")
 export class Game {
@@ -62,4 +63,7 @@ export class Game {
 
   @OneToMany(() => Trailer, (trailer) => trailer.game)
   trailers: Trailer[];
+
+  @OneToMany(() => Screenshot, (screenshot) => screenshot.game)
+  screenshots: Screenshot[];
 }
