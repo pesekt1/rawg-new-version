@@ -25,8 +25,8 @@ const GameGrid = () => {
       scrollThreshold={1}
     >
       <SimpleGrid
-        columns={{ base: 1, md: 2, lg: 3, xl: 4 }}
-        spacing={4}
+        columns={{ base: 1, md: 2, lg: 3, xl: 4, "2xl": 5 }}
+        spacing={8}
         paddingY={10}
       >
         {isLoading
