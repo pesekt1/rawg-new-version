@@ -32,7 +32,7 @@ const theme = extendTheme({
       900: "#777777",
     },
     accent: {
-      500: "#ff6b6b", // Vibrant accent color for dark mode
+      500: "#ff6b6b", // Vibrant accent color for both themes
       600: "#e55a5a",
       700: "#cc4a4a",
     },
@@ -50,19 +50,21 @@ const theme = extendTheme({
         color: props.colorMode === "light" ? "lightGray.400" : "gray.500",
       },
       a: {
-        color: props.colorMode === "light" ? "lightGray.700" : "accent.500",
+        color: props.colorMode === "light" ? "accent.600" : "accent.500",
         _hover: {
           textDecoration: "underline",
-          color: props.colorMode === "light" ? "lightGray.900" : "accent.600",
+          color: props.colorMode === "light" ? "accent.700" : "accent.600",
         },
       },
       button: {
         bg: props.colorMode === "light" ? "lightGray.200" : "gray.700",
+        color: props.colorMode === "light" ? "gray.800" : "gray.50",
         _hover: {
           bg: props.colorMode === "light" ? "lightGray.300" : "accent.500",
+          color: props.colorMode === "light" ? "gray.900" : "white",
           boxShadow:
             props.colorMode === "light"
-              ? "md"
+              ? "0px 4px 10px rgba(0, 0, 0, 0.1)"
               : "0px 4px 10px rgba(255, 107, 107, 0.5)",
         },
       },
@@ -70,7 +72,7 @@ const theme = extendTheme({
         bg: props.colorMode === "light" ? "white" : "gray.800",
         boxShadow:
           props.colorMode === "light"
-            ? "md"
+            ? "0px 4px 10px rgba(0, 0, 0, 0.1)"
             : "0px 4px 10px rgba(0, 0, 0, 0.8)",
       },
     }),

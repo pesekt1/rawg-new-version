@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, useColorMode } from "@chakra-ui/react";
 import {
   Button,
   Heading,
@@ -34,6 +34,7 @@ const CustomList = <T extends Item>({
 }: Props<T>) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const { data, isLoading, error } = useDataHook();
+  const { colorMode } = useColorMode();
 
   const items = data?.results;
 
@@ -49,16 +50,19 @@ const CustomList = <T extends Item>({
         variant="link"
         onClick={() => onSelectedItemId(undefined)}
         bg="transparent"
-        _hover={{ textDecoration: "none", color: "white" }}
-        fontSize="2xl" // Increased font size
+        _hover={{
+          textDecoration: "none",
+          color: colorMode === "light" ? "accent.600" : "white",
+        }}
+        fontSize="2xl"
         fontWeight="bold"
-        color="white"
+        color={colorMode === "light" ? "gray.800" : "white"}
         _active={{
-          color: "yellow.300",
-          bg: "accent.500",
+          color: colorMode === "light" ? "accent.700" : "yellow.300",
+          bg: colorMode === "light" ? "lightGray.300" : "accent.500",
         }}
       >
-        <Heading size="lg">{title}</Heading> {/* Adjusted heading size */}
+        <Heading size="lg">{title}</Heading>
       </Button>
       <List>
         {displayedItems?.map((item) => (
@@ -73,14 +77,22 @@ const CustomList = <T extends Item>({
               <Button
                 textAlign="left"
                 whiteSpace="normal"
-                color={selectedItemId === item.id ? "yellow.300" : "white"}
+                color={
+                  selectedItemId === item.id
+                    ? colorMode === "light"
+                      ? "accent.700"
+                      : "yellow.300"
+                    : colorMode === "light"
+                    ? "gray.800"
+                    : "white"
+                }
                 variant="link"
                 fontSize="lg"
                 bg="transparent"
                 _hover={{
                   textDecoration: "none",
-                  color: "white",
-                  bg: "accent.500",
+                  color: colorMode === "light" ? "accent.600" : "white",
+                  bg: colorMode === "light" ? "lightGray.300" : "accent.500",
                 }}
                 onClick={() => onSelectedItemId(item.id)}
               >
@@ -94,10 +106,10 @@ const CustomList = <T extends Item>({
         marginY="4"
         onClick={() => setIsExpanded(!isExpanded)}
         bg="transparent"
-        color="white"
+        color={colorMode === "light" ? "gray.800" : "white"}
         _hover={{
-          bg: "accent.500",
-          color: "white",
+          bg: colorMode === "light" ? "lightGray.300" : "accent.500",
+          color: colorMode === "light" ? "gray.900" : "white",
         }}
       >
         {isExpanded ? "Show less" : "Show more"}
