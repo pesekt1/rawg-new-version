@@ -19,6 +19,61 @@ const theme = extendTheme({
       800: "#121212",
       900: "#111",
     },
+    lightGray: {
+      50: "#ffffff",
+      100: "#f7f7f7",
+      200: "#eeeeee",
+      300: "#dddddd",
+      400: "#cccccc",
+      500: "#bbbbbb",
+      600: "#aaaaaa",
+      700: "#999999",
+      800: "#888888",
+      900: "#777777",
+    },
+    accent: {
+      500: "#ff6b6b", // Vibrant accent color for dark mode
+      600: "#e55a5a",
+      700: "#cc4a4a",
+    },
+  },
+  styles: {
+    global: (props) => ({
+      body: {
+        bg:
+          props.colorMode === "light"
+            ? "lightGray.50"
+            : "linear-gradient(to bottom, #121212, #202020)",
+        color: props.colorMode === "light" ? "gray.800" : "gray.50",
+      },
+      "*::placeholder": {
+        color: props.colorMode === "light" ? "lightGray.400" : "gray.500",
+      },
+      a: {
+        color: props.colorMode === "light" ? "lightGray.700" : "accent.500",
+        _hover: {
+          textDecoration: "underline",
+          color: props.colorMode === "light" ? "lightGray.900" : "accent.600",
+        },
+      },
+      button: {
+        bg: props.colorMode === "light" ? "lightGray.200" : "gray.700",
+        _hover: {
+          bg: props.colorMode === "light" ? "lightGray.300" : "accent.500",
+          boxShadow:
+            props.colorMode === "light"
+              ? "md"
+              : "0px 4px 10px rgba(255, 107, 107, 0.5)",
+        },
+      },
+      card: {
+        bg: props.colorMode === "light" ? "white" : "gray.800",
+        boxShadow:
+          props.colorMode === "light"
+            ? "md"
+            : "0px 4px 10px rgba(0, 0, 0, 0.8)",
+      },
+    }),
   },
 });
 

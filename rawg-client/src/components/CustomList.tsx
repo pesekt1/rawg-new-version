@@ -1,3 +1,4 @@
+import { Box } from "@chakra-ui/react";
 import {
   Button,
   Heading,
@@ -43,9 +44,21 @@ const CustomList = <T extends Item>({
   if (isLoading) return <Spinner />;
 
   return (
-    <>
-      <Button variant="link" onClick={() => onSelectedItemId(undefined)}>
-        <Heading>{title}</Heading>
+    <Box marginBottom="6">
+      <Button
+        variant="link"
+        onClick={() => onSelectedItemId(undefined)}
+        bg="transparent"
+        _hover={{ textDecoration: "none", color: "white" }}
+        fontSize="2xl" // Increased font size
+        fontWeight="bold"
+        color="white"
+        _active={{
+          color: "yellow.300",
+          bg: "accent.500",
+        }}
+      >
+        <Heading size="lg">{title}</Heading> {/* Adjusted heading size */}
       </Button>
       <List>
         {displayedItems?.map((item) => (
@@ -60,9 +73,15 @@ const CustomList = <T extends Item>({
               <Button
                 textAlign="left"
                 whiteSpace="normal"
-                colorScheme={selectedItemId === item.id ? "yellow" : "gray"}
+                color={selectedItemId === item.id ? "yellow.300" : "white"}
                 variant="link"
                 fontSize="lg"
+                bg="transparent"
+                _hover={{
+                  textDecoration: "none",
+                  color: "white",
+                  bg: "accent.500",
+                }}
                 onClick={() => onSelectedItemId(item.id)}
               >
                 {item.name}
@@ -70,11 +89,20 @@ const CustomList = <T extends Item>({
             </HStack>
           </ListItem>
         ))}
-        <Button marginY="4" onClick={() => setIsExpanded(!isExpanded)}>
-          {isExpanded ? "Show less" : "Show more"}
-        </Button>
       </List>
-    </>
+      <Button
+        marginY="4"
+        onClick={() => setIsExpanded(!isExpanded)}
+        bg="transparent"
+        color="white"
+        _hover={{
+          bg: "accent.500",
+          color: "white",
+        }}
+      >
+        {isExpanded ? "Show less" : "Show more"}
+      </Button>
+    </Box>
   );
 };
 
