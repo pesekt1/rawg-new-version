@@ -9,6 +9,8 @@ import useGenres from "../hooks/useGenres";
 import useStores from "../hooks/useStores";
 import useGameQueryStore from "../state";
 import { useAuth } from "../hooks/useAuth";
+import useCreateGenre from "../hooks/useCreateGenre";
+import useCreateStore from "../hooks/useCreateStore";
 
 const HomePage = () => {
   const { genreId, storeId } = useGameQueryStore((s) => s.gameQuery);
@@ -32,12 +34,14 @@ const HomePage = () => {
             onSelectedItemId={setGenreId}
             selectedItemId={genreId}
             useDataHook={useGenres}
+            useCreateHook={useCreateGenre}
           />
           <CustomList
             title="Stores"
             onSelectedItemId={setStoreId}
             selectedItemId={storeId}
             useDataHook={useStores}
+            useCreateHook={useCreateStore}
           />
         </GridItem>
       </Show>

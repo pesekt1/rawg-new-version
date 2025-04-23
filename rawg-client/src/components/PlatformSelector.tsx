@@ -5,6 +5,7 @@ import {
   MenuList,
   MenuItem,
   HStack,
+  Box,
 } from "@chakra-ui/react";
 import { BsChevronDown } from "react-icons/bs";
 import usePlatforms from "../hooks/usePlatforms";
@@ -61,17 +62,27 @@ const PlatformSelector = () => {
               key={platform.id}
               onClick={() => onSelectedPlatform(platform.id)}
             >
-              {platform.name}
+              <HStack>
+                {/* Edit icon on the left, stop propagation so it doesn't trigger MenuItem onClick */}
+                <Box
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setEditEntity(platform);
+                    setIsEditOpen(true);
+                  }}
+                  display="flex"
+                  alignItems="center"
+                  cursor="pointer"
+                  marginRight={2}
+                >
+                  <AdminEditIcon />
+                </Box>
+                <span>{platform.name}</span>
+              </HStack>
             </MenuItem>
           ))}
         </MenuList>
       </Menu>
-      <AdminEditIcon
-        onClick={() => {
-          setEditEntity(selectedPlatform || (data?.results?.[0] ?? null));
-          setIsEditOpen(true);
-        }}
-      />
       <GenericEditModal
         isOpen={isEditOpen}
         onClose={() => setIsEditOpen(false)}
