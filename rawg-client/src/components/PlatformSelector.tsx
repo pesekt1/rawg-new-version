@@ -26,7 +26,12 @@ const PlatformSelector = () => {
     <HStack>
       <Menu>
         <MenuButton as={Button} rightIcon={<BsChevronDown />}>
-          {selectedPlatform ? selectedPlatform.name : "Platforms"}
+          <HStack spacing={2}>
+            <span>
+              {selectedPlatform ? selectedPlatform.name : "Platforms"}
+            </span>
+            <AdminEditIcon /* onClick handler can be added here */ />
+          </HStack>
         </MenuButton>
         <MenuList>
           <MenuItem
@@ -46,7 +51,6 @@ const PlatformSelector = () => {
           ))}
         </MenuList>
       </Menu>
-      <AdminEditIcon /* onClick handler can be added here */ />
     </HStack>
   );
 };
