@@ -8,6 +8,7 @@ import {
   Button,
   Alert,
   AlertIcon,
+  HStack,
 } from "@chakra-ui/react";
 import ExpandableText from "../components/ExpandableText";
 import GameAttributes from "../components/GameAttributes";
@@ -56,24 +57,25 @@ const GameDetailPage = () => {
         <ExpandableText>{game.description_raw}</ExpandableText>
         <GameAttributes game={game} />
         {isAuthenticated && (
-          <>
+          <HStack mt={4} spacing={2}>
             <Button
               colorScheme="blue"
-              mt={4}
-              mr={2}
+              variant="solid"
+              size="sm"
               onClick={() => navigate(`/games/${game.slug}/edit`)}
             >
               Edit Game
             </Button>
             <Button
               colorScheme="red"
-              mt={4}
+              variant="solid"
+              size="sm"
               onClick={() => deleteGame()}
               isLoading={isDeleting}
             >
               Delete Game
             </Button>
-          </>
+          </HStack>
         )}
         {isDeleteError && (
           <Alert status="error" mt={2}>

@@ -48,7 +48,12 @@ const HomePage = () => {
             <PlatformSelector />
             <SortSelector />
             {isAuthenticated && (
-              <Button colorScheme="teal" onClick={() => navigate("/new-game")}>
+              <Button
+                colorScheme="teal"
+                variant="solid"
+                size="sm"
+                onClick={() => navigate("/new-game")}
+              >
                 Add New Game
               </Button>
             )}
