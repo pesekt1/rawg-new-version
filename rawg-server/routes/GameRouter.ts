@@ -4,6 +4,7 @@ import {
   getGames,
   getScreenshots,
   getTrailers,
+  createGame,
 } from "../services/gameService";
 
 const gameRouter = Router();
@@ -15,6 +16,16 @@ gameRouter.get("/", async (req, res) => {
     res.send(response);
   } catch (error) {
     res.status(500).send({ error: "An unexpected error occurred." });
+  }
+});
+
+// Add POST endpoint to create a game
+gameRouter.post("/", async (req, res) => {
+  try {
+    const game = await createGame(req.body);
+    res.status(201).send(game);
+  } catch (error) {
+    res.status(400).send({ error: (error as Error).message });
   }
 });
 

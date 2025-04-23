@@ -28,6 +28,9 @@ class ApiClient<T> {
 
   get = (slug: string) =>
     axiosInstance.get<T>(`${this.endpoint}/${slug}`).then((res) => res.data);
+
+  post = (data: Partial<T>) =>
+    axiosInstance.post<T>(this.endpoint, data).then((res) => res.data);
 }
 
 export default ApiClient;

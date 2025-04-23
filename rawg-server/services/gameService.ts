@@ -216,3 +216,32 @@ export const getScreenshots = async (gameId: number) => {
     results: game.screenshots,
   };
 };
+
+// Add createGame function
+export const createGame = async (data: Partial<Game>) => {
+  // Validate required fields
+  if (!data.name || !data.slug) {
+    throw new Error("Missing required fields: name and slug");
+  }
+
+  // Transform parent_platforms from { platform }[] to Platform[]
+  let parentPlatforms = undefined;
+  if (Array.isArray(data.parent_platforms)) {
+    parentPlatforms = data.parent_platforms
+      .map((pp: any) => pp.platform)
+      .filter(Boolean);
+  }
+
+  // Unix timestamp in seconds
+  const added =
+    typeof data.added === "number" ? data.added : Math.floor(Date.now() / 1000);
+
+  // Create and save the game
+  const game = gameRepository.create({
+    ...data,
+    parent_platforms: parentPlatforms ?? [],
+    added,
+  });
+  await gameRepository.save(game);
+  return game;
+};

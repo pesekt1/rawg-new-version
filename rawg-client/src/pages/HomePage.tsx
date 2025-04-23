@@ -1,4 +1,5 @@
-import { Box, Grid, GridItem, HStack, Show } from "@chakra-ui/react";
+import { Box, Grid, GridItem, HStack, Show, Button } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 import CustomList from "../components/CustomList";
 import GameGrid from "../components/GameGrid";
 import GameHeading from "../components/GameHeading";
@@ -12,6 +13,7 @@ const HomePage = () => {
   const { genreId, storeId } = useGameQueryStore((s) => s.gameQuery);
   const setGenreId = useGameQueryStore((s) => s.setGenreId);
   const setStoreId = useGameQueryStore((s) => s.setStoreId);
+  const navigate = useNavigate();
 
   return (
     <Grid
@@ -43,6 +45,9 @@ const HomePage = () => {
           <HStack>
             <PlatformSelector />
             <SortSelector />
+            <Button colorScheme="teal" onClick={() => navigate("/new-game")}>
+              Add New Game
+            </Button>
           </HStack>
           <GameGrid />
         </Box>
