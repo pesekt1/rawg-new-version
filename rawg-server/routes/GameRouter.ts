@@ -5,6 +5,8 @@ import {
   getScreenshots,
   getTrailers,
   createGame,
+  deleteGame, // add this import
+  updateGame,
 } from "../services/gameService";
 
 const gameRouter = Router();
@@ -56,6 +58,26 @@ gameRouter.get("/:id/screenshots", async (req, res) => {
     res.send(screenshots);
   } catch (error) {
     res.status(500).send({ error: "An unexpected error occurred." });
+  }
+});
+
+gameRouter.delete("/:slug", async (req, res) => {
+  try {
+    const slug = req.params.slug;
+    const result = await deleteGame(slug);
+    res.send(result);
+  } catch (error) {
+    res.status(404).send({ error: (error as Error).message });
+  }
+});
+
+gameRouter.patch("/:slug", async (req, res) => {
+  try {
+    const slug = req.params.slug;
+    const updatedGame = await updateGame(slug, req.body);
+    res.send(updatedGame);
+  } catch (error) {
+    res.status(400).send({ error: (error as Error).message });
   }
 });
 

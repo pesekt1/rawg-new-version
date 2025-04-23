@@ -245,3 +245,37 @@ export const createGame = async (data: Partial<Game>) => {
   await gameRepository.save(game);
   return game;
 };
+
+export const deleteGame = async (slug: string) => {
+  const game = await gameRepository.findOneBy({ slug });
+  if (!game) {
+    throw new Error(`Game with slug "${slug}" not found`);
+  }
+  await gameRepository.remove(game);
+  return { message: "Game deleted successfully" };
+};
+
+export const updateGame = async (slug: string, data: Partial<Game>) => {
+  const game = await gameRepository.findOneBy({ slug });
+  if (!game) throw new Error(`Game with slug "${slug}" not found`);
+
+  // Only update allowed fields
+  if (data.name !== undefined) game.name = data.name;
+  if (data.slug !== undefined) game.slug = data.slug;
+  if (data.description_raw !== undefined)
+    game.description_raw = data.description_raw;
+  if (data.released !== undefined) game.released = data.released;
+  if (data.background_image !== undefined)
+    game.background_image = data.background_image;
+  if (data.genres !== undefined) game.genres = data.genres;
+  if (data.parent_platforms !== undefined) {
+    game.parent_platforms = data.parent_platforms.map((pp: any) => pp.platform);
+  }
+  if (data.stores !== undefined) game.stores = data.stores;
+  if (data.publishers !== undefined) game.publishers = data.publishers;
+
+  // Do NOT touch trailers, screenshots, etc.
+
+  await gameRepository.save(game);
+  return game;
+};

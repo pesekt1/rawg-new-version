@@ -31,6 +31,14 @@ class ApiClient<T> {
 
   post = (data: Partial<T>) =>
     axiosInstance.post<T>(this.endpoint, data).then((res) => res.data);
+
+  delete = (slug: string) =>
+    axiosInstance.delete(`${this.endpoint}/${slug}`).then((res) => res.data);
+
+  patch = (slug: string, data: Partial<T>) =>
+    axiosInstance
+      .patch<T>(`${this.endpoint}/${slug}`, data)
+      .then((res) => res.data);
 }
 
 export default ApiClient;
