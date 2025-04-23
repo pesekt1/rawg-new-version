@@ -55,7 +55,15 @@ const NavBar = () => {
               />
             </Tooltip>
             <MenuList>
-              <MenuItem onClick={logout}>Logout</MenuItem>
+              <MenuItem
+                onClick={() => {
+                  logout();
+                  localStorage.removeItem("token");
+                  window.location.reload(); // Force UI to re-evaluate authentication state
+                }}
+              >
+                Logout
+              </MenuItem>
             </MenuList>
           </Menu>
         ) : (
