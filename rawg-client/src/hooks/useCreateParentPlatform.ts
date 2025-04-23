@@ -9,7 +9,6 @@ const useCreateParentPlatform = () => {
   return useMutation({
     mutationFn: (data: Partial<Platform>) => apiClient.post(data),
     onSuccess: () => {
-      // Invalidate the platforms query to refresh the list
       queryClient.invalidateQueries({ queryKey: ["platforms"] });
     },
   });
