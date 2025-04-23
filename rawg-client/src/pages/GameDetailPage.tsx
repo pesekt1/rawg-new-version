@@ -25,7 +25,6 @@ const GameDetailPage = () => {
   const { data: game, isLoading, error } = useGame(slug!);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const token = localStorage.getItem("token");
   const { isAuthenticated } = useAuth();
 
   const {
