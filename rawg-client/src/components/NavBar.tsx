@@ -37,9 +37,22 @@ const NavBar = () => {
         {isAuthenticated ? (
           <Menu>
             <Tooltip label="Admin">
-              <MenuButton>
-                <Avatar size="sm" name="Admin" />
-              </MenuButton>
+              <MenuButton
+                as={Avatar}
+                size="sm"
+                // Remove the name prop to hide the "A" letter
+                cursor="pointer"
+                _hover={{
+                  boxShadow: "0 0 0 2px #319795", // teal.500
+                  bg: "teal.100",
+                  _dark: { bg: "teal.700" },
+                }}
+                _active={{
+                  boxShadow: "0 0 0 2px #319795",
+                  bg: "teal.200",
+                  _dark: { bg: "teal.800" },
+                }}
+              />
             </Tooltip>
             <MenuList>
               <MenuItem onClick={logout}>Logout</MenuItem>
