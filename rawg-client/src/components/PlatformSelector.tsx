@@ -1,7 +1,15 @@
-import { Menu, MenuButton, Button, MenuList, MenuItem } from "@chakra-ui/react";
+import {
+  Menu,
+  MenuButton,
+  Button,
+  MenuList,
+  MenuItem,
+  HStack,
+} from "@chakra-ui/react";
 import { BsChevronDown } from "react-icons/bs";
 import usePlatforms from "../hooks/usePlatforms";
 import useGameQueryStore from "../state";
+import AdminEditIcon from "./AdminEditIcon";
 
 const PlatformSelector = () => {
   const selectedPlatformId = useGameQueryStore((s) => s.gameQuery.platformId);
@@ -15,28 +23,31 @@ const PlatformSelector = () => {
   if (error) return null;
 
   return (
-    <Menu>
-      <MenuButton as={Button} rightIcon={<BsChevronDown />}>
-        {selectedPlatform ? selectedPlatform.name : "Platforms"}
-      </MenuButton>
-      <MenuList>
-        <MenuItem
-          hidden={!selectedPlatform}
-          color="red"
-          onClick={() => onSelectedPlatform(undefined)}
-        >
-          Clear
-        </MenuItem>
-        {data?.results?.map((platform) => (
+    <HStack>
+      <Menu>
+        <MenuButton as={Button} rightIcon={<BsChevronDown />}>
+          {selectedPlatform ? selectedPlatform.name : "Platforms"}
+        </MenuButton>
+        <MenuList>
           <MenuItem
-            key={platform.id}
-            onClick={() => onSelectedPlatform(platform.id)}
+            hidden={!selectedPlatform}
+            color="red"
+            onClick={() => onSelectedPlatform(undefined)}
           >
-            {platform.name}
+            Clear
           </MenuItem>
-        ))}
-      </MenuList>
-    </Menu>
+          {data?.results?.map((platform) => (
+            <MenuItem
+              key={platform.id}
+              onClick={() => onSelectedPlatform(platform.id)}
+            >
+              {platform.name}
+            </MenuItem>
+          ))}
+        </MenuList>
+      </Menu>
+      <AdminEditIcon /* onClick handler can be added here */ />
+    </HStack>
   );
 };
 

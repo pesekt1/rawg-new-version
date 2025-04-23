@@ -12,7 +12,7 @@ import getCroppedImageUrl from "../services/image-url";
 import { useState } from "react";
 import { UseQueryResult } from "@tanstack/react-query";
 import { Response } from "../services/api-client";
-import { FaEdit } from "react-icons/fa";
+import AdminEditIcon from "./AdminEditIcon";
 
 interface Props<T> {
   title: string;
@@ -25,11 +25,6 @@ interface Item {
   id: number;
   image_background: string;
   name: string;
-}
-
-// Helper to check admin login (simple version, adapt as needed)
-function isAdminLoggedIn() {
-  return !!localStorage.getItem("token");
 }
 
 const CustomList = <T extends Item>({
@@ -71,17 +66,7 @@ const CustomList = <T extends Item>({
         >
           <Heading size="lg">{title}</Heading>
         </Button>
-        {/* Show admin update icon only if admin is logged in */}
-        {isAdminLoggedIn() && (
-          <Box
-            as={FaEdit}
-            boxSize={5}
-            color={colorMode === "light" ? "gray.600" : "yellow.300"}
-            cursor="pointer"
-            title="Update"
-            // onClick handler can be added here for admin update functionality
-          />
-        )}
+        <AdminEditIcon /* onClick handler can be added here */ />
       </HStack>
       <List>
         {displayedItems?.map((item) => (
