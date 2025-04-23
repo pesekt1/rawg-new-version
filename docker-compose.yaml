@@ -1,3 +1,6 @@
+# Run without seeder:
+# docker compose up --scale seeder=0
+
 services:
   mysql:
     image: mysql:latest
