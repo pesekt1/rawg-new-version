@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { AppDataSource } from "../startup/data-source";
 import { ParentPlatform } from "../entities/ParentPlatform";
+import { getAllParentPlatforms } from "../services/parentPlatformService";
 
 interface Response {
   count: number;
@@ -8,10 +8,9 @@ interface Response {
 }
 
 const parentPlatformRouter = Router();
-const parentPlatformRepository = AppDataSource.getRepository(ParentPlatform);
 
 parentPlatformRouter.get("/", async (req, res) => {
-  const parentPlatforms = await parentPlatformRepository.find();
+  const parentPlatforms = await getAllParentPlatforms();
   const response: Response = {
     count: parentPlatforms.length,
     results: parentPlatforms,

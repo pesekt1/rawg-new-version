@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { Store } from "../entities/Store";
-import { AppDataSource } from "../startup/data-source";
+import { getAllStores } from "../services/storeService";
 
 interface Response {
   count: number;
@@ -8,10 +8,9 @@ interface Response {
 }
 
 const storeRouter = Router();
-const storeRepository = AppDataSource.getRepository(Store);
 
 storeRouter.get("/", async (req, res) => {
-  const stores = await storeRepository.find();
+  const stores = await getAllStores();
   const response: Response = {
     count: stores.length,
     results: stores,
