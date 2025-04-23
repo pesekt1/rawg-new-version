@@ -9,6 +9,8 @@ import axios from "axios";
 import { Trailer } from "./entities/Trailer";
 import { Repository } from "typeorm";
 import { Screenshot } from "./entities/Screenshot";
+import { AdminUser } from "./entities/AdminUser";
+import bcrypt from "bcryptjs";
 
 interface Response<T> {
   count: number;
@@ -103,8 +105,23 @@ async function fetchScreenshots(gameId: number): Promise<Screenshot[]> {
   }
 }
 
+async function seedAdminUser() {
+  const adminRepo = AppDataSource.getRepository(AdminUser);
+  const existing = await adminRepo.findOneBy({ username: "admin" });
+  if (!existing) {
+    const passwordHash = await bcrypt.hash("admin", 10);
+    const admin = adminRepo.create({ username: "admin", passwordHash });
+    await adminRepo.save(admin);
+    console.log("Seeded admin user: admin / admin");
+  } else {
+    console.log("Admin user already exists");
+  }
+}
+
 async function insertData() {
   await AppDataSource.initialize(); //initialize connection
+
+  await seedAdminUser(); // <-- call the admin user seeder here
 
   //get data from games.json and parse it.
   const rawData = fs.readFileSync("games.json", "utf-8");

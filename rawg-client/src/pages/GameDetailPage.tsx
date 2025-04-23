@@ -15,6 +15,7 @@ import GameTrailer from "../components/GameTrailer";
 import GameScreenshots from "../components/GameScreenshots";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import ApiClient from "../services/api-client";
+import { useAuth } from "../hooks/useAuth";
 
 const apiClient = new ApiClient<any>("/games");
 
@@ -23,6 +24,8 @@ const GameDetailPage = () => {
   const { data: game, isLoading, error } = useGame(slug!);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const token = localStorage.getItem("token");
+  const { isAuthenticated } = useAuth();
 
   const {
     mutate: deleteGame,
@@ -52,22 +55,26 @@ const GameDetailPage = () => {
         <Heading>{game.name}</Heading>
         <ExpandableText>{game.description_raw}</ExpandableText>
         <GameAttributes game={game} />
-        <Button
-          colorScheme="blue"
-          mt={4}
-          mr={2}
-          onClick={() => navigate(`/games/${game.slug}/edit`)}
-        >
-          Edit Game
-        </Button>
-        <Button
-          colorScheme="red"
-          mt={4}
-          onClick={() => deleteGame()}
-          isLoading={isDeleting}
-        >
-          Delete Game
-        </Button>
+        {isAuthenticated && (
+          <>
+            <Button
+              colorScheme="blue"
+              mt={4}
+              mr={2}
+              onClick={() => navigate(`/games/${game.slug}/edit`)}
+            >
+              Edit Game
+            </Button>
+            <Button
+              colorScheme="red"
+              mt={4}
+              onClick={() => deleteGame()}
+              isLoading={isDeleting}
+            >
+              Delete Game
+            </Button>
+          </>
+        )}
         {isDeleteError && (
           <Alert status="error" mt={2}>
             <AlertIcon />

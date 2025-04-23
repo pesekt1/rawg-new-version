@@ -7,11 +7,17 @@ export interface Response<T> {
 }
 
 const axiosInstance = axios.create({
-  // baseURL: "https://api.rawg.io/api",
   baseURL: import.meta.env.VITE_API_URL,
-  // params: {
-  //   key: import.meta.env.VITE_API_KEY,
-  // },
+});
+
+// Add JWT token to every request if present
+axiosInstance.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers = config.headers || {};
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
 
 class ApiClient<T> {

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
@@ -23,6 +24,7 @@ import useGenres from "../hooks/useGenres";
 import usePlatforms from "../hooks/usePlatforms";
 import useStores from "../hooks/useStores";
 import usePublishers from "../hooks/usePublishers";
+import { useAuth } from "../hooks/useAuth";
 
 const NewGamePage = () => {
   const [name, setName] = useState("");
@@ -60,6 +62,13 @@ const NewGamePage = () => {
     isLoading: publishersLoading,
     error: publishersError,
   } = usePublishers();
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleAddGenre = () => {
     if (

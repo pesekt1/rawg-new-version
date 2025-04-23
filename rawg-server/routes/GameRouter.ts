@@ -8,6 +8,7 @@ import {
   deleteGame, // add this import
   updateGame,
 } from "../services/gameService";
+import { requireAdmin } from "../middleware/requireAdmin";
 
 const gameRouter = Router();
 
@@ -21,8 +22,8 @@ gameRouter.get("/", async (req, res) => {
   }
 });
 
-// Add POST endpoint to create a game
-gameRouter.post("/", async (req, res) => {
+// Protect create, update, delete routes
+gameRouter.post("/", requireAdmin, async (req, res) => {
   try {
     const game = await createGame(req.body);
     res.status(201).send(game);
@@ -61,7 +62,7 @@ gameRouter.get("/:id/screenshots", async (req, res) => {
   }
 });
 
-gameRouter.delete("/:slug", async (req, res) => {
+gameRouter.delete("/:slug", requireAdmin, async (req, res) => {
   try {
     const slug = req.params.slug;
     const result = await deleteGame(slug);
@@ -71,7 +72,7 @@ gameRouter.delete("/:slug", async (req, res) => {
   }
 });
 
-gameRouter.patch("/:slug", async (req, res) => {
+gameRouter.patch("/:slug", requireAdmin, async (req, res) => {
   try {
     const slug = req.params.slug;
     const updatedGame = await updateGame(slug, req.body);

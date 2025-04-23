@@ -8,12 +8,14 @@ import SortSelector from "../components/SortSelector";
 import useGenres from "../hooks/useGenres";
 import useStores from "../hooks/useStores";
 import useGameQueryStore from "../state";
+import { useAuth } from "../hooks/useAuth";
 
 const HomePage = () => {
   const { genreId, storeId } = useGameQueryStore((s) => s.gameQuery);
   const setGenreId = useGameQueryStore((s) => s.setGenreId);
   const setStoreId = useGameQueryStore((s) => s.setStoreId);
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
 
   return (
     <Grid
@@ -45,9 +47,11 @@ const HomePage = () => {
           <HStack>
             <PlatformSelector />
             <SortSelector />
-            <Button colorScheme="teal" onClick={() => navigate("/new-game")}>
-              Add New Game
-            </Button>
+            {isAuthenticated && (
+              <Button colorScheme="teal" onClick={() => navigate("/new-game")}>
+                Add New Game
+              </Button>
+            )}
           </HStack>
           <GameGrid />
         </Box>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Box,
   Button,
@@ -18,7 +19,6 @@ import {
   SimpleGrid,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import { useNavigate, useParams } from "react-router-dom";
 import useGame from "../hooks/useGame";
 import useGenres from "../hooks/useGenres";
 import usePlatforms from "../hooks/usePlatforms";
@@ -27,6 +27,7 @@ import usePublishers from "../hooks/usePublishers";
 import ApiClient from "../services/api-client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Game } from "../entities/Game";
+import { useAuth } from "../hooks/useAuth";
 
 const apiClient = new ApiClient<Game>("/games");
 
@@ -46,7 +47,14 @@ const EditGamePage = () => {
   const [storeToAdd, setStoreToAdd] = useState<number | "">("");
   const [selectedPublishers, setSelectedPublishers] = useState<any[]>([]);
   const [publisherToAdd, setPublisherToAdd] = useState<number | "">("");
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
+
   const queryClient = useQueryClient();
 
   const {
