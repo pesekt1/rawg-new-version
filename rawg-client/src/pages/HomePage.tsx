@@ -43,20 +43,20 @@ const HomePage = () => {
       </Show>
       <GridItem area={"main"}>
         <Box paddingLeft={2}>
+          {isAuthenticated && (
+            <Button
+              colorScheme="teal"
+              variant="solid"
+              size="sm"
+              onClick={() => navigate("/new-game")}
+            >
+              Add New Game
+            </Button>
+          )}
           <GameHeading />
           <HStack>
             <PlatformSelector />
             <SortSelector />
-            {isAuthenticated && (
-              <Button
-                colorScheme="teal"
-                variant="solid"
-                size="sm"
-                onClick={() => navigate("/new-game")}
-              >
-                Add New Game
-              </Button>
-            )}
           </HStack>
           <GameGrid />
         </Box>
