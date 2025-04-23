@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { Genre } from "../entities/Genre";
-import { AppDataSource } from "../startup/data-source";
+import { getAllGenres } from "../services/genreService";
 
 //interface for response object
 interface Response {
@@ -9,12 +9,10 @@ interface Response {
 }
 
 const genreRouter = Router();
-//repository object for CRUD operations on Genre table
-const genreRepository = AppDataSource.getRepository(Genre);
 
 //GET all genres
 genreRouter.get("/", async (req, res) => {
-  const genres = await genreRepository.find();
+  const genres = await getAllGenres();
   const response: Response = {
     count: genres.length,
     results: genres,
