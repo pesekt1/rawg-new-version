@@ -42,6 +42,7 @@ const CustomList = <T extends Item>({
   const [isExpanded, setIsExpanded] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [editEntity, setEditEntity] = useState<T | null>(null);
+  const [modalTitle, setModalTitle] = useState<string>(""); // <-- add this
   const { data, isLoading, error } = useDataHook();
   const { colorMode } = useColorMode();
   const createMutation = useCreateHook ? useCreateHook() : undefined;
@@ -72,12 +73,21 @@ const CustomList = <T extends Item>({
   // Open modal for editing a specific item
   const handleEditClick = (item: T) => {
     setEditEntity(item);
+    setModalTitle(`Edit ${title}`);
+    setIsEditOpen(true);
+  };
+
+  // Open modal for creating a new item
+  const handleCreateClick = () => {
+    setEditEntity(null);
+    setModalTitle(`Create new ${title}`);
     setIsEditOpen(true);
   };
 
   return (
-    <Box marginBottom="2">
+    <Box marginBottom="4">
       <HStack>
+        <AdminEditIcon title="Add new" onClick={handleCreateClick} />
         <Button
           variant="link"
           onClick={() => onSelectedItemId(undefined)}
@@ -96,8 +106,6 @@ const CustomList = <T extends Item>({
         >
           <Heading size="lg">{title}</Heading>
         </Button>
-        {/* Optionally: Add a button to create a new item */}
-        {/* <AdminEditIcon onClick={() => { setEditEntity(null); setIsEditOpen(true); }} /> */}
       </HStack>
       <List>
         {displayedItems?.map((item) => (
@@ -175,7 +183,7 @@ const CustomList = <T extends Item>({
         entity={editEntity ?? ({} as T)}
         fields={editFields}
         onSave={handleSave}
-        title={`Edit ${title}`}
+        title={modalTitle}
       />
     </Box>
   );
