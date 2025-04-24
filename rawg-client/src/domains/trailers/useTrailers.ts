@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { Trailer } from "./Trailer";
 import ms from "ms";
 import trailerService from "./trailerService";
 
