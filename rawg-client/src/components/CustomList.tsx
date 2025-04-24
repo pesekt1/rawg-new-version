@@ -29,6 +29,8 @@ interface Item {
   name: string;
 }
 
+const DEFAULT_VISIBLE_ITEMS = 3;
+
 const CustomList = <T extends Item>({
   onSelectedItemId,
   selectedItemId,
@@ -44,7 +46,9 @@ const CustomList = <T extends Item>({
   const createMutation = useCreateHook ? useCreateHook() : undefined;
 
   const items = data?.results;
-  const displayedItems = isExpanded ? items : items?.slice(0, 5);
+  const displayedItems = isExpanded
+    ? items
+    : items?.slice(0, DEFAULT_VISIBLE_ITEMS);
 
   // Example: fields for generic modal (customize as needed)
   const editFields = [
@@ -71,7 +75,7 @@ const CustomList = <T extends Item>({
   };
 
   return (
-    <Box marginBottom="6">
+    <Box marginBottom="2">
       <HStack>
         <Button
           variant="link"
