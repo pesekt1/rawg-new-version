@@ -9,8 +9,6 @@ import {
   Alert,
   AlertIcon,
   HStack,
-  Box,
-  useColorModeValue,
 } from "@chakra-ui/react";
 import ExpandableText from "../components/ExpandableText";
 import GameAttributes from "../domains/games/components/GameAttributes";
