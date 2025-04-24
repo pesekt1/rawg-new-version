@@ -1,4 +1,4 @@
-import { Image, SimpleGrid } from "@chakra-ui/react";
+import { Image, SimpleGrid, useColorModeValue } from "@chakra-ui/react";
 import useScreenshots from "../../screenshots/useScreenshots";
 
 interface Props {
@@ -7,12 +7,14 @@ interface Props {
 
 const GameScreenshots = ({ gameId }: Props) => {
   const { data } = useScreenshots(gameId);
+  const gridBg = useColorModeValue("whiteAlpha.700", "gray.800");
+
   return (
     <SimpleGrid
       spacing={4}
       p={4}
       borderRadius="lg"
-      bg={["whiteAlpha.700", "gray.800"]}
+      bg={gridBg}
       columns={{
         base: 1,
         md: 2,
