@@ -45,6 +45,15 @@ const CustomList = <T extends Item>({
   const [modalTitle, setModalTitle] = useState<string>(""); // <-- add this
   const { data, isLoading, error } = useDataHook();
   const { colorMode } = useColorMode();
+
+  // Color variables for easier use
+  const colorMain = colorMode === "light" ? "gray.800" : "white";
+  const colorSelected = colorMode === "light" ? "accent.700" : "yellow.300";
+  const colorHover = colorMode === "light" ? "accent.600" : "white";
+  const colorActive = colorMode === "light" ? "accent.700" : "yellow.300";
+  const bgHover = colorMode === "light" ? "lightGray.300" : "accent.500";
+  const bgActive = colorMode === "light" ? "lightGray.300" : "accent.500";
+
   const createMutation = useCreateHook ? useCreateHook() : undefined;
 
   const items = data?.results;
@@ -94,14 +103,14 @@ const CustomList = <T extends Item>({
           bg="transparent"
           _hover={{
             textDecoration: "none",
-            color: colorMode === "light" ? "accent.600" : "white",
+            color: colorHover,
           }}
           fontSize="2xl"
           fontWeight="bold"
-          color={colorMode === "light" ? "gray.800" : "white"}
+          color={colorMain}
           _active={{
-            color: colorMode === "light" ? "accent.700" : "yellow.300",
-            bg: colorMode === "light" ? "lightGray.300" : "accent.500",
+            color: colorActive,
+            bg: bgActive,
           }}
         >
           <Heading size="lg">{title}</Heading>
@@ -121,22 +130,14 @@ const CustomList = <T extends Item>({
               <Button
                 textAlign="left"
                 whiteSpace="normal"
-                color={
-                  selectedItemId === item.id
-                    ? colorMode === "light"
-                      ? "accent.700"
-                      : "yellow.300"
-                    : colorMode === "light"
-                    ? "gray.800"
-                    : "white"
-                }
+                color={selectedItemId === item.id ? colorSelected : colorMain}
                 variant="link"
                 fontSize="lg"
                 bg="transparent"
                 _hover={{
                   textDecoration: "none",
-                  color: colorMode === "light" ? "accent.600" : "white",
-                  bg: colorMode === "light" ? "lightGray.300" : "accent.500",
+                  color: colorHover,
+                  bg: bgHover,
                 }}
                 onClick={() => onSelectedItemId(item.id)}
               >
@@ -156,14 +157,14 @@ const CustomList = <T extends Item>({
               <Button
                 textAlign="left"
                 whiteSpace="normal"
-                color={colorMode === "light" ? "gray.800" : "white"}
+                color={colorMain}
                 variant="link"
                 fontSize="lg"
                 bg="transparent"
                 _hover={{
                   textDecoration: "none",
-                  color: colorMode === "light" ? "accent.600" : "white",
-                  bg: colorMode === "light" ? "lightGray.300" : "accent.500",
+                  color: colorHover,
+                  bg: bgHover,
                 }}
                 onClick={() => setIsExpanded(!isExpanded)}
                 padding={0}
