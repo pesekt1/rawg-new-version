@@ -21,7 +21,8 @@ interface Props<T> {
   onSelectedItemId: (id?: number) => void;
   selectedItemId?: number;
   useDataHook: () => UseQueryResult<Response<T>, Error>;
-  useCreateHook: () => { mutateAsync: (data: Partial<T>) => Promise<any> }; // <-- add this
+  useCreateHook: () => { mutateAsync: (data: Partial<T>) => Promise<any> };
+  useDeleteHook?: () => { mutateAsync: (id: number) => Promise<any> }; // <-- updated
 }
 
 interface Item {
@@ -38,13 +39,15 @@ const CustomList = <T extends Item>({
   title,
   useDataHook,
   useCreateHook,
+  useDeleteHook, // <-- add this
 }: Props<T>) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [editEntity, setEditEntity] = useState<T | null>(null);
-  const [modalTitle, setModalTitle] = useState<string>(""); // <-- add this
+  const [modalTitle, setModalTitle] = useState<string>("");
   const { data, isLoading, error } = useDataHook();
   const { colorMode } = useColorMode();
+  const deleteMutation = useDeleteHook ? useDeleteHook() : undefined;
 
   // Color variables for easier use
   const colorMain = colorMode === "light" ? "gray.800" : "white";
@@ -74,6 +77,14 @@ const CustomList = <T extends Item>({
       await createMutation.mutateAsync(updated);
     }
     setIsEditOpen(false);
+  };
+
+  // Delete handler for modal
+  const handleDelete = async () => {
+    if (deleteMutation && editEntity?.id) {
+      await deleteMutation.mutateAsync(editEntity.id);
+      setIsEditOpen(false);
+    }
   };
 
   if (error) return null;
@@ -184,6 +195,11 @@ const CustomList = <T extends Item>({
         entity={editEntity ?? ({} as T)}
         fields={editFields}
         onSave={handleSave}
+        onDelete={
+          editEntity && editEntity.id && deleteMutation
+            ? handleDelete
+            : undefined
+        }
         title={modalTitle}
       />
     </Box>

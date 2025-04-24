@@ -2,6 +2,7 @@ import CustomList from "../../components/CustomList";
 import usePublishers from "./usePublishers";
 import useCreatePublisher from "./useCreatePublisher";
 import useGameQueryStore from "../../state";
+import useDeletePublisher from "./useDeletePublisher";
 
 const PublisherList = () => {
   const publisherId = useGameQueryStore((s) => s.gameQuery.publisherId);
@@ -14,6 +15,7 @@ const PublisherList = () => {
       selectedItemId={publisherId}
       useDataHook={usePublishers}
       useCreateHook={useCreatePublisher}
+      useDeleteHook={useDeletePublisher}
     />
   );
 };

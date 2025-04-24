@@ -14,6 +14,7 @@ import GenericEditModal from "../../components/GenericEditModal";
 import { useState } from "react";
 import useCreateParentPlatform from "./useCreateParentPlatform";
 import usePlatforms from "./usePlatforms";
+import useDeleteParentPlatform from "./useDeleteParentPlatform";
 
 const PlatformSelector = () => {
   const selectedPlatformId = useGameQueryStore((s) => s.gameQuery.platformId);
@@ -27,6 +28,7 @@ const PlatformSelector = () => {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [editEntity, setEditEntity] = useState<any>(null);
   const createPlatformMutation = useCreateParentPlatform();
+  const deletePlatformMutation = useDeleteParentPlatform();
 
   const editFields = [
     { name: "name", label: "Name" },
@@ -35,6 +37,12 @@ const PlatformSelector = () => {
 
   const handleSave = async (updated: Partial<any>) => {
     await createPlatformMutation.mutateAsync(updated);
+    setIsEditOpen(false);
+  };
+
+  const handleDelete = async () => {
+    if (!editEntity?.id) return;
+    await deletePlatformMutation.mutateAsync(editEntity.id);
     setIsEditOpen(false);
   };
 
@@ -94,6 +102,7 @@ const PlatformSelector = () => {
         entity={editEntity || {}}
         fields={editFields}
         onSave={handleSave}
+        onDelete={editEntity && editEntity.id ? handleDelete : undefined}
         title={editEntity ? "Edit Platform" : "Create Platform"}
       />
     </HStack>

@@ -27,6 +27,7 @@ interface GenericEditModalProps<T> {
   fields: Field[];
   onSave: (updated: Partial<T>) => Promise<void> | void;
   title?: string;
+  onDelete?: () => Promise<void> | void;
 }
 
 function GenericEditModal<T>({
@@ -36,9 +37,11 @@ function GenericEditModal<T>({
   fields,
   onSave,
   title,
+  onDelete,
 }: GenericEditModalProps<T>) {
   const [form, setForm] = useState<Partial<T>>(entity);
   const [isSaving, setIsSaving] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const toast = useToast();
 
   // Reset form when entity changes or modal opens
@@ -74,6 +77,31 @@ function GenericEditModal<T>({
     }
   };
 
+  const handleDelete = async () => {
+    if (!onDelete) return;
+    setIsDeleting(true);
+    try {
+      await onDelete();
+      toast({
+        title: "Deleted.",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+      onClose();
+    } catch (e: any) {
+      toast({
+        title: "Error",
+        description: e?.message || "Failed to delete.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="md">
       <ModalOverlay />
@@ -96,6 +124,17 @@ function GenericEditModal<T>({
           <Button onClick={onClose} mr={3} variant="ghost">
             Cancel
           </Button>
+          {onDelete && (
+            <Button
+              colorScheme="red"
+              mr={3}
+              onClick={handleDelete}
+              isLoading={isDeleting}
+              variant="outline"
+            >
+              Delete
+            </Button>
+          )}
           <Button colorScheme="blue" onClick={handleSave} isLoading={isSaving}>
             Save
           </Button>

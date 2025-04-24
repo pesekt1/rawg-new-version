@@ -2,6 +2,7 @@ import CustomList from "../../components/CustomList";
 import useGameQueryStore from "../../state";
 import useCreateStore from "./useCreateStore";
 import useStores from "./useStores";
+import useDeleteStore from "./useDeleteStore";
 
 const StoreList = () => {
   const storeId = useGameQueryStore((s) => s.gameQuery.storeId);
@@ -14,6 +15,7 @@ const StoreList = () => {
       selectedItemId={storeId}
       useDataHook={useStores}
       useCreateHook={useCreateStore}
+      useDeleteHook={useDeleteStore}
     />
   );
 };
