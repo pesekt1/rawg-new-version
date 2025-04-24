@@ -23,17 +23,51 @@ interface GameQueryStore {
 const useGameQueryStore = create<GameQueryStore>((set) => ({
   gameQuery: {} as GameQuery,
   setGenreId: (genreId) =>
-    set((state) => ({ gameQuery: { ...state.gameQuery, genreId } })),
+    set((state) => ({
+      gameQuery: {
+        ...state.gameQuery,
+        genreId,
+        searchText: "",
+      },
+    })),
   setPlatformId: (platformId) =>
-    set((state) => ({ gameQuery: { ...state.gameQuery, platformId } })),
+    set((state) => ({
+      gameQuery: {
+        ...state.gameQuery,
+        platformId,
+        searchText: "",
+      },
+    })),
   setStoreId: (storeId) =>
-    set((state) => ({ gameQuery: { ...state.gameQuery, storeId } })),
+    set((state) => ({
+      gameQuery: {
+        ...state.gameQuery,
+        storeId,
+        searchText: "",
+      },
+    })),
   setPublisherId: (publisherId) =>
-    set((state) => ({ gameQuery: { ...state.gameQuery, publisherId } })),
+    set((state) => ({
+      gameQuery: {
+        ...state.gameQuery,
+        publisherId,
+        searchText: "",
+      },
+    })),
   setSortOrder: (sortOrder) =>
-    set((state) => ({ gameQuery: { ...state.gameQuery, sortOrder } })),
+    set((state) => ({
+      gameQuery: {
+        ...state.gameQuery,
+        sortOrder,
+      },
+    })),
   setSearchText: (searchText) =>
-    set((state) => ({ gameQuery: { ...state.gameQuery, searchText } })),
+    set((state) => ({
+      gameQuery: {
+        ...state.gameQuery,
+        searchText,
+      },
+    })),
   reset: () => set({ gameQuery: {} as GameQuery }),
 }));
 

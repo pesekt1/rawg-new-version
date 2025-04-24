@@ -7,12 +7,14 @@ import useGameQueryStore from "../../state";
 const SearchInput = () => {
   const ref = useRef<HTMLInputElement>(null);
   const onSearch = useGameQueryStore((s) => s.setSearchText);
+  const resetGameQuery = useGameQueryStore((s) => s.reset); // add this
   const navigate = useNavigate();
 
   return (
     <form
       onSubmit={(event) => {
         event.preventDefault();
+        resetGameQuery(); // reset before searching
         onSearch(ref.current?.value || "");
         navigate("/");
         if (ref.current) ref.current.value = ""; // Clear the input field
