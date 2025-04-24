@@ -16,6 +16,7 @@ const useGames = () => {
           genres: gameQuery.genreId,
           parent_platforms: gameQuery.platformId,
           stores: gameQuery.storeId,
+          publishers: gameQuery.publisherId,
           ordering: gameQuery.sortOrder,
           search: gameQuery.searchText,
           page: pageParam,
