@@ -1,12 +1,7 @@
-import { useMutation } from "@tanstack/react-query";
-import ApiClient from "../../services/api-client";
+import useCreateEntity from "../../hooks/useCreateEntity";
 import { Game } from "./Game";
+import gameService from "./gameService";
 
-const apiClient = new ApiClient<Game>("/games");
-
-const useCreateGame = () =>
-  useMutation({
-    mutationFn: (data: Partial<Game>) => apiClient.post(data),
-  });
+const useCreateGame = () => useCreateEntity<Game>(gameService.post, ["games"]);
 
 export default useCreateGame;
