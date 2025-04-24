@@ -1,13 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import ApiClient from "../../services/api-client";
 import { Store } from "./Store";
-
-const apiClient = new ApiClient<Store>("/stores");
+import storeService from "./storeService";
 
 const useCreateStore = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (data: Partial<Store>) => apiClient.post(data),
+    mutationFn: (data: Partial<Store>) => storeService.post(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["stores"] });
     },
