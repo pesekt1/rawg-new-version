@@ -72,6 +72,8 @@ const GameAttributes = ({ game }: Props) => {
         <DefinitionItem term="Publishers">
           <AttributeBadge items={game.publishers} colorScheme="orange" />
         </DefinitionItem>
+
+        <DefinitionItem term="Release date">{game.released}</DefinitionItem>
       </SimpleGrid>
     </Box>
   );
