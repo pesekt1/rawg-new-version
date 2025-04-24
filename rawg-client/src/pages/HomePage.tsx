@@ -6,6 +6,7 @@ import GameHeading from "../components/GameHeading";
 import PlatformSelector from "../components/PlatformSelector";
 import SortSelector from "../components/SortSelector";
 import AddGameButton from "../components/AddGameButton";
+import PublisherList from "../components/PublisherList";
 
 const HomePage = () => {
   return (
@@ -20,6 +21,7 @@ const HomePage = () => {
         <GridItem area={"aside"}>
           <GenreList />
           <StoreList />
+          <PublisherList />
         </GridItem>
       </Show>
       <GridItem area={"main"}>
