@@ -1,4 +1,4 @@
-import { Button, Text } from "@chakra-ui/react";
+import { Button, Text, useColorModeValue } from "@chakra-ui/react";
 import { useState } from "react";
 
 interface Props {
@@ -8,6 +8,9 @@ interface Props {
 const ExpandableText = ({ children }: Props) => {
   const [expanded, setExpanded] = useState(false);
   const LIMIT = 300;
+  const buttonBg = useColorModeValue("gray.200", "gray.700");
+  const buttonColor = useColorModeValue("gray.900", "gray.100");
+  const buttonHoverBg = useColorModeValue("gray.300", "gray.600");
 
   if (!children) return null;
 
@@ -20,7 +23,12 @@ const ExpandableText = ({ children }: Props) => {
         marginLeft={1}
         size="xs"
         fontWeight="bold"
-        colorScheme="yellow"
+        bg={buttonBg}
+        color={buttonColor}
+        _hover={{
+          bg: buttonHoverBg,
+          color: buttonColor,
+        }}
         onClick={() => setExpanded(!expanded)}
       >
         {!expanded ? "Show more" : "Show less"}
