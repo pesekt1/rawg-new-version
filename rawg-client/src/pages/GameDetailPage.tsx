@@ -53,16 +53,8 @@ const GameDetailPage = () => {
       spacing={5}
     >
       <GridItem>
-        <Heading>{game.name}</Heading>
-        <PlatformIconsList
-          platforms={game.parent_platforms?.map((p) => p.platform) || []}
-        />
-        <StyledText>
-          <ExpandableText>{game.description_raw}</ExpandableText>
-        </StyledText>
-        <GameAttributes game={game} />
         {isAuthenticated && (
-          <HStack mt={4} spacing={2}>
+          <HStack mb={2} spacing={2}>
             <Button
               colorScheme="blue"
               variant="solid"
@@ -82,6 +74,14 @@ const GameDetailPage = () => {
             </Button>
           </HStack>
         )}
+        <Heading>{game.name}</Heading>
+        <PlatformIconsList
+          platforms={game.parent_platforms?.map((p) => p.platform) || []}
+        />
+        <StyledText>
+          <ExpandableText>{game.description_raw}</ExpandableText>
+        </StyledText>
+        <GameAttributes game={game} />
         {isDeleteError && (
           <Alert status="error" mt={2}>
             <AlertIcon />

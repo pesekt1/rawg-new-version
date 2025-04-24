@@ -7,14 +7,44 @@ import {
 } from "@chakra-ui/react";
 import { Game } from "../Game";
 import DefinitionItem from "../../../components/DefinitionItem";
+import CriticScore from "../components/GameCard/CriticScore";
 
 interface Props {
   game: Game;
 }
 
+const AttributeBadge = ({
+  items,
+  colorScheme,
+}: {
+  items: { id: number; name: string }[];
+  colorScheme: string;
+}) => (
+  <Stack direction="row" flexWrap="wrap" spacing={2}>
+    {items.map((item) => (
+      <Badge
+        key={item.id}
+        colorScheme={colorScheme}
+        variant="subtle"
+        px={2}
+        py={1}
+        borderRadius="md"
+        fontSize="sm"
+      >
+        {item.name}
+      </Badge>
+    ))}
+  </Stack>
+);
+
 const GameAttributes = ({ game }: Props) => {
   const cardBg = useColorModeValue("white", "gray.800");
   const cardBorder = useColorModeValue("gray.200", "gray.700");
+
+  const platformBadges = game.parent_platforms.map((p) => ({
+    id: p.platform.id,
+    name: p.platform.name,
+  }));
 
   return (
     <Box
@@ -28,75 +58,19 @@ const GameAttributes = ({ game }: Props) => {
     >
       <SimpleGrid columns={2} as="dl" spacing={4}>
         <DefinitionItem term="Platforms">
-          <Stack direction="row" flexWrap="wrap" spacing={2}>
-            {game.parent_platforms.map((platform) => (
-              <Badge
-                key={platform.platform.id}
-                colorScheme="blue"
-                variant="subtle"
-                px={2}
-                py={1}
-                borderRadius="md"
-                fontSize="sm"
-              >
-                {platform.platform.name}
-              </Badge>
-            ))}
-          </Stack>
+          <AttributeBadge items={platformBadges} colorScheme="blue" />
         </DefinitionItem>
 
         <DefinitionItem term="Metacritic">
-          <Badge
-            colorScheme={
-              game.metacritic >= 75
-                ? "green"
-                : game.metacritic >= 50
-                ? "yellow"
-                : "red"
-            }
-            fontSize="md"
-            px={3}
-            py={1}
-            borderRadius="md"
-          >
-            {game.metacritic}
-          </Badge>
+          <CriticScore score={game.metacritic} />
         </DefinitionItem>
 
         <DefinitionItem term="Genres">
-          <Stack direction="row" flexWrap="wrap" spacing={2}>
-            {game.genres.map((genre) => (
-              <Badge
-                key={genre.id}
-                colorScheme="purple"
-                variant="subtle"
-                px={2}
-                py={1}
-                borderRadius="md"
-                fontSize="sm"
-              >
-                {genre.name}
-              </Badge>
-            ))}
-          </Stack>
+          <AttributeBadge items={game.genres} colorScheme="purple" />
         </DefinitionItem>
 
         <DefinitionItem term="Publishers">
-          <Stack direction="row" flexWrap="wrap" spacing={2}>
-            {game.publishers.map((publisher) => (
-              <Badge
-                key={publisher.id}
-                colorScheme="orange"
-                variant="subtle"
-                px={2}
-                py={1}
-                borderRadius="md"
-                fontSize="sm"
-              >
-                {publisher.name}
-              </Badge>
-            ))}
-          </Stack>
+          <AttributeBadge items={game.publishers} colorScheme="orange" />
         </DefinitionItem>
       </SimpleGrid>
     </Box>
