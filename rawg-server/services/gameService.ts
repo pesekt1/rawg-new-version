@@ -59,6 +59,24 @@ const addParentPlatformFilter = (
   }
 };
 
+const addPublisherFilter = (
+  queryBuilder: SelectQueryBuilder<Game>,
+  publisherId: Number | undefined
+) => {
+  if (publisherId) {
+    queryBuilder.andWhere((qb) => {
+      const subQuery = qb
+        .subQuery()
+        .select("game.id")
+        .from(Game, "game")
+        .leftJoin("game.publishers", "publishers")
+        .where("publishers.id = :publisherId", { publisherId })
+        .getQuery();
+      return "game.id IN " + subQuery;
+    });
+  }
+};
+
 const addOrdering = (
   queryBuilder: SelectQueryBuilder<Game>,
   ordering: String | undefined
@@ -104,6 +122,9 @@ const buildGameQuery = (req: any) => {
   const parentPlatformId = req.query.parent_platforms
     ? Number(req.query.parent_platforms)
     : undefined;
+  const publisherId = req.query.publishers
+    ? Number(req.query.publishers)
+    : undefined; // <-- add this
   const ordering = req.query.ordering ? String(req.query.ordering) : undefined;
   const search = req.query.search
     ? String(req.query.search).toLowerCase()
@@ -114,11 +135,13 @@ const buildGameQuery = (req: any) => {
     .createQueryBuilder("game")
     .leftJoinAndSelect("game.genres", "genres")
     .leftJoinAndSelect("game.parent_platforms", "parent_platforms")
-    .leftJoinAndSelect("game.stores", "stores");
+    .leftJoinAndSelect("game.stores", "stores")
+    .leftJoinAndSelect("game.publishers", "publishers"); // ensure publishers are joined
 
   addGenreFilter(queryBuilder, genreId);
   addStoreFilter(queryBuilder, storeId);
   addParentPlatformFilter(queryBuilder, parentPlatformId);
+  addPublisherFilter(queryBuilder, publisherId); // <-- add this
   addOrdering(queryBuilder, ordering);
   addSearch(queryBuilder, search);
 
