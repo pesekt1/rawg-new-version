@@ -13,7 +13,7 @@ const useGenres = () =>
     queryFn: apiClient.getAll,
     staleTime: ms("1d"),
     cacheTime: ms("1d"),
-    initialData: genres,
+    placeholderData: genres,
   });
 
 export default useGenres;

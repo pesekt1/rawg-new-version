@@ -13,6 +13,6 @@ const usePlatforms = () =>
     queryFn: apiClient.getAll,
     staleTime: ms("1d"),
     cacheTime: ms("1d"),
-    initialData: platforms,
+    placeholderData: platforms,
   });
 export default usePlatforms;

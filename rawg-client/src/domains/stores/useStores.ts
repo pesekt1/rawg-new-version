@@ -12,7 +12,7 @@ const useStores = () =>
     queryFn: apiClient.getAll,
     staleTime: ms("1d"),
     cacheTime: ms("1d"),
-    initialData: stores,
+    placeholderData: stores,
   });
 
 export default useStores;
