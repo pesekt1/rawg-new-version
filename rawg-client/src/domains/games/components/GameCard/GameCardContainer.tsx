@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, useColorModeValue } from "@chakra-ui/react";
 import { ReactNode } from "react";
 
 interface Props {
@@ -6,15 +6,10 @@ interface Props {
 }
 
 const GameCardContainer = ({ children }: Props) => {
+  const border = useColorModeValue("2px solid #a0a0a0", "none");
+
   return (
-    <Box
-      overflow="hidden"
-      borderRadius={10}
-      _hover={{
-        transform: "scale(1.05)",
-        transition: "transform 0.2s ease-in",
-      }}
-    >
+    <Box overflow="hidden" borderRadius={10} border={border}>
       {children}
     </Box>
   );

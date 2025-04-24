@@ -1,4 +1,11 @@
-import { Card, CardBody, Heading, HStack, Image } from "@chakra-ui/react";
+import {
+  Card,
+  CardBody,
+  Heading,
+  HStack,
+  Image,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import CriticScore from "./CriticScore";
 import getCroppedImageUrl from "../../../../services/image-url";
 import { Link } from "react-router-dom";
