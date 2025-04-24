@@ -1,16 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import ApiClient from "../../services/api-client";
-import { Response } from "../../services/api-client";
 import ms from "ms";
-import { Genre } from "./Genre";
 import genres from "./genres";
-
-const apiClient = new ApiClient<Genre>("/genres");
+import genreService from "./genreService";
+import { Genre } from "./Genre";
+import { Response } from "../../services/api-client";
 
 const useGenres = () =>
   useQuery<Response<Genre>, Error>({
     queryKey: ["genres"],
-    queryFn: apiClient.getAll,
+    queryFn: genreService.getAll,
     staleTime: ms("1d"),
     cacheTime: ms("1d"),
     placeholderData: genres,
