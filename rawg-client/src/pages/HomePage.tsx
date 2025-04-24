@@ -1,24 +1,13 @@
-import { Box, Grid, GridItem, HStack, Show, Button } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
-import CustomList from "../components/CustomList";
+import { Box, Grid, GridItem, HStack, Show } from "@chakra-ui/react";
+import GenreList from "../components/GenreList";
+import StoreList from "../components/StoreList";
 import GameGrid from "../components/GameGrid";
 import GameHeading from "../components/GameHeading";
 import PlatformSelector from "../components/PlatformSelector";
 import SortSelector from "../components/SortSelector";
-import useGenres from "../hooks/useGenres";
-import useStores from "../hooks/useStores";
-import useGameQueryStore from "../state";
-import { useAuth } from "../hooks/useAuth";
-import useCreateGenre from "../hooks/useCreateGenre";
-import useCreateStore from "../hooks/useCreateStore";
+import AddGameButton from "../components/AddGameButton";
 
 const HomePage = () => {
-  const { genreId, storeId } = useGameQueryStore((s) => s.gameQuery);
-  const setGenreId = useGameQueryStore((s) => s.setGenreId);
-  const setStoreId = useGameQueryStore((s) => s.setStoreId);
-  const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
-
   return (
     <Grid
       templateAreas={{
@@ -29,34 +18,13 @@ const HomePage = () => {
     >
       <Show above="lg">
         <GridItem area={"aside"}>
-          <CustomList
-            title="Genres"
-            onSelectedItemId={setGenreId}
-            selectedItemId={genreId}
-            useDataHook={useGenres}
-            useCreateHook={useCreateGenre}
-          />
-          <CustomList
-            title="Stores"
-            onSelectedItemId={setStoreId}
-            selectedItemId={storeId}
-            useDataHook={useStores}
-            useCreateHook={useCreateStore}
-          />
+          <GenreList />
+          <StoreList />
         </GridItem>
       </Show>
       <GridItem area={"main"}>
         <Box paddingLeft={2}>
-          {isAuthenticated && (
-            <Button
-              colorScheme="teal"
-              variant="solid"
-              size="sm"
-              onClick={() => navigate("/new-game")}
-            >
-              Add New Game
-            </Button>
-          )}
+          <AddGameButton />
           <GameHeading />
           <HStack>
             <PlatformSelector />
