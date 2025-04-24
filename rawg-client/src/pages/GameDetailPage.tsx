@@ -9,6 +9,8 @@ import {
   Alert,
   AlertIcon,
   HStack,
+  Box,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import ExpandableText from "../components/ExpandableText";
 import GameAttributes from "../domains/games/components/GameAttributes";
@@ -17,6 +19,7 @@ import ApiClient from "../services/api-client";
 import { useAuth } from "../domains/auth/useAuth";
 import GameScreenshots from "../domains/games/components/GameScreenshots";
 import GameTrailer from "../domains/games/components/GameTrailer";
+import StyledText from "../components/StyledText";
 
 const apiClient = new ApiClient<any>("/games");
 
@@ -26,7 +29,6 @@ const GameDetailPage = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { isAuthenticated } = useAuth();
-
   const {
     mutate: deleteGame,
     isLoading: isDeleting,
@@ -53,7 +55,9 @@ const GameDetailPage = () => {
     >
       <GridItem>
         <Heading>{game.name}</Heading>
-        <ExpandableText>{game.description_raw}</ExpandableText>
+        <StyledText>
+          <ExpandableText>{game.description_raw}</ExpandableText>
+        </StyledText>
         <GameAttributes game={game} />
         {isAuthenticated && (
           <HStack mt={4} spacing={2}>
