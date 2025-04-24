@@ -1,4 +1,9 @@
-import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
+import {
+  Input,
+  InputGroup,
+  InputLeftElement,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { useRef } from "react";
 import { BsSearch } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +14,10 @@ const SearchInput = () => {
   const onSearch = useGameQueryStore((s) => s.setSearchText);
   const resetGameQuery = useGameQueryStore((s) => s.reset); // add this
   const navigate = useNavigate();
+  const inputGroupBg = useColorModeValue("white", "gray.700");
+  const inputGroupBorder = useColorModeValue("1.5px solid #e2e8f0", "none");
+  const inputGroupBorderColor = useColorModeValue("gray.300", "gray.600");
+  const placeholderColor = useColorModeValue("gray.500", "teal.400");
 
   return (
     <form
@@ -24,8 +33,10 @@ const SearchInput = () => {
         sx={{
           transition: "box-shadow 0.2s, border-color 0.2s",
           boxShadow: "sm",
+          border: inputGroupBorder,
+          borderColor: inputGroupBorderColor,
           _focusWithin: {
-            boxShadow: "0 0 0 2px #319795", // teal.500
+            boxShadow: "0 0 0 2px #319795",
             borderColor: "teal.500",
           },
           _hover: {
@@ -33,9 +44,7 @@ const SearchInput = () => {
             boxShadow: "md",
           },
           borderRadius: "full",
-          bg: "whiteAlpha.800",
-          backdropFilter: "blur(4px)",
-          _dark: { bg: "gray.700" },
+          bg: inputGroupBg,
         }}
       >
         <InputLeftElement
@@ -51,13 +60,13 @@ const SearchInput = () => {
           fontSize="md"
           bg="transparent"
           _focus={{
-            bg: "white",
-            _dark: { bg: "gray.800" },
+            bg: inputGroupBg,
             borderColor: "teal.400",
             boxShadow: "0 0 0 2px #319795",
+            _dark: { bg: "gray.800" },
           }}
           _placeholder={{
-            color: "teal.400",
+            color: placeholderColor,
             fontStyle: "italic",
             letterSpacing: "0.5px",
           }}
