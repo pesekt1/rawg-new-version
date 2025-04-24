@@ -20,6 +20,9 @@ const GameTrailer = ({ gameId }: Props) => {
       src={firstTrailer?.data480}
       poster={firstTrailer?.preview}
       controls
+      width="100%"
+      height="auto"
+      style={{ borderRadius: 12, marginBottom: 16, display: "block" }}
     />
   );
 };
