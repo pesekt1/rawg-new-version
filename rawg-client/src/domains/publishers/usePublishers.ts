@@ -1,16 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
+import useGetEntities from "../../hooks/useGetEntities";
 import { Publisher } from "./Publisher";
-import { Response } from "../../services/api-client";
-import ms from "ms";
 import publishers from "./publishers";
 import publisherService from "./publisherService";
+import { Response } from "../../services/api-client";
 
 const usePublishers = () =>
-  useQuery<Response<Publisher>, Error>({
+  useGetEntities<Response<Publisher>>({
     queryKey: ["publishers"],
     queryFn: publisherService.getAll,
-    staleTime: ms("1d"),
-    cacheTime: ms("1d"),
     placeholderData: publishers,
   });
 

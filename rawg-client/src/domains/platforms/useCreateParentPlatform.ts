@@ -1,15 +1,8 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import useCreateEntity from "../../hooks/useCreateEntity";
 import { Platform } from "./Platform";
 import platformService from "./platformService";
 
-const useCreateParentPlatform = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (data: Partial<Platform>) => platformService.post(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["platforms"] });
-    },
-  });
-};
+const useCreateParentPlatform = () =>
+  useCreateEntity<Platform>(platformService.post, ["platforms"]);
 
 export default useCreateParentPlatform;

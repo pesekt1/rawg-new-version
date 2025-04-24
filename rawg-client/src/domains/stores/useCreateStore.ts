@@ -1,15 +1,8 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import useCreateEntity from "../../hooks/useCreateEntity";
 import { Store } from "./Store";
 import storeService from "./storeService";
 
-const useCreateStore = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (data: Partial<Store>) => storeService.post(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["stores"] });
-    },
-  });
-};
+const useCreateStore = () =>
+  useCreateEntity<Store>(storeService.post, ["stores"]);
 
 export default useCreateStore;

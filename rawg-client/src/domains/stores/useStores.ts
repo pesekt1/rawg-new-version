@@ -1,16 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
-import { Response } from "../../services/api-client";
+import useGetEntities from "../../hooks/useGetEntities";
 import stores from "./stores";
-import ms from "ms";
 import { Store } from "./Store";
 import storeService from "./storeService";
+import { Response } from "../../services/api-client";
 
 const useStores = () =>
-  useQuery<Response<Store>, Error>({
+  useGetEntities<Response<Store>>({
     queryKey: ["stores"],
     queryFn: storeService.getAll,
-    staleTime: ms("1d"),
-    cacheTime: ms("1d"),
     placeholderData: stores,
   });
 
