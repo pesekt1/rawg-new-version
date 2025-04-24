@@ -18,6 +18,7 @@ import { useAuth } from "../domains/auth/useAuth";
 import GameScreenshots from "../domains/games/components/GameScreenshots";
 import GameTrailer from "../domains/games/components/GameTrailer";
 import StyledText from "../components/StyledText";
+import PlatformIconsList from "../domains/platforms/PlatformIconsList";
 
 const apiClient = new ApiClient<any>("/games");
 
@@ -53,6 +54,9 @@ const GameDetailPage = () => {
     >
       <GridItem>
         <Heading>{game.name}</Heading>
+        <PlatformIconsList
+          platforms={game.parent_platforms?.map((p) => p.platform) || []}
+        />
         <StyledText>
           <ExpandableText>{game.description_raw}</ExpandableText>
         </StyledText>
