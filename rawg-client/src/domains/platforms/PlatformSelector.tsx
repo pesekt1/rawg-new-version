@@ -28,15 +28,12 @@ const PlatformSelector = () => {
   const [editEntity, setEditEntity] = useState<any>(null);
   const createPlatformMutation = useCreateParentPlatform();
 
-  // Example: fields for generic modal (customize as needed)
   const editFields = [
     { name: "name", label: "Name" },
     { name: "slug", label: "Slug" },
   ];
 
-  // Example: save handler (replace with your update logic)
   const handleSave = async (updated: Partial<any>) => {
-    // Call the create platform API
     await createPlatformMutation.mutateAsync(updated);
     setIsEditOpen(false);
   };
@@ -51,6 +48,15 @@ const PlatformSelector = () => {
         </MenuButton>
         <MenuList>
           <MenuItem
+            onClick={() => {
+              setEditEntity(null);
+              setIsEditOpen(true);
+            }}
+            icon={<AdminEditIcon title="Add new platform" />}
+          >
+            Add new platform
+          </MenuItem>
+          <MenuItem
             hidden={!selectedPlatform}
             color="red"
             onClick={() => onSelectedPlatform(undefined)}
@@ -63,7 +69,6 @@ const PlatformSelector = () => {
               onClick={() => onSelectedPlatform(platform.id)}
             >
               <HStack>
-                {/* Edit icon on the left, stop propagation so it doesn't trigger MenuItem onClick */}
                 <Box
                   onClick={(e) => {
                     e.stopPropagation();
@@ -89,7 +94,7 @@ const PlatformSelector = () => {
         entity={editEntity || {}}
         fields={editFields}
         onSave={handleSave}
-        title="Edit Platform"
+        title={editEntity ? "Edit Platform" : "Create Platform"}
       />
     </HStack>
   );
