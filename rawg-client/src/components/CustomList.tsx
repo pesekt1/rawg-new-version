@@ -14,6 +14,7 @@ import { UseQueryResult } from "@tanstack/react-query";
 import { Response } from "../services/api-client";
 import AdminEditIcon from "./AdminEditIcon";
 import GenericEditModal from "./GenericEditModal";
+import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 
 interface Props<T> {
   title: string;
@@ -136,19 +137,38 @@ const CustomList = <T extends Item>({
             </HStack>
           </ListItem>
         ))}
+        {items && items.length > DEFAULT_VISIBLE_ITEMS && (
+          <ListItem paddingY="5px">
+            <HStack>
+              {isExpanded ? (
+                <FiChevronUp size={24} />
+              ) : (
+                <FiChevronDown size={24} />
+              )}
+              <Button
+                textAlign="left"
+                whiteSpace="normal"
+                color={colorMode === "light" ? "gray.800" : "white"}
+                variant="link"
+                fontSize="lg"
+                bg="transparent"
+                _hover={{
+                  textDecoration: "none",
+                  color: colorMode === "light" ? "accent.600" : "white",
+                  bg: colorMode === "light" ? "lightGray.300" : "accent.500",
+                }}
+                onClick={() => setIsExpanded(!isExpanded)}
+                padding={0}
+                height="auto"
+                minWidth={0}
+                margin={0}
+              >
+                {isExpanded ? "Hide" : "Show all"}
+              </Button>
+            </HStack>
+          </ListItem>
+        )}
       </List>
-      <Button
-        marginY="4"
-        onClick={() => setIsExpanded(!isExpanded)}
-        bg="transparent"
-        color={colorMode === "light" ? "gray.800" : "white"}
-        _hover={{
-          bg: colorMode === "light" ? "lightGray.300" : "accent.500",
-          color: colorMode === "light" ? "gray.900" : "white",
-        }}
-      >
-        {isExpanded ? "Show less" : "Show more"}
-      </Button>
       <GenericEditModal
         isOpen={isEditOpen}
         onClose={() => setIsEditOpen(false)}
