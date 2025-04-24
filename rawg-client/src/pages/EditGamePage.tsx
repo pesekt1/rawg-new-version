@@ -19,15 +19,15 @@ import {
   SimpleGrid,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import useGame from "../hooks/useGame";
-import useGenres from "../hooks/useGenres";
-import usePlatforms from "../hooks/usePlatforms";
-import useStores from "../hooks/useStores";
-import usePublishers from "../hooks/usePublishers";
+import useGame from "../domains/games/useGame";
+import useGenres from "../domains/genres/useGenres";
+import usePublishers from "../domains/publishers/usePublishers";
+import useStores from "../domains/stores/useStores";
+import usePlatforms from "../domains/platforms/usePlatforms";
 import ApiClient from "../services/api-client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Game } from "../entities/Game";
-import { useAuth } from "../hooks/useAuth";
+import { Game } from "../domains/games/Game";
+import { useAuth } from "../domains/auth/useAuth";
 
 const apiClient = new ApiClient<Game>("/games");
 

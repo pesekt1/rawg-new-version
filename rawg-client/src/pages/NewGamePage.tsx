@@ -19,12 +19,12 @@ import {
   SimpleGrid,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import useCreateGame from "../hooks/useCreateGame";
-import useGenres from "../hooks/useGenres";
-import usePlatforms from "../hooks/usePlatforms";
-import useStores from "../hooks/useStores";
-import usePublishers from "../hooks/usePublishers";
-import { useAuth } from "../hooks/useAuth";
+import useCreateGame from "../domains/games/useCreateGame";
+import useGenres from "../domains/genres/useGenres";
+import usePublishers from "../domains/publishers/usePublishers";
+import { useAuth } from "../domains/auth/useAuth";
+import useStores from "../domains/stores/useStores";
+import usePlatforms from "../domains/platforms/usePlatforms";
 
 const NewGamePage = () => {
   const [name, setName] = useState("");

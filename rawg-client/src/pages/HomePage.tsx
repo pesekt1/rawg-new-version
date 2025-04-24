@@ -1,12 +1,12 @@
 import { Box, Grid, GridItem, HStack, Show } from "@chakra-ui/react";
-import GenreList from "../components/GenreList";
-import StoreList from "../components/StoreList";
-import GameGrid from "../components/GameGrid";
-import GameHeading from "../components/GameHeading";
-import PlatformSelector from "../components/PlatformSelector";
-import SortSelector from "../components/SortSelector";
-import AddGameButton from "../components/AddGameButton";
-import PublisherList from "../components/PublisherList";
+import GenreList from "../domains/genres/GenreList";
+import StoreList from "../domains/stores/StoreList";
+import GameHeading from "../domains/games/components/GameHeading";
+import PlatformSelector from "../domains/platforms/PlatformSelector";
+import SortSelector from "../domains/games/components/SortSelector";
+import PublisherList from "../domains/publishers/PublisherList";
+import AddGameButton from "../domains/games/components/AddGameButton";
+import GameGrid from "../domains/games/components/GameGrid";
 
 const HomePage = () => {
   return (

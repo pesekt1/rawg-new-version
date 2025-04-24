@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import useGame from "../hooks/useGame";
+import useGame from "../domains/games/useGame";
 import {
   Spinner,
   Heading,
@@ -11,12 +11,12 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import ExpandableText from "../components/ExpandableText";
-import GameAttributes from "../components/GameAttributes";
-import GameTrailer from "../components/GameTrailer";
-import GameScreenshots from "../components/GameScreenshots";
+import GameAttributes from "../domains/games/components/GameAttributes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import ApiClient from "../services/api-client";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../domains/auth/useAuth";
+import GameScreenshots from "../domains/games/components/GameScreenshots";
+import GameTrailer from "../domains/games/components/GameTrailer";
 
 const apiClient = new ApiClient<any>("/games");
 
