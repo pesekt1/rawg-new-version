@@ -1,17 +1,7 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import useDeleteEntity from "../../hooks/useDeleteEntity";
 import platformService from "./platformService";
 
-const useDeleteParentPlatform = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: async (id: number) => {
-      await platformService.delete(id.toString());
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["platforms"] });
-    },
-  });
-};
+const useDeleteParentPlatform = () =>
+  useDeleteEntity(platformService.delete, ["platforms"]);
 
 export default useDeleteParentPlatform;

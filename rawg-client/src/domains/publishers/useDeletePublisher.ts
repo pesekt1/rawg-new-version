@@ -1,17 +1,7 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import useDeleteEntity from "../../hooks/useDeleteEntity";
 import publisherService from "./publisherService";
 
-const useDeletePublisher = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: async (id: number) => {
-      await publisherService.delete(id.toString());
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["publishers"] });
-    },
-  });
-};
+const useDeletePublisher = () =>
+  useDeleteEntity(publisherService.delete, ["publishers"]);
 
 export default useDeletePublisher;

@@ -1,17 +1,6 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import useDeleteEntity from "../../hooks/useDeleteEntity";
 import genreService from "./genreService";
 
-const useDeleteGenre = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: async (id: number) => {
-      await genreService.delete(id.toString());
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["genres"] });
-    },
-  });
-};
+const useDeleteGenre = () => useDeleteEntity(genreService.delete, ["genres"]);
 
 export default useDeleteGenre;
