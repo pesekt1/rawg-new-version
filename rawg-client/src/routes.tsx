@@ -5,6 +5,7 @@ import Layout from "./pages/Layout";
 import ErrorPage from "./pages/ErrorPage";
 import NewGamePage from "./pages/NewGamePage";
 import EditGamePage from "./pages/EditGamePage";
+import AdminRoute from "./components/AdminRoute";
 
 const router = createBrowserRouter([
   {
@@ -14,8 +15,22 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <HomePage /> },
       { path: "games/:id", element: <GameDetailPage /> },
-      { path: "new-game", element: <NewGamePage /> },
-      { path: "games/:id/edit", element: <EditGamePage /> },
+      {
+        path: "new-game",
+        element: (
+          <AdminRoute>
+            <NewGamePage />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "games/:id/edit",
+        element: (
+          <AdminRoute>
+            <EditGamePage />
+          </AdminRoute>
+        ),
+      },
     ],
   },
 ]);

@@ -23,7 +23,7 @@ import SearchInput from "./SearchInput";
 const NavBar = () => {
   const resetGameQuery = useGameQueryStore((state) => state.reset);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, logout, role } = useAuth();
 
   return (
     <HStack justifyContent="space-between" paddingX={3}>
@@ -37,14 +37,13 @@ const NavBar = () => {
         <ColorModeSwitch />
         {isAuthenticated ? (
           <Menu>
-            <Tooltip label="Admin">
+            <Tooltip label={role === "admin" ? "Admin" : "User"}>
               <MenuButton
                 as={Avatar}
                 size="sm"
-                // Remove the name prop to hide the "A" letter
                 cursor="pointer"
                 _hover={{
-                  boxShadow: "0 0 0 2px #319795", // teal.500
+                  boxShadow: "0 0 0 2px #319795",
                   bg: "teal.100",
                   _dark: { bg: "teal.700" },
                 }}
@@ -60,7 +59,7 @@ const NavBar = () => {
                 onClick={() => {
                   logout();
                   localStorage.removeItem("token");
-                  window.location.reload(); // Force UI to re-evaluate authentication state
+                  window.location.reload();
                 }}
               >
                 Logout

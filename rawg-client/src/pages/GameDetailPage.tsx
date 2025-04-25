@@ -26,7 +26,7 @@ const GameDetailPage = () => {
 
   const { data: game, isLoading, error } = useGame(gameId);
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
+  const { role } = useAuth();
   const queryClient = useQueryClient();
 
   const {
@@ -54,7 +54,7 @@ const GameDetailPage = () => {
       spacing={5}
     >
       <GridItem>
-        {isAuthenticated && (
+        {role === "admin" && (
           <HStack mb={2} spacing={2}>
             <Button
               colorScheme="blue"

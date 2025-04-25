@@ -8,7 +8,7 @@ import { ParentPlatform } from "../entities/ParentPlatform";
 import { Publisher } from "../entities/Publisher";
 import { Trailer } from "../entities/Trailer";
 import { Screenshot } from "../entities/Screenshot";
-import { AdminUser } from "../entities/AdminUser";
+import { User } from "../entities/User";
 
 export const AppDataSource = new DataSource({
   type: "mysql",
@@ -23,7 +23,7 @@ export const AppDataSource = new DataSource({
     Publisher,
     Trailer,
     Screenshot,
-    AdminUser,
+    User,
   ],
   migrations: [],
   subscribers: [],

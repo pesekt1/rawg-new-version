@@ -7,8 +7,10 @@ import SortSelector from "../domains/games/components/SortSelector";
 import PublisherList from "../domains/publishers/PublisherList";
 import AddGameButton from "../domains/games/components/AddGameButton";
 import GameGrid from "../domains/games/components/GameGrid";
+import { useAuth } from "../domains/auth/useAuth";
 
 const HomePage = () => {
+  const { role } = useAuth();
   return (
     <Grid
       templateAreas={{
@@ -26,7 +28,7 @@ const HomePage = () => {
       </Show>
       <GridItem area={"main"}>
         <Box paddingLeft={2}>
-          <AddGameButton />
+          {role === "admin" && <AddGameButton />}
           <GameHeading />
           <HStack>
             <PlatformSelector />

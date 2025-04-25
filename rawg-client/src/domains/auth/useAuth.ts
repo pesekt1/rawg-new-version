@@ -14,6 +14,18 @@ function isTokenValid(token: string | null): boolean {
   }
 }
 
+function getUserRole(token: string | null): string | null {
+  if (!token) return null;
+  try {
+    const [, payloadBase64] = token.split(".");
+    if (!payloadBase64) return null;
+    const payload = JSON.parse(atob(payloadBase64));
+    return payload.role || null;
+  } catch {
+    return null;
+  }
+}
+
 export function useAuth() {
   const [token, setToken] = useState(() => {
     const t = localStorage.getItem("token");
@@ -31,6 +43,7 @@ export function useAuth() {
   };
 
   const isAuthenticated = isTokenValid(token);
+  const role = getUserRole(token);
 
-  return { token, saveToken, logout, isAuthenticated };
+  return { token, saveToken, logout, isAuthenticated, role };
 }

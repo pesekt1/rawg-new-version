@@ -15,6 +15,7 @@ import { Response } from "../services/api-client";
 import AdminEditIcon from "./AdminEditIcon";
 import GenericEditModal from "./GenericEditModal";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { useAuth } from "../domains/auth/useAuth";
 
 interface Props<T> {
   title: string;
@@ -48,6 +49,7 @@ const CustomList = <T extends Item>({
   const { data, isLoading, error } = useDataHook();
   const { colorMode } = useColorMode();
   const deleteMutation = useDeleteHook ? useDeleteHook() : undefined;
+  const { role } = useAuth();
 
   // Color variables for easier use
   const colorMain = colorMode === "light" ? "gray.800" : "white";
@@ -109,7 +111,9 @@ const CustomList = <T extends Item>({
   return (
     <Box marginBottom="4">
       <HStack>
-        <AdminEditIcon title="Add new" onClick={handleCreateClick} />
+        {role === "admin" && (
+          <AdminEditIcon title="Add new" onClick={handleCreateClick} />
+        )}
         <Button
           variant="link"
           onClick={() => onSelectedItemId(undefined)}
@@ -133,7 +137,9 @@ const CustomList = <T extends Item>({
         {displayedItems?.map((item) => (
           <ListItem key={item.id} paddingY="5px">
             <HStack>
-              <AdminEditIcon onClick={() => handleEditClick(item)} />
+              {role === "admin" && (
+                <AdminEditIcon onClick={() => handleEditClick(item)} />
+              )}
               <Image
                 src={getCroppedImageUrl(item.image_background)}
                 boxSize="32px"
@@ -191,19 +197,21 @@ const CustomList = <T extends Item>({
           </ListItem>
         )}
       </List>
-      <GenericEditModal
-        isOpen={isEditOpen}
-        onClose={() => setIsEditOpen(false)}
-        entity={editEntity ?? ({} as T)}
-        fields={editFields}
-        onSave={handleSave}
-        onDelete={
-          editEntity && editEntity.id && deleteMutation
-            ? handleDelete
-            : undefined
-        }
-        title={modalTitle}
-      />
+      {role === "admin" && (
+        <GenericEditModal
+          isOpen={isEditOpen}
+          onClose={() => setIsEditOpen(false)}
+          entity={editEntity ?? ({} as T)}
+          fields={editFields}
+          onSave={handleSave}
+          onDelete={
+            editEntity && editEntity.id && deleteMutation
+              ? handleDelete
+              : undefined
+          }
+          title={modalTitle}
+        />
+      )}
     </Box>
   );
 };

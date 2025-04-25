@@ -1,8 +1,13 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction, RequestHandler } from "express";
 import { verifyToken } from "../services/authService";
 
-export const requireAdmin = (
-  req: Request,
+// Extend Request type to include user
+interface AuthenticatedRequest extends Request {
+  user?: { role: string };
+}
+
+export const requireAdmin: RequestHandler = (
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
 ) => {
@@ -13,11 +18,24 @@ export const requireAdmin = (
   }
   const token = authHeader.split(" ")[1];
   const payload = verifyToken(token);
-  if (!payload) {
+
+  // Ensure payload is an object and has a role property
+  if (
+    !payload ||
+    typeof payload !== "object" ||
+    Array.isArray(payload) ||
+    !(payload as any).role
+  ) {
     res.status(401).send({ error: "Invalid or expired token" });
     return;
   }
-  // Optionally attach user info to req
-  (req as any).admin = payload;
+
+  // Attach user info to req
+  req.user = payload as { role: string };
+
+  if (!req.user || req.user.role !== "admin") {
+    res.status(403).send({ error: "Admin access required." });
+    return;
+  }
   next();
 };

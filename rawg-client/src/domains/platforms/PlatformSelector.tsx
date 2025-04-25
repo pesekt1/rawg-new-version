@@ -15,6 +15,7 @@ import { useState } from "react";
 import useCreateParentPlatform from "./useCreateParentPlatform";
 import usePlatforms from "./usePlatforms";
 import useDeleteParentPlatform from "./useDeleteParentPlatform";
+import { useAuth } from "../auth/useAuth";
 
 const PlatformSelector = () => {
   const selectedPlatformId = useGameQueryStore((s) => s.gameQuery.platformId);
@@ -29,6 +30,7 @@ const PlatformSelector = () => {
   const [editEntity, setEditEntity] = useState<any>(null);
   const createPlatformMutation = useCreateParentPlatform();
   const deletePlatformMutation = useDeleteParentPlatform();
+  const { role } = useAuth();
 
   const editFields = [
     { name: "name", label: "Name", required: true },
@@ -55,15 +57,17 @@ const PlatformSelector = () => {
           {selectedPlatform ? selectedPlatform.name : "Platforms"}
         </MenuButton>
         <MenuList>
-          <MenuItem
-            onClick={() => {
-              setEditEntity(null);
-              setIsEditOpen(true);
-            }}
-            icon={<AdminEditIcon title="Add new platform" />}
-          >
-            Add new platform
-          </MenuItem>
+          {role === "admin" && (
+            <MenuItem
+              onClick={() => {
+                setEditEntity(null);
+                setIsEditOpen(true);
+              }}
+              icon={<AdminEditIcon title="Add new platform" />}
+            >
+              Add new platform
+            </MenuItem>
+          )}
           <MenuItem
             hidden={!selectedPlatform}
             color="red"
@@ -77,34 +81,38 @@ const PlatformSelector = () => {
               onClick={() => onSelectedPlatform(platform.id)}
             >
               <HStack>
-                <Box
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setEditEntity(platform);
-                    setIsEditOpen(true);
-                  }}
-                  display="flex"
-                  alignItems="center"
-                  cursor="pointer"
-                  marginRight={2}
-                >
-                  <AdminEditIcon />
-                </Box>
+                {role === "admin" && (
+                  <Box
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setEditEntity(platform);
+                      setIsEditOpen(true);
+                    }}
+                    display="flex"
+                    alignItems="center"
+                    cursor="pointer"
+                    marginRight={2}
+                  >
+                    <AdminEditIcon />
+                  </Box>
+                )}
                 <span>{platform.name}</span>
               </HStack>
             </MenuItem>
           ))}
         </MenuList>
       </Menu>
-      <GenericEditModal
-        isOpen={isEditOpen}
-        onClose={() => setIsEditOpen(false)}
-        entity={editEntity || {}}
-        fields={editFields}
-        onSave={handleSave}
-        onDelete={editEntity && editEntity.id ? handleDelete : undefined}
-        title={editEntity ? "Edit Platform" : "Create Platform"}
-      />
+      {role === "admin" && (
+        <GenericEditModal
+          isOpen={isEditOpen}
+          onClose={() => setIsEditOpen(false)}
+          entity={editEntity || {}}
+          fields={editFields}
+          onSave={handleSave}
+          onDelete={editEntity && editEntity.id ? handleDelete : undefined}
+          title={editEntity ? "Edit Platform" : "Create Platform"}
+        />
+      )}
     </HStack>
   );
 };

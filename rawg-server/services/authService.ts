@@ -1,31 +1,35 @@
 import { AppDataSource } from "../startup/data-source";
-import { AdminUser } from "../entities/AdminUser";
+import { User } from "../entities/User";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-const adminUserRepository = AppDataSource.getRepository(AdminUser);
+const userRepository = AppDataSource.getRepository(User);
 
 const JWT_SECRET = process.env.JWT_SECRET || "dev_secret";
 
-export const register = async (username: string, password: string) => {
-  const existing = await adminUserRepository.findOneBy({ username });
+export const register = async (
+  username: string,
+  password: string,
+  role: "admin" | "user" = "user"
+) => {
+  const existing = await userRepository.findOneBy({ username });
   if (existing) throw new Error("Username already exists");
 
   const passwordHash = await bcrypt.hash(password, 10);
-  const user = adminUserRepository.create({ username, passwordHash });
-  await adminUserRepository.save(user);
-  return { id: user.id, username: user.username };
+  const user = userRepository.create({ username, passwordHash, role });
+  await userRepository.save(user);
+  return { id: user.id, username: user.username, role: user.role };
 };
 
 export const login = async (username: string, password: string) => {
-  const user = await adminUserRepository.findOneBy({ username });
+  const user = await userRepository.findOneBy({ username });
   if (!user) throw new Error("Invalid credentials");
 
   const valid = await bcrypt.compare(password, user.passwordHash);
   if (!valid) throw new Error("Invalid credentials");
 
   const token = jwt.sign(
-    { userId: user.id, username: user.username },
+    { userId: user.id, username: user.username, role: user.role },
     JWT_SECRET,
     {
       expiresIn: "1d",

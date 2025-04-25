@@ -8,7 +8,7 @@ import { ParentPlatform } from "./entities/ParentPlatform";
 import { Publisher } from "./entities/Publisher";
 import { Trailer } from "./entities/Trailer";
 import { Screenshot } from "./entities/Screenshot";
-import { AdminUser } from "./entities/AdminUser"; // add this import
+import { User } from "./entities/User";
 
 const connectionString = process.env.DATABASE_URL;
 
@@ -26,7 +26,7 @@ export const AppDataSource = new DataSource({
     Publisher,
     Trailer,
     Screenshot,
-    AdminUser, // add this line
+    User,
   ],
   migrations: [],
   subscribers: [],
