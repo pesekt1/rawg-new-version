@@ -28,6 +28,7 @@ const GameDetailPage = () => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const queryClient = useQueryClient();
+
   const {
     mutate: deleteGame,
     isLoading: isDeleting,
@@ -35,8 +36,8 @@ const GameDetailPage = () => {
     error: deleteError,
   } = useDeleteGame({
     onSuccess: () => {
+      navigate("/", { replace: true });
       queryClient.invalidateQueries({ queryKey: ["games"] });
-      navigate("/");
     },
   });
 
