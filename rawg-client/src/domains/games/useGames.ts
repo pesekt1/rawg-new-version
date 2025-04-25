@@ -2,7 +2,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { Response } from "../../services/api-client";
 import useGameQueryStore from "../../state";
 import { Game } from "./Game";
-import gameService from "./gameService"; // <-- import your gameService
+import gameService from "./gameService";
 
 const useGames = () => {
   const gameQuery = useGameQueryStore((s) => s.gameQuery);
