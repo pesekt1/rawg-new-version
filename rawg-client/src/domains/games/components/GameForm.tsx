@@ -210,266 +210,278 @@ const GameForm = ({
         placeholder="https://example.com/image.jpg"
       />
     </FormControl>,
-    // Genres
-    <FormControl mb={2} key="add-genre">
-      <FormLabel>Add Genre</FormLabel>
-      {genresLoading ? (
-        <Spinner size="sm" />
-      ) : genresError ? (
-        <Alert status="error">
-          <AlertIcon />
-          Failed to load genres
-        </Alert>
-      ) : (
-        <HStack>
-          <Select
-            placeholder="Select genre"
-            value={genreToAdd}
-            onChange={(e) =>
-              setGenreToAdd(e.target.value ? Number(e.target.value) : "")
-            }
-            maxW="200px"
-          >
-            {genresData?.results
-              .filter((g: any) => !selectedGenres.some((sg) => sg.id === g.id))
-              .map((genre: any) => (
-                <option key={genre.id} value={genre.id}>
-                  {genre.name}
-                </option>
-              ))}
-          </Select>
-          <Button
-            onClick={() =>
-              handleAdd(
-                genreToAdd,
-                setGenreToAdd,
-                selectedGenres,
-                setSelectedGenres,
-                genresData
-              )
-            }
-            isDisabled={!genreToAdd}
-            colorScheme="teal"
-            size="sm"
-          >
-            Add
-          </Button>
-        </HStack>
-      )}
-    </FormControl>,
-    <FormControl mb={4} key="selected-genres">
-      <FormLabel>Selected Genres</FormLabel>
-      <HStack wrap="wrap">
-        {selectedGenres.map((genre) => (
-          <Tag key={genre.id} m={1} colorScheme="teal">
-            <TagLabel>{genre.name}</TagLabel>
-            <TagCloseButton
-              onClick={() =>
-                handleRemove(genre.id, selectedGenres, setSelectedGenres)
+    // Genres group
+    <Box key="genres-group" mb={4}>
+      <FormControl mb={2}>
+        <FormLabel>Add Genre</FormLabel>
+        {genresLoading ? (
+          <Spinner size="sm" />
+        ) : genresError ? (
+          <Alert status="error">
+            <AlertIcon />
+            Failed to load genres
+          </Alert>
+        ) : (
+          <HStack>
+            <Select
+              placeholder="Select genre"
+              value={genreToAdd}
+              onChange={(e) =>
+                setGenreToAdd(e.target.value ? Number(e.target.value) : "")
               }
-            />
-          </Tag>
-        ))}
-      </HStack>
-    </FormControl>,
-    // Platforms
-    <FormControl mb={2} key="add-platform">
-      <FormLabel>Add Platform</FormLabel>
-      {platformsLoading ? (
-        <Spinner size="sm" />
-      ) : platformsError ? (
-        <Alert status="error">
-          <AlertIcon />
-          Failed to load platforms
-        </Alert>
-      ) : (
-        <HStack>
-          <Select
-            placeholder="Select platform"
-            value={platformToAdd}
-            onChange={(e) =>
-              setPlatformToAdd(e.target.value ? Number(e.target.value) : "")
-            }
-            maxW="200px"
-          >
-            {platformsData?.results
-              .filter(
-                (p: any) => !selectedPlatforms.some((sp) => sp.id === p.id)
-              )
-              .map((platform: any) => (
-                <option key={platform.id} value={platform.id}>
-                  {platform.name}
-                </option>
-              ))}
-          </Select>
-          <Button
-            onClick={() =>
-              handleAdd(
-                platformToAdd,
-                setPlatformToAdd,
-                selectedPlatforms,
-                setSelectedPlatforms,
-                platformsData
-              )
-            }
-            isDisabled={!platformToAdd}
-            colorScheme="teal"
-            size="sm"
-          >
-            Add
-          </Button>
-        </HStack>
-      )}
-    </FormControl>,
-    <FormControl mb={4} key="selected-platforms">
-      <FormLabel>Selected Platforms</FormLabel>
-      <HStack wrap="wrap">
-        {selectedPlatforms.map((platform) => (
-          <Tag key={platform.id} m={1} colorScheme="teal">
-            <TagLabel>{platform.name}</TagLabel>
-            <TagCloseButton
+              maxW="200px"
+            >
+              {genresData?.results
+                .filter(
+                  (g: any) => !selectedGenres.some((sg) => sg.id === g.id)
+                )
+                .map((genre: any) => (
+                  <option key={genre.id} value={genre.id}>
+                    {genre.name}
+                  </option>
+                ))}
+            </Select>
+            <Button
               onClick={() =>
-                handleRemove(
-                  platform.id,
+                handleAdd(
+                  genreToAdd,
+                  setGenreToAdd,
+                  selectedGenres,
+                  setSelectedGenres,
+                  genresData
+                )
+              }
+              isDisabled={!genreToAdd}
+              colorScheme="teal"
+              size="sm"
+            >
+              Add
+            </Button>
+          </HStack>
+        )}
+      </FormControl>
+      <FormControl mb={2}>
+        <FormLabel>Selected Genres</FormLabel>
+        <HStack wrap="wrap">
+          {selectedGenres.map((genre) => (
+            <Tag key={genre.id} m={1} colorScheme="teal">
+              <TagLabel>{genre.name}</TagLabel>
+              <TagCloseButton
+                onClick={() =>
+                  handleRemove(genre.id, selectedGenres, setSelectedGenres)
+                }
+              />
+            </Tag>
+          ))}
+        </HStack>
+      </FormControl>
+    </Box>,
+    // Platforms group
+    <Box key="platforms-group" mb={4}>
+      <FormControl mb={2}>
+        <FormLabel>Add Platform</FormLabel>
+        {platformsLoading ? (
+          <Spinner size="sm" />
+        ) : platformsError ? (
+          <Alert status="error">
+            <AlertIcon />
+            Failed to load platforms
+          </Alert>
+        ) : (
+          <HStack>
+            <Select
+              placeholder="Select platform"
+              value={platformToAdd}
+              onChange={(e) =>
+                setPlatformToAdd(e.target.value ? Number(e.target.value) : "")
+              }
+              maxW="200px"
+            >
+              {platformsData?.results
+                .filter(
+                  (p: any) => !selectedPlatforms.some((sp) => sp.id === p.id)
+                )
+                .map((platform: any) => (
+                  <option key={platform.id} value={platform.id}>
+                    {platform.name}
+                  </option>
+                ))}
+            </Select>
+            <Button
+              onClick={() =>
+                handleAdd(
+                  platformToAdd,
+                  setPlatformToAdd,
                   selectedPlatforms,
-                  setSelectedPlatforms
+                  setSelectedPlatforms,
+                  platformsData
                 )
               }
-            />
-          </Tag>
-        ))}
-      </HStack>
-    </FormControl>,
-    // Stores
-    <FormControl mb={2} key="add-store">
-      <FormLabel>Add Store</FormLabel>
-      {storesLoading ? (
-        <Spinner size="sm" />
-      ) : storesError ? (
-        <Alert status="error">
-          <AlertIcon />
-          Failed to load stores
-        </Alert>
-      ) : (
-        <HStack>
-          <Select
-            placeholder="Select store"
-            value={storeToAdd}
-            onChange={(e) =>
-              setStoreToAdd(e.target.value ? Number(e.target.value) : "")
-            }
-            maxW="200px"
-          >
-            {storesData?.results
-              .filter((s: any) => !selectedStores.some((ss) => ss.id === s.id))
-              .map((store: any) => (
-                <option key={store.id} value={store.id}>
-                  {store.name}
-                </option>
-              ))}
-          </Select>
-          <Button
-            onClick={() =>
-              handleAdd(
-                storeToAdd,
-                setStoreToAdd,
-                selectedStores,
-                setSelectedStores,
-                storesData
-              )
-            }
-            isDisabled={!storeToAdd}
-            colorScheme="teal"
-            size="sm"
-          >
-            Add
-          </Button>
+              isDisabled={!platformToAdd}
+              colorScheme="teal"
+              size="sm"
+            >
+              Add
+            </Button>
+          </HStack>
+        )}
+      </FormControl>
+      <FormControl mb={2}>
+        <FormLabel>Selected Platforms</FormLabel>
+        <HStack wrap="wrap">
+          {selectedPlatforms.map((platform) => (
+            <Tag key={platform.id} m={1} colorScheme="teal">
+              <TagLabel>{platform.name}</TagLabel>
+              <TagCloseButton
+                onClick={() =>
+                  handleRemove(
+                    platform.id,
+                    selectedPlatforms,
+                    setSelectedPlatforms
+                  )
+                }
+              />
+            </Tag>
+          ))}
         </HStack>
-      )}
-    </FormControl>,
-    <FormControl mb={4} key="selected-stores">
-      <FormLabel>Selected Stores</FormLabel>
-      <HStack wrap="wrap">
-        {selectedStores.map((store) => (
-          <Tag key={store.id} m={1} colorScheme="teal">
-            <TagLabel>{store.name}</TagLabel>
-            <TagCloseButton
-              onClick={() =>
-                handleRemove(store.id, selectedStores, setSelectedStores)
+      </FormControl>
+    </Box>,
+    // Stores group
+    <Box key="stores-group" mb={4}>
+      <FormControl mb={2}>
+        <FormLabel>Add Store</FormLabel>
+        {storesLoading ? (
+          <Spinner size="sm" />
+        ) : storesError ? (
+          <Alert status="error">
+            <AlertIcon />
+            Failed to load stores
+          </Alert>
+        ) : (
+          <HStack>
+            <Select
+              placeholder="Select store"
+              value={storeToAdd}
+              onChange={(e) =>
+                setStoreToAdd(e.target.value ? Number(e.target.value) : "")
               }
-            />
-          </Tag>
-        ))}
-      </HStack>
-    </FormControl>,
-    // Publishers
-    <FormControl mb={2} key="add-publisher">
-      <FormLabel>Add Publisher</FormLabel>
-      {publishersLoading ? (
-        <Spinner size="sm" />
-      ) : publishersError ? (
-        <Alert status="error">
-          <AlertIcon />
-          Failed to load publishers
-        </Alert>
-      ) : (
-        <HStack>
-          <Select
-            placeholder="Select publisher"
-            value={publisherToAdd}
-            onChange={(e) =>
-              setPublisherToAdd(e.target.value ? Number(e.target.value) : "")
-            }
-            maxW="200px"
-          >
-            {publishersData?.results
-              .filter(
-                (p: any) => !selectedPublishers.some((sp) => sp.id === p.id)
-              )
-              .map((publisher: any) => (
-                <option key={publisher.id} value={publisher.id}>
-                  {publisher.name}
-                </option>
-              ))}
-          </Select>
-          <Button
-            onClick={() =>
-              handleAdd(
-                publisherToAdd,
-                setPublisherToAdd,
-                selectedPublishers,
-                setSelectedPublishers,
-                publishersData
-              )
-            }
-            isDisabled={!publisherToAdd}
-            colorScheme="teal"
-            size="sm"
-          >
-            Add
-          </Button>
-        </HStack>
-      )}
-    </FormControl>,
-    <FormControl mb={4} key="selected-publishers">
-      <FormLabel>Selected Publishers</FormLabel>
-      <HStack wrap="wrap">
-        {selectedPublishers.map((publisher) => (
-          <Tag key={publisher.id} m={1} colorScheme="teal">
-            <TagLabel>{publisher.name}</TagLabel>
-            <TagCloseButton
+              maxW="200px"
+            >
+              {storesData?.results
+                .filter(
+                  (s: any) => !selectedStores.some((ss) => ss.id === s.id)
+                )
+                .map((store: any) => (
+                  <option key={store.id} value={store.id}>
+                    {store.name}
+                  </option>
+                ))}
+            </Select>
+            <Button
               onClick={() =>
-                handleRemove(
-                  publisher.id,
+                handleAdd(
+                  storeToAdd,
+                  setStoreToAdd,
+                  selectedStores,
+                  setSelectedStores,
+                  storesData
+                )
+              }
+              isDisabled={!storeToAdd}
+              colorScheme="teal"
+              size="sm"
+            >
+              Add
+            </Button>
+          </HStack>
+        )}
+      </FormControl>
+      <FormControl mb={2}>
+        <FormLabel>Selected Stores</FormLabel>
+        <HStack wrap="wrap">
+          {selectedStores.map((store) => (
+            <Tag key={store.id} m={1} colorScheme="teal">
+              <TagLabel>{store.name}</TagLabel>
+              <TagCloseButton
+                onClick={() =>
+                  handleRemove(store.id, selectedStores, setSelectedStores)
+                }
+              />
+            </Tag>
+          ))}
+        </HStack>
+      </FormControl>
+    </Box>,
+    // Publishers group
+    <Box key="publishers-group" mb={4}>
+      <FormControl mb={2}>
+        <FormLabel>Add Publisher</FormLabel>
+        {publishersLoading ? (
+          <Spinner size="sm" />
+        ) : publishersError ? (
+          <Alert status="error">
+            <AlertIcon />
+            Failed to load publishers
+          </Alert>
+        ) : (
+          <HStack>
+            <Select
+              placeholder="Select publisher"
+              value={publisherToAdd}
+              onChange={(e) =>
+                setPublisherToAdd(e.target.value ? Number(e.target.value) : "")
+              }
+              maxW="200px"
+            >
+              {publishersData?.results
+                .filter(
+                  (p: any) => !selectedPublishers.some((sp) => sp.id === p.id)
+                )
+                .map((publisher: any) => (
+                  <option key={publisher.id} value={publisher.id}>
+                    {publisher.name}
+                  </option>
+                ))}
+            </Select>
+            <Button
+              onClick={() =>
+                handleAdd(
+                  publisherToAdd,
+                  setPublisherToAdd,
                   selectedPublishers,
-                  setSelectedPublishers
+                  setSelectedPublishers,
+                  publishersData
                 )
               }
-            />
-          </Tag>
-        ))}
-      </HStack>
-    </FormControl>,
+              isDisabled={!publisherToAdd}
+              colorScheme="teal"
+              size="sm"
+            >
+              Add
+            </Button>
+          </HStack>
+        )}
+      </FormControl>
+      <FormControl mb={2}>
+        <FormLabel>Selected Publishers</FormLabel>
+        <HStack wrap="wrap">
+          {selectedPublishers.map((publisher) => (
+            <Tag key={publisher.id} m={1} colorScheme="teal">
+              <TagLabel>{publisher.name}</TagLabel>
+              <TagCloseButton
+                onClick={() =>
+                  handleRemove(
+                    publisher.id,
+                    selectedPublishers,
+                    setSelectedPublishers
+                  )
+                }
+              />
+            </Tag>
+          ))}
+        </HStack>
+      </FormControl>
+    </Box>,
   ];
 
   // Determine number of columns dynamically
