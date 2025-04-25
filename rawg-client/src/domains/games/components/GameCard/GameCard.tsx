@@ -25,7 +25,7 @@ const GameCard = ({ game }: Props) => {
       <CardBody>
         <Heading fontSize="2xl">
           <HStack>
-            <Link to={`/games/${game.slug}`}>{game.name}</Link>
+            <Link to={`/games/${game.id}`}>{game.name}</Link>
             <Emoji rating_top={game.rating_top} />
           </HStack>
         </Heading>

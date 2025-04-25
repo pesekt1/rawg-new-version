@@ -32,18 +32,22 @@ class ApiClient<T> {
       .get<Response<T>>(this.endpoint, config)
       .then((res) => res.data);
 
-  get = (slug: string) =>
-    axiosInstance.get<T>(`${this.endpoint}/${slug}`).then((res) => res.data);
+  get = (idOrSlug: string | number) =>
+    axiosInstance
+      .get<T>(`${this.endpoint}/${idOrSlug}`)
+      .then((res) => res.data);
 
   post = (data: Partial<T>) =>
     axiosInstance.post<T>(this.endpoint, data).then((res) => res.data);
 
-  delete = (slug: string) =>
-    axiosInstance.delete(`${this.endpoint}/${slug}`).then((res) => res.data);
-
-  patch = (slug: string, data: Partial<T>) =>
+  delete = (idOrSlug: string | number) =>
     axiosInstance
-      .patch<T>(`${this.endpoint}/${slug}`, data)
+      .delete(`${this.endpoint}/${idOrSlug}`)
+      .then((res) => res.data);
+
+  patch = (idOrSlug: string | number, data: Partial<T>) =>
+    axiosInstance
+      .patch<T>(`${this.endpoint}/${idOrSlug}`, data)
       .then((res) => res.data);
 }
 

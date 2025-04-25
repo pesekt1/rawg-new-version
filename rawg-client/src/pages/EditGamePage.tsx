@@ -14,8 +14,15 @@ import GameForm from "../domains/games/components/GameForm";
 const apiClient = new ApiClient<Game>("/games");
 
 const EditGamePage = () => {
-  const { slug } = useParams();
-  const { data: game, isLoading, error } = useGame(slug!);
+  const { id } = useParams();
+  const gameId = Number(id);
+
+  // Guard: If id is missing or not a valid number, show error
+  if (!id || isNaN(gameId)) {
+    return <div>Invalid game ID</div>;
+  }
+
+  const { data: game, isLoading, error } = useGame(gameId);
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
   useEffect(() => {
@@ -37,10 +44,10 @@ const EditGamePage = () => {
     isError,
     error: saveError,
   } = useMutation({
-    mutationFn: (data: Partial<Game>) => apiClient.patch(slug!, data),
+    mutationFn: (data: Partial<Game>) => apiClient.patch(gameId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["games"] });
-      queryClient.invalidateQueries({ queryKey: ["game", slug] });
+      queryClient.invalidateQueries({ queryKey: ["games", gameId] });
       navigate("/");
     },
   });

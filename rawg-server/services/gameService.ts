@@ -184,18 +184,18 @@ export const getGames = async (req: any) => {
   };
 };
 
-export const getGame = async (slug: string) => {
+export const getGame = async (id: number) => {
   const game = await gameRepository
     .createQueryBuilder("game")
     .leftJoinAndSelect("game.genres", "genres")
     .leftJoinAndSelect("game.parent_platforms", "parent_platforms")
     .leftJoinAndSelect("game.stores", "stores")
     .leftJoinAndSelect("game.publishers", "publishers")
-    .where("game.slug = :slug", { slug })
+    .where("game.id = :id", { id })
     .getOne();
 
   if (!game) {
-    throw new Error(`Game with slug "${slug}" not found`);
+    throw new Error(`Game with id "${id}" not found`);
   }
 
   return {
@@ -269,18 +269,17 @@ export const createGame = async (data: Partial<Game>) => {
   return game;
 };
 
-export const deleteGame = async (slug: string) => {
-  const game = await gameRepository.findOneBy({ slug });
+export const deleteGame = async (id: number) => {
+  const game = await gameRepository.findOneBy({ id });
   if (!game) {
-    throw new Error(`Game with slug "${slug}" not found`);
+    throw new Error(`Game with id "${id}" not found`);
   }
   await gameRepository.remove(game);
-  // No need to return anything for 204
 };
 
-export const updateGame = async (slug: string, data: Partial<Game>) => {
-  const game = await gameRepository.findOneBy({ slug });
-  if (!game) throw new Error(`Game with slug "${slug}" not found`);
+export const updateGame = async (id: number, data: Partial<Game>) => {
+  const game = await gameRepository.findOneBy({ id });
+  if (!game) throw new Error(`Game with id "${id}" not found`);
 
   // Only update allowed fields
   if (data.name !== undefined) game.name = data.name;
@@ -296,8 +295,6 @@ export const updateGame = async (slug: string, data: Partial<Game>) => {
   }
   if (data.stores !== undefined) game.stores = data.stores;
   if (data.publishers !== undefined) game.publishers = data.publishers;
-
-  // Do NOT touch trailers, screenshots, etc.
 
   await gameRepository.save(game);
   return game;

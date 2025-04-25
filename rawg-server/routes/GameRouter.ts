@@ -5,7 +5,7 @@ import {
   getScreenshots,
   getTrailers,
   createGame,
-  deleteGame, // add this import
+  deleteGame,
   updateGame,
 } from "../services/gameService";
 import { requireAdmin } from "../middleware/requireAdmin";
@@ -32,10 +32,11 @@ gameRouter.post("/", requireAdmin, async (req, res) => {
   }
 });
 
-gameRouter.get("/:slug", async (req, res) => {
+// Change from :slug to :id and parse as number
+gameRouter.get("/:id", async (req, res) => {
   try {
-    const slug = req.params.slug;
-    const game = await getGame(slug);
+    const id = parseInt(req.params.id, 10);
+    const game = await getGame(id);
     res.send(game);
   } catch (error) {
     res.status(500).send({ error: "An unexpected error occurred." });
@@ -62,20 +63,20 @@ gameRouter.get("/:id/screenshots", async (req, res) => {
   }
 });
 
-gameRouter.delete("/:slug", requireAdmin, async (req, res) => {
+gameRouter.delete("/:id", requireAdmin, async (req, res) => {
   try {
-    const slug = req.params.slug;
-    await deleteGame(slug);
-    res.status(204).send(); // No Content
+    const id = parseInt(req.params.id, 10);
+    await deleteGame(id);
+    res.status(204).send();
   } catch (error) {
     res.status(404).send({ error: (error as Error).message });
   }
 });
 
-gameRouter.patch("/:slug", requireAdmin, async (req, res) => {
+gameRouter.patch("/:id", requireAdmin, async (req, res) => {
   try {
-    const slug = req.params.slug;
-    const updatedGame = await updateGame(slug, req.body);
+    const id = parseInt(req.params.id, 10);
+    const updatedGame = await updateGame(id, req.body);
     res.send(updatedGame);
   } catch (error) {
     res.status(400).send({ error: (error as Error).message });

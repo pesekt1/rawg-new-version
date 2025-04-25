@@ -21,8 +21,15 @@ import PlatformIconsList from "../domains/platforms/PlatformIconsList";
 import { useQueryClient } from "@tanstack/react-query";
 
 const GameDetailPage = () => {
-  const { slug } = useParams();
-  const { data: game, isLoading, error } = useGame(slug!);
+  const { id } = useParams();
+  const gameId = Number(id);
+
+  // Guard: If id is missing or not a valid number, show error
+  if (!id || isNaN(gameId)) {
+    return <div>Invalid game ID</div>;
+  }
+
+  const { data: game, isLoading, error } = useGame(gameId);
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const queryClient = useQueryClient();
@@ -39,7 +46,7 @@ const GameDetailPage = () => {
   });
 
   if (isLoading) return <Spinner />;
-  if (error || !game) throw error; // error is handled in the router
+  if (error || !game) throw error;
 
   return (
     <SimpleGrid
@@ -56,7 +63,7 @@ const GameDetailPage = () => {
               colorScheme="blue"
               variant="solid"
               size="sm"
-              onClick={() => navigate(`/games/${game.slug}/edit`)}
+              onClick={() => navigate(`/games/${game.id}/edit`)}
             >
               Edit Game
             </Button>
@@ -64,7 +71,7 @@ const GameDetailPage = () => {
               colorScheme="red"
               variant="solid"
               size="sm"
-              onClick={() => deleteGame(game.slug)}
+              onClick={() => deleteGame(game.id)}
               isLoading={isDeleting}
             >
               Delete Game
