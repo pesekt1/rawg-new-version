@@ -35,7 +35,8 @@ const GameDetailPage = () => {
     isError: isDeleteError,
     error: deleteError,
   } = useDeleteGame({
-    onSuccess: () => {
+    onSuccess: async () => {
+      await queryClient.removeQueries({ queryKey: ["games", gameId] }); // Remove detail query
       navigate("/", { replace: true });
       queryClient.invalidateQueries({ queryKey: ["games"] });
     },
