@@ -17,11 +17,6 @@ const EditGamePage = () => {
   const { id } = useParams();
   const gameId = Number(id);
 
-  // Guard: If id is missing or not a valid number, show error
-  if (!id || isNaN(gameId)) {
-    return <div>Invalid game ID</div>;
-  }
-
   const { data: game, isLoading, error } = useGame(gameId);
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
@@ -48,7 +43,6 @@ const EditGamePage = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["games"] });
       queryClient.invalidateQueries({ queryKey: ["games", gameId] });
-      navigate("/");
     },
   });
 
