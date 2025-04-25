@@ -41,7 +41,7 @@ const EditGamePage = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["games"] });
       queryClient.invalidateQueries({ queryKey: ["game", slug] });
-      navigate(`/games/${game?.slug || slug}`);
+      navigate("/");
     },
   });
 
