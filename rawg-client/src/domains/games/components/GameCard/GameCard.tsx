@@ -49,19 +49,19 @@ const GameCard = ({ game }: Props) => {
           />
         )}
       </Box>
-      <CardBody>
-        <Heading fontSize="2xl">
-          <HStack>
-            <Link to={`/games/${game.id}`}>{game.name}</Link>
-            <Emoji rating_top={game.rating_top} />
-          </HStack>
-        </Heading>
+      <CardBody p={4}>
         <HStack justifyContent="space-between">
           <PlatformIconsList
             platforms={game.parent_platforms.map((p) => p.platform)}
           />
           <CriticScore score={game.metacritic} />
         </HStack>
+        <Heading fontSize="2xl">
+          <HStack>
+            <Link to={`/games/${game.id}`}>{game.name}</Link>
+            <Emoji rating_top={game.rating_top} />
+          </HStack>
+        </Heading>
       </CardBody>
     </Card>
   );
