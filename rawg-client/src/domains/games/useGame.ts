@@ -1,12 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import ApiClient from "../../services/api-client";
-import { Game } from "./Game";
-const apiClient = new ApiClient<Game>("/games");
+import gameService from "./gameService";
 
 const useGame = (id: number) =>
   useQuery({
     queryKey: ["games", id],
-    queryFn: () => apiClient.get(id),
+    queryFn: () => gameService.get(id),
   });
 
 export default useGame;
