@@ -66,8 +66,8 @@ const CustomList = <T extends Item>({
 
   // Example: fields for generic modal (customize as needed)
   const editFields = [
-    { name: "name", label: "Name" },
-    { name: "slug", label: "Slug" },
+    { name: "name", label: "Name", required: true },
+    { name: "slug", label: "Slug", required: true },
     { name: "image_background", label: "Image Background" },
   ];
 

@@ -31,8 +31,8 @@ const PlatformSelector = () => {
   const deletePlatformMutation = useDeleteParentPlatform();
 
   const editFields = [
-    { name: "name", label: "Name" },
-    { name: "slug", label: "Slug" },
+    { name: "name", label: "Name", required: true },
+    { name: "slug", label: "Slug", required: true },
   ];
 
   const handleSave = async (updated: Partial<any>) => {

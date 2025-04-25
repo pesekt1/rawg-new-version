@@ -18,6 +18,7 @@ interface Field {
   name: string;
   label: string;
   type?: string;
+  required?: boolean;
 }
 
 interface GenericEditModalProps<T> {
@@ -110,12 +111,13 @@ function GenericEditModal<T>({
         <ModalCloseButton />
         <ModalBody>
           {fields.map((field) => (
-            <FormControl key={field.name} mb={3}>
+            <FormControl key={field.name} mb={3} isRequired={field.required}>
               <FormLabel>{field.label}</FormLabel>
               <Input
                 type={field.type || "text"}
                 value={(form as any)?.[field.name] ?? ""}
                 onChange={(e) => handleChange(field.name, e.target.value)}
+                required={field.required}
               />
             </FormControl>
           ))}
