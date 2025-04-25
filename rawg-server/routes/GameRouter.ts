@@ -65,8 +65,8 @@ gameRouter.get("/:id/screenshots", async (req, res) => {
 gameRouter.delete("/:slug", requireAdmin, async (req, res) => {
   try {
     const slug = req.params.slug;
-    const result = await deleteGame(slug);
-    res.send(result);
+    await deleteGame(slug);
+    res.status(204).send(); // No Content
   } catch (error) {
     res.status(404).send({ error: (error as Error).message });
   }

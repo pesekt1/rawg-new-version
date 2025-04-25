@@ -22,7 +22,7 @@ interface Props<T> {
   selectedItemId?: number;
   useDataHook: () => UseQueryResult<Response<T>, Error>;
   useCreateHook: () => { mutateAsync: (data: Partial<T>) => Promise<any> };
-  useDeleteHook?: () => { mutateAsync: (id: number) => Promise<any> }; // <-- updated
+  useDeleteHook?: (options?: any) => { mutateAsync: (id: any) => Promise<any> };
 }
 
 interface Item {
@@ -39,7 +39,7 @@ const CustomList = <T extends Item>({
   title,
   useDataHook,
   useCreateHook,
-  useDeleteHook, // <-- add this
+  useDeleteHook,
 }: Props<T>) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -81,8 +81,10 @@ const CustomList = <T extends Item>({
 
   // Delete handler for modal
   const handleDelete = async () => {
-    if (deleteMutation && editEntity?.id) {
-      await deleteMutation.mutateAsync(editEntity.id);
+    if (deleteMutation && editEntity) {
+      // Accept both id and slug, prefer id if present, fallback to slug
+      const deleteId = (editEntity as any).id ?? (editEntity as any).slug;
+      await deleteMutation.mutateAsync(deleteId);
       setIsEditOpen(false);
     }
   };

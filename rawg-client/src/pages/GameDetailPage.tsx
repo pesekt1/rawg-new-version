@@ -12,31 +12,28 @@ import {
 } from "@chakra-ui/react";
 import ExpandableText from "../components/ExpandableText";
 import GameAttributes from "../domains/games/components/GameAttributes";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import ApiClient from "../services/api-client";
+import useDeleteGame from "../domains/games/useDeleteGame";
 import { useAuth } from "../domains/auth/useAuth";
 import GameScreenshots from "../domains/games/components/GameScreenshots";
 import GameTrailer from "../domains/games/components/GameTrailer";
 import StyledText from "../components/StyledText";
 import PlatformIconsList from "../domains/platforms/PlatformIconsList";
-
-const apiClient = new ApiClient<any>("/games");
+import { useQueryClient } from "@tanstack/react-query";
 
 const GameDetailPage = () => {
   const { slug } = useParams();
   const { data: game, isLoading, error } = useGame(slug!);
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const { isAuthenticated } = useAuth();
+  const queryClient = useQueryClient();
   const {
     mutate: deleteGame,
     isLoading: isDeleting,
     isError: isDeleteError,
     error: deleteError,
-  } = useMutation({
-    mutationFn: () => apiClient.delete(slug!),
+  } = useDeleteGame({
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["games"] }); // Add this line
+      queryClient.invalidateQueries({ queryKey: ["games"] });
       navigate("/");
     },
   });
@@ -67,7 +64,7 @@ const GameDetailPage = () => {
               colorScheme="red"
               variant="solid"
               size="sm"
-              onClick={() => deleteGame()}
+              onClick={() => deleteGame(game.slug)}
               isLoading={isDeleting}
             >
               Delete Game

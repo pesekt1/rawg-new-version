@@ -275,7 +275,7 @@ export const deleteGame = async (slug: string) => {
     throw new Error(`Game with slug "${slug}" not found`);
   }
   await gameRepository.remove(game);
-  return { message: "Game deleted successfully" };
+  // No need to return anything for 204
 };
 
 export const updateGame = async (slug: string, data: Partial<Game>) => {
