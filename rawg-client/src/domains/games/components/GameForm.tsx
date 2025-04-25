@@ -62,14 +62,6 @@ interface GameFormProps {
   successMessage: string;
 }
 
-function chunkArray<T>(arr: T[], n: number): T[][] {
-  const chunked: T[][] = [];
-  for (let i = 0; i < arr.length; i += n) {
-    chunked.push(arr.slice(i, i + n));
-  }
-  return chunked;
-}
-
 const GameForm = ({
   initialValues,
   genresData,
