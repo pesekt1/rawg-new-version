@@ -9,8 +9,6 @@ import axios from "axios";
 import { Trailer } from "./entities/Trailer";
 import { Repository } from "typeorm";
 import { Screenshot } from "./entities/Screenshot";
-import bcrypt from "bcryptjs";
-import { User } from "./entities/User";
 import { truncateAllTables } from "./utils/truncateAllTables";
 import { seedUser } from "./utils/seedUser";
 
