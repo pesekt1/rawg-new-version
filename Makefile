@@ -4,6 +4,10 @@ up:
 up-seeder:
 	docker compose up -d
 
+#Example: make up-seeder-pages GAME_PAGES=2
+up-seeder-pages:
+	docker compose up -d --scale seeder=1 --build --force-recreate -e GAME_PAGES=$(GAME_PAGES)
+
 down:
 	docker compose down
 
