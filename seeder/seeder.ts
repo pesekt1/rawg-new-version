@@ -11,7 +11,8 @@ import { Repository } from "typeorm";
 import { Screenshot } from "./entities/Screenshot";
 import bcrypt from "bcryptjs";
 import { User } from "./entities/User";
-import { truncateAllTables } from "./utils/truncateAllTables"; // <-- import the utility
+import { truncateAllTables } from "./utils/truncateAllTables";
+import { seedUser } from "./utils/seedUser"; // <-- import the new utility
 
 interface Response<T> {
   count: number;
@@ -106,46 +107,12 @@ async function fetchScreenshots(gameId: number): Promise<Screenshot[]> {
   }
 }
 
-async function seedUser() {
-  const userRepo = AppDataSource.getRepository(User);
-
-  // Seed regular user
-  const existingUser = await userRepo.findOneBy({ username: "user" });
-  if (!existingUser) {
-    const passwordHash = await bcrypt.hash("user", 10);
-    const user = userRepo.create({
-      username: "user",
-      passwordHash,
-      role: "user",
-    });
-    await userRepo.save(user);
-    console.log("Seeded user: user / user");
-  } else {
-    console.log("User already exists");
-  }
-
-  // Seed admin user
-  const existingAdmin = await userRepo.findOneBy({ username: "admin" });
-  if (!existingAdmin) {
-    const passwordHash = await bcrypt.hash("admin", 10);
-    const admin = userRepo.create({
-      username: "admin",
-      passwordHash,
-      role: "admin",
-    });
-    await userRepo.save(admin);
-    console.log("Seeded admin: admin / admin");
-  } else {
-    console.log("Admin already exists");
-  }
-}
-
 async function insertData() {
   await AppDataSource.initialize(); //initialize connection
 
-  await truncateAllTables(AppDataSource); // <-- call the imported utility
+  await truncateAllTables(AppDataSource);
 
-  await seedUser(); // <-- call the user seeder here
+  await seedUser(AppDataSource); // <-- call the imported utility
 
   //get data from games.json and parse it.
   const rawData = fs.readFileSync("games.json", "utf-8");
