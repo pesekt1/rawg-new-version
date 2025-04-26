@@ -11,9 +11,12 @@ export async function truncateAllTables(dataSource: DataSource) {
     [dbName]
   );
 
-  // Truncate each table
-  for (const { table_name } of tables) {
-    await dataSource.query(`TRUNCATE TABLE \`${table_name}\``);
+  // Filter out any undefined or falsy table names
+  const validTables = tables.map((t) => t.table_name).filter((name) => !!name);
+
+  // Truncate each valid table
+  for (const tableName of validTables) {
+    await dataSource.query(`TRUNCATE TABLE \`${tableName}\``);
   }
 
   // Re-enable foreign key checks
