@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { User } from "./User";
 
 function isTokenValid(token: string | null): boolean {
   if (!token) return false;
@@ -26,9 +27,7 @@ function getUserRole(token: string | null): string | null {
   }
 }
 
-function getUserFromToken(
-  token: string | null
-): { id: number; username: string; role: string } | null {
+function getUserFromToken(token: string | null): User | null {
   if (!token) return null;
   try {
     const [, payloadBase64] = token.split(".");

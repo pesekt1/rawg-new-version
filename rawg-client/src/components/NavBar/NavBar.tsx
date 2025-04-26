@@ -13,8 +13,9 @@ import {
 import logo from "../../assets/logo.webp";
 
 import { Link } from "react-router-dom";
-import { FiUser } from "react-icons/fi";
+import { FiUser, FiUserPlus } from "react-icons/fi";
 import LoginModal from "../../domains/auth/LoginModal";
+import RegisterModal from "../../domains/auth/RegisterModal";
 import { useAuth } from "../../domains/auth/useAuth";
 import useGameQueryStore from "../../state";
 import ColorModeSwitch from "./ColorModeSwitch";
@@ -22,7 +23,16 @@ import SearchInput from "./SearchInput";
 
 const NavBar = () => {
   const resetGameQuery = useGameQueryStore((state) => state.reset);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isLoginOpen,
+    onOpen: onLoginOpen,
+    onClose: onLoginClose,
+  } = useDisclosure();
+  const {
+    isOpen: isRegisterOpen,
+    onOpen: onRegisterOpen,
+    onClose: onRegisterClose,
+  } = useDisclosure();
   const { isAuthenticated, logout, role } = useAuth();
 
   return (
@@ -67,18 +77,30 @@ const NavBar = () => {
             </MenuList>
           </Menu>
         ) : (
-          <Tooltip label="Login">
-            <IconButton
-              aria-label="Login"
-              icon={<FiUser />}
-              onClick={onOpen}
-              colorScheme="gray"
-              variant="outline"
-            />
-          </Tooltip>
+          <>
+            <Tooltip label="Login">
+              <IconButton
+                aria-label="Login"
+                icon={<FiUser />}
+                onClick={onLoginOpen}
+                colorScheme="gray"
+                variant="outline"
+              />
+            </Tooltip>
+            <Tooltip label="Register">
+              <IconButton
+                aria-label="Register"
+                icon={<FiUserPlus />}
+                onClick={onRegisterOpen}
+                colorScheme="gray"
+                variant="outline"
+              />
+            </Tooltip>
+          </>
         )}
       </HStack>
-      <LoginModal isOpen={isOpen} onClose={onClose} />
+      <LoginModal isOpen={isLoginOpen} onClose={onLoginClose} />
+      <RegisterModal isOpen={isRegisterOpen} onClose={onRegisterClose} />
     </HStack>
   );
 };
