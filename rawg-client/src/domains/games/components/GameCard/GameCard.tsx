@@ -9,6 +9,7 @@ import Emoji from "./Emoji";
 import useScreenshots from "../../../screenshots/useScreenshots";
 import ScreenshotPanel from "./ScreenshotPanel/ScreenshotPanel";
 import WishListIcon from "./WishListIcon";
+import GameLibraryIcon from "./GameLibraryIcon";
 import { useAuth } from "../../../auth/useAuth";
 
 interface Props {
@@ -41,6 +42,12 @@ const GameCard = ({ game }: Props) => {
     !!user &&
     Array.isArray(game.wishlistedBy) &&
     game.wishlistedBy.some((u) => u.id === user.id);
+
+  // Check if the current user has this game in their library
+  const initialInLibrary =
+    !!user &&
+    Array.isArray(game.inLibraryOf) &&
+    game.inLibraryOf.some((u) => u.id === user.id);
 
   return (
     <Card
@@ -78,10 +85,14 @@ const GameCard = ({ game }: Props) => {
             <Emoji rating_top={game.rating_top} />
           </HStack>
         </Heading>
-        <Box mt={2}>
+        <Box mt={2} display="flex" gap={2}>
           <WishListIcon
             gameId={game.id}
             initialInWishlist={initialInWishlist}
+          />
+          <GameLibraryIcon
+            gameId={game.id}
+            initialInLibrary={initialInLibrary}
           />
         </Box>
       </CardBody>

@@ -7,7 +7,8 @@ interface GameQuery {
   publisherId?: number;
   sortOrder: string;
   searchText: string;
-  wishlistId?: number; // add this line
+  wishlistId?: number;
+  libraryId?: number;
 }
 
 interface GameQueryStore {
@@ -18,7 +19,8 @@ interface GameQueryStore {
   setPublisherId: (publisherId?: number) => void;
   setSortOrder: (sortOrder: string) => void;
   setSearchText: (searchText: string) => void;
-  setWishlistId: (wishlistId?: number) => void; // add this line
+  setWishlistId: (wishlistId?: number) => void;
+  setLibraryId: (libraryId?: number) => void;
   reset: () => void;
 }
 
@@ -74,6 +76,16 @@ const useGameQueryStore = create<GameQueryStore>((set) => ({
     set(() => ({
       gameQuery: {
         wishlistId,
+        libraryId: undefined,
+        sortOrder: "",
+        searchText: "",
+      },
+    })),
+  setLibraryId: (libraryId) =>
+    set(() => ({
+      gameQuery: {
+        libraryId,
+        wishlistId: undefined,
         sortOrder: "",
         searchText: "",
       },
