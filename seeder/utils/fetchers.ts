@@ -4,6 +4,8 @@ import { Trailer } from "../entities/Trailer";
 import { Screenshot } from "../entities/Screenshot";
 import { Repository } from "typeorm";
 import { Game } from "../entities/Game";
+import { ParentPlatform } from "../entities/ParentPlatform";
+import { Store } from "../entities/Store";
 
 interface Response<T> {
   count: number;
@@ -21,6 +23,12 @@ interface TrailerOriginal {
     max: string;
   };
 }
+
+// Define a type for the RAWG API game structure
+type GameOriginal = Omit<Game, "parent_platforms" | "stores"> & {
+  parent_platforms: { platform: ParentPlatform }[];
+  stores: { store: Store }[];
+};
 
 export async function fetchDescription(slug: string): Promise<string> {
   const apiKey = process.env.RAWG_API_KEY;
@@ -92,10 +100,10 @@ export async function fetchScreenshots(gameId: number): Promise<Screenshot[]> {
   }
 }
 
-export async function fetchGamesPage(page: number = 1): Promise<any[]> {
+export async function fetchGames(page: number = 1): Promise<GameOriginal[]> {
   const apiKey = process.env.RAWG_API_KEY;
   try {
-    const response = await axios.get(
+    const response = await axios.get<Response<GameOriginal>>(
       `https://api.rawg.io/api/games?key=${apiKey}&page=${page}&page_size=40`
     );
     return response.data.results || [];

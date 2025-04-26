@@ -7,18 +7,12 @@ import { Publisher } from "../entities/Publisher";
 import { Trailer } from "../entities/Trailer";
 import { Screenshot } from "../entities/Screenshot";
 import {
+  fetchGames,
   fetchDescription,
   fetchPublishers,
   fetchTrailers,
   fetchScreenshots,
-  fetchGamesPage,
 } from "./fetchers";
-
-// Define GameOriginal type for mapping
-type GameOriginal = Omit<Game, "parent_platforms" | "stores"> & {
-  parent_platforms: { platform: ParentPlatform }[];
-  stores: { store: Store }[];
-};
 
 export async function seedGames(dataSource: DataSource) {
   const gameRepo = dataSource.getRepository(Game);
@@ -29,14 +23,14 @@ export async function seedGames(dataSource: DataSource) {
   const trailerRepo = dataSource.getRepository(Trailer);
   const screenshotRepo = dataSource.getRepository(Screenshot);
 
-  // Fetch games from API (first page, 40 games)
-  const gamesOriginalData: GameOriginal[] = await fetchGamesPage(1);
+  // Fetch games from API
+  const gamesOriginalData = await fetchGames(1);
 
-  // Map to entity structure
+  // Map to your entity structure
   const gamesData: Game[] = gamesOriginalData.map((game) => ({
     ...game,
-    parent_platforms: game.parent_platforms.map((p) => p.platform),
-    stores: game.stores.map((s) => s.store),
+    parent_platforms: game.parent_platforms?.map((p) => p.platform) || [],
+    stores: game.stores?.map((s) => s.store) || [],
   }));
 
   for (const game of gamesData) {
