@@ -100,15 +100,18 @@ export async function fetchScreenshots(gameId: number): Promise<Screenshot[]> {
   }
 }
 
-export async function fetchGames(page: number = 1): Promise<GameOriginal[]> {
+export async function fetchGames(pages: number = 1): Promise<GameOriginal[]> {
   const apiKey = process.env.RAWG_API_KEY;
-  try {
-    const response = await axios.get<Response<GameOriginal>>(
-      `https://api.rawg.io/api/games?key=${apiKey}&page=${page}&page_size=40`
-    );
-    return response.data.results || [];
-  } catch (error) {
-    console.error(`Failed to fetch games page ${page}`, error);
-    return [];
+  const allGames: GameOriginal[] = [];
+  for (let page = 1; page <= pages; page++) {
+    try {
+      const response = await axios.get<Response<GameOriginal>>(
+        `https://api.rawg.io/api/games?key=${apiKey}&page=${page}&page_size=40`
+      );
+      allGames.push(...(response.data.results || []));
+    } catch (error) {
+      console.error(`Failed to fetch games page ${page}`, error);
+    }
   }
+  return allGames;
 }
