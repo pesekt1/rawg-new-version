@@ -31,7 +31,7 @@ const ScreenshotGallery = ({
 }: ScreenshotGalleryProps) => {
   const [current, setCurrent] = useState(initialIndex);
 
-  // Reset to initialIndex when opened
+  // Reset to initialIndex when opened - local UI state
   useEffect(() => {
     if (isOpen) setCurrent(initialIndex);
   }, [isOpen, initialIndex]);
