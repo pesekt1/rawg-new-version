@@ -160,9 +160,12 @@ const buildGameQuery = (req: any) => {
     : undefined;
   const publisherId = req.query.publishers
     ? Number(req.query.publishers)
-    : undefined; // <-- add this
+    : undefined;
   const wishlistUserId = req.query.wishlistId
     ? Number(req.query.wishlistId)
+    : undefined;
+  const libraryUserId = req.query.libraryId
+    ? Number(req.query.libraryId)
     : undefined;
   const ordering = req.query.ordering ? String(req.query.ordering) : undefined;
   const search = req.query.search
@@ -182,7 +185,7 @@ const buildGameQuery = (req: any) => {
   addParentPlatformFilter(queryBuilder, parentPlatformId);
   addPublisherFilter(queryBuilder, publisherId);
   addWishlistFilter(queryBuilder, wishlistUserId);
-  addGameLibraryFilter(queryBuilder, req.query.libraryId);
+  addGameLibraryFilter(queryBuilder, libraryUserId);
   addOrdering(queryBuilder, ordering);
   addSearch(queryBuilder, search);
 
