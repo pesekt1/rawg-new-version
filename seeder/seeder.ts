@@ -5,29 +5,17 @@ import { Genre } from "./entities/Genre";
 import { ParentPlatform } from "./entities/ParentPlatform";
 import { Store } from "./entities/Store";
 import { Publisher } from "./entities/Publisher";
-import axios from "axios";
 import { Trailer } from "./entities/Trailer";
-import { Repository } from "typeorm";
 import { Screenshot } from "./entities/Screenshot";
 import { truncateAllTables } from "./utils/truncateAllTables";
 import { seedUser } from "./utils/seedUser";
-
-interface Response<T> {
-  count: number;
-  next: string | null;
-  previous: string | null;
-  results: T[];
-}
-
-interface TrailerOriginal {
-  id: number;
-  name: string;
-  preview: string;
-  data: {
-    "480": string;
-    max: string;
-  };
-}
+import {
+  fetchDescription,
+  fetchPublishers,
+  fetchTrailers,
+  fetchScreenshots,
+} from "./utils/fetchers";
+import { Repository } from "typeorm";
 
 //We need this because the original data has a different structure
 type GameOriginal = Omit<Game, "parent_platforms" | "stores"> & {
@@ -35,105 +23,16 @@ type GameOriginal = Omit<Game, "parent_platforms" | "stores"> & {
   stores: { store: Store }[];
 };
 
-async function fetchDescription(slug: string): Promise<string> {
-  const apiKey = process.env.RAWG_API_KEY;
-  try {
-    const response = await axios.get(
-      `https://api.rawg.io/api/games/${slug}?key=${apiKey}`
-    );
-    const description_raw =
-      response.data.description_raw || "No description available.";
-    return description_raw;
-  } catch (error) {
-    console.error(`Failed to fetch description for slug: ${slug}`, error);
-    return "No description available.";
-  }
-}
-
-async function fetchPublishers(slug: string): Promise<Publisher[]> {
-  const apiKey = process.env.RAWG_API_KEY;
-  try {
-    const response = await axios.get<Game>(
-      `https://api.rawg.io/api/games/${slug}?key=${apiKey}`
-    );
-    const publishers = response.data.publishers || [];
-    return publishers;
-  } catch (error) {
-    console.error(`Failed to fetch publishers for slug: ${slug}`, error);
-    return [];
-  }
-}
-
-async function fetchTrailers(
-  gameId: number,
-  trailerRepo: Repository<Trailer>
-): Promise<Trailer[]> {
-  const apiKey = process.env.RAWG_API_KEY;
-  try {
-    const response = await axios.get<Response<TrailerOriginal>>(
-      `https://api.rawg.io/api/games/${gameId}/movies?key=${apiKey}`
-    );
-    const trailers = response.data.results || []; // Fallback to an empty array if no results
-
-    // Use TypeORM's create method to ensure proper entity management
-    return trailers.map((trailer) =>
-      trailerRepo.create({
-        id: trailer.id,
-        name: trailer.name,
-        preview: trailer.preview,
-        data480: trailer.data["480"],
-        dataMax: trailer.data["max"],
-      })
-    );
-  } catch (error) {
-    console.error(`Failed to fetch trailers for game ID: ${gameId}`, error);
-    return []; // Return an empty array if the API call fails
-  }
-}
-
-async function fetchScreenshots(gameId: number): Promise<Screenshot[]> {
-  const apiKey = process.env.RAWG_API_KEY;
-  try {
-    const response = await axios.get<Response<Screenshot>>(
-      `https://api.rawg.io/api/games/${gameId}/screenshots?key=${apiKey}`
-    );
-    const screenshots = response.data.results || []; // Fallback to an empty array if no results
-    return screenshots;
-  } catch (error) {
-    console.error(`Failed to fetch screenshots for game ID: ${gameId}`, error);
-    return []; // Return an empty array if the API call fails
-  }
-}
-
-async function insertData() {
-  await AppDataSource.initialize(); //initialize connection
-
-  await truncateAllTables(AppDataSource);
-
-  await seedUser(AppDataSource); // <-- call the imported utility
-
-  //get data from games.json and parse it.
-  const rawData = fs.readFileSync("games.json", "utf-8");
-  const parsedData = JSON.parse(rawData);
-  const gamesOriginalData: GameOriginal[] = parsedData.results;
-
-  //transform original data to match our entities
-  const gamesData: Game[] = gamesOriginalData.map((game) => ({
-    ...game,
-    parent_platforms: game.parent_platforms.map((p) => p.platform),
-    stores: game.stores.map((s) => s.store),
-  }));
-
-  //create repository instances for CRUD operations on entities
-  const gameRepo = AppDataSource.getRepository(Game);
-  const genreRepo = AppDataSource.getRepository(Genre);
-  const platformRepo = AppDataSource.getRepository(ParentPlatform);
-  const storeRepo = AppDataSource.getRepository(Store);
-  const publisherRepo = AppDataSource.getRepository(Publisher);
-  const trailerRepo = AppDataSource.getRepository(Trailer);
-  const screenshotRepo = AppDataSource.getRepository(Screenshot);
-
-  //loop through the games and insert data in all tables
+async function seedGames(
+  gamesData: Game[],
+  gameRepo: Repository<Game>,
+  genreRepo: Repository<Genre>,
+  platformRepo: Repository<ParentPlatform>,
+  storeRepo: Repository<Store>,
+  publisherRepo: Repository<Publisher>,
+  trailerRepo: Repository<Trailer>,
+  screenshotRepo: Repository<Screenshot>
+) {
   for (const game of gamesData) {
     // Fetch publishers for the current game
     game.publishers = await fetchPublishers(game.slug);
@@ -213,6 +112,43 @@ async function insertData() {
       );
     }
   }
+}
+
+async function insertData() {
+  await AppDataSource.initialize(); //initialize connection
+
+  await truncateAllTables(AppDataSource);
+  await seedUser(AppDataSource); // <-- call the imported utility
+
+  //get data from games.json and parse it.
+  const rawData = fs.readFileSync("games.json", "utf-8");
+  const parsedData = JSON.parse(rawData);
+  const gamesOriginalData: GameOriginal[] = parsedData.results;
+  const gamesData: Game[] = gamesOriginalData.map((game) => ({
+    ...game,
+    parent_platforms: game.parent_platforms.map((p) => p.platform),
+    stores: game.stores.map((s) => s.store),
+  }));
+
+  //create repository instances for CRUD operations on entities
+  const gameRepo = AppDataSource.getRepository(Game);
+  const genreRepo = AppDataSource.getRepository(Genre);
+  const platformRepo = AppDataSource.getRepository(ParentPlatform);
+  const storeRepo = AppDataSource.getRepository(Store);
+  const publisherRepo = AppDataSource.getRepository(Publisher);
+  const trailerRepo = AppDataSource.getRepository(Trailer);
+  const screenshotRepo = AppDataSource.getRepository(Screenshot);
+
+  await seedGames(
+    gamesData,
+    gameRepo,
+    genreRepo,
+    platformRepo,
+    storeRepo,
+    publisherRepo,
+    trailerRepo,
+    screenshotRepo
+  );
 
   console.log("Seeding completed successfully.");
   //terminate the process
