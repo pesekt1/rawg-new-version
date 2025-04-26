@@ -19,10 +19,14 @@ const GameCard = ({ game }: Props) => {
   const { data: screenshotsData } = useScreenshots(game.id);
   const screenshots = screenshotsData?.results?.slice(0, 4) || [];
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false); // <-- add hover state
 
   const { user } = useAuth();
 
-  const handleMouseLeave = () => setCurrentIndex(0);
+  const handleMouseLeave = () => {
+    setCurrentIndex(0);
+    setIsHovered(false); // <-- reset hover state
+  };
 
   const displayImage = useMemo(
     () =>
@@ -47,17 +51,19 @@ const GameCard = ({ game }: Props) => {
         transform: "scale(1.05)",
         filter: "brightness(1.2)",
       }}
+      onMouseEnter={() => setIsHovered(true)} // <-- set hover state
       onMouseLeave={handleMouseLeave}
     >
       <Box position="relative">
         <Image src={displayImage} w="100%" h="220px" objectFit="cover" />
-        {screenshots.length > 0 && (
-          <ScreenshotPanel
-            screenshots={screenshots}
-            currentIndex={currentIndex}
-            setCurrentIndex={setCurrentIndex}
-          />
-        )}
+        {screenshots.length > 0 &&
+          isHovered && ( // <-- show only on hover
+            <ScreenshotPanel
+              screenshots={screenshots}
+              currentIndex={currentIndex}
+              setCurrentIndex={setCurrentIndex}
+            />
+          )}
       </Box>
       <CardBody p={4}>
         <HStack justifyContent="space-between">
