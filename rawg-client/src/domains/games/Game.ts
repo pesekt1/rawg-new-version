@@ -16,4 +16,5 @@ export interface Game {
   publishers: Publisher[];
   stores: Store[];
   released: string;
+  wishlistedBy?: { id: number; username: string }[]; // add this line
 }

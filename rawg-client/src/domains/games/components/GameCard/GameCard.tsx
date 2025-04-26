@@ -8,6 +8,8 @@ import PlatformIconsList from "../../../platforms/PlatformIconsList";
 import Emoji from "./Emoji";
 import useScreenshots from "../../../screenshots/useScreenshots";
 import ScreenshotPanel from "./ScreenshotPanel/ScreenshotPanel";
+import WishListIcon from "./WishListIcon";
+import { useAuth } from "../../../auth/useAuth";
 
 interface Props {
   game: Game;
@@ -18,6 +20,8 @@ const GameCard = ({ game }: Props) => {
   const screenshots = screenshotsData?.results?.slice(0, 4) || [];
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const { user } = useAuth();
+
   const handleMouseLeave = () => setCurrentIndex(0);
 
   const displayImage = useMemo(
@@ -27,6 +31,12 @@ const GameCard = ({ game }: Props) => {
         : getCroppedImageUrl(screenshots[currentIndex - 1]?.image),
     [currentIndex, screenshots, game.background_image]
   );
+
+  // Check if the current user has wishlisted this game
+  const initialInWishlist =
+    !!user &&
+    Array.isArray(game.wishlistedBy) &&
+    game.wishlistedBy.some((u) => u.id === user.id);
 
   return (
     <Card
@@ -62,6 +72,12 @@ const GameCard = ({ game }: Props) => {
             <Emoji rating_top={game.rating_top} />
           </HStack>
         </Heading>
+        <Box mt={2}>
+          <WishListIcon
+            gameId={game.id}
+            initialInWishlist={initialInWishlist}
+          />
+        </Box>
       </CardBody>
     </Card>
   );

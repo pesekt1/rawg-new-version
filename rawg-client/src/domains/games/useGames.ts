@@ -19,6 +19,7 @@ const useGames = () => {
           ordering: gameQuery.sortOrder,
           search: gameQuery.searchText,
           page: pageParam,
+          ...(gameQuery.wishlistId ? { wishlistId: gameQuery.wishlistId } : {}),
         },
       }),
     getNextPageParam: (lastPage, allPages) => {

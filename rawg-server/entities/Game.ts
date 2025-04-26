@@ -12,6 +12,7 @@ import { Store } from "./Store";
 import { Publisher } from "./Publisher";
 import { Trailer } from "./Trailer";
 import { Screenshot } from "./Screenshot";
+import { User } from "./User";
 
 @Entity("games")
 export class Game {
@@ -60,6 +61,9 @@ export class Game {
   @ManyToMany(() => Publisher, (publisher) => publisher.games)
   @JoinTable()
   publishers: Publisher[];
+
+  @ManyToMany(() => User, (user) => user.wishlist)
+  wishlistedBy: User[];
 
   @OneToMany(() => Trailer, (trailer) => trailer.game)
   trailers: Trailer[];

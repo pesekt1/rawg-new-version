@@ -8,6 +8,7 @@ import PublisherList from "../domains/publishers/PublisherList";
 import AddGameButton from "../domains/games/components/AddGameButton";
 import GameGrid from "../domains/games/components/GameGrid";
 import { useAuth } from "../domains/auth/useAuth";
+import UserPanel from "../domains/user/UserPanel";
 
 const HomePage = () => {
   const { role } = useAuth();
@@ -21,6 +22,7 @@ const HomePage = () => {
     >
       <Show above="lg">
         <GridItem area={"aside"}>
+          <UserPanel />
           <GenreList />
           <StoreList />
           <PublisherList />

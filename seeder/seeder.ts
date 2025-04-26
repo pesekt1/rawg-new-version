@@ -107,8 +107,10 @@ async function fetchScreenshots(gameId: number): Promise<Screenshot[]> {
 
 async function seedUser() {
   const userRepo = AppDataSource.getRepository(User);
-  const existing = await userRepo.findOneBy({ username: "user" });
-  if (!existing) {
+
+  // Seed regular user
+  const existingUser = await userRepo.findOneBy({ username: "user" });
+  if (!existingUser) {
     const passwordHash = await bcrypt.hash("user", 10);
     const user = userRepo.create({
       username: "user",
@@ -119,6 +121,21 @@ async function seedUser() {
     console.log("Seeded user: user / user");
   } else {
     console.log("User already exists");
+  }
+
+  // Seed admin user
+  const existingAdmin = await userRepo.findOneBy({ username: "admin" });
+  if (!existingAdmin) {
+    const passwordHash = await bcrypt.hash("admin", 10);
+    const admin = userRepo.create({
+      username: "admin",
+      passwordHash,
+      role: "admin",
+    });
+    await userRepo.save(admin);
+    console.log("Seeded admin: admin / admin");
+  } else {
+    console.log("Admin already exists");
   }
 }
 

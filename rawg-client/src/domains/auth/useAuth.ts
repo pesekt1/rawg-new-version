@@ -26,6 +26,24 @@ function getUserRole(token: string | null): string | null {
   }
 }
 
+function getUserFromToken(
+  token: string | null
+): { id: number; username: string; role: string } | null {
+  if (!token) return null;
+  try {
+    const [, payloadBase64] = token.split(".");
+    if (!payloadBase64) return null;
+    const payloadJson = atob(payloadBase64);
+    const payload = JSON.parse(payloadJson);
+    // Use userId if present, otherwise id
+    const id = payload.userId ?? payload.id;
+    if (!id || !payload.username) return null;
+    return { id, username: payload.username, role: payload.role };
+  } catch (e) {
+    return null;
+  }
+}
+
 export function useAuth() {
   const [token, setToken] = useState(() => {
     const t = localStorage.getItem("token");
@@ -44,6 +62,7 @@ export function useAuth() {
 
   const isAuthenticated = isTokenValid(token);
   const role = getUserRole(token);
+  const user = getUserFromToken(token);
 
-  return { token, saveToken, logout, isAuthenticated, role };
+  return { token, saveToken, logout, isAuthenticated, role, user };
 }

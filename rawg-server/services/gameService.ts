@@ -1,7 +1,6 @@
 import { SelectQueryBuilder } from "typeorm";
 import { Game } from "../entities/Game";
 import { AppDataSource } from "../startup/data-source";
-import { Trailer } from "../entities/Trailer";
 
 const gameRepository = AppDataSource.getRepository(Game);
 
@@ -77,6 +76,24 @@ const addPublisherFilter = (
   }
 };
 
+const addWishlistFilter = (
+  queryBuilder: SelectQueryBuilder<Game>,
+  wishlistUserId: number | undefined
+) => {
+  if (wishlistUserId) {
+    // Only select games wishlisted by the user
+    queryBuilder.innerJoinAndSelect(
+      "game.wishlistedBy",
+      "wishlistedBy",
+      "wishlistedBy.id = :wishlistUserId",
+      { wishlistUserId }
+    );
+  } else {
+    // Select all wishlistedBy for all games
+    queryBuilder.leftJoinAndSelect("game.wishlistedBy", "wishlistedBy");
+  }
+};
+
 const addOrdering = (
   queryBuilder: SelectQueryBuilder<Game>,
   ordering: String | undefined
@@ -125,6 +142,9 @@ const buildGameQuery = (req: any) => {
   const publisherId = req.query.publishers
     ? Number(req.query.publishers)
     : undefined; // <-- add this
+  const wishlistUserId = req.query.wishlistId
+    ? Number(req.query.wishlistId)
+    : undefined;
   const ordering = req.query.ordering ? String(req.query.ordering) : undefined;
   const search = req.query.search
     ? String(req.query.search).toLowerCase()
@@ -136,12 +156,13 @@ const buildGameQuery = (req: any) => {
     .leftJoinAndSelect("game.genres", "genres")
     .leftJoinAndSelect("game.parent_platforms", "parent_platforms")
     .leftJoinAndSelect("game.stores", "stores")
-    .leftJoinAndSelect("game.publishers", "publishers"); // ensure publishers are joined
+    .leftJoinAndSelect("game.publishers", "publishers");
 
   addGenreFilter(queryBuilder, genreId);
   addStoreFilter(queryBuilder, storeId);
   addParentPlatformFilter(queryBuilder, parentPlatformId);
-  addPublisherFilter(queryBuilder, publisherId); // <-- add this
+  addPublisherFilter(queryBuilder, publisherId);
+  addWishlistFilter(queryBuilder, wishlistUserId); // <-- fixed logic
   addOrdering(queryBuilder, ordering);
   addSearch(queryBuilder, search);
 
@@ -154,6 +175,9 @@ const modifyGameResponse = (games: Game[]) => {
     parent_platforms: game.parent_platforms?.map((parent_platform) => ({
       platform: parent_platform,
     })),
+    wishlistedBy: game.wishlistedBy
+      ? game.wishlistedBy.map((u) => ({ id: u.id, username: u.username }))
+      : [],
   }));
 };
 
@@ -167,6 +191,8 @@ export const getGames = async (req: any) => {
     : DEFAULT_PAGE_SIZE;
 
   const queryBuilder = buildGameQuery(req);
+  // Remove .leftJoinAndSelect("game.wishlistedBy", "wishlistedBy") here,
+  // as it's now handled in addWishlistFilter
   queryBuilder.skip((page - 1) * pageSize).take(pageSize);
 
   const [games, total] = await queryBuilder.getManyAndCount();
@@ -191,6 +217,7 @@ export const getGame = async (id: number) => {
     .leftJoinAndSelect("game.parent_platforms", "parent_platforms")
     .leftJoinAndSelect("game.stores", "stores")
     .leftJoinAndSelect("game.publishers", "publishers")
+    .leftJoinAndSelect("game.wishlistedBy", "wishlistedBy")
     .where("game.id = :id", { id })
     .getOne();
 
@@ -203,13 +230,16 @@ export const getGame = async (id: number) => {
     parent_platforms: game.parent_platforms?.map((parent_platform) => ({
       platform: parent_platform,
     })),
+    wishlistedBy: game.wishlistedBy
+      ? game.wishlistedBy.map((u) => ({ id: u.id, username: u.username }))
+      : [],
   };
 };
 
 export const getTrailers = async (gameId: number) => {
   const game = await gameRepository
     .createQueryBuilder("game")
-    .leftJoinAndSelect("game.trailers", "trailers") // Assuming a relation exists
+    .leftJoinAndSelect("game.trailers", "trailers")
     .where("game.id = :gameId", { gameId })
     .getOne();
 
