@@ -12,7 +12,7 @@ import { Screenshot } from "./entities/Screenshot";
 import bcrypt from "bcryptjs";
 import { User } from "./entities/User";
 import { truncateAllTables } from "./utils/truncateAllTables";
-import { seedUser } from "./utils/seedUser"; // <-- import the new utility
+import { seedUser } from "./utils/seedUser";
 
 interface Response<T> {
   count: number;
