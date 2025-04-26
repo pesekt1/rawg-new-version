@@ -1,3 +1,4 @@
+import { DataSource } from "typeorm";
 import { Game } from "../entities/Game";
 import { Genre } from "../entities/Genre";
 import { ParentPlatform } from "../entities/ParentPlatform";
@@ -5,24 +6,39 @@ import { Store } from "../entities/Store";
 import { Publisher } from "../entities/Publisher";
 import { Trailer } from "../entities/Trailer";
 import { Screenshot } from "../entities/Screenshot";
-import { Repository } from "typeorm";
 import {
   fetchDescription,
   fetchPublishers,
   fetchTrailers,
   fetchScreenshots,
+  fetchGamesPage,
 } from "./fetchers";
 
-export async function seedGames(
-  gamesData: Game[],
-  gameRepo: Repository<Game>,
-  genreRepo: Repository<Genre>,
-  platformRepo: Repository<ParentPlatform>,
-  storeRepo: Repository<Store>,
-  publisherRepo: Repository<Publisher>,
-  trailerRepo: Repository<Trailer>,
-  screenshotRepo: Repository<Screenshot>
-) {
+// Define GameOriginal type for mapping
+type GameOriginal = Omit<Game, "parent_platforms" | "stores"> & {
+  parent_platforms: { platform: ParentPlatform }[];
+  stores: { store: Store }[];
+};
+
+export async function seedGames(dataSource: DataSource) {
+  const gameRepo = dataSource.getRepository(Game);
+  const genreRepo = dataSource.getRepository(Genre);
+  const platformRepo = dataSource.getRepository(ParentPlatform);
+  const storeRepo = dataSource.getRepository(Store);
+  const publisherRepo = dataSource.getRepository(Publisher);
+  const trailerRepo = dataSource.getRepository(Trailer);
+  const screenshotRepo = dataSource.getRepository(Screenshot);
+
+  // Fetch games from API (first page, 40 games)
+  const gamesOriginalData: GameOriginal[] = await fetchGamesPage(1);
+
+  // Map to entity structure
+  const gamesData: Game[] = gamesOriginalData.map((game) => ({
+    ...game,
+    parent_platforms: game.parent_platforms.map((p) => p.platform),
+    stores: game.stores.map((s) => s.store),
+  }));
+
   for (const game of gamesData) {
     // Fetch publishers for the current game
     game.publishers = await fetchPublishers(game.slug);

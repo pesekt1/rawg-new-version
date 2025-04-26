@@ -91,3 +91,16 @@ export async function fetchScreenshots(gameId: number): Promise<Screenshot[]> {
     return []; // Return an empty array if the API call fails
   }
 }
+
+export async function fetchGamesPage(page: number = 1): Promise<any[]> {
+  const apiKey = process.env.RAWG_API_KEY;
+  try {
+    const response = await axios.get(
+      `https://api.rawg.io/api/games?key=${apiKey}&page=${page}&page_size=40`
+    );
+    return response.data.results || [];
+  } catch (error) {
+    console.error(`Failed to fetch games page ${page}`, error);
+    return [];
+  }
+}
