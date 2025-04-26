@@ -11,6 +11,7 @@ import { Repository } from "typeorm";
 import { Screenshot } from "./entities/Screenshot";
 import bcrypt from "bcryptjs";
 import { User } from "./entities/User";
+import { truncateAllTables } from "./utils/truncateAllTables"; // <-- import the utility
 
 interface Response<T> {
   count: number;
@@ -139,30 +140,10 @@ async function seedUser() {
   }
 }
 
-async function truncateAllTables() {
-  // Disable foreign key checks
-  await AppDataSource.query("SET FOREIGN_KEY_CHECKS = 0");
-
-  // Get all table names in the current database
-  const dbName = (await AppDataSource.query("SELECT DATABASE() AS db"))[0].db;
-  const tables: { table_name: string }[] = await AppDataSource.query(
-    `SELECT table_name FROM information_schema.tables WHERE table_schema = ?`,
-    [dbName]
-  );
-
-  // Truncate each table
-  for (const { table_name } of tables) {
-    await AppDataSource.query(`TRUNCATE TABLE \`${table_name}\``);
-  }
-
-  // Re-enable foreign key checks
-  await AppDataSource.query("SET FOREIGN_KEY_CHECKS = 1");
-}
-
 async function insertData() {
   await AppDataSource.initialize(); //initialize connection
 
-  await truncateAllTables(); // <-- call this before seeding
+  await truncateAllTables(AppDataSource); // <-- call the imported utility
 
   await seedUser(); // <-- call the user seeder here
 
