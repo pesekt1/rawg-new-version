@@ -14,6 +14,11 @@ import {
   fetchScreenshots,
 } from "./fetchers";
 
+//number of pages to fetch from the API
+const GAME_PAGES = process.env.GAME_PAGES
+  ? parseInt(process.env.GAME_PAGES)
+  : undefined;
+
 export async function seedGames(dataSource: DataSource) {
   const gameRepo = dataSource.getRepository(Game);
   const genreRepo = dataSource.getRepository(Genre);
@@ -24,7 +29,7 @@ export async function seedGames(dataSource: DataSource) {
   const screenshotRepo = dataSource.getRepository(Screenshot);
 
   // Fetch games from API
-  const gamesOriginalData = await fetchGames(1);
+  const gamesOriginalData = await fetchGames(GAME_PAGES);
 
   // Map to your entity structure
   const gamesData: Game[] = gamesOriginalData.map((game) => ({
