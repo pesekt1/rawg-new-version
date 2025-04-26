@@ -6,6 +6,7 @@ import gameRouter from "../routes/GameRouter";
 import publisherRouter from "../routes/publisherRouter";
 import authRouter from "../routes/authRouter"; // add this import
 import wishlistRouter from "../routes/wishlistRouter";
+import gameLibraryRouter from "../routes/gameLibraryRouter";
 
 const setupRouters = (app: express.Application) => {
   app.use("/genres", genreRouter);
@@ -15,6 +16,7 @@ const setupRouters = (app: express.Application) => {
   app.use("/publishers", publisherRouter);
   app.use("/auth", authRouter); // add this line
   app.use("/wishlist", wishlistRouter);
+  app.use("/library", gameLibraryRouter);
 };
 
 export default setupRouters;

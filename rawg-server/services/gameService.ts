@@ -94,6 +94,25 @@ const addWishlistFilter = (
   }
 };
 
+// Add game library filter
+const addGameLibraryFilter = (
+  queryBuilder: SelectQueryBuilder<Game>,
+  libraryUserId: number | undefined
+) => {
+  if (libraryUserId) {
+    // Only select games in the user's library
+    queryBuilder.innerJoinAndSelect(
+      "game.inLibraryOf",
+      "inLibraryOf",
+      "inLibraryOf.id = :libraryUserId",
+      { libraryUserId }
+    );
+  } else {
+    // Select all inLibraryOf for all games
+    queryBuilder.leftJoinAndSelect("game.inLibraryOf", "inLibraryOf");
+  }
+};
+
 const addOrdering = (
   queryBuilder: SelectQueryBuilder<Game>,
   ordering: String | undefined
@@ -162,7 +181,8 @@ const buildGameQuery = (req: any) => {
   addStoreFilter(queryBuilder, storeId);
   addParentPlatformFilter(queryBuilder, parentPlatformId);
   addPublisherFilter(queryBuilder, publisherId);
-  addWishlistFilter(queryBuilder, wishlistUserId); // <-- fixed logic
+  addWishlistFilter(queryBuilder, wishlistUserId);
+  addGameLibraryFilter(queryBuilder, req.query.libraryId);
   addOrdering(queryBuilder, ordering);
   addSearch(queryBuilder, search);
 
@@ -177,6 +197,9 @@ const modifyGameResponse = (games: Game[]) => {
     })),
     wishlistedBy: game.wishlistedBy
       ? game.wishlistedBy.map((u) => ({ id: u.id, username: u.username }))
+      : [],
+    inLibraryOf: game.inLibraryOf
+      ? game.inLibraryOf.map((u) => ({ id: u.id, username: u.username }))
       : [],
   }));
 };
@@ -218,6 +241,7 @@ export const getGame = async (id: number) => {
     .leftJoinAndSelect("game.stores", "stores")
     .leftJoinAndSelect("game.publishers", "publishers")
     .leftJoinAndSelect("game.wishlistedBy", "wishlistedBy")
+    .leftJoinAndSelect("game.inLibraryOf", "inLibraryOf")
     .where("game.id = :id", { id })
     .getOne();
 
@@ -232,6 +256,9 @@ export const getGame = async (id: number) => {
     })),
     wishlistedBy: game.wishlistedBy
       ? game.wishlistedBy.map((u) => ({ id: u.id, username: u.username }))
+      : [],
+    inLibraryOf: game.inLibraryOf
+      ? game.inLibraryOf.map((u) => ({ id: u.id, username: u.username }))
       : [],
   };
 };

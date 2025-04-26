@@ -65,6 +65,9 @@ export class Game {
   @ManyToMany(() => User, (user) => user.wishlist)
   wishlistedBy: User[];
 
+  @ManyToMany(() => User, (user) => user.library)
+  inLibraryOf: User[];
+
   @OneToMany(() => Trailer, (trailer) => trailer.game)
   trailers: Trailer[];
 

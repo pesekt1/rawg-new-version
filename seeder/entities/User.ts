@@ -31,4 +31,15 @@ export class User {
     inverseJoinColumn: { name: "gamesId", referencedColumnName: "id" },
   })
   wishlist: Game[];
+
+  @ManyToMany(() => Game, (game) => game.inLibraryOf, {
+    cascade: true,
+    onDelete: "CASCADE",
+  })
+  @JoinTable({
+    name: "user_library_games",
+    joinColumn: { name: "userId", referencedColumnName: "id" },
+    inverseJoinColumn: { name: "gamesId", referencedColumnName: "id" },
+  })
+  library: Game[];
 }
