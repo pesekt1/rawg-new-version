@@ -1,4 +1,4 @@
-import { IconButton, useToast } from "@chakra-ui/react";
+import { IconButton, useToast, useColorMode } from "@chakra-ui/react";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { useState } from "react";
 import { useAuth } from "../../../auth/useAuth";
@@ -14,6 +14,7 @@ const WishListIcon = ({ gameId, initialInWishlist }: WishListIconProps) => {
   const [inWishlist, setInWishlist] = useState(initialInWishlist);
   const [loading, setLoading] = useState(false);
   const toast = useToast();
+  const { colorMode } = useColorMode();
 
   const handleToggle = async () => {
     if (!user?.id) {
@@ -51,11 +52,28 @@ const WishListIcon = ({ gameId, initialInWishlist }: WishListIconProps) => {
   return (
     <IconButton
       aria-label={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
-      icon={inWishlist ? <FaHeart color="red" /> : <FaRegHeart />}
+      icon={
+        inWishlist ? (
+          <FaHeart color={colorMode === "light" ? "#E53E3E" : "#F56565"} />
+        ) : (
+          <FaRegHeart />
+        )
+      }
       isLoading={loading}
       variant="ghost"
-      size="lg"
+      size="md"
+      fontSize="1.5rem"
+      bg="transparent"
+      _hover={{
+        bg: colorMode === "light" ? "gray.100" : "gray.700",
+        color: colorMode === "light" ? "red.400" : "red.300",
+      }}
+      _active={{
+        bg: colorMode === "light" ? "gray.200" : "gray.600",
+      }}
       onClick={handleToggle}
+      tabIndex={0}
+      transition="all 0.15s"
     />
   );
 };

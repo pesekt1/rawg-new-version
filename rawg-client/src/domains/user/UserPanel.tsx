@@ -5,17 +5,26 @@ import {
   VStack,
   Box,
   Icon,
-  Spinner,
+  useColorMode,
 } from "@chakra-ui/react";
 import { FaGift } from "react-icons/fa";
 import { useAuth } from "../../domains/auth/useAuth";
 import useGameQueryStore from "../../state";
-import { useState } from "react";
 
 const UserPanel = () => {
   const { user } = useAuth();
   const setWishlistId = useGameQueryStore((s) => s.setWishlistId);
-  const [loading] = useState(false);
+  const wishlistId = useGameQueryStore((s) => s.gameQuery.wishlistId);
+  const { colorMode } = useColorMode();
+
+  // Color variables similar to CustomList
+  const colorMain = colorMode === "light" ? "gray.800" : "white";
+  const colorSelected = colorMode === "light" ? "accent.700" : "yellow.300";
+  const colorHover = colorMode === "light" ? "accent.600" : "white";
+  const colorActive = colorMode === "light" ? "accent.700" : "yellow.300";
+  const bgHover = colorMode === "light" ? "lightGray.300" : "accent.500";
+  const bgActive = colorMode === "light" ? "lightGray.300" : "accent.500";
+  const bgSelected = "transparent"; // always transparent
 
   const handleWishlistClick = () => {
     if (user?.id) {
@@ -31,10 +40,12 @@ const UserPanel = () => {
 
   if (!user) return null;
 
+  const isSelected = wishlistId === user.id;
+
   return (
     <VStack align="start" spacing={6} mb={6}>
       <HStack spacing={3} alignItems="center">
-        <Text fontWeight="bold" fontSize="2xl" color="white">
+        <Text fontWeight="bold" fontSize="2xl" color={colorMain}>
           {user.username}
         </Text>
         <Avatar name={user.username} color="white" size="md">
@@ -54,8 +65,17 @@ const UserPanel = () => {
         px={2}
         py={1}
         borderRadius="md"
-        _hover={{ bg: "gray.700" }}
-        transition="background 0.2s"
+        color={isSelected ? colorSelected : colorMain}
+        bg={bgSelected}
+        _hover={{
+          bg: bgHover,
+          color: colorHover,
+        }}
+        _active={{
+          bg: bgActive,
+          color: colorActive,
+        }}
+        transition="background 0.2s, color 0.2s"
       >
         <Box
           bg="gray.700"
@@ -70,7 +90,6 @@ const UserPanel = () => {
         <Text fontWeight="bold" fontSize="md">
           Wishlist
         </Text>
-        {loading && <Spinner size="xs" ml={2} />}
       </Box>
       {/* Add more user-related items here in the future */}
     </VStack>
