@@ -1,5 +1,13 @@
 import { useState, useMemo } from "react";
-import { Card, CardBody, Heading, HStack, Image, Box } from "@chakra-ui/react";
+import {
+  Card,
+  CardBody,
+  Heading,
+  HStack,
+  Image,
+  Box,
+  useColorMode,
+} from "@chakra-ui/react";
 import CriticScore from "./CriticScore";
 import getCroppedImageUrl from "../../../../services/image-url";
 import { Link } from "react-router-dom";
@@ -8,8 +16,10 @@ import PlatformIconsList from "../../../platforms/PlatformIconsList";
 import Emoji from "./Emoji";
 import useScreenshots from "../../../screenshots/useScreenshots";
 import ScreenshotPanel from "./ScreenshotPanel/ScreenshotPanel";
-import WishListIcon from "./WishListIcon";
-import GameLibraryIcon from "./GameLibraryIcon";
+import UserGameRelationIcon from "./UserGameRelationIcon";
+import wishlistService from "../../../wishlist/wishlistService";
+import libraryService from "../../../gameLibrary/gameLibraryService";
+import { FaRegHeart, FaHeart, FaBookOpen, FaBook } from "react-icons/fa";
 import { useAuth } from "../../../auth/useAuth";
 
 interface Props {
@@ -23,6 +33,7 @@ const GameCard = ({ game }: Props) => {
   const [isHovered, setIsHovered] = useState(false); // <-- add hover state
 
   const { user } = useAuth();
+  const { colorMode } = useColorMode();
 
   const handleMouseLeave = () => {
     setCurrentIndex(0);
@@ -86,13 +97,29 @@ const GameCard = ({ game }: Props) => {
           </HStack>
         </Heading>
         <Box mt={2} display="flex" gap={2}>
-          <WishListIcon
+          <UserGameRelationIcon
             gameId={game.id}
-            initialInWishlist={initialInWishlist}
+            initialActive={initialInWishlist}
+            service={{
+              add: wishlistService.addToWishlist,
+              remove: wishlistService.removeFromWishlist,
+            }}
+            activeIcon={
+              <FaHeart color={colorMode === "light" ? "#E53E3E" : "#F56565"} />
+            }
+            inactiveIcon={<FaRegHeart />}
           />
-          <GameLibraryIcon
+          <UserGameRelationIcon
             gameId={game.id}
-            initialInLibrary={initialInLibrary}
+            initialActive={initialInLibrary}
+            service={{
+              add: libraryService.addToLibrary,
+              remove: libraryService.removeFromLibrary,
+            }}
+            activeIcon={
+              <FaBook color={colorMode === "light" ? "#3182ce" : "#63b3ed"} />
+            }
+            inactiveIcon={<FaBookOpen />}
           />
         </Box>
       </CardBody>
