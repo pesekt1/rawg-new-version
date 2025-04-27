@@ -15,8 +15,8 @@ const GameLibraryIcon = ({ gameId, initialActive }: GameLibraryIconProps) => {
       gameId={gameId}
       initialActive={initialActive}
       service={{
-        add: libraryService.addToLibrary,
-        remove: libraryService.removeFromLibrary,
+        add: libraryService.add,
+        remove: libraryService.remove,
       }}
       activeIcon={
         <FaBook color={colorMode === "light" ? "#3182ce" : "#63b3ed"} />

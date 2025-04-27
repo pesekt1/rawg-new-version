@@ -15,8 +15,8 @@ const WishListIcon = ({ gameId, initialActive }: WishListIconProps) => {
       gameId={gameId}
       initialActive={initialActive}
       service={{
-        add: wishlistService.addToWishlist,
-        remove: wishlistService.removeFromWishlist,
+        add: wishlistService.add,
+        remove: wishlistService.remove,
       }}
       activeIcon={
         <FaHeart color={colorMode === "light" ? "#E53E3E" : "#F56565"} />
