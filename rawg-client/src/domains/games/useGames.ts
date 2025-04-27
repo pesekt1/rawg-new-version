@@ -12,15 +12,8 @@ const useGames = () => {
     queryFn: ({ pageParam = 1 }) =>
       gameService.getAll({
         params: {
-          genres: gameQuery.genreId,
-          parent_platforms: gameQuery.platformId,
-          stores: gameQuery.storeId,
-          publishers: gameQuery.publisherId,
-          ordering: gameQuery.sortOrder,
-          search: gameQuery.searchText,
+          ...gameQuery,
           page: pageParam,
-          wishlistId: gameQuery.wishlistId,
-          libraryId: gameQuery.libraryId,
         },
       }),
     getNextPageParam: (lastPage, allPages) => {
