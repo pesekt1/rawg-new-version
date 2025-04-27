@@ -1,15 +1,8 @@
-import {
-  HStack,
-  Avatar,
-  Text,
-  VStack,
-  Box,
-  Icon,
-  useColorMode,
-} from "@chakra-ui/react";
+import { HStack, Avatar, Text, VStack, useColorMode } from "@chakra-ui/react";
 import { FaGift, FaBook } from "react-icons/fa";
 import { useAuth } from "../../domains/auth/useAuth";
 import useGameQueryStore from "../../state";
+import UserPanelAction from "./UserPanelAction";
 
 const UserPanel = () => {
   const { user } = useAuth();
@@ -29,27 +22,16 @@ const UserPanel = () => {
   const bgSelected = "transparent"; // always transparent
 
   const handleWishlistClick = () => {
-    if (user?.id) {
-      setWishlistId(user.id);
-    }
+    if (user?.id) setWishlistId(user.id);
   };
-
   const handleWishlistKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" || e.key === " ") {
-      handleWishlistClick();
-    }
+    if (e.key === "Enter" || e.key === " ") handleWishlistClick();
   };
-
   const handleLibraryClick = () => {
-    if (user?.id) {
-      setLibraryId(user.id);
-    }
+    if (user?.id) setLibraryId(user.id);
   };
-
   const handleLibraryKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" || e.key === " ") {
-      handleLibraryClick();
-    }
+    if (e.key === "Enter" || e.key === " ") handleLibraryClick();
   };
 
   if (!user) return null;
@@ -63,88 +45,36 @@ const UserPanel = () => {
         <Text fontWeight="bold" fontSize="2xl" color={colorMain}>
           {user.username}
         </Text>
-        <Avatar name={user.username} color="white" size="md">
-          {user.username[0]?.toUpperCase()}
-        </Avatar>
+        <Avatar name={user.username} color="white" size="md" />
       </HStack>
-      <Box
-        w="100%"
-        cursor="pointer"
+      <UserPanelAction
+        icon={FaGift}
+        label="Wishlist"
+        selected={isWishlistSelected}
         onClick={handleWishlistClick}
         onKeyDown={handleWishlistKeyDown}
-        role="button"
-        tabIndex={0}
-        display="flex"
-        alignItems="center"
-        gap={2}
-        px={2}
-        py={1}
-        borderRadius="md"
-        color={isWishlistSelected ? colorSelected : colorMain}
-        bg={bgSelected}
-        _hover={{
-          bg: bgHover,
-          color: colorHover,
-        }}
-        _active={{
-          bg: bgActive,
-          color: colorActive,
-        }}
-        transition="background 0.2s, color 0.2s"
-      >
-        <Box
-          bg="gray.700"
-          color="white"
-          borderRadius="md"
-          p={2}
-          display="flex"
-          alignItems="center"
-        >
-          <Icon as={FaGift} boxSize={6} />
-        </Box>
-        <Text fontWeight="bold" fontSize="md">
-          Wishlist
-        </Text>
-      </Box>
-      <Box
-        w="100%"
-        cursor="pointer"
+        colorMain={colorMain}
+        colorSelected={colorSelected}
+        colorHover={colorHover}
+        colorActive={colorActive}
+        bgHover={bgHover}
+        bgActive={bgActive}
+        bgSelected={bgSelected}
+      />
+      <UserPanelAction
+        icon={FaBook}
+        label="Library"
+        selected={isLibrarySelected}
         onClick={handleLibraryClick}
         onKeyDown={handleLibraryKeyDown}
-        role="button"
-        tabIndex={0}
-        display="flex"
-        alignItems="center"
-        gap={2}
-        px={2}
-        py={1}
-        borderRadius="md"
-        color={isLibrarySelected ? colorSelected : colorMain}
-        bg={bgSelected}
-        _hover={{
-          bg: bgHover,
-          color: colorHover,
-        }}
-        _active={{
-          bg: bgActive,
-          color: colorActive,
-        }}
-        transition="background 0.2s, color 0.2s"
-      >
-        <Box
-          bg="gray.700"
-          color="white"
-          borderRadius="md"
-          p={2}
-          display="flex"
-          alignItems="center"
-        >
-          <Icon as={FaBook} boxSize={6} />
-        </Box>
-        <Text fontWeight="bold" fontSize="md">
-          Library
-        </Text>
-      </Box>
+        colorMain={colorMain}
+        colorSelected={colorSelected}
+        colorHover={colorHover}
+        colorActive={colorActive}
+        bgHover={bgHover}
+        bgActive={bgActive}
+        bgSelected={bgSelected}
+      />
       {/* Add more user-related items here in the future */}
     </VStack>
   );
