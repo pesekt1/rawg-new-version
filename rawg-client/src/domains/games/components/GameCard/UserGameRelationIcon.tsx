@@ -45,15 +45,16 @@ const UserGameRelationIcon = ({
       return;
     }
     setLoading(true);
+    const nextActive = !active;
+    setActive(nextActive); // Optimistically update UI
     try {
-      if (active) {
-        await service.remove(user.id, gameId);
-        setActive(false);
-      } else {
+      if (nextActive) {
         await service.add(user.id, gameId);
-        setActive(true);
+      } else {
+        await service.remove(user.id, gameId);
       }
     } catch {
+      setActive(!nextActive); // Revert on error
       toast({
         title: "Error",
         description: errorMessage,
@@ -70,7 +71,7 @@ const UserGameRelationIcon = ({
     <IconButton
       aria-label={active ? "Remove" : "Add"}
       icon={active ? activeIcon : inactiveIcon}
-      isLoading={loading}
+      isDisabled={loading}
       variant="ghost"
       size="md"
       fontSize="1.5rem"
