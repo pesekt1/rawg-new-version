@@ -1,6 +1,7 @@
 import { IconButton, useToast } from "@chakra-ui/react";
 import { ReactElement, useState, useEffect } from "react";
 import { useAuth } from "../../../auth/useAuth";
+import { Game } from "../../Game";
 
 const loginMessage = "Please log in to use this feature.";
 const errorMessage = "Could not update your selection. Please try again.";
@@ -9,8 +10,8 @@ interface UserGameRelationIconProps {
   gameId: number;
   initialActive: boolean;
   service: {
-    add: (userId: number, gameId: number) => Promise<any>;
-    remove: (userId: number, gameId: number) => Promise<any>;
+    add: (userId: number, gameId: number) => Promise<Game>;
+    remove: (userId: number, gameId: number) => Promise<void>;
   };
   activeIcon: ReactElement;
   inactiveIcon: ReactElement;
