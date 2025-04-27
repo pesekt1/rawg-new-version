@@ -4,7 +4,7 @@ import useGameQueryStore from "../../../state";
 import usePlatform from "../../platforms/usePlatform";
 
 const GameHeading = () => {
-  const { genreId, platformId, wishlistId } = useGameQueryStore(
+  const { genreId, platformId, wishlistId, libraryId } = useGameQueryStore(
     (s) => s.gameQuery
   );
 
@@ -16,7 +16,11 @@ const GameHeading = () => {
   let heading = `${platform?.name || ""} ${genre?.name || ""} Games`;
 
   if (wishlistId) {
-    heading = "Wishlist Games";
+    heading = "Games in Wishlist";
+  }
+
+  if (libraryId) {
+    heading = "Games in Library";
   }
 
   return (
