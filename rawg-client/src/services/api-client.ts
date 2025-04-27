@@ -21,7 +21,7 @@ axiosInstance.interceptors.request.use((config) => {
 });
 
 class ApiClient<T> {
-  private endpoint: string;
+  protected endpoint: string;
 
   constructor(endpoint: string) {
     this.endpoint = endpoint;

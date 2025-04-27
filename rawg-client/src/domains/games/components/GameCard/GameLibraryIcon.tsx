@@ -1,7 +1,7 @@
 import { useColorMode } from "@chakra-ui/react";
 import { FaBookOpen, FaBook } from "react-icons/fa";
 import UserGameRelationIcon from "./UserGameRelationIcon";
-import libraryService from "../../../gameLibrary/gameLibraryService";
+import libraryService from "../../../gameLibrary/libraryService";
 
 interface GameLibraryIconProps {
   gameId: number;

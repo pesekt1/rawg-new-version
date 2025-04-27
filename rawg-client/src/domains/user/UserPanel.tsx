@@ -1,25 +1,18 @@
-import { HStack, Avatar, Text, VStack, useColorMode } from "@chakra-ui/react";
-import { FaGift, FaBook } from "react-icons/fa";
+import { HStack, Avatar, Text, VStack } from "@chakra-ui/react";
 import { useAuth } from "../../domains/auth/useAuth";
 import useGameQueryStore from "../../state";
-import UserPanelAction from "./UserPanelAction";
+import WishlistAction from "./WishlistAction";
+import LibraryAction from "./LibraryAction";
 
 const UserPanel = () => {
+  //if not logged in, return null - dont show the user panel
   const { user } = useAuth();
+  if (!user) return null;
+
   const setWishlistId = useGameQueryStore((s) => s.setWishlistId);
   const wishlistId = useGameQueryStore((s) => s.gameQuery.wishlistId);
   const setLibraryId = useGameQueryStore((s) => s.setLibraryId);
   const libraryId = useGameQueryStore((s) => s.gameQuery.libraryId);
-  const { colorMode } = useColorMode();
-
-  // Color variables similar to CustomList
-  const colorMain = colorMode === "light" ? "gray.800" : "white";
-  const colorSelected = colorMode === "light" ? "accent.700" : "yellow.300";
-  const colorHover = colorMode === "light" ? "accent.600" : "white";
-  const colorActive = colorMode === "light" ? "accent.700" : "yellow.300";
-  const bgHover = colorMode === "light" ? "lightGray.300" : "accent.500";
-  const bgActive = colorMode === "light" ? "lightGray.300" : "accent.500";
-  const bgSelected = "transparent"; // always transparent
 
   const handleWishlistClick = () => {
     if (user?.id) setWishlistId(user.id);
@@ -34,46 +27,26 @@ const UserPanel = () => {
     if (e.key === "Enter" || e.key === " ") handleLibraryClick();
   };
 
-  if (!user) return null;
-
   const isWishlistSelected = wishlistId === user.id;
   const isLibrarySelected = libraryId === user.id;
 
   return (
     <VStack align="start" spacing={6} mb={6}>
       <HStack spacing={3} alignItems="center">
-        <Text fontWeight="bold" fontSize="2xl" color={colorMain}>
+        <Text fontWeight="bold" fontSize="2xl">
           {user.username}
         </Text>
         <Avatar name={user.username} color="white" size="md" />
       </HStack>
-      <UserPanelAction
-        icon={FaGift}
-        label="Wishlist"
+      <WishlistAction
         selected={isWishlistSelected}
         onClick={handleWishlistClick}
         onKeyDown={handleWishlistKeyDown}
-        colorMain={colorMain}
-        colorSelected={colorSelected}
-        colorHover={colorHover}
-        colorActive={colorActive}
-        bgHover={bgHover}
-        bgActive={bgActive}
-        bgSelected={bgSelected}
       />
-      <UserPanelAction
-        icon={FaBook}
-        label="Library"
+      <LibraryAction
         selected={isLibrarySelected}
         onClick={handleLibraryClick}
         onKeyDown={handleLibraryKeyDown}
-        colorMain={colorMain}
-        colorSelected={colorSelected}
-        colorHover={colorHover}
-        colorActive={colorActive}
-        bgHover={bgHover}
-        bgActive={bgActive}
-        bgSelected={bgSelected}
       />
       {/* Add more user-related items here in the future */}
     </VStack>
