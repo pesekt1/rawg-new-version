@@ -30,32 +30,29 @@ type GameOriginal = Omit<Game, "parent_platforms" | "stores"> & {
   stores: { store: Store }[];
 };
 
-export async function fetchDescription(slug: string): Promise<string> {
-  const apiKey = process.env.RAWG_API_KEY;
-  try {
-    const response = await axios.get(
-      `https://api.rawg.io/api/games/${slug}?key=${apiKey}`
-    );
-    const description_raw =
-      response.data.description_raw || "No description available.";
-    return description_raw;
-  } catch (error) {
-    console.error(`Failed to fetch description for slug: ${slug}`, error);
-    return "No description available.";
-  }
-}
-
-export async function fetchPublishers(slug: string): Promise<Publisher[]> {
+// New function to fetch both description and publishers
+export async function fetchAdditionalGameData(
+  slug: string
+): Promise<{ description_raw: string; publishers: Publisher[] }> {
   const apiKey = process.env.RAWG_API_KEY;
   try {
     const response = await axios.get<Game>(
       `https://api.rawg.io/api/games/${slug}?key=${apiKey}`
     );
-    const publishers = response.data.publishers || [];
-    return publishers;
+    return {
+      description_raw:
+        response.data.description_raw || "No description available.",
+      publishers: response.data.publishers || [],
+    };
   } catch (error) {
-    console.error(`Failed to fetch publishers for slug: ${slug}`, error);
-    return [];
+    console.error(
+      `Failed to fetch additional game data for slug: ${slug}`,
+      error
+    );
+    return {
+      description_raw: "No description available.",
+      publishers: [],
+    };
   }
 }
 

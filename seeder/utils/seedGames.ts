@@ -8,8 +8,7 @@ import { Trailer } from "../entities/Trailer";
 import { Screenshot } from "../entities/Screenshot";
 import {
   fetchGames,
-  fetchDescription,
-  fetchPublishers,
+  fetchAdditionalGameData, // <-- import the new function
   fetchTrailers,
   fetchScreenshots,
 } from "./fetchers";
@@ -39,8 +38,12 @@ export async function seedGames(dataSource: DataSource) {
   }));
 
   for (const game of gamesData) {
-    // Fetch publishers for the current game
-    game.publishers = await fetchPublishers(game.slug);
+    // Fetch additional game data
+    const { description_raw, publishers } = await fetchAdditionalGameData(
+      game.slug
+    );
+    game.description_raw = description_raw;
+    game.publishers = publishers;
 
     //check each genre for a game and save it if it doesn't exist
     await Promise.all(
@@ -89,8 +92,6 @@ export async function seedGames(dataSource: DataSource) {
         return platform;
       })
     );
-
-    game.description_raw = await fetchDescription(game.slug);
 
     //save the game - this will also save the relationships in the join tables
     const savedGame = await gameRepo.save(game);
