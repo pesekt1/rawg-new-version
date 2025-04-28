@@ -1,4 +1,4 @@
-import { Developer } from "../Developers/Developer";
+import { Developer } from "../developers/Developer";
 import { Genre } from "../genres/Genre";
 import { Platform } from "../platforms/Platform";
 import { Publisher } from "../publishers/Publisher";
