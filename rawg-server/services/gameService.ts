@@ -161,11 +161,11 @@ const buildGameQuery = (req: any) => {
   const publisherId = req.query.publishers
     ? Number(req.query.publishers)
     : undefined;
-  const wishlistUserId = req.query.wishlistId
-    ? Number(req.query.wishlistId)
+  const wishlistUserId = req.query.wishlistUserId
+    ? Number(req.query.wishlistUserId)
     : undefined;
-  const libraryUserId = req.query.libraryId
-    ? Number(req.query.libraryId)
+  const libraryUserId = req.query.libraryUserId
+    ? Number(req.query.libraryUserId)
     : undefined;
   const ordering = req.query.ordering ? String(req.query.ordering) : undefined;
   const search = req.query.search
