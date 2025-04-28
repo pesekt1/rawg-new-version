@@ -14,9 +14,9 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { login } from "../../services/auth-client";
 import { useAuth } from "./useAuth";
 import { useNavigate } from "react-router-dom";
+import authService from "./authService";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -35,7 +35,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
     e.preventDefault();
     setError(null);
     try {
-      const { token } = await login(username, password);
+      const { token } = await authService.login(username, password);
       saveToken(token);
       toast({ status: "success", title: "Login successful" });
       onClose();

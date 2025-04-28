@@ -14,7 +14,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { register } from "../../services/auth-client";
+import authService from "./authService";
 import { useAuth } from "./useAuth";
 import { useNavigate } from "react-router-dom";
 
@@ -35,7 +35,7 @@ const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
     e.preventDefault();
     setError(null);
     try {
-      const { token } = await register(username, password);
+      const { token } = await authService.register(username, password);
       saveToken(token);
       toast({ status: "success", title: "Registration successful" });
       onClose();

@@ -1,13 +1,22 @@
-import axios from "axios";
+import { axiosInstance } from "./api-client";
 
-const API_URL = import.meta.env.VITE_API_URL;
+class AuthClient {
+  private endpoint: string;
 
-export const login = (username: string, password: string) =>
-  axios
-    .post(`${API_URL}/auth/login`, { username, password })
-    .then((res) => res.data);
+  constructor(endpoint: string = "/auth") {
+    this.endpoint = endpoint;
+  }
 
-export const register = (username: string, password: string) =>
-  axios
-    .post(`${API_URL}/auth/register`, { username, password })
-    .then((res) => res.data);
+  login = (username: string, password: string) =>
+    axiosInstance
+      .post(`${this.endpoint}/login`, { username, password })
+      .then((res) => res.data);
+
+  register = (username: string, password: string) =>
+    axiosInstance
+      .post(`${this.endpoint}/register`, { username, password })
+      .then((res) => res.data);
+}
+
+const authClient = new AuthClient();
+export default authClient;
