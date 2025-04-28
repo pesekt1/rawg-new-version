@@ -6,6 +6,8 @@ import { Repository } from "typeorm";
 import { Game } from "../entities/Game";
 import { ParentPlatform } from "../entities/ParentPlatform";
 import { Store } from "../entities/Store";
+import { Developer } from "../entities/Developer";
+import { Tag } from "../entities/Tag";
 
 interface Response<T> {
   count: number;
@@ -29,20 +31,32 @@ type GameOriginal = Omit<Game, "parent_platforms" | "stores"> & {
   parent_platforms: { platform: ParentPlatform }[];
   stores: { store: Store }[];
 };
+// env variables:
+const apiKey = process.env.RAWG_API_KEY;
+const apiUrl = process.env.RAWG_API_URL;
+
+interface AdditionalGameData {
+  description_raw: string;
+  website: string;
+  publishers: Publisher[];
+  developers: Developer[];
+  tags: Tag[];
+}
 
 // New function to fetch both description and publishers
 export async function fetchAdditionalGameData(
   slug: string
-): Promise<{ description_raw: string; publishers: Publisher[] }> {
-  const apiKey = process.env.RAWG_API_KEY;
+): Promise<AdditionalGameData> {
   try {
-    const response = await axios.get<Game>(
-      `https://api.rawg.io/api/games/${slug}?key=${apiKey}`
-    );
+    const response = await axios.get<Game>(`${apiUrl}${slug}?key=${apiKey}`);
     return {
       description_raw:
         response.data.description_raw || "No description available.",
+      website: response.data.website || "No website available.",
       publishers: response.data.publishers || [],
+      developers: response.data.developers || [],
+
+      tags: response.data.tags || [],
     };
   } catch (error) {
     console.error(
@@ -51,7 +65,10 @@ export async function fetchAdditionalGameData(
     );
     return {
       description_raw: "No description available.",
+      website: "No website available.",
       publishers: [],
+      developers: [],
+      tags: [],
     };
   }
 }
@@ -63,7 +80,7 @@ export async function fetchTrailers(
   const apiKey = process.env.RAWG_API_KEY;
   try {
     const response = await axios.get<Response<TrailerOriginal>>(
-      `https://api.rawg.io/api/games/${gameId}/movies?key=${apiKey}`
+      `${apiUrl}${gameId}/movies?key=${apiKey}`
     );
     const trailers = response.data.results || []; // Fallback to an empty array if no results
 
@@ -87,7 +104,7 @@ export async function fetchScreenshots(gameId: number): Promise<Screenshot[]> {
   const apiKey = process.env.RAWG_API_KEY;
   try {
     const response = await axios.get<Response<Screenshot>>(
-      `https://api.rawg.io/api/games/${gameId}/screenshots?key=${apiKey}`
+      `${apiUrl}${gameId}/screenshots?key=${apiKey}`
     );
     const screenshots = response.data.results || []; // Fallback to an empty array if no results
     return screenshots;
@@ -103,7 +120,7 @@ export async function fetchGames(pages: number = 1): Promise<GameOriginal[]> {
   for (let page = 1; page <= pages; page++) {
     try {
       const response = await axios.get<Response<GameOriginal>>(
-        `https://api.rawg.io/api/games?key=${apiKey}&page=${page}&page_size=40`
+        `${apiUrl}?key=${apiKey}&page=${page}&page_size=40`
       );
       allGames.push(...(response.data.results || []));
     } catch (error) {

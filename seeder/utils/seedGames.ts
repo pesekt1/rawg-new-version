@@ -6,6 +6,8 @@ import { Store } from "../entities/Store";
 import { Publisher } from "../entities/Publisher";
 import { Trailer } from "../entities/Trailer";
 import { Screenshot } from "../entities/Screenshot";
+import { Developer } from "../entities/Developer";
+import { Tag } from "../entities/Tag";
 import {
   fetchGames,
   fetchAdditionalGameData, // <-- import the new function
@@ -26,6 +28,8 @@ export async function seedGames(dataSource: DataSource) {
   const publisherRepo = dataSource.getRepository(Publisher);
   const trailerRepo = dataSource.getRepository(Trailer);
   const screenshotRepo = dataSource.getRepository(Screenshot);
+  const developerRepo = dataSource.getRepository(Developer);
+  const tagRepo = dataSource.getRepository(Tag);
 
   // Fetch games from API
   const gamesOriginalData = await fetchGames(GAME_PAGES);
@@ -38,15 +42,17 @@ export async function seedGames(dataSource: DataSource) {
   }));
 
   for (const game of gamesData) {
-    // Fetch additional game data
-    const { description_raw, publishers } = await fetchAdditionalGameData(
-      game.slug
-    );
+    // Fetch additional game data and assign it to the game object
+    const { description_raw, publishers, developers, tags, website } =
+      await fetchAdditionalGameData(game.slug);
     game.description_raw = description_raw;
     game.publishers = publishers;
+    game.developers = developers;
+    game.tags = tags;
+    game.website = website;
 
-    //check each genre for a game and save it if it doesn't exist
-    await Promise.all(
+    // Save genres and assign to game
+    game.genres = await Promise.all(
       game.genres.map(async (g) => {
         let genre = await genreRepo.findOne({ where: { id: g.id } });
         if (!genre) {
@@ -57,8 +63,8 @@ export async function seedGames(dataSource: DataSource) {
       })
     );
 
-    // Check each publisher for a game and save it if it doesn't exist
-    await Promise.all(
+    // Save publishers and assign to game
+    game.publishers = await Promise.all(
       game.publishers.map(async (pub) => {
         let publisher = await publisherRepo.findOne({ where: { id: pub.id } });
         if (!publisher) {
@@ -69,8 +75,32 @@ export async function seedGames(dataSource: DataSource) {
       })
     );
 
-    //check each store for a game and save it if it doesn't exist
-    await Promise.all(
+    // Save developers and assign to game
+    game.developers = await Promise.all(
+      game.developers.map(async (dev) => {
+        let developer = await developerRepo.findOne({ where: { id: dev.id } });
+        if (!developer) {
+          developer = await developerRepo.save(dev);
+          console.log(`Developer ${developer.name} created`);
+        }
+        return developer;
+      })
+    );
+
+    // Save tags and assign to game
+    game.tags = await Promise.all(
+      game.tags.map(async (t) => {
+        let tag = await tagRepo.findOne({ where: { id: t.id } });
+        if (!tag) {
+          tag = await tagRepo.save(t);
+          console.log(`Tag ${tag.name} created`);
+        }
+        return tag;
+      })
+    );
+
+    // Save stores and assign to game
+    game.stores = await Promise.all(
       game.stores.map(async (s) => {
         let store = await storeRepo.findOne({ where: { id: s.id } });
         if (!store) {
@@ -81,8 +111,8 @@ export async function seedGames(dataSource: DataSource) {
       })
     );
 
-    //check each platform for a game and save it if it doesn't exist
-    await Promise.all(
+    // Save platforms and assign to game
+    game.parent_platforms = await Promise.all(
       game.parent_platforms.map(async (p) => {
         let platform = await platformRepo.findOne({ where: { id: p.id } });
         if (!platform) {
@@ -93,7 +123,7 @@ export async function seedGames(dataSource: DataSource) {
       })
     );
 
-    //save the game - this will also save the relationships in the join tables
+    // Save the game with all relationships
     const savedGame = await gameRepo.save(game);
     console.log(`Game ${savedGame.name} created`);
 

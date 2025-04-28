@@ -9,6 +9,8 @@ import { Publisher } from "./entities/Publisher";
 import { Trailer } from "./entities/Trailer";
 import { Screenshot } from "./entities/Screenshot";
 import { User } from "./entities/User";
+import { Developer } from "./entities/Developer";
+import { Tag } from "./entities/Tag";
 
 const connectionString = process.env.DATABASE_URL;
 
@@ -27,6 +29,8 @@ export const AppDataSource = new DataSource({
     Trailer,
     Screenshot,
     User,
+    Developer,
+    Tag,
   ],
   migrations: [],
   subscribers: [],
