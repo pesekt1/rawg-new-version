@@ -153,13 +153,13 @@ const addSearch = (
 };
 
 const buildGameQuery = (req: any) => {
-  const genreId = req.query.genres ? String(req.query.genres) : undefined;
-  const storeId = req.query.stores ? Number(req.query.stores) : undefined;
-  const parentPlatformId = req.query.parent_platforms
-    ? Number(req.query.parent_platforms)
+  const genreId = req.query.genreId ? String(req.query.genreId) : undefined;
+  const storeId = req.query.storeId ? Number(req.query.storeId) : undefined;
+  const parentPlatformId = req.query.platformId
+    ? Number(req.query.platformId)
     : undefined;
-  const publisherId = req.query.publishers
-    ? Number(req.query.publishers)
+  const publisherId = req.query.publisherId
+    ? Number(req.query.publisherId)
     : undefined;
   const wishlistUserId = req.query.wishlistUserId
     ? Number(req.query.wishlistUserId)
@@ -167,9 +167,11 @@ const buildGameQuery = (req: any) => {
   const libraryUserId = req.query.libraryUserId
     ? Number(req.query.libraryUserId)
     : undefined;
-  const ordering = req.query.ordering ? String(req.query.ordering) : undefined;
-  const search = req.query.search
-    ? String(req.query.search).toLowerCase()
+  const ordering = req.query.sortOrder
+    ? String(req.query.sortOrder)
+    : undefined;
+  const search = req.query.searchText
+    ? String(req.query.searchText).toLowerCase()
     : undefined;
 
   //query builder to get all games with their genres, parent_platforms, and stores
