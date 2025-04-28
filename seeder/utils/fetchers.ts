@@ -48,7 +48,7 @@ export async function fetchAdditionalGameData(
   slug: string
 ): Promise<AdditionalGameData> {
   try {
-    const response = await axios.get<Game>(`${apiUrl}${slug}?key=${apiKey}`);
+    const response = await axios.get<Game>(`${apiUrl}/${slug}?key=${apiKey}`);
     return {
       description_raw:
         response.data.description_raw || "No description available.",
@@ -80,7 +80,7 @@ export async function fetchTrailers(
   const apiKey = process.env.RAWG_API_KEY;
   try {
     const response = await axios.get<Response<TrailerOriginal>>(
-      `${apiUrl}${gameId}/movies?key=${apiKey}`
+      `${apiUrl}/${gameId}/movies?key=${apiKey}`
     );
     const trailers = response.data.results || []; // Fallback to an empty array if no results
 
@@ -104,7 +104,7 @@ export async function fetchScreenshots(gameId: number): Promise<Screenshot[]> {
   const apiKey = process.env.RAWG_API_KEY;
   try {
     const response = await axios.get<Response<Screenshot>>(
-      `${apiUrl}${gameId}/screenshots?key=${apiKey}`
+      `${apiUrl}/${gameId}/screenshots?key=${apiKey}`
     );
     const screenshots = response.data.results || []; // Fallback to an empty array if no results
     return screenshots;
