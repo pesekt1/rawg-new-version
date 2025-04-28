@@ -1,6 +1,6 @@
-import { UserGameRelationService } from "../../services/user-game-relation-service";
+import { UserGameRelationClient } from "../../services/user-game-relation-client";
 import { Game } from "../games/Game";
 
-const wishlistService = new UserGameRelationService<Game>("/wishlist");
+const wishlistService = new UserGameRelationClient<Game>("/wishlist");
 
 export default wishlistService;

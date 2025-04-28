@@ -1,8 +1,8 @@
 import { axiosInstance } from "./api-client";
 
-// This service is used to manage the user-game relation, such as adding or removing games from a user's library.
-// It is a generic service that can be used for different types of relations, such as wishlist or library.
-export class UserGameRelationService<T> {
+// This client is used to manage the user-game relation, such as adding or removing games from a user's library.
+// It is a generic client that can be used for different types of relations, such as wishlist or library.
+export class UserGameRelationClient<T> {
   private endpoint: string;
 
   constructor(endpoint: string) {
