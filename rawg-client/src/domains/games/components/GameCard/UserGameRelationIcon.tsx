@@ -15,6 +15,7 @@ interface UserGameRelationIconProps {
   };
   activeIcon: ReactElement;
   inactiveIcon: ReactElement;
+  onChange?: (active: boolean) => void; // <-- add onChange prop
 }
 
 const UserGameRelationIcon = ({
@@ -23,6 +24,7 @@ const UserGameRelationIcon = ({
   service,
   activeIcon,
   inactiveIcon,
+  onChange, // <-- receive onChange
 }: UserGameRelationIconProps) => {
   const { user } = useAuth();
   const [active, setActive] = useState(initialActive);
@@ -54,6 +56,7 @@ const UserGameRelationIcon = ({
       } else {
         await service.remove(user.id, gameId);
       }
+      if (onChange) onChange(nextActive); // <-- notify parent of change
     } catch {
       setActive(!nextActive); // Revert on error
       toast({

@@ -11,6 +11,8 @@ import ScreenshotPanel from "./ScreenshotPanel/ScreenshotPanel";
 import WishListIcon from "./WishListIcon";
 import GameLibraryIcon from "./GameLibraryIcon";
 import { useAuth } from "../../../auth/useAuth";
+import { useQueryClient } from "@tanstack/react-query";
+import useGameQueryStore from "../../../../state";
 
 interface Props {
   game: Game;
@@ -22,6 +24,26 @@ const GameCard = ({ game }: Props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false); // <-- add hover state
   const { user } = useAuth();
+  const wishlistUserId = useGameQueryStore((s) => s.gameQuery.wishlistId);
+  const libraryUserId = useGameQueryStore((s) => s.gameQuery.libraryId);
+  const queryClient = useQueryClient();
+
+  // Helper to remove a game from the games cache
+  const removeGameFromCache = (gameId: number) => {
+    queryClient.setQueryData(
+      ["games", { ...useGameQueryStore.getState().gameQuery }],
+      (oldData: any) => {
+        if (!oldData) return oldData;
+        return {
+          ...oldData,
+          pages: oldData.pages.map((page: any) => ({
+            ...page,
+            results: page.results.filter((g: any) => g.id !== gameId),
+          })),
+        };
+      }
+    );
+  };
 
   const handleMouseLeave = () => {
     setCurrentIndex(0);
@@ -85,8 +107,24 @@ const GameCard = ({ game }: Props) => {
           </HStack>
         </Heading>
         <Box mt={2} display="flex" gap={2}>
-          <WishListIcon gameId={game.id} initialActive={initialInWishlist} />
-          <GameLibraryIcon gameId={game.id} initialActive={initialInLibrary} />
+          <WishListIcon
+            gameId={game.id}
+            initialActive={initialInWishlist}
+            onChange={(active) => {
+              if (!active && wishlistUserId && user?.id === wishlistUserId) {
+                removeGameFromCache(game.id);
+              }
+            }}
+          />
+          <GameLibraryIcon
+            gameId={game.id}
+            initialActive={initialInLibrary}
+            onChange={(active) => {
+              if (!active && libraryUserId && user?.id === libraryUserId) {
+                removeGameFromCache(game.id);
+              }
+            }}
+          />
         </Box>
       </CardBody>
     </Card>

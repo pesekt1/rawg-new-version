@@ -6,9 +6,14 @@ import wishlistService from "../../../wishlist/wishlistService";
 interface WishListIconProps {
   gameId: number;
   initialActive: boolean;
+  onChange?: (active: boolean) => void; // <-- add this line
 }
 
-const WishListIcon = ({ gameId, initialActive }: WishListIconProps) => {
+const WishListIcon = ({
+  gameId,
+  initialActive,
+  onChange,
+}: WishListIconProps) => {
   const { colorMode } = useColorMode();
   return (
     <UserGameRelationIcon
@@ -22,6 +27,7 @@ const WishListIcon = ({ gameId, initialActive }: WishListIconProps) => {
         <FaStar color={colorMode === "light" ? "#ECC94B" : "#F6E05E"} />
       }
       inactiveIcon={<FaRegStar />}
+      onChange={onChange} // <-- pass onChange
     />
   );
 };
