@@ -13,6 +13,8 @@ import { Publisher } from "./Publisher";
 import { Trailer } from "./Trailer";
 import { Screenshot } from "./Screenshot";
 import { User } from "./User";
+import { Developer } from "./Developer";
+import { Tag } from "./Tag";
 
 @Entity("games")
 export class Game {
@@ -46,6 +48,9 @@ export class Game {
   @Column({ nullable: true })
   rating_top?: number;
 
+  @Column({ nullable: true })
+  website?: string;
+
   @ManyToMany(() => Genre, (genre) => genre.games)
   @JoinTable()
   genres: Genre[];
@@ -61,6 +66,14 @@ export class Game {
   @ManyToMany(() => Publisher, (publisher) => publisher.games)
   @JoinTable()
   publishers: Publisher[];
+
+  @ManyToMany(() => Developer, (developer) => developer.games)
+  @JoinTable()
+  developers: Developer[];
+
+  @ManyToMany(() => Tag, (tag) => tag.games)
+  @JoinTable()
+  tags: Tag[];
 
   @ManyToMany(() => User, (user) => user.wishlist)
   wishlistedBy: User[];

@@ -76,6 +76,24 @@ const addPublisherFilter = (
   }
 };
 
+const addDeveloperFilter = (
+  queryBuilder: SelectQueryBuilder<Game>,
+  developerId: Number | undefined
+) => {
+  if (developerId) {
+    queryBuilder.andWhere((qb) => {
+      const subQuery = qb
+        .subQuery()
+        .select("game.id")
+        .from(Game, "game")
+        .leftJoin("game.developers", "developers")
+        .where("developers.id = :developerId", { developerId })
+        .getQuery();
+      return "game.id IN " + subQuery;
+    });
+  }
+};
+
 const addWishlistFilter = (
   queryBuilder: SelectQueryBuilder<Game>,
   wishlistUserId: number | undefined
@@ -152,6 +170,24 @@ const addSearch = (
   }
 };
 
+const addTagFilter = (
+  queryBuilder: SelectQueryBuilder<Game>,
+  tagId: Number | undefined
+) => {
+  if (tagId) {
+    queryBuilder.andWhere((qb) => {
+      const subQuery = qb
+        .subQuery()
+        .select("game.id")
+        .from(Game, "game")
+        .leftJoin("game.tags", "tags")
+        .where("tags.id = :tagId", { tagId })
+        .getQuery();
+      return "game.id IN " + subQuery;
+    });
+  }
+};
+
 const buildGameQuery = (req: any) => {
   const genreId = req.query.genreId ? String(req.query.genreId) : undefined;
   const storeId = req.query.storeId ? Number(req.query.storeId) : undefined;
@@ -160,6 +196,9 @@ const buildGameQuery = (req: any) => {
     : undefined;
   const publisherId = req.query.publisherId
     ? Number(req.query.publisherId)
+    : undefined;
+  const developerId = req.query.developerId
+    ? Number(req.query.developerId)
     : undefined;
   const wishlistUserId = req.query.wishlistUserId
     ? Number(req.query.wishlistUserId)
@@ -173,6 +212,7 @@ const buildGameQuery = (req: any) => {
   const search = req.query.searchText
     ? String(req.query.searchText).toLowerCase()
     : undefined;
+  const tagId = req.query.tagId ? Number(req.query.tagId) : undefined;
 
   //query builder to get all games with their genres, parent_platforms, and stores
   const queryBuilder = gameRepository
@@ -180,16 +220,20 @@ const buildGameQuery = (req: any) => {
     .leftJoinAndSelect("game.genres", "genres")
     .leftJoinAndSelect("game.parent_platforms", "parent_platforms")
     .leftJoinAndSelect("game.stores", "stores")
-    .leftJoinAndSelect("game.publishers", "publishers");
+    .leftJoinAndSelect("game.publishers", "publishers")
+    .leftJoinAndSelect("game.developers", "developers")
+    .leftJoinAndSelect("game.tags", "tags");
 
   addGenreFilter(queryBuilder, genreId);
   addStoreFilter(queryBuilder, storeId);
   addParentPlatformFilter(queryBuilder, parentPlatformId);
   addPublisherFilter(queryBuilder, publisherId);
+  addDeveloperFilter(queryBuilder, developerId);
   addWishlistFilter(queryBuilder, wishlistUserId);
   addGameLibraryFilter(queryBuilder, libraryUserId);
   addOrdering(queryBuilder, ordering);
   addSearch(queryBuilder, search);
+  addTagFilter(queryBuilder, tagId);
 
   return queryBuilder;
 };
@@ -245,6 +289,8 @@ export const getGame = async (id: number) => {
     .leftJoinAndSelect("game.parent_platforms", "parent_platforms")
     .leftJoinAndSelect("game.stores", "stores")
     .leftJoinAndSelect("game.publishers", "publishers")
+    .leftJoinAndSelect("game.developers", "developers")
+    .leftJoinAndSelect("game.tags", "tags")
     .leftJoinAndSelect("game.wishlistedBy", "wishlistedBy")
     .leftJoinAndSelect("game.inLibraryOf", "inLibraryOf")
     .where("game.id = :id", { id })
@@ -349,6 +395,7 @@ export const updateGame = async (id: number, data: Partial<Game>) => {
   if (data.description_raw !== undefined)
     game.description_raw = data.description_raw;
   if (data.released !== undefined) game.released = data.released;
+  if (data.website !== undefined) game.website = data.website;
   if (data.background_image !== undefined)
     game.background_image = data.background_image;
   if (data.genres !== undefined) game.genres = data.genres;
@@ -357,6 +404,8 @@ export const updateGame = async (id: number, data: Partial<Game>) => {
   }
   if (data.stores !== undefined) game.stores = data.stores;
   if (data.publishers !== undefined) game.publishers = data.publishers;
+  if (data.developers !== undefined) game.developers = data.developers;
+  if (data.tags !== undefined) game.tags = data.tags;
 
   await gameRepository.save(game);
   return game;
