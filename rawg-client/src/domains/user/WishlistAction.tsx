@@ -14,7 +14,7 @@ const WishlistAction = ({
 }: WishlistActionProps) => (
   <UserPanelAction
     icon={FaGift}
-    label="Wishlist"
+    label="My Wishlist"
     selected={selected}
     onClick={onClick}
     onKeyDown={onKeyDown}

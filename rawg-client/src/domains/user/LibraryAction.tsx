@@ -14,7 +14,7 @@ const LibraryAction = ({
 }: LibraryActionProps) => (
   <UserPanelAction
     icon={FaBook}
-    label="Library"
+    label="My Library"
     selected={selected}
     onClick={onClick}
     onKeyDown={onKeyDown}
