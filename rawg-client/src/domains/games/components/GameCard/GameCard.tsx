@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { Card, CardBody, Heading, HStack, Image, Box } from "@chakra-ui/react";
 import CriticScore from "./CriticScore";
-import getCroppedImageUrl from "../../../../services/image-url";
+import getCroppedImageUrl from "../../../../utils/image-url";
 import { Link } from "react-router-dom";
 import { Response } from "../../../../services/api-client";
 import { Game } from "../../Game";
