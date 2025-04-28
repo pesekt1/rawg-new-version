@@ -9,10 +9,10 @@ const UserPanel = () => {
   const { user } = useAuth();
   if (!user) return null;
 
-  const setWishlistId = useGameQueryStore((s) => s.setWishlistId);
-  const wishlistId = useGameQueryStore((s) => s.gameQuery.wishlistId);
-  const setLibraryId = useGameQueryStore((s) => s.setLibraryId);
-  const libraryId = useGameQueryStore((s) => s.gameQuery.libraryId);
+  const setWishlistId = useGameQueryStore((s) => s.setWishlistUserId);
+  const wishlistId = useGameQueryStore((s) => s.gameQuery.wishlistUserId);
+  const setLibraryId = useGameQueryStore((s) => s.setLibraryUserId);
+  const libraryId = useGameQueryStore((s) => s.gameQuery.libraryUserId);
 
   const handleWishlistClick = () => {
     if (user?.id) setWishlistId(user.id);

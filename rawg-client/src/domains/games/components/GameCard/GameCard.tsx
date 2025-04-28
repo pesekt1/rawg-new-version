@@ -3,6 +3,7 @@ import { Card, CardBody, Heading, HStack, Image, Box } from "@chakra-ui/react";
 import CriticScore from "./CriticScore";
 import getCroppedImageUrl from "../../../../services/image-url";
 import { Link } from "react-router-dom";
+import { Response } from "../../../../services/api-client";
 import { Game } from "../../Game";
 import PlatformIconsList from "../../../platforms/PlatformIconsList";
 import Emoji from "./Emoji";
@@ -24,25 +25,24 @@ const GameCard = ({ game }: Props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false); // <-- add hover state
   const { user } = useAuth();
-  const wishlistUserId = useGameQueryStore((s) => s.gameQuery.wishlistId);
-  const libraryUserId = useGameQueryStore((s) => s.gameQuery.libraryId);
+  const wishlistUserId = useGameQueryStore((s) => s.gameQuery.wishlistUserId);
+  const libraryUserId = useGameQueryStore((s) => s.gameQuery.libraryUserId);
   const queryClient = useQueryClient();
 
   // Helper to remove a game from the games cache
   const removeGameFromCache = (gameId: number) => {
-    queryClient.setQueryData(
-      ["games", { ...useGameQueryStore.getState().gameQuery }],
-      (oldData: any) => {
-        if (!oldData) return oldData;
-        return {
-          ...oldData,
-          pages: oldData.pages.map((page: any) => ({
-            ...page,
-            results: page.results.filter((g: any) => g.id !== gameId),
-          })),
-        };
-      }
-    );
+    queryClient.setQueryData<
+      { pages: Response<Game>[]; pageParams: unknown[] } | undefined
+    >(["games", { ...useGameQueryStore.getState().gameQuery }], (oldData) => {
+      if (!oldData) return oldData;
+      return {
+        ...oldData,
+        pages: oldData.pages.map((page) => ({
+          ...page,
+          results: page.results.filter((g) => g.id !== gameId),
+        })),
+      };
+    });
   };
 
   const handleMouseLeave = () => {

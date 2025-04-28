@@ -4,9 +4,8 @@ import useGameQueryStore from "../../../state";
 import usePlatform from "../../platforms/usePlatform";
 
 const GameHeading = () => {
-  const { genreId, platformId, wishlistId, libraryId } = useGameQueryStore(
-    (s) => s.gameQuery
-  );
+  const { genreId, platformId, wishlistUserId, libraryUserId } =
+    useGameQueryStore((s) => s.gameQuery);
 
   const { data: dataGenres } = useGenres();
   const genre = dataGenres?.results.find((g) => g.id === genreId);
@@ -15,11 +14,11 @@ const GameHeading = () => {
 
   let heading = `${platform?.name || ""} ${genre?.name || ""} Games`;
 
-  if (wishlistId) {
+  if (wishlistUserId) {
     heading = "Games in Wishlist";
   }
 
-  if (libraryId) {
+  if (libraryUserId) {
     heading = "Games in Library";
   }
 
