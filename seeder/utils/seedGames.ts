@@ -1,4 +1,4 @@
-import { DataSource } from "typeorm";
+import { DataSource, Repository, ObjectLiteral } from "typeorm";
 import { Game } from "../entities/Game";
 import { Genre } from "../entities/Genre";
 import { ParentPlatform } from "../entities/ParentPlatform";
@@ -10,7 +10,7 @@ import { Developer } from "../entities/Developer";
 import { Tag } from "../entities/Tag";
 import {
   fetchGames,
-  fetchAdditionalGameData, // <-- import the new function
+  fetchAdditionalGameData,
   fetchTrailers,
   fetchScreenshots,
 } from "./fetchers";
@@ -19,6 +19,27 @@ import {
 const GAME_PAGES = process.env.GAME_PAGES
   ? parseInt(process.env.GAME_PAGES)
   : undefined;
+
+// Generic helper function
+async function findOrCreateEntities<T extends ObjectLiteral>(
+  repo: Repository<T>,
+  entities: T[],
+  entityName: string
+): Promise<T[]> {
+  return Promise.all(
+    entities.map(async (e: any) => {
+      let found = await repo.findOne({ where: { id: e.id } });
+      if (!found) {
+        found = await repo.save(e);
+        if (!found) {
+          throw new Error(`${entityName} could not be saved`);
+        }
+        console.log(`${entityName} ${found.name} created`);
+      }
+      return found;
+    })
+  );
+}
 
 export async function seedGames(dataSource: DataSource) {
   const gameRepo = dataSource.getRepository(Game);
@@ -51,76 +72,24 @@ export async function seedGames(dataSource: DataSource) {
     game.tags = tags;
     game.website = website;
 
-    // Save genres and assign to game
-    game.genres = await Promise.all(
-      game.genres.map(async (g) => {
-        let genre = await genreRepo.findOne({ where: { id: g.id } });
-        if (!genre) {
-          genre = await genreRepo.save(g);
-          console.log(`Genre ${genre.name} created`);
-        }
-        return genre;
-      })
+    // Use helper for all entity types
+    game.genres = await findOrCreateEntities(genreRepo, game.genres, "Genre");
+    game.publishers = await findOrCreateEntities(
+      publisherRepo,
+      game.publishers,
+      "Publisher"
     );
-
-    // Save publishers and assign to game
-    game.publishers = await Promise.all(
-      game.publishers.map(async (pub) => {
-        let publisher = await publisherRepo.findOne({ where: { id: pub.id } });
-        if (!publisher) {
-          publisher = await publisherRepo.save(pub);
-          console.log(`Publisher ${publisher.name} created`);
-        }
-        return publisher;
-      })
+    game.developers = await findOrCreateEntities(
+      developerRepo,
+      game.developers,
+      "Developer"
     );
-
-    // Save developers and assign to game
-    game.developers = await Promise.all(
-      game.developers.map(async (dev) => {
-        let developer = await developerRepo.findOne({ where: { id: dev.id } });
-        if (!developer) {
-          developer = await developerRepo.save(dev);
-          console.log(`Developer ${developer.name} created`);
-        }
-        return developer;
-      })
-    );
-
-    // Save tags and assign to game
-    game.tags = await Promise.all(
-      game.tags.map(async (t) => {
-        let tag = await tagRepo.findOne({ where: { id: t.id } });
-        if (!tag) {
-          tag = await tagRepo.save(t);
-          console.log(`Tag ${tag.name} created`);
-        }
-        return tag;
-      })
-    );
-
-    // Save stores and assign to game
-    game.stores = await Promise.all(
-      game.stores.map(async (s) => {
-        let store = await storeRepo.findOne({ where: { id: s.id } });
-        if (!store) {
-          store = await storeRepo.save(s);
-          console.log(`Store ${store.name} created`);
-        }
-        return store;
-      })
-    );
-
-    // Save platforms and assign to game
-    game.parent_platforms = await Promise.all(
-      game.parent_platforms.map(async (p) => {
-        let platform = await platformRepo.findOne({ where: { id: p.id } });
-        if (!platform) {
-          platform = await platformRepo.save(p);
-          console.log(`Platform ${platform.name} created`);
-        }
-        return platform;
-      })
+    game.tags = await findOrCreateEntities(tagRepo, game.tags, "Tag");
+    game.stores = await findOrCreateEntities(storeRepo, game.stores, "Store");
+    game.parent_platforms = await findOrCreateEntities(
+      platformRepo,
+      game.parent_platforms,
+      "Platform"
     );
 
     // Save the game with all relationships
