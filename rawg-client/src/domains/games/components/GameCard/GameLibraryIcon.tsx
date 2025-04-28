@@ -1,5 +1,5 @@
 import { useColorMode } from "@chakra-ui/react";
-import { FaBookOpen, FaBook } from "react-icons/fa";
+import { FaArchive, FaGamepad } from "react-icons/fa";
 import UserGameRelationIcon from "./UserGameRelationIcon";
 import libraryService from "../../../gameLibrary/libraryService";
 
@@ -19,9 +19,9 @@ const GameLibraryIcon = ({ gameId, initialActive }: GameLibraryIconProps) => {
         remove: libraryService.remove,
       }}
       activeIcon={
-        <FaBook color={colorMode === "light" ? "#3182ce" : "#63b3ed"} />
+        <FaGamepad color={colorMode === "light" ? "#38A169" : "#68D391"} />
       }
-      inactiveIcon={<FaBookOpen />}
+      inactiveIcon={<FaGamepad />}
     />
   );
 };

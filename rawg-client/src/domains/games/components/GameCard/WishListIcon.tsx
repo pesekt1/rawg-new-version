@@ -1,5 +1,5 @@
 import { useColorMode } from "@chakra-ui/react";
-import { FaRegHeart, FaHeart } from "react-icons/fa";
+import { FaRegStar, FaStar } from "react-icons/fa";
 import UserGameRelationIcon from "./UserGameRelationIcon";
 import wishlistService from "../../../wishlist/wishlistService";
 
@@ -19,9 +19,9 @@ const WishListIcon = ({ gameId, initialActive }: WishListIconProps) => {
         remove: wishlistService.remove,
       }}
       activeIcon={
-        <FaHeart color={colorMode === "light" ? "#E53E3E" : "#F56565"} />
+        <FaStar color={colorMode === "light" ? "#ECC94B" : "#F6E05E"} />
       }
-      inactiveIcon={<FaRegHeart />}
+      inactiveIcon={<FaRegStar />}
     />
   );
 };
