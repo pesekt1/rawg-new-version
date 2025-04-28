@@ -2,6 +2,7 @@ import { Image, SimpleGrid, useColorModeValue } from "@chakra-ui/react";
 import useScreenshots from "../../screenshots/useScreenshots";
 import { useState } from "react";
 import ScreenshotGallery from "./ScreenshotGallery";
+import getCroppedImageUrl from "./../../../utils/image-url";
 
 interface Props {
   gameId: number;
@@ -37,7 +38,7 @@ const GameScreenshots = ({ gameId }: Props) => {
         {screenshots.map((screenshot, idx) => (
           <Image
             key={screenshot.id}
-            src={screenshot.image}
+            src={getCroppedImageUrl(screenshot.image)}
             borderRadius="md"
             boxShadow="lg"
             transition="transform 0.2s, box-shadow 0.2s"
