@@ -9,6 +9,7 @@ import {
   Alert,
   AlertIcon,
   HStack,
+  Box,
 } from "@chakra-ui/react";
 import ExpandableText from "../components/ExpandableText";
 import GameAttributes from "../domains/games/components/GameAttributes";
@@ -42,7 +43,17 @@ const GameDetailPage = () => {
     },
   });
 
-  if (isLoading) return <Spinner />;
+  if (isLoading)
+    return (
+      <Box
+        minH="70vh"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Spinner />
+      </Box>
+    );
   if (error || !game) throw error;
 
   return (
