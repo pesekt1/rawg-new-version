@@ -317,6 +317,7 @@ export const getGame = async (id: number) => {
   };
 };
 
+//separate function allowing to query separately making the main query faster
 export const getTrailers = async (gameId: number) => {
   const game = await gameRepository
     .createQueryBuilder("game")
@@ -334,6 +335,7 @@ export const getTrailers = async (gameId: number) => {
   };
 };
 
+//separate function allowing to query separately making the main query faster
 export const getScreenshots = async (gameId: number) => {
   const game = await gameRepository
     .createQueryBuilder("game")
@@ -351,7 +353,6 @@ export const getScreenshots = async (gameId: number) => {
   };
 };
 
-// Add createGame function
 export const createGame = async (data: Partial<Game>) => {
   // Validate required fields
   if (!data.name || !data.slug) {
