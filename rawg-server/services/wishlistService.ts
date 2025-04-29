@@ -1,3 +1,3 @@
-import { UserCollectionService } from "./userCollectionService";
+import { UserGameRelationService } from "./userGameRelationService";
 
-export const wishlistService = new UserCollectionService("wishlist");
+export const wishlistService = new UserGameRelationService("wishlist");

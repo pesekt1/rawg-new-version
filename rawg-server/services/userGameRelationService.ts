@@ -2,10 +2,10 @@ import { AppDataSource } from "../startup/data-source";
 import { Game } from "../entities/Game";
 import { User } from "../entities/User";
 
-export class UserCollectionService {
+export class UserGameRelationService {
   constructor(private collection: "wishlist" | "library") {}
 
-  async getUserWithCollection(userId: number) {
+  async get(userId: number) {
     const userRepo = AppDataSource.getRepository(User);
     return userRepo.findOne({
       where: { id: userId },
@@ -13,7 +13,7 @@ export class UserCollectionService {
     });
   }
 
-  async addToCollection(userId: number, gameId: number) {
+  async add(userId: number, gameId: number) {
     const userRepo = AppDataSource.getRepository(User);
     const gameRepo = AppDataSource.getRepository(Game);
 
@@ -36,7 +36,7 @@ export class UserCollectionService {
     return user;
   }
 
-  async removeFromCollection(userId: number, gameId: number) {
+  async remove(userId: number, gameId: number) {
     const userRepo = AppDataSource.getRepository(User);
 
     const user = await userRepo.findOne({
