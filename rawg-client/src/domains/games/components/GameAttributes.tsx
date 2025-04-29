@@ -1,11 +1,6 @@
-import {
-  SimpleGrid,
-  Box,
-  Badge,
-  Stack,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { SimpleGrid, Box, Badge, useColorModeValue } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import useGameQueryStore from "../../../state";
 import { Game } from "../Game";
 import DefinitionItem from "../../../components/DefinitionItem";
@@ -21,15 +16,24 @@ interface AttributeBadgeProps {
   onSetId: (id: number) => void;
 }
 
+const DEFAULT_VISIBLE_BADGES = 5;
+
 const AttributeBadge = ({
   items,
   colorScheme,
   onSetId,
 }: AttributeBadgeProps) => {
   const navigate = useNavigate();
+  const [expanded, setExpanded] = useState(false);
+
+  const visibleItems = expanded
+    ? items
+    : items.slice(0, DEFAULT_VISIBLE_BADGES);
+  const hasMore = items.length > DEFAULT_VISIBLE_BADGES;
+
   return (
-    <Stack direction="row" flexWrap="wrap" spacing={2}>
-      {items.map((item) => (
+    <Box display="flex" flexWrap="wrap" gap="8px">
+      {visibleItems.map((item) => (
         <Badge
           key={item.id}
           colorScheme={colorScheme}
@@ -48,7 +52,22 @@ const AttributeBadge = ({
           {item.name}
         </Badge>
       ))}
-    </Stack>
+      {hasMore && (
+        <Badge
+          key="expand"
+          colorScheme={colorScheme}
+          variant="outline"
+          px={2}
+          py={1}
+          borderRadius="md"
+          fontSize="sm"
+          cursor="pointer"
+          onClick={() => setExpanded((v) => !v)}
+        >
+          {expanded ? "▲" : "..."}
+        </Badge>
+      )}
+    </Box>
   );
 };
 
