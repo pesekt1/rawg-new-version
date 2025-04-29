@@ -2,16 +2,19 @@ import { Heading } from "@chakra-ui/react";
 import useGameQueryStore from "../../../state";
 import usePlatform from "../../platforms/usePlatform";
 import useGenre from "../../genres/useGenre";
+import useStore from "../../stores/useStore";
 
 const GameHeading = () => {
-  const { genreId, platformId, wishlistUserId, libraryUserId } =
+  const { genreId, platformId, storeId, wishlistUserId, libraryUserId } =
     useGameQueryStore((s) => s.gameQuery);
 
   const genre = useGenre(genreId);
-
   const platform = usePlatform(platformId);
+  const store = useStore(storeId);
 
-  let heading = `${platform?.name || ""} ${genre?.name || ""} Games`;
+  let heading = `${store?.name || ""} ${platform?.name || ""} ${
+    genre?.name || ""
+  } Games`;
 
   if (wishlistUserId) {
     heading = "Games in Wishlist";
