@@ -1,24 +1,21 @@
 import { Spinner } from "@chakra-ui/react";
-import useTrailers from "../../trailers/useTrailers";
+import useFirstTrailer from "../../trailers/useFirstTrailer";
 
 interface Props {
   gameId: number;
 }
 
 const GameTrailer = ({ gameId }: Props) => {
-  const { data, isLoading, error } = useTrailers(gameId);
+  const { data: trailer, isLoading, error } = useFirstTrailer(gameId);
 
   if (isLoading) return <Spinner />;
-
   if (error) throw error;
-
-  const firstTrailer = data?.results[0];
-  if (!firstTrailer) return null;
+  if (!trailer) return null;
 
   return (
     <video
-      src={firstTrailer?.data480}
-      poster={firstTrailer?.preview}
+      src={trailer.data480}
+      poster={trailer.preview}
       controls
       width="100%"
       height="auto"
