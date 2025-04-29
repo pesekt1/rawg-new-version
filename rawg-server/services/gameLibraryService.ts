@@ -1,13 +1,15 @@
-import { libraryCollectionService } from "./userCollectionService";
+import { UserCollectionService } from "./userCollectionService";
+
+const libraryService = new UserCollectionService("library");
 
 export const getUserWithLibrary = async (userId: number) => {
-  return libraryCollectionService.getUserWithCollection(userId);
+  return libraryService.getUserWithCollection(userId);
 };
 
 export const addToLibrary = async (userId: number, gameId: number) => {
-  return libraryCollectionService.addToCollection(userId, gameId);
+  return libraryService.addToCollection(userId, gameId);
 };
 
 export const removeFromLibrary = async (userId: number, gameId: number) => {
-  return libraryCollectionService.removeFromCollection(userId, gameId);
+  return libraryService.removeFromCollection(userId, gameId);
 };

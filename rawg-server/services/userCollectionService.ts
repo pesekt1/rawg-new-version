@@ -54,7 +54,3 @@ export class UserCollectionService {
     return user;
   }
 }
-
-// Optionally export instances for convenience
-export const wishlistCollectionService = new UserCollectionService("wishlist");
-export const libraryCollectionService = new UserCollectionService("library");
