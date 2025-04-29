@@ -2,10 +2,11 @@ import useGetEntity from "../../hooks/useGetEntity";
 import { Genre } from "./Genre";
 import genreService from "./genreService";
 
-const useGenre = (genreId: number) =>
+const useGenre = (genreId?: number | null) =>
   useGetEntity<Genre>({
-    queryKey: ["genre", genreId],
-    queryFn: () => genreService.get(genreId),
+    idOrSlug: genreId,
+    queryKeyPrefix: "genre",
+    service: genreService,
   });
 
 export default useGenre;
