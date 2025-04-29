@@ -255,16 +255,19 @@ const modifyGameResponse = (games: Game[]) => {
 
 export const getGames = async (req: any) => {
   const DEFAULT_PAGE_SIZE = 10;
+  const MAX_PAGE_SIZE = 40;
   const DEFAULT_PAGE = 1;
 
   const page = req.query.page ? Number(req.query.page) : DEFAULT_PAGE;
-  const pageSize = req.query.page_size
+  let pageSize = req.query.page_size
     ? Number(req.query.page_size)
     : DEFAULT_PAGE_SIZE;
 
+  // Enforce maximum page size
+  if (pageSize > MAX_PAGE_SIZE) pageSize = MAX_PAGE_SIZE;
+  if (pageSize < 1) pageSize = DEFAULT_PAGE_SIZE;
+
   const queryBuilder = buildGameQuery(req);
-  // Remove .leftJoinAndSelect("game.wishlistedBy", "wishlistedBy") here,
-  // as it's now handled in addWishlistFilter
   queryBuilder.skip((page - 1) * pageSize).take(pageSize);
 
   const [games, total] = await queryBuilder.getManyAndCount();
