@@ -20,10 +20,12 @@ interface Props {
 }
 
 const GameCard = ({ game }: Props) => {
-  const { data: screenshotsData } = useScreenshots(game.id);
-  const screenshots = screenshotsData?.results?.slice(0, 4) || [];
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false); // <-- add hover state
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Only fetch screenshots when hovered
+  const { data: screenshotsData } = useScreenshots(game.id, isHovered);
+  const screenshots = screenshotsData?.results?.slice(0, 4) || [];
   const { user } = useAuth();
   const wishlistUserId = useGameQueryStore((s) => s.gameQuery.wishlistUserId);
   const libraryUserId = useGameQueryStore((s) => s.gameQuery.libraryUserId);
@@ -47,7 +49,7 @@ const GameCard = ({ game }: Props) => {
 
   const handleMouseLeave = () => {
     setCurrentIndex(0);
-    setIsHovered(false); // <-- reset hover state
+    setIsHovered(false);
   };
 
   const displayImage = useMemo(
@@ -79,7 +81,7 @@ const GameCard = ({ game }: Props) => {
         transform: "scale(1.05)",
         filter: "brightness(1.2)",
       }}
-      onMouseEnter={() => setIsHovered(true)} // <-- set hover state
+      onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
     >
       <Box position="relative">
