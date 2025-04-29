@@ -5,6 +5,7 @@ import useGenre from "../../genres/useGenre";
 import useStore from "../../stores/useStore";
 import useDeveloper from "../../developers/useDeveloper";
 import useTag from "../../tags/useTag";
+import usePublisher from "../../publishers/usePublisher";
 
 const GameHeading = () => {
   const {
@@ -14,6 +15,7 @@ const GameHeading = () => {
     wishlistUserId,
     libraryUserId,
     developerId,
+    publisherId,
     tagId,
   } = useGameQueryStore((s) => s.gameQuery);
 
@@ -22,22 +24,19 @@ const GameHeading = () => {
   const store = useStore(storeId);
   const developer = useDeveloper(developerId);
   const tag = useTag(tagId);
+  const publisher = usePublisher(publisherId);
   const developedBy = developer ? "developed by" : "";
+  const publishedBy = publisher ? "published by" : "";
   const wishlist = wishlistUserId ? "Wishlist" : "";
   const library = libraryUserId ? "Library" : "";
 
   let heading = `${wishlist} ${library} ${store?.name || ""} ${
     platform?.name || ""
-  } ${genre?.name || ""} Games ${developedBy} ${developer?.name || ""}`;
+  } ${genre?.name || ""} Games ${developedBy} ${
+    developer?.name || ""
+  } ${publishedBy} ${publisher?.name || ""}`;
 
-  // if (wishlistUserId) {
-  //   heading = "Games in Wishlist";
-  // }
-
-  // if (libraryUserId) {
-  //   heading = "Games in Library";
-  // }
-
+  //selecting tagId will override all other filters
   if (tag) {
     heading = `${tag.name} Games`;
   }
