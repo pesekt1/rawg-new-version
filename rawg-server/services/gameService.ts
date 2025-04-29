@@ -214,26 +214,26 @@ const buildGameQuery = (req: any) => {
     : undefined;
   const tagId = req.query.tagId ? Number(req.query.tagId) : undefined;
 
-  //query builder to get all games with their genres, parent_platforms, and stores
+  // Only join/select minimal relations for GameCard
   const queryBuilder = gameRepository
     .createQueryBuilder("game")
-    .leftJoinAndSelect("game.genres", "genres")
-    .leftJoinAndSelect("game.parent_platforms", "parent_platforms")
-    .leftJoinAndSelect("game.stores", "stores")
-    .leftJoinAndSelect("game.publishers", "publishers")
-    .leftJoinAndSelect("game.developers", "developers")
-    .leftJoinAndSelect("game.tags", "tags");
+    .leftJoinAndSelect("game.parent_platforms", "parent_platforms");
 
+  // Filtering (subquery-based, keeps all relations in response)
   addGenreFilter(queryBuilder, genreId);
   addStoreFilter(queryBuilder, storeId);
   addParentPlatformFilter(queryBuilder, parentPlatformId);
   addPublisherFilter(queryBuilder, publisherId);
   addDeveloperFilter(queryBuilder, developerId);
+  addTagFilter(queryBuilder, tagId);
+
+  // Wishlisted and Library filters (these are user-specific, so use inner join if filtering)
   addWishlistFilter(queryBuilder, wishlistUserId);
   addGameLibraryFilter(queryBuilder, libraryUserId);
-  addOrdering(queryBuilder, ordering);
+
+  // Search and ordering
   addSearch(queryBuilder, search);
-  addTagFilter(queryBuilder, tagId);
+  addOrdering(queryBuilder, ordering);
 
   return queryBuilder;
 };
