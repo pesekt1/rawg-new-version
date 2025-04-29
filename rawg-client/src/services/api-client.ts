@@ -42,7 +42,7 @@ class ApiClient<T> {
 
   delete = (idOrSlug: string | number) =>
     axiosInstance
-      .delete(`${this.endpoint}/${idOrSlug}`)
+      .delete<{ message: string }>(`${this.endpoint}/${idOrSlug}`)
       .then((res) => res.data);
 
   patch = (idOrSlug: string | number, data: Partial<T>) =>
