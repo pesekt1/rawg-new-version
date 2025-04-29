@@ -1,11 +1,11 @@
-import usePlatforms from "./usePlatforms";
+import useGetEntity from "../../hooks/useGetEntity";
+import { Platform } from "./Platform";
+import platformService from "./platformService";
 
-const usePlatform = (selectedPlatformId?: number) => {
-  const { data } = usePlatforms();
-  const selectedPlatform = data?.results?.find(
-    (platform) => platform.id === selectedPlatformId
-  );
+const usePlatform = (platformId: number) =>
+  useGetEntity<Platform>({
+    queryKey: ["platform", platformId],
+    queryFn: () => platformService.get(platformId),
+  });
 
-  return selectedPlatform;
-};
 export default usePlatform;

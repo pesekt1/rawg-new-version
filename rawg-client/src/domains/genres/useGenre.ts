@@ -1,12 +1,11 @@
-import useGenres from "./useGenres";
+import useGetEntity from "../../hooks/useGetEntity";
+import { Genre } from "./Genre";
+import genreService from "./genreService";
 
-const useGenre = (selectedGenreId?: number) => {
-  const { data } = useGenres();
-  const selectedGenre = data?.results?.find(
-    (genre) => genre.id === selectedGenreId
-  );
-
-  return selectedGenre;
-};
+const useGenre = (genreId: number) =>
+  useGetEntity<Genre>({
+    queryKey: ["genre", genreId],
+    queryFn: () => genreService.get(genreId),
+  });
 
 export default useGenre;

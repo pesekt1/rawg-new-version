@@ -1,10 +1,11 @@
-import useTags from "./useTags";
+import useGetEntity from "../../hooks/useGetEntity";
+import { Tag } from "./Tag";
+import tagService from "./tagService";
 
-const useTag = (selectedTagId?: number) => {
-  const { data } = useTags();
-  const selectedTag = data?.results?.find((tag) => tag.id === selectedTagId);
-
-  return selectedTag;
-};
+const useTag = (tagId: number) =>
+  useGetEntity<Tag>({
+    queryKey: ["tag", tagId],
+    queryFn: () => tagService.get(tagId),
+  });
 
 export default useTag;

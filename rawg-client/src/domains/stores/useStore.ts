@@ -1,12 +1,11 @@
-import useStores from "./useStores";
+import useGetEntity from "../../hooks/useGetEntity";
+import { Store } from "./Store";
+import storeService from "./storeService";
 
-const useStore = (selectedStoreId?: number) => {
-  const { data } = useStores();
-  const selectedStore = data?.results?.find(
-    (store) => store.id === selectedStoreId
-  );
-
-  return selectedStore;
-};
+const useStore = (storeId: number) =>
+  useGetEntity<Store>({
+    queryKey: ["store", storeId],
+    queryFn: () => storeService.get(storeId),
+  });
 
 export default useStore;
