@@ -1,10 +1,8 @@
 import ApiClient from "../../services/api-client";
 import { Screenshot } from "./Screenshot";
 
-/**
- * Service for performing CRUD operations on Screenshot entities.
- * Uses the generic ApiClient with the "/screenshots" endpoint.
- */
-const screenshotService = new ApiClient<Screenshot>("/screenshots");
+// Returns an ApiClient for Screenshot entities for a specific game.
+const screenshotService = (gameId: number) =>
+  new ApiClient<Screenshot>(`/games/${gameId}/screenshots`);
 
 export default screenshotService;
