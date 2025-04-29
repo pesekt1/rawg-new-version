@@ -19,12 +19,13 @@ const GameHeading = () => {
     tagId,
   } = useGameQueryStore((s) => s.gameQuery);
 
-  const genre = useGenre(genreId);
-  const platform = usePlatform(platformId);
-  const store = useStore(storeId);
-  const developer = useDeveloper(developerId);
-  const tag = useTag(tagId);
-  const publisher = usePublisher(publisherId);
+  const { data: genre } = useGenre(genreId);
+  const { data: platform } = usePlatform(platformId);
+  const { data: store } = useStore(storeId);
+  const { data: developer } = useDeveloper(developerId);
+  const { data: tag } = useTag(tagId);
+  const { data: publisher } = usePublisher(publisherId);
+
   const developedBy = developer ? "developed by" : "";
   const publishedBy = publisher ? "published by" : "";
   const wishlist = wishlistUserId ? "Wishlist" : "";
