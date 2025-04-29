@@ -1,15 +1,7 @@
-import { Router, Request, Response, NextFunction } from "express";
+import { Router } from "express";
 import { BaseService } from "../services/baseService";
 import { ObjectLiteral } from "typeorm";
-
-// Helper to wrap async route handlers and forward errors to Express
-function asyncHandler(
-  fn: (req: Request, res: Response, next: NextFunction) => Promise<any>
-) {
-  return (req: Request, res: Response, next: NextFunction) => {
-    Promise.resolve(fn(req, res, next)).catch(next);
-  };
-}
+import { asyncHandler } from "../utils/asyncHandler";
 
 export function createBaseRouter<T extends ObjectLiteral>(
   service: BaseService<T>

@@ -1,14 +1,6 @@
-import { Router, Request, Response, NextFunction } from "express";
+import { Router } from "express";
 import { UserGameRelationService } from "../services/userGameRelationService";
-
-// Helper to wrap async route handlers and forward errors to Express
-function asyncHandler(
-  fn: (req: Request, res: Response, next: NextFunction) => Promise<any>
-) {
-  return (req: Request, res: Response, next: NextFunction) => {
-    Promise.resolve(fn(req, res, next)).catch(next);
-  };
-}
+import { asyncHandler } from "../utils/asyncHandler";
 
 export function userGameRelationRouter(service: UserGameRelationService) {
   const router = Router();
