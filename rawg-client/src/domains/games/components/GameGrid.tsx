@@ -6,12 +6,6 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import GameCardContainer from "./GameCard/GameCardContainer";
 import GameCardSkeleton from "./GameCard/GameCardSkeleton";
 
-const noGamesText = () => (
-  <Text fontSize="2xl" fontWeight="bold" color="purple.400" p={4}>
-    No games found...
-  </Text>
-);
-
 const GameGrid = () => {
   const skeletons = [...Array(20).keys()];
 
