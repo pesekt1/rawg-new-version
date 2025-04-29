@@ -1,12 +1,11 @@
-import useDevelopers from "./useDevelopers";
+import useGetEntity from "../../hooks/useGetEntity";
+import { Developer } from "./Developer";
+import developerService from "./developerService";
 
-const useDeveloper = (selectedDeveloperId?: number) => {
-  const { data } = useDevelopers();
-  const selectedDeveloper = data?.results?.find(
-    (developer) => developer.id === selectedDeveloperId
-  );
-
-  return selectedDeveloper;
-};
+const useDeveloper = (developerId: number) =>
+  useGetEntity<Developer>({
+    queryKey: ["developer", developerId],
+    queryFn: () => developerService.get(developerId),
+  });
 
 export default useDeveloper;
