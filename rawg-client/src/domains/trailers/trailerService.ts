@@ -7,7 +7,7 @@ const trailerService = (gameId: number) =>
 export const fetchFirstTrailer = async (gameId: number) => {
   // Assumes the API supports page_size param
   const res = await trailerService(gameId).getAll({ params: { page_size: 1 } });
-  return res.results[0];
+  return res.results[0] ?? null; // Return null if no trailer
 };
 
 export default trailerService;
