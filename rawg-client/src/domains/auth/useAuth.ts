@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { User } from "./User";
 
 function isTokenValid(token: string | null): boolean {
@@ -50,18 +50,20 @@ export function useAuth() {
   });
 
   const saveToken = (newToken: string) => {
+    if (token === newToken) return;
     setToken(newToken);
     localStorage.setItem("token", newToken);
   };
 
   const logout = () => {
+    if (!token) return;
     setToken("");
     localStorage.removeItem("token");
   };
 
-  const isAuthenticated = isTokenValid(token);
-  const role = getUserRole(token);
-  const user = getUserFromToken(token);
+  const isAuthenticated = useMemo(() => isTokenValid(token), [token]);
+  const role = useMemo(() => getUserRole(token), [token]);
+  const user = useMemo(() => getUserFromToken(token), [token]);
 
   return { token, saveToken, logout, isAuthenticated, role, user };
 }
