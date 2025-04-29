@@ -8,6 +8,7 @@ import {
 import { Game } from "../Game";
 import DefinitionItem from "../../../components/DefinitionItem";
 import CriticScore from "../components/GameCard/CriticScore";
+import { developerService } from "./../../../../../rawg-server/services/developerService";
 
 interface Props {
   game: Game;
@@ -60,20 +61,35 @@ const GameAttributes = ({ game }: Props) => {
         <DefinitionItem term="Platforms">
           <AttributeBadge items={platformBadges} colorScheme="blue" />
         </DefinitionItem>
-
-        <DefinitionItem term="Metacritic">
-          <CriticScore score={game.metacritic} />
-        </DefinitionItem>
-
         <DefinitionItem term="Genres">
           <AttributeBadge items={game.genres} colorScheme="purple" />
         </DefinitionItem>
-
         <DefinitionItem term="Publishers">
           <AttributeBadge items={game.publishers} colorScheme="orange" />
         </DefinitionItem>
-
+        <DefinitionItem term="Stores">
+          <AttributeBadge items={game.stores} colorScheme="green" />
+        </DefinitionItem>
+        <DefinitionItem term="Developers">
+          <AttributeBadge items={game.developers} colorScheme="teal" />
+        </DefinitionItem>
+        <DefinitionItem term="Tags">
+          <AttributeBadge items={game.tags} colorScheme="pink" />
+        </DefinitionItem>
         <DefinitionItem term="Release date">{game.released}</DefinitionItem>
+        <DefinitionItem term="Website">
+          <a
+            href={game.website}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "white", textDecoration: "underline" }}
+          >
+            {game.website}
+          </a>
+        </DefinitionItem>
+        <DefinitionItem term="Metacritic">
+          <CriticScore score={game.metacritic} />
+        </DefinitionItem>
       </SimpleGrid>
     </Box>
   );
