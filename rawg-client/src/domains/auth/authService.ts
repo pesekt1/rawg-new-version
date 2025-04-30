@@ -3,12 +3,14 @@ import authClient from "../../services/auth-client";
 const TOKEN_KEY = "token";
 
 /**
- * Service for handling authentication actions such as login and registration.
- * Delegates to the shared authClient for HTTP requests.
+ * Service for handling authentication actions such as login, registration, and token management.
+ * Handles storing and removing the authentication token in localStorage.
+ * Delegates HTTP requests to the shared authClient.
  */
 const authService = {
   /**
    * Log in a user with username and password.
+   * Stores the received token in localStorage.
    * @param username - The user's username.
    * @param password - The user's password.
    * @returns A promise resolving to the authentication response.
@@ -29,14 +31,14 @@ const authService = {
     authClient.register(username, password),
 
   /**
-   * Log out the current user, removing the token from storage.
+   * Log out the current user by removing the token from localStorage.
    */
   logout: () => {
     localStorage.removeItem(TOKEN_KEY);
   },
 
   /**
-   * Get the current user's token from storage.
+   * Get the current user's token from localStorage.
    * @returns The token string, or null if not present.
    */
   getToken: () => localStorage.getItem(TOKEN_KEY),
