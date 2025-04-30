@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { User } from "./User";
+import authService from "./authService";
 
 function isTokenValid(token: string | null): boolean {
   if (!token) return false;
@@ -45,20 +46,20 @@ function getUserFromToken(token: string | null): User | null {
 
 export function useAuth() {
   const [token, setToken] = useState(() => {
-    const t = localStorage.getItem("token");
+    const t = authService.getToken();
     return isTokenValid(t) ? t! : "";
   });
 
   const saveToken = (newToken: string) => {
     if (token === newToken) return;
     setToken(newToken);
-    localStorage.setItem("token", newToken);
+    authService.login; // token is already saved in service after login
   };
 
   const logout = () => {
     if (!token) return;
     setToken("");
-    localStorage.removeItem("token");
+    authService.logout();
   };
 
   const isAuthenticated = useMemo(() => isTokenValid(token), [token]);
