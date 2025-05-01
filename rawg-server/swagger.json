@@ -6,7 +6,475 @@
 		"parameters": {},
 		"requestBodies": {},
 		"responses": {},
-		"schemas": {},
+		"schemas": {
+			"Genre": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"slug": {
+						"type": "string"
+					},
+					"image_background": {
+						"type": "string"
+					},
+					"games": {
+						"items": {
+							"$ref": "#/components/schemas/Game"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"slug",
+					"games"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Game": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"slug": {
+						"type": "string"
+					},
+					"description_raw": {
+						"type": "string"
+					},
+					"metacritic": {
+						"type": "number",
+						"format": "double"
+					},
+					"background_image": {
+						"type": "string"
+					},
+					"rating": {
+						"type": "number",
+						"format": "double"
+					},
+					"released": {
+						"type": "string"
+					},
+					"added": {
+						"type": "number",
+						"format": "double"
+					},
+					"rating_top": {
+						"type": "number",
+						"format": "double"
+					},
+					"website": {
+						"type": "string"
+					},
+					"genres": {
+						"items": {
+							"$ref": "#/components/schemas/Genre"
+						},
+						"type": "array"
+					},
+					"parent_platforms": {
+						"items": {
+							"$ref": "#/components/schemas/ParentPlatform"
+						},
+						"type": "array"
+					},
+					"stores": {
+						"items": {
+							"$ref": "#/components/schemas/Store"
+						},
+						"type": "array"
+					},
+					"publishers": {
+						"items": {
+							"$ref": "#/components/schemas/Publisher"
+						},
+						"type": "array"
+					},
+					"developers": {
+						"items": {
+							"$ref": "#/components/schemas/Developer"
+						},
+						"type": "array"
+					},
+					"tags": {
+						"items": {
+							"$ref": "#/components/schemas/Tag"
+						},
+						"type": "array"
+					},
+					"wishlistedBy": {
+						"items": {
+							"$ref": "#/components/schemas/User"
+						},
+						"type": "array"
+					},
+					"inLibraryOf": {
+						"items": {
+							"$ref": "#/components/schemas/User"
+						},
+						"type": "array"
+					},
+					"trailers": {
+						"items": {
+							"$ref": "#/components/schemas/Trailer"
+						},
+						"type": "array"
+					},
+					"screenshots": {
+						"items": {
+							"$ref": "#/components/schemas/Screenshot"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"slug",
+					"genres",
+					"parent_platforms",
+					"stores",
+					"publishers",
+					"developers",
+					"tags",
+					"wishlistedBy",
+					"inLibraryOf",
+					"trailers",
+					"screenshots"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ParentPlatform": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"slug": {
+						"type": "string"
+					},
+					"games": {
+						"items": {
+							"$ref": "#/components/schemas/Game"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"slug",
+					"games"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Store": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"slug": {
+						"type": "string"
+					},
+					"image_background": {
+						"type": "string"
+					},
+					"games": {
+						"items": {
+							"$ref": "#/components/schemas/Game"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"slug",
+					"games"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Publisher": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"slug": {
+						"type": "string"
+					},
+					"image_background": {
+						"type": "string"
+					},
+					"games": {
+						"items": {
+							"$ref": "#/components/schemas/Game"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"slug",
+					"games"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Developer": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"slug": {
+						"type": "string"
+					},
+					"image_background": {
+						"type": "string"
+					},
+					"games": {
+						"items": {
+							"$ref": "#/components/schemas/Game"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"slug",
+					"games"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Tag": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"slug": {
+						"type": "string"
+					},
+					"language": {
+						"type": "string"
+					},
+					"image_background": {
+						"type": "string"
+					},
+					"games": {
+						"items": {
+							"$ref": "#/components/schemas/Game"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"slug",
+					"language",
+					"games"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"User": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"username": {
+						"type": "string"
+					},
+					"passwordHash": {
+						"type": "string"
+					},
+					"role": {
+						"type": "string",
+						"enum": [
+							"admin",
+							"user"
+						]
+					},
+					"wishlist": {
+						"items": {
+							"$ref": "#/components/schemas/Game"
+						},
+						"type": "array"
+					},
+					"library": {
+						"items": {
+							"$ref": "#/components/schemas/Game"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"id",
+					"username",
+					"passwordHash",
+					"role",
+					"wishlist",
+					"library"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Trailer": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"preview": {
+						"type": "string"
+					},
+					"data480": {
+						"type": "string"
+					},
+					"dataMax": {
+						"type": "string"
+					},
+					"game": {
+						"$ref": "#/components/schemas/Game"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"preview",
+					"data480",
+					"dataMax",
+					"game"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Screenshot": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"image": {
+						"type": "string"
+					},
+					"width": {
+						"type": "number",
+						"format": "double"
+					},
+					"height": {
+						"type": "number",
+						"format": "double"
+					},
+					"is_deleted": {
+						"type": "boolean"
+					},
+					"game": {
+						"$ref": "#/components/schemas/Game"
+					}
+				},
+				"required": [
+					"id",
+					"image",
+					"width",
+					"height",
+					"is_deleted",
+					"game"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Partial_Genre_": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"slug": {
+						"type": "string"
+					},
+					"image_background": {
+						"type": "string"
+					},
+					"games": {
+						"items": {
+							"$ref": "#/components/schemas/Game"
+						},
+						"type": "array"
+					}
+				},
+				"type": "object",
+				"description": "Make all properties in T optional"
+			},
+			"Partial_Developer_": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"slug": {
+						"type": "string"
+					},
+					"image_background": {
+						"type": "string"
+					},
+					"games": {
+						"items": {
+							"$ref": "#/components/schemas/Game"
+						},
+						"type": "array"
+					}
+				},
+				"type": "object",
+				"description": "Make all properties in T optional"
+			}
+		},
 		"securitySchemes": {}
 	},
 	"info": {
@@ -43,6 +511,356 @@
 				},
 				"security": [],
 				"parameters": []
+			}
+		},
+		"/genres": {
+			"get": {
+				"operationId": "GetAll",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Genre"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Genres"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "Create",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Genre"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Genres"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Partial_Genre_"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/genres/{id}": {
+			"get": {
+				"operationId": "GetById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"$ref": "#/components/schemas/Genre"
+										}
+									],
+									"nullable": true
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Genres"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "Update",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"$ref": "#/components/schemas/Genre"
+										}
+									],
+									"nullable": true
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Genres"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Partial_Genre_"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "Delete",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Genres"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/developers": {
+			"get": {
+				"operationId": "GetAll",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Developer"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Developers"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "Create",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Developer"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Developers"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Partial_Developer_"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/developers/{id}": {
+			"get": {
+				"operationId": "GetById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"$ref": "#/components/schemas/Developer"
+										}
+									],
+									"nullable": true
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Developers"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "Update",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"$ref": "#/components/schemas/Developer"
+										}
+									],
+									"nullable": true
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Developers"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Partial_Developer_"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "Delete",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Developers"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
 			}
 		}
 	},
