@@ -2,6 +2,10 @@ import { SelectQueryBuilder } from "typeorm";
 import { Game } from "../entities/Game";
 import { AppDataSource } from "../startup/data-source";
 
+/**
+ * Service functions for querying and manipulating Game entities.
+ */
+
 const gameRepository = AppDataSource.getRepository(Game);
 
 const addGenreFilter = (
@@ -253,6 +257,9 @@ const modifyGameResponse = (games: Game[]) => {
   }));
 };
 
+/**
+ * Get a paginated list of games with filters and sorting.
+ */
 export const getGames = async (req: any) => {
   const DEFAULT_PAGE_SIZE = 10;
   const MAX_PAGE_SIZE = 40;
@@ -285,6 +292,9 @@ export const getGames = async (req: any) => {
   };
 };
 
+/**
+ * Get a single game by ID, including all relations.
+ */
 export const getGame = async (id: number) => {
   const game = await gameRepository
     .createQueryBuilder("game")
@@ -317,7 +327,9 @@ export const getGame = async (id: number) => {
   };
 };
 
-//separate function allowing to query separately making the main query faster
+/**
+ * Get trailers for a specific game.
+ */
 export const getTrailers = async (gameId: number) => {
   const game = await gameRepository
     .createQueryBuilder("game")
@@ -335,7 +347,9 @@ export const getTrailers = async (gameId: number) => {
   };
 };
 
-//separate function allowing to query separately making the main query faster
+/**
+ * Get screenshots for a specific game.
+ */
 export const getScreenshots = async (gameId: number) => {
   const game = await gameRepository
     .createQueryBuilder("game")
@@ -353,6 +367,9 @@ export const getScreenshots = async (gameId: number) => {
   };
 };
 
+/**
+ * Create a new game.
+ */
 export const createGame = async (data: Partial<Game>) => {
   // Validate required fields
   if (!data.name || !data.slug) {
@@ -381,6 +398,9 @@ export const createGame = async (data: Partial<Game>) => {
   return game;
 };
 
+/**
+ * Delete a game by ID.
+ */
 export const deleteGame = async (id: number) => {
   const game = await gameRepository.findOneBy({ id });
   if (!game) {
@@ -389,6 +409,9 @@ export const deleteGame = async (id: number) => {
   await gameRepository.remove(game);
 };
 
+/**
+ * Update a game by ID.
+ */
 export const updateGame = async (id: number, data: Partial<Game>) => {
   const game = await gameRepository.findOneBy({ id });
   if (!game) throw new Error(`Game with id "${id}" not found`);

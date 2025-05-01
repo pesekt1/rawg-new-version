@@ -2,9 +2,20 @@ import { AppDataSource } from "../startup/data-source";
 import { Game } from "../entities/Game";
 import { User } from "../entities/User";
 
+/**
+ * Service for managing user-game relations (wishlist, library).
+ */
 export class UserGameRelationService {
+  /**
+   * @param collection The relation type: "wishlist" or "library".
+   */
   constructor(private collection: "wishlist" | "library") {}
 
+  /**
+   * Get the user's wishlist or library.
+   * @param userId User ID
+   * @returns Promise resolving to the user with the relation loaded.
+   */
   async get(userId: number) {
     const userRepo = AppDataSource.getRepository(User);
     return userRepo.findOne({
@@ -13,6 +24,12 @@ export class UserGameRelationService {
     });
   }
 
+  /**
+   * Add a game to the user's wishlist or library.
+   * @param userId User ID
+   * @param gameId Game ID
+   * @returns Promise resolving to the updated user.
+   */
   async add(userId: number, gameId: number) {
     const userRepo = AppDataSource.getRepository(User);
     const gameRepo = AppDataSource.getRepository(Game);
@@ -36,6 +53,12 @@ export class UserGameRelationService {
     return user;
   }
 
+  /**
+   * Remove a game from the user's wishlist or library.
+   * @param userId User ID
+   * @param gameId Game ID
+   * @returns Promise resolving to the updated user.
+   */
   async remove(userId: number, gameId: number) {
     const userRepo = AppDataSource.getRepository(User);
 

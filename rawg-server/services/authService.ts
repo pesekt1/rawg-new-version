@@ -5,9 +5,20 @@ import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET || "dev_secret";
 
+/**
+ * Service for handling authentication and user registration.
+ */
 export class AuthService {
   private static userRepository = AppDataSource.getRepository(User);
 
+  /**
+   * Register a new user.
+   * @param username The username for the new user.
+   * @param password The password for the new user.
+   * @param role The role of the user ("admin" or "user"). Defaults to "user".
+   * @returns An object containing the new user's id, username, and role.
+   * @throws Error if the username already exists.
+   */
   static async register(
     username: string,
     password: string,
@@ -22,6 +33,13 @@ export class AuthService {
     return { id: user.id, username: user.username, role: user.role };
   }
 
+  /**
+   * Authenticate a user and return a JWT token if successful.
+   * @param username The user's username.
+   * @param password The user's password.
+   * @returns An object containing the JWT token.
+   * @throws Error if credentials are invalid.
+   */
   static async login(username: string, password: string) {
     const user = await this.userRepository.findOneBy({ username });
     if (!user) throw new Error("Invalid credentials");
@@ -37,6 +55,11 @@ export class AuthService {
     return { token };
   }
 
+  /**
+   * Verify a JWT token.
+   * @param token The JWT token to verify.
+   * @returns The decoded token payload if valid, or null if invalid.
+   */
   static verifyToken(token: string) {
     try {
       return jwt.verify(token, JWT_SECRET);
