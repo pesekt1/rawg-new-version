@@ -1,11 +1,20 @@
 import { Request, Response, NextFunction, RequestHandler } from "express";
 import { AuthService } from "../services/authService";
 
-// Extend Request type to include user
+/**
+ * Extends Express Request to include an optional user object with a role.
+ */
 interface AuthenticatedRequest extends Request {
   user?: { role: string };
 }
 
+/**
+ * Middleware to require admin access.
+ * - Verifies Bearer token from Authorization header.
+ * - Checks for a valid user role of 'admin'.
+ * - Attaches user info to the request object.
+ * - Responds with 401 if token is missing/invalid, 403 if not admin.
+ */
 export const requireAdmin: RequestHandler = (
   req: AuthenticatedRequest,
   res: Response,
