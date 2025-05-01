@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction, RequestHandler } from "express";
-import { verifyToken } from "../services/authService";
+import { AuthService } from "../services/authService";
 
 // Extend Request type to include user
 interface AuthenticatedRequest extends Request {
@@ -17,7 +17,7 @@ export const requireAdmin: RequestHandler = (
     return;
   }
   const token = authHeader.split(" ")[1];
-  const payload = verifyToken(token);
+  const payload = AuthService.verifyToken(token);
 
   // Ensure payload is an object and has a role property
   if (
