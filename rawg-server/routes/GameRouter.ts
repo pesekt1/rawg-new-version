@@ -21,7 +21,6 @@ gameRouter.get(
   })
 );
 
-// Protect create, update, delete routes
 gameRouter.post(
   "/",
   requireAdmin,
@@ -31,7 +30,6 @@ gameRouter.post(
   })
 );
 
-// Change from :slug to :id and parse as number
 gameRouter.get(
   "/:id",
   asyncHandler(async (req, res) => {
