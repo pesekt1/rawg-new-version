@@ -32,7 +32,11 @@ export function createBaseRouter<T extends ObjectLiteral>(
     "/:id",
     asyncHandler(async (req, res) => {
       const item = await service.getById(Number(req.params.id));
-      if (!item) return res.status(404).send({ error: "Not found" });
+      if (!item) {
+        const err: any = new Error("Not found");
+        err.status = 404;
+        throw err;
+      }
       res.send(item);
     })
   );
@@ -41,12 +45,8 @@ export function createBaseRouter<T extends ObjectLiteral>(
   router.post(
     "/",
     asyncHandler(async (req, res) => {
-      try {
-        const created = await service.create(req.body);
-        res.status(201).send(created);
-      } catch (e: any) {
-        res.status(400).send({ error: e.message });
-      }
+      const created = await service.create(req.body);
+      res.status(201).send(created);
     })
   );
 
@@ -54,13 +54,13 @@ export function createBaseRouter<T extends ObjectLiteral>(
   router.put(
     "/:id",
     asyncHandler(async (req, res) => {
-      try {
-        const updated = await service.update(Number(req.params.id), req.body);
-        if (!updated) return res.status(404).send({ error: "Not found" });
-        res.send(updated);
-      } catch (e: any) {
-        res.status(400).send({ error: e.message });
+      const updated = await service.update(Number(req.params.id), req.body);
+      if (!updated) {
+        const err: any = new Error("Not found");
+        err.status = 404;
+        throw err;
       }
+      res.send(updated);
     })
   );
 
@@ -69,7 +69,11 @@ export function createBaseRouter<T extends ObjectLiteral>(
     "/:id",
     asyncHandler(async (req, res) => {
       const deleted = await service.delete(Number(req.params.id));
-      if (!deleted) return res.status(404).send({ error: "Not found" });
+      if (!deleted) {
+        const err: any = new Error("Not found");
+        err.status = 404;
+        throw err;
+      }
       res.send({ message: "Deleted" });
     })
   );

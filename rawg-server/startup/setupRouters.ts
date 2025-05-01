@@ -9,6 +9,7 @@ import wishlistRouter from "../routes/wishlistRouter";
 import gameLibraryRouter from "../routes/gameLibraryRouter";
 import developerRouter from "../routes/developerRouter";
 import tagRouter from "../routes/tagRouter";
+import { errorHandler } from "../middleware/errorHandler";
 
 const setupRouters = (app: express.Application) => {
   app.use("/genres", genreRouter);
@@ -21,6 +22,9 @@ const setupRouters = (app: express.Application) => {
   app.use("/library", gameLibraryRouter);
   app.use("/developers", developerRouter);
   app.use("/tags", tagRouter);
+
+  // Error handler should be last
+  app.use(errorHandler);
 };
 
 export default setupRouters;
