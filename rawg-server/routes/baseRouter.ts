@@ -2,6 +2,7 @@ import { Router } from "express";
 import { BaseService } from "../services/baseService";
 import { ObjectLiteral } from "typeorm";
 import { asyncHandler } from "../utils/asyncHandler";
+import { requireAdmin } from "../middleware/requireAdmin"; // <-- add import
 
 // Add generic response interface
 export interface ListResponse<T> {
@@ -41,18 +42,20 @@ export function createBaseRouter<T extends ObjectLiteral>(
     })
   );
 
-  // POST create
+  // POST create (protected)
   router.post(
     "/",
+    requireAdmin,
     asyncHandler(async (req, res) => {
       const created = await service.create(req.body);
       res.status(201).send(created);
     })
   );
 
-  // PUT update
+  // PUT update (protected)
   router.put(
     "/:id",
+    requireAdmin,
     asyncHandler(async (req, res) => {
       const updated = await service.update(Number(req.params.id), req.body);
       if (!updated) {
@@ -64,9 +67,10 @@ export function createBaseRouter<T extends ObjectLiteral>(
     })
   );
 
-  // DELETE
+  // DELETE (protected)
   router.delete(
     "/:id",
+    requireAdmin,
     asyncHandler(async (req, res) => {
       const deleted = await service.delete(Number(req.params.id));
       if (!deleted) {
