@@ -3,6 +3,12 @@ import { BaseService } from "../services/baseService";
 import { ObjectLiteral } from "typeorm";
 import { asyncHandler } from "../utils/asyncHandler";
 
+// Add generic response interface
+export interface ListResponse<T> {
+  count: number;
+  results: T[];
+}
+
 export function createBaseRouter<T extends ObjectLiteral>(
   service: BaseService<T>
 ) {
@@ -13,10 +19,11 @@ export function createBaseRouter<T extends ObjectLiteral>(
     "/",
     asyncHandler(async (req, res) => {
       const items = await service.getAll();
-      res.send({
+      const response: ListResponse<T> = {
         count: items.length,
         results: items,
-      });
+      };
+      res.send(response);
     })
   );
 
