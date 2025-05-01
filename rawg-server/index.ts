@@ -4,7 +4,6 @@ import dotenv from "dotenv";
 import { RegisterRoutes } from "./routes/routes"; // tsoa-generated
 import swaggerUi from "swagger-ui-express";
 import swaggerDocument from "./swagger.json";
-import * as path from "path";
 
 dotenv.config();
 
