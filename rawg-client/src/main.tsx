@@ -1,3 +1,4 @@
+import * as Sentry from "@sentry/react";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
@@ -22,14 +23,23 @@ const queryClient = new QueryClient({
   },
 });
 
+const sentryDsn: string = import.meta.env.VITE_SENTRY_DSN;
+
+Sentry.init({
+  dsn: sentryDsn,
+  tracesSampleRate: 1.0,
+});
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <ChakraProvider theme={theme}>
-      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-        <ReactQueryDevtools />
-      </QueryClientProvider>
-    </ChakraProvider>
+    <Sentry.ErrorBoundary fallback={<p>An error has occurred.</p>}>
+      <ChakraProvider theme={theme}>
+        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+          <ReactQueryDevtools />
+        </QueryClientProvider>
+      </ChakraProvider>
+    </Sentry.ErrorBoundary>
   </React.StrictMode>
 );

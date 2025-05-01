@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
+import * as Sentry from "@sentry/react";
 
 /**
  * Generic API response type for paginated endpoints.
@@ -25,6 +26,15 @@ axiosInstance.interceptors.request.use((config) => {
   }
   return config;
 });
+
+// Capture API errors with Sentry
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    Sentry.captureException(error);
+    return Promise.reject(error);
+  }
+);
 
 /**
  * ApiClient is a generic service for making HTTP requests to a REST API.
