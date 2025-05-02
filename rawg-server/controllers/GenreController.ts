@@ -15,6 +15,7 @@ import { genreService } from "../services/genreService";
 import { Genre } from "../entities/Genre";
 import { formatListResponse, handleDelete } from "./controllerUtils";
 import { IBaseController, ListResponse } from "./IBaseController";
+import { EntityUpdateDto } from "./dto/EntityUpdateDto";
 
 @Route("genres")
 @Tags("Genres")
@@ -43,7 +44,7 @@ export class GenreController
   @Security("admin")
   public async update(
     @Path() id: number,
-    @Body() data: Partial<Genre>
+    @Body() data: EntityUpdateDto
   ): Promise<Genre | null> {
     return genreService.update(id, data);
   }

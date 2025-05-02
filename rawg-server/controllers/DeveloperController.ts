@@ -15,6 +15,7 @@ import { developerService } from "../services/developerService";
 import { Developer } from "../entities/Developer";
 import { ListResponse, IBaseController } from "./IBaseController";
 import { formatListResponse, handleDelete } from "./controllerUtils";
+import { EntityUpdateDto } from "./dto/EntityUpdateDto";
 
 @Route("developers")
 @Tags("Developers")
@@ -43,7 +44,7 @@ export class DeveloperController
   @Security("admin")
   public async update(
     @Path() id: number,
-    @Body() data: Partial<Developer>
+    @Body() data: EntityUpdateDto
   ): Promise<Developer | null> {
     return developerService.update(id, data);
   }

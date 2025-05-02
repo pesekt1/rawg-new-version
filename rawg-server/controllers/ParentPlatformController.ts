@@ -15,6 +15,7 @@ import { parentPlatformService } from "../services/parentPlatformService";
 import { ParentPlatform } from "../entities/ParentPlatform";
 import { formatListResponse, handleDelete } from "./controllerUtils";
 import { ListResponse, IBaseController } from "./IBaseController";
+import { EntityUpdateDto } from "./dto/EntityUpdateDto";
 
 @Route("platforms/lists/parents")
 @Tags("ParentPlatforms")
@@ -45,7 +46,7 @@ export class ParentPlatformController
   @Security("admin")
   public async update(
     @Path() id: number,
-    @Body() data: Partial<ParentPlatform>
+    @Body() data: EntityUpdateDto
   ): Promise<ParentPlatform | null> {
     return parentPlatformService.update(id, data);
   }

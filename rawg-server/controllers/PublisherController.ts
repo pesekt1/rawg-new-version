@@ -15,6 +15,7 @@ import { publisherService } from "../services/publisherService";
 import { Publisher } from "../entities/Publisher";
 import { formatListResponse, handleDelete } from "./controllerUtils";
 import { ListResponse, IBaseController } from "./IBaseController";
+import { EntityUpdateDto } from "./dto/EntityUpdateDto";
 
 @Route("publishers")
 @Tags("Publishers")
@@ -43,7 +44,7 @@ export class PublisherController
   @Security("admin")
   public async update(
     @Path() id: number,
-    @Body() data: Partial<Publisher>
+    @Body() data: EntityUpdateDto
   ): Promise<Publisher | null> {
     return publisherService.update(id, data);
   }

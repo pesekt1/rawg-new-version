@@ -15,6 +15,7 @@ import { tagService } from "../services/tagService";
 import { Tag } from "../entities/Tag";
 import { formatListResponse, handleDelete } from "./controllerUtils";
 import { ListResponse, IBaseController } from "./IBaseController";
+import { EntityUpdateDto } from "./dto/EntityUpdateDto";
 
 @Route("tags")
 @Tags("Tags")
@@ -40,7 +41,7 @@ export class TagController extends Controller implements IBaseController<Tag> {
   @Security("admin")
   public async update(
     @Path() id: number,
-    @Body() data: Partial<Tag>
+    @Body() data: EntityUpdateDto
   ): Promise<Tag | null> {
     return tagService.update(id, data);
   }
