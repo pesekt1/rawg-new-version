@@ -649,6 +649,110 @@
 				"type": "object",
 				"description": "Make all properties in T optional"
 			},
+			"Partial_Game_": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"slug": {
+						"type": "string"
+					},
+					"description_raw": {
+						"type": "string"
+					},
+					"metacritic": {
+						"type": "number",
+						"format": "double"
+					},
+					"background_image": {
+						"type": "string"
+					},
+					"rating": {
+						"type": "number",
+						"format": "double"
+					},
+					"released": {
+						"type": "string"
+					},
+					"added": {
+						"type": "number",
+						"format": "double"
+					},
+					"rating_top": {
+						"type": "number",
+						"format": "double"
+					},
+					"website": {
+						"type": "string"
+					},
+					"genres": {
+						"items": {
+							"$ref": "#/components/schemas/Genre"
+						},
+						"type": "array"
+					},
+					"parent_platforms": {
+						"items": {
+							"$ref": "#/components/schemas/ParentPlatform"
+						},
+						"type": "array"
+					},
+					"stores": {
+						"items": {
+							"$ref": "#/components/schemas/Store"
+						},
+						"type": "array"
+					},
+					"publishers": {
+						"items": {
+							"$ref": "#/components/schemas/Publisher"
+						},
+						"type": "array"
+					},
+					"developers": {
+						"items": {
+							"$ref": "#/components/schemas/Developer"
+						},
+						"type": "array"
+					},
+					"tags": {
+						"items": {
+							"$ref": "#/components/schemas/Tag"
+						},
+						"type": "array"
+					},
+					"wishlistedBy": {
+						"items": {
+							"$ref": "#/components/schemas/User"
+						},
+						"type": "array"
+					},
+					"inLibraryOf": {
+						"items": {
+							"$ref": "#/components/schemas/User"
+						},
+						"type": "array"
+					},
+					"trailers": {
+						"items": {
+							"$ref": "#/components/schemas/Trailer"
+						},
+						"type": "array"
+					},
+					"screenshots": {
+						"items": {
+							"$ref": "#/components/schemas/Screenshot"
+						},
+						"type": "array"
+					}
+				},
+				"type": "object",
+				"description": "Make all properties in T optional"
+			},
 			"ListResponse_Developer_": {
 				"properties": {
 					"count": {
@@ -738,6 +842,118 @@
 		"contact": {}
 	},
 	"paths": {
+		"/wishlist/{userId}": {
+			"get": {
+				"operationId": "Get",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/User"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Wishlist"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/wishlist/{userId}/{gameId}": {
+			"post": {
+				"operationId": "Add",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/User"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Wishlist"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "path",
+						"name": "gameId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "Remove",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/User"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Wishlist"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "path",
+						"name": "gameId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
 		"/tags": {
 			"get": {
 				"operationId": "GetAll",
@@ -1426,6 +1642,118 @@
 				]
 			}
 		},
+		"/library/{userId}": {
+			"get": {
+				"operationId": "Get",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/User"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Library"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/library/{userId}/{gameId}": {
+			"post": {
+				"operationId": "Add",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/User"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Library"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "path",
+						"name": "gameId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "Remove",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/User"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Library"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "path",
+						"name": "gameId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
 		"/hello": {
 			"get": {
 				"operationId": "SayHello",
@@ -1610,6 +1938,529 @@
 				},
 				"tags": [
 					"Genres"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/games": {
+			"get": {
+				"operationId": "GetAll",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"results": {
+											"items": {
+												"properties": {
+													"screenshots": {
+														"items": {
+															"$ref": "#/components/schemas/Screenshot"
+														},
+														"type": "array"
+													},
+													"trailers": {
+														"items": {
+															"$ref": "#/components/schemas/Trailer"
+														},
+														"type": "array"
+													},
+													"tags": {
+														"items": {
+															"$ref": "#/components/schemas/Tag"
+														},
+														"type": "array"
+													},
+													"developers": {
+														"items": {
+															"$ref": "#/components/schemas/Developer"
+														},
+														"type": "array"
+													},
+													"publishers": {
+														"items": {
+															"$ref": "#/components/schemas/Publisher"
+														},
+														"type": "array"
+													},
+													"stores": {
+														"items": {
+															"$ref": "#/components/schemas/Store"
+														},
+														"type": "array"
+													},
+													"genres": {
+														"items": {
+															"$ref": "#/components/schemas/Genre"
+														},
+														"type": "array"
+													},
+													"website": {
+														"type": "string"
+													},
+													"rating_top": {
+														"type": "number",
+														"format": "double"
+													},
+													"added": {
+														"type": "number",
+														"format": "double"
+													},
+													"released": {
+														"type": "string"
+													},
+													"rating": {
+														"type": "number",
+														"format": "double"
+													},
+													"background_image": {
+														"type": "string"
+													},
+													"metacritic": {
+														"type": "number",
+														"format": "double"
+													},
+													"description_raw": {
+														"type": "string"
+													},
+													"slug": {
+														"type": "string"
+													},
+													"name": {
+														"type": "string"
+													},
+													"id": {
+														"type": "number",
+														"format": "double"
+													},
+													"inLibraryOf": {
+														"items": {
+															"properties": {
+																"username": {
+																	"type": "string"
+																},
+																"id": {
+																	"type": "number",
+																	"format": "double"
+																}
+															},
+															"required": [
+																"username",
+																"id"
+															],
+															"type": "object"
+														},
+														"type": "array"
+													},
+													"wishlistedBy": {
+														"items": {
+															"properties": {
+																"username": {
+																	"type": "string"
+																},
+																"id": {
+																	"type": "number",
+																	"format": "double"
+																}
+															},
+															"required": [
+																"username",
+																"id"
+															],
+															"type": "object"
+														},
+														"type": "array"
+													},
+													"parent_platforms": {
+														"items": {
+															"properties": {
+																"platform": {
+																	"$ref": "#/components/schemas/ParentPlatform"
+																}
+															},
+															"required": [
+																"platform"
+															],
+															"type": "object"
+														},
+														"type": "array"
+													}
+												},
+												"required": [
+													"screenshots",
+													"trailers",
+													"tags",
+													"developers",
+													"publishers",
+													"stores",
+													"genres",
+													"slug",
+													"name",
+													"id",
+													"inLibraryOf",
+													"wishlistedBy",
+													"parent_platforms"
+												],
+												"type": "object"
+											},
+											"type": "array"
+										},
+										"next": {
+											"type": "string"
+										},
+										"count": {
+											"type": "number",
+											"format": "double"
+										}
+									},
+									"required": [
+										"results",
+										"next",
+										"count"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Games"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "page_size",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "genreId",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "storeId",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "platformId",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "publisherId",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "developerId",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "wishlistUserId",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "libraryUserId",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "sortOrder",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "searchText",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "tagId",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"post": {
+				"operationId": "Create",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Game"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Games"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Partial_Game_"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/games/{id}": {
+			"get": {
+				"operationId": "GetById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/Game"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Games"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"patch": {
+				"operationId": "Update",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Game"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Games"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Partial_Game_"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "Remove",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Games"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/games/{id}/movies": {
+			"get": {
+				"operationId": "GetTrailers",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"results": {
+											"items": {
+												"$ref": "#/components/schemas/Trailer"
+											},
+											"type": "array"
+										},
+										"count": {
+											"type": "number",
+											"format": "double"
+										}
+									},
+									"required": [
+										"results",
+										"count"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Games"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/games/{id}/screenshots": {
+			"get": {
+				"operationId": "GetScreenshots",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"results": {
+											"items": {
+												"$ref": "#/components/schemas/Screenshot"
+											},
+											"type": "array"
+										},
+										"count": {
+											"type": "number",
+											"format": "double"
+										}
+									},
+									"required": [
+										"results",
+										"count"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Games"
 				],
 				"security": [],
 				"parameters": [
