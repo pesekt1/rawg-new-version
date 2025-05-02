@@ -40,24 +40,21 @@ export class GameController extends Controller {
     @Query() searchText?: string,
     @Query() tagId?: number
   ) {
-    // Build a query object to match your service signature
-    const req = {
-      query: {
-        page,
-        page_size,
-        genreId,
-        storeId,
-        platformId,
-        publisherId,
-        developerId,
-        wishlistUserId,
-        libraryUserId,
-        sortOrder,
-        searchText,
-        tagId,
-      },
-    };
-    return getGames(req);
+    // Pass filter params as a plain object
+    return getGames({
+      page,
+      page_size,
+      genreId,
+      storeId,
+      platformId,
+      publisherId,
+      developerId,
+      wishlistUserId,
+      libraryUserId,
+      sortOrder,
+      searchText,
+      tagId,
+    });
   }
 
   @Get("{id}")

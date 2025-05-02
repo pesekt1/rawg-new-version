@@ -192,31 +192,29 @@ const addTagFilter = (
   }
 };
 
-const buildGameQuery = (req: any) => {
-  const genreId = req.query.genreId ? String(req.query.genreId) : undefined;
-  const storeId = req.query.storeId ? Number(req.query.storeId) : undefined;
-  const parentPlatformId = req.query.platformId
-    ? Number(req.query.platformId)
+const buildGameQuery = (filters: any) => {
+  const genreId = filters.genreId ? String(filters.genreId) : undefined;
+  const storeId = filters.storeId ? Number(filters.storeId) : undefined;
+  const parentPlatformId = filters.platformId
+    ? Number(filters.platformId)
     : undefined;
-  const publisherId = req.query.publisherId
-    ? Number(req.query.publisherId)
+  const publisherId = filters.publisherId
+    ? Number(filters.publisherId)
     : undefined;
-  const developerId = req.query.developerId
-    ? Number(req.query.developerId)
+  const developerId = filters.developerId
+    ? Number(filters.developerId)
     : undefined;
-  const wishlistUserId = req.query.wishlistUserId
-    ? Number(req.query.wishlistUserId)
+  const wishlistUserId = filters.wishlistUserId
+    ? Number(filters.wishlistUserId)
     : undefined;
-  const libraryUserId = req.query.libraryUserId
-    ? Number(req.query.libraryUserId)
+  const libraryUserId = filters.libraryUserId
+    ? Number(filters.libraryUserId)
     : undefined;
-  const ordering = req.query.sortOrder
-    ? String(req.query.sortOrder)
+  const ordering = filters.sortOrder ? String(filters.sortOrder) : undefined;
+  const search = filters.searchText
+    ? String(filters.searchText).toLowerCase()
     : undefined;
-  const search = req.query.searchText
-    ? String(req.query.searchText).toLowerCase()
-    : undefined;
-  const tagId = req.query.tagId ? Number(req.query.tagId) : undefined;
+  const tagId = filters.tagId ? Number(filters.tagId) : undefined;
 
   // Only join/select minimal relations for GameCard
   const queryBuilder = gameRepository
@@ -260,21 +258,21 @@ const modifyGameResponse = (games: Game[]) => {
 /**
  * Get a paginated list of games with filters and sorting.
  */
-export const getGames = async (req: any) => {
+export const getGames = async (filters: any) => {
   const DEFAULT_PAGE_SIZE = 10;
   const MAX_PAGE_SIZE = 40;
   const DEFAULT_PAGE = 1;
 
-  const page = req.query.page ? Number(req.query.page) : DEFAULT_PAGE;
-  let pageSize = req.query.page_size
-    ? Number(req.query.page_size)
+  const page = filters.page ? Number(filters.page) : DEFAULT_PAGE;
+  let pageSize = filters.page_size
+    ? Number(filters.page_size)
     : DEFAULT_PAGE_SIZE;
 
   // Enforce maximum page size
   if (pageSize > MAX_PAGE_SIZE) pageSize = MAX_PAGE_SIZE;
   if (pageSize < 1) pageSize = DEFAULT_PAGE_SIZE;
 
-  const queryBuilder = buildGameQuery(req);
+  const queryBuilder = buildGameQuery(filters);
   queryBuilder.skip((page - 1) * pageSize).take(pageSize);
 
   const [games, total] = await queryBuilder.getManyAndCount();
