@@ -9,6 +9,7 @@ import {
   Path,
   SuccessResponse,
   Tags,
+  Security,
 } from "tsoa";
 import { genreService } from "../services/genreService";
 import { Genre } from "../entities/Genre";
@@ -33,11 +34,13 @@ export class GenreController
 
   @SuccessResponse("201", "Created")
   @Post("/")
+  @Security("admin")
   public async create(@Body() data: Partial<Genre>): Promise<Genre> {
     return genreService.create(data);
   }
 
   @Put("{id}")
+  @Security("admin")
   public async update(
     @Path() id: number,
     @Body() data: Partial<Genre>
@@ -46,6 +49,7 @@ export class GenreController
   }
 
   @Delete("{id}")
+  @Security("admin")
   public async delete(@Path() id: number): Promise<{ message: string }> {
     return handleDelete(genreService, id);
   }

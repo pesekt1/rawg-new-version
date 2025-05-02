@@ -606,6 +606,7 @@ export function RegisterRoutes(app: Router) {
                 data: {"in":"body","name":"data","required":true,"ref":"Partial_Store_"},
         };
         app.post('/stores',
+            authenticateMiddleware([{"admin":[]}]),
             ...(fetchMiddlewares<RequestHandler>(StoreController)),
             ...(fetchMiddlewares<RequestHandler>(StoreController.prototype.create)),
 
@@ -637,6 +638,7 @@ export function RegisterRoutes(app: Router) {
                 data: {"in":"body","name":"data","required":true,"ref":"Partial_Store_"},
         };
         app.put('/stores/:id',
+            authenticateMiddleware([{"admin":[]}]),
             ...(fetchMiddlewares<RequestHandler>(StoreController)),
             ...(fetchMiddlewares<RequestHandler>(StoreController.prototype.update)),
 
@@ -667,6 +669,7 @@ export function RegisterRoutes(app: Router) {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
         };
         app.delete('/stores/:id',
+            authenticateMiddleware([{"admin":[]}]),
             ...(fetchMiddlewares<RequestHandler>(StoreController)),
             ...(fetchMiddlewares<RequestHandler>(StoreController.prototype.delete)),
 
@@ -756,6 +759,7 @@ export function RegisterRoutes(app: Router) {
                 data: {"in":"body","name":"data","required":true,"ref":"Partial_Publisher_"},
         };
         app.post('/publishers',
+            authenticateMiddleware([{"admin":[]}]),
             ...(fetchMiddlewares<RequestHandler>(PublisherController)),
             ...(fetchMiddlewares<RequestHandler>(PublisherController.prototype.create)),
 
@@ -787,6 +791,7 @@ export function RegisterRoutes(app: Router) {
                 data: {"in":"body","name":"data","required":true,"ref":"Partial_Publisher_"},
         };
         app.put('/publishers/:id',
+            authenticateMiddleware([{"admin":[]}]),
             ...(fetchMiddlewares<RequestHandler>(PublisherController)),
             ...(fetchMiddlewares<RequestHandler>(PublisherController.prototype.update)),
 
@@ -817,6 +822,7 @@ export function RegisterRoutes(app: Router) {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
         };
         app.delete('/publishers/:id',
+            authenticateMiddleware([{"admin":[]}]),
             ...(fetchMiddlewares<RequestHandler>(PublisherController)),
             ...(fetchMiddlewares<RequestHandler>(PublisherController.prototype.delete)),
 
@@ -906,6 +912,7 @@ export function RegisterRoutes(app: Router) {
                 data: {"in":"body","name":"data","required":true,"ref":"Partial_ParentPlatform_"},
         };
         app.post('/platforms/lists/parents',
+            authenticateMiddleware([{"admin":[]}]),
             ...(fetchMiddlewares<RequestHandler>(ParentPlatformController)),
             ...(fetchMiddlewares<RequestHandler>(ParentPlatformController.prototype.create)),
 
@@ -937,6 +944,7 @@ export function RegisterRoutes(app: Router) {
                 data: {"in":"body","name":"data","required":true,"ref":"Partial_ParentPlatform_"},
         };
         app.put('/platforms/lists/parents/:id',
+            authenticateMiddleware([{"admin":[]}]),
             ...(fetchMiddlewares<RequestHandler>(ParentPlatformController)),
             ...(fetchMiddlewares<RequestHandler>(ParentPlatformController.prototype.update)),
 
@@ -967,6 +975,7 @@ export function RegisterRoutes(app: Router) {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
         };
         app.delete('/platforms/lists/parents/:id',
+            authenticateMiddleware([{"admin":[]}]),
             ...(fetchMiddlewares<RequestHandler>(ParentPlatformController)),
             ...(fetchMiddlewares<RequestHandler>(ParentPlatformController.prototype.delete)),
 
@@ -1177,6 +1186,7 @@ export function RegisterRoutes(app: Router) {
                 data: {"in":"body","name":"data","required":true,"ref":"Partial_Genre_"},
         };
         app.post('/genres',
+            authenticateMiddleware([{"admin":[]}]),
             ...(fetchMiddlewares<RequestHandler>(GenreController)),
             ...(fetchMiddlewares<RequestHandler>(GenreController.prototype.create)),
 
@@ -1208,6 +1218,7 @@ export function RegisterRoutes(app: Router) {
                 data: {"in":"body","name":"data","required":true,"ref":"Partial_Genre_"},
         };
         app.put('/genres/:id',
+            authenticateMiddleware([{"admin":[]}]),
             ...(fetchMiddlewares<RequestHandler>(GenreController)),
             ...(fetchMiddlewares<RequestHandler>(GenreController.prototype.update)),
 
@@ -1238,6 +1249,7 @@ export function RegisterRoutes(app: Router) {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
         };
         app.delete('/genres/:id',
+            authenticateMiddleware([{"admin":[]}]),
             ...(fetchMiddlewares<RequestHandler>(GenreController)),
             ...(fetchMiddlewares<RequestHandler>(GenreController.prototype.delete)),
 
@@ -1399,6 +1411,7 @@ export function RegisterRoutes(app: Router) {
                 data: {"in":"body","name":"data","required":true,"ref":"Partial_Game_"},
         };
         app.post('/games',
+            authenticateMiddleware([{"admin":[]}]),
             ...(fetchMiddlewares<RequestHandler>(GameController)),
             ...(fetchMiddlewares<RequestHandler>(GameController.prototype.create)),
 
@@ -1430,6 +1443,7 @@ export function RegisterRoutes(app: Router) {
                 data: {"in":"body","name":"data","required":true,"ref":"Partial_Game_"},
         };
         app.patch('/games/:id',
+            authenticateMiddleware([{"admin":[]}]),
             ...(fetchMiddlewares<RequestHandler>(GameController)),
             ...(fetchMiddlewares<RequestHandler>(GameController.prototype.update)),
 
@@ -1460,6 +1474,7 @@ export function RegisterRoutes(app: Router) {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
         };
         app.delete('/games/:id',
+            authenticateMiddleware([{"admin":[]}]),
             ...(fetchMiddlewares<RequestHandler>(GameController)),
             ...(fetchMiddlewares<RequestHandler>(GameController.prototype.remove)),
 
@@ -1549,6 +1564,7 @@ export function RegisterRoutes(app: Router) {
                 data: {"in":"body","name":"data","required":true,"ref":"Partial_Developer_"},
         };
         app.post('/developers',
+            authenticateMiddleware([{"admin":[]}]),
             ...(fetchMiddlewares<RequestHandler>(DeveloperController)),
             ...(fetchMiddlewares<RequestHandler>(DeveloperController.prototype.create)),
 
@@ -1580,6 +1596,7 @@ export function RegisterRoutes(app: Router) {
                 data: {"in":"body","name":"data","required":true,"ref":"Partial_Developer_"},
         };
         app.put('/developers/:id',
+            authenticateMiddleware([{"admin":[]}]),
             ...(fetchMiddlewares<RequestHandler>(DeveloperController)),
             ...(fetchMiddlewares<RequestHandler>(DeveloperController.prototype.update)),
 
@@ -1610,6 +1627,7 @@ export function RegisterRoutes(app: Router) {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
         };
         app.delete('/developers/:id',
+            authenticateMiddleware([{"admin":[]}]),
             ...(fetchMiddlewares<RequestHandler>(DeveloperController)),
             ...(fetchMiddlewares<RequestHandler>(DeveloperController.prototype.delete)),
 

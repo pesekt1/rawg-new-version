@@ -9,6 +9,7 @@ import {
   Path,
   SuccessResponse,
   Tags,
+  Security,
 } from "tsoa";
 import { developerService } from "../services/developerService";
 import { Developer } from "../entities/Developer";
@@ -33,11 +34,13 @@ export class DeveloperController
 
   @SuccessResponse("201", "Created")
   @Post("/")
+  @Security("admin")
   public async create(@Body() data: Partial<Developer>): Promise<Developer> {
     return developerService.create(data);
   }
 
   @Put("{id}")
+  @Security("admin")
   public async update(
     @Path() id: number,
     @Body() data: Partial<Developer>
@@ -46,6 +49,7 @@ export class DeveloperController
   }
 
   @Delete("{id}")
+  @Security("admin")
   public async delete(@Path() id: number): Promise<{ message: string }> {
     return handleDelete(developerService, id);
   }

@@ -9,6 +9,7 @@ import {
   Path,
   SuccessResponse,
   Tags,
+  Security,
 } from "tsoa";
 import { parentPlatformService } from "../services/parentPlatformService";
 import { ParentPlatform } from "../entities/ParentPlatform";
@@ -33,6 +34,7 @@ export class ParentPlatformController
 
   @SuccessResponse("201", "Created")
   @Post("/")
+  @Security("admin")
   public async create(
     @Body() data: Partial<ParentPlatform>
   ): Promise<ParentPlatform> {
@@ -40,6 +42,7 @@ export class ParentPlatformController
   }
 
   @Put("{id}")
+  @Security("admin")
   public async update(
     @Path() id: number,
     @Body() data: Partial<ParentPlatform>
@@ -48,6 +51,7 @@ export class ParentPlatformController
   }
 
   @Delete("{id}")
+  @Security("admin")
   public async delete(@Path() id: number): Promise<{ message: string }> {
     return handleDelete(parentPlatformService, id);
   }

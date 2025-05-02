@@ -10,6 +10,7 @@ import {
   SuccessResponse,
   Tags,
   Query,
+  Security,
 } from "tsoa";
 import {
   getGame,
@@ -74,11 +75,13 @@ export class GameController extends Controller {
 
   @SuccessResponse("201", "Created")
   @Post("/")
+  @Security("admin")
   public async create(@Body() data: Partial<Game>): Promise<Game> {
     return createGame(data);
   }
 
   @Patch("{id}")
+  @Security("admin")
   public async update(
     @Path() id: number,
     @Body() data: Partial<Game>
@@ -87,6 +90,7 @@ export class GameController extends Controller {
   }
 
   @Delete("{id}")
+  @Security("admin")
   public async remove(@Path() id: number): Promise<void> {
     await deleteGame(id);
   }

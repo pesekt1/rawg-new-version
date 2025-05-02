@@ -972,11 +972,7 @@
 				"tags": [
 					"Tags"
 				],
-				"security": [
-					{
-						"admin": []
-					}
-				],
+				"security": [],
 				"parameters": []
 			},
 			"post": {
@@ -1180,7 +1176,11 @@
 				"tags": [
 					"Stores"
 				],
-				"security": [],
+				"security": [
+					{
+						"admin": []
+					}
+				],
 				"parameters": [],
 				"requestBody": {
 					"required": true,
@@ -1252,7 +1252,11 @@
 				"tags": [
 					"Stores"
 				],
-				"security": [],
+				"security": [
+					{
+						"admin": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -1300,7 +1304,11 @@
 				"tags": [
 					"Stores"
 				],
-				"security": [],
+				"security": [
+					{
+						"admin": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -1352,7 +1360,11 @@
 				"tags": [
 					"Publishers"
 				],
-				"security": [],
+				"security": [
+					{
+						"admin": []
+					}
+				],
 				"parameters": [],
 				"requestBody": {
 					"required": true,
@@ -1424,7 +1436,11 @@
 				"tags": [
 					"Publishers"
 				],
-				"security": [],
+				"security": [
+					{
+						"admin": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -1472,7 +1488,11 @@
 				"tags": [
 					"Publishers"
 				],
-				"security": [],
+				"security": [
+					{
+						"admin": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -1524,7 +1544,11 @@
 				"tags": [
 					"ParentPlatforms"
 				],
-				"security": [],
+				"security": [
+					{
+						"admin": []
+					}
+				],
 				"parameters": [],
 				"requestBody": {
 					"required": true,
@@ -1596,7 +1620,11 @@
 				"tags": [
 					"ParentPlatforms"
 				],
-				"security": [],
+				"security": [
+					{
+						"admin": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -1644,7 +1672,11 @@
 				"tags": [
 					"ParentPlatforms"
 				],
-				"security": [],
+				"security": [
+					{
+						"admin": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -1835,7 +1867,11 @@
 				"tags": [
 					"Genres"
 				],
-				"security": [],
+				"security": [
+					{
+						"admin": []
+					}
+				],
 				"parameters": [],
 				"requestBody": {
 					"required": true,
@@ -1907,7 +1943,11 @@
 				"tags": [
 					"Genres"
 				],
-				"security": [],
+				"security": [
+					{
+						"admin": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -1955,7 +1995,11 @@
 				"tags": [
 					"Genres"
 				],
-				"security": [],
+				"security": [
+					{
+						"admin": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -2282,7 +2326,11 @@
 				"tags": [
 					"Games"
 				],
-				"security": [],
+				"security": [
+					{
+						"admin": []
+					}
+				],
 				"parameters": [],
 				"requestBody": {
 					"required": true,
@@ -2349,7 +2397,11 @@
 				"tags": [
 					"Games"
 				],
-				"security": [],
+				"security": [
+					{
+						"admin": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -2382,7 +2434,11 @@
 				"tags": [
 					"Games"
 				],
-				"security": [],
+				"security": [
+					{
+						"admin": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -2530,7 +2586,11 @@
 				"tags": [
 					"Developers"
 				],
-				"security": [],
+				"security": [
+					{
+						"admin": []
+					}
+				],
 				"parameters": [],
 				"requestBody": {
 					"required": true,
@@ -2602,7 +2662,11 @@
 				"tags": [
 					"Developers"
 				],
-				"security": [],
+				"security": [
+					{
+						"admin": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -2650,7 +2714,11 @@
 				"tags": [
 					"Developers"
 				],
-				"security": [],
+				"security": [
+					{
+						"admin": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
