@@ -1,3 +1,8 @@
+/**
+ * GameController handles CRUD operations and related queries for Game entities.
+ * Endpoints for creating, updating, and deleting require admin privileges.
+ */
+
 import {
   Controller,
   Get,
@@ -23,9 +28,27 @@ import {
 } from "../services/gameService";
 import { Game } from "../entities/Game";
 
+/**
+ * Controller for managing Game entities and related resources.
+ */
 @Route("games")
 @Tags("Games")
 export class GameController extends Controller {
+  /**
+   * Get a list of all games, optionally filtered and paginated.
+   * @param page Page number for pagination.
+   * @param page_size Number of items per page.
+   * @param genreId Filter by genre.
+   * @param storeId Filter by store.
+   * @param platformId Filter by platform.
+   * @param publisherId Filter by publisher.
+   * @param developerId Filter by developer.
+   * @param wishlistUserId Filter by wishlist user.
+   * @param libraryUserId Filter by library user.
+   * @param sortOrder Sort order.
+   * @param searchText Search text.
+   * @param tagId Filter by tag.
+   */
   @Get("/")
   public async getAll(
     @Query() page?: number,
@@ -58,21 +81,42 @@ export class GameController extends Controller {
     });
   }
 
+  /**
+   * Get a game by ID.
+   * @param id Game ID.
+   * @returns Game entity or null if not found.
+   */
   @Get("{id}")
   public async getById(@Path() id: number): Promise<Game | any> {
     return getGame(id);
   }
 
+  /**
+   * Get trailers (movies) for a game by ID.
+   * @param id Game ID.
+   * @returns List of trailers.
+   */
   @Get("{id}/movies")
   public async getTrailers(@Path() id: number) {
     return getTrailers(id);
   }
 
+  /**
+   * Get screenshots for a game by ID.
+   * @param id Game ID.
+   * @returns List of screenshots.
+   */
   @Get("{id}/screenshots")
   public async getScreenshots(@Path() id: number) {
     return getScreenshots(id);
   }
 
+  /**
+   * Create a new game.
+   * Requires admin access.
+   * @param data Partial game data.
+   * @returns The created Game entity.
+   */
   @SuccessResponse("201", "Created")
   @Post("/")
   @Security("admin")
@@ -80,6 +124,13 @@ export class GameController extends Controller {
     return createGame(data);
   }
 
+  /**
+   * Update an existing game.
+   * Requires admin access.
+   * @param id Game ID.
+   * @param data Update data.
+   * @returns Updated Game entity.
+   */
   @Patch("{id}")
   @Security("admin")
   public async update(
@@ -89,6 +140,11 @@ export class GameController extends Controller {
     return updateGame(id, data);
   }
 
+  /**
+   * Delete a game by ID.
+   * Requires admin access.
+   * @param id Game ID.
+   */
   @Delete("{id}")
   @Security("admin")
   public async remove(@Path() id: number): Promise<void> {
