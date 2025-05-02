@@ -139,7 +139,8 @@
 						"type": "string"
 					},
 					"image_background": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					},
 					"games": {
 						"items": {
@@ -198,7 +199,8 @@
 						"type": "string"
 					},
 					"image_background": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					},
 					"games": {
 						"items": {
@@ -229,7 +231,8 @@
 						"type": "string"
 					},
 					"image_background": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					},
 					"games": {
 						"items": {
@@ -260,7 +263,8 @@
 						"type": "string"
 					},
 					"image_background": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					},
 					"games": {
 						"items": {
@@ -294,7 +298,8 @@
 						"type": "string"
 					},
 					"image_background": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					},
 					"games": {
 						"items": {
@@ -471,6 +476,26 @@
 				},
 				"type": "object",
 				"description": "Make all properties in T optional"
+			},
+			"EntityUpdateDto": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"slug": {
+						"type": "string"
+					},
+					"image_background": {
+						"type": "string",
+						"nullable": true
+					}
+				},
+				"required": [
+					"name",
+					"slug"
+				],
+				"type": "object",
+				"additionalProperties": false
 			},
 			"ListResponse_Store_": {
 				"properties": {
@@ -1089,7 +1114,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Partial_Tag_"
+								"$ref": "#/components/schemas/EntityUpdateDto"
 							}
 						}
 					}
@@ -1273,7 +1298,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Partial_Store_"
+								"$ref": "#/components/schemas/EntityUpdateDto"
 							}
 						}
 					}
@@ -1457,7 +1482,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Partial_Publisher_"
+								"$ref": "#/components/schemas/EntityUpdateDto"
 							}
 						}
 					}
@@ -1641,7 +1666,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Partial_ParentPlatform_"
+								"$ref": "#/components/schemas/EntityUpdateDto"
 							}
 						}
 					}
@@ -1964,7 +1989,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Partial_Genre_"
+								"$ref": "#/components/schemas/EntityUpdateDto"
 							}
 						}
 					}
@@ -2683,7 +2708,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Partial_Developer_"
+								"$ref": "#/components/schemas/EntityUpdateDto"
 							}
 						}
 					}

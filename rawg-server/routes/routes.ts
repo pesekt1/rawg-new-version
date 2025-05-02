@@ -69,7 +69,7 @@ const models: TsoaRoute.Models = {
             "id": {"dataType":"double","required":true},
             "name": {"dataType":"string","required":true},
             "slug": {"dataType":"string","required":true},
-            "image_background": {"dataType":"string"},
+            "image_background": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
             "games": {"dataType":"array","array":{"dataType":"refObject","ref":"Game"},"required":true},
         },
         "additionalProperties": false,
@@ -92,7 +92,7 @@ const models: TsoaRoute.Models = {
             "id": {"dataType":"double","required":true},
             "name": {"dataType":"string","required":true},
             "slug": {"dataType":"string","required":true},
-            "image_background": {"dataType":"string"},
+            "image_background": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
             "games": {"dataType":"array","array":{"dataType":"refObject","ref":"Game"},"required":true},
         },
         "additionalProperties": false,
@@ -104,7 +104,7 @@ const models: TsoaRoute.Models = {
             "id": {"dataType":"double","required":true},
             "name": {"dataType":"string","required":true},
             "slug": {"dataType":"string","required":true},
-            "image_background": {"dataType":"string"},
+            "image_background": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
             "games": {"dataType":"array","array":{"dataType":"refObject","ref":"Game"},"required":true},
         },
         "additionalProperties": false,
@@ -116,7 +116,7 @@ const models: TsoaRoute.Models = {
             "id": {"dataType":"double","required":true},
             "name": {"dataType":"string","required":true},
             "slug": {"dataType":"string","required":true},
-            "image_background": {"dataType":"string"},
+            "image_background": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
             "games": {"dataType":"array","array":{"dataType":"refObject","ref":"Game"},"required":true},
         },
         "additionalProperties": false,
@@ -129,7 +129,7 @@ const models: TsoaRoute.Models = {
             "name": {"dataType":"string","required":true},
             "slug": {"dataType":"string","required":true},
             "language": {"dataType":"string","required":true},
-            "image_background": {"dataType":"string"},
+            "image_background": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
             "games": {"dataType":"array","array":{"dataType":"refObject","ref":"Game"},"required":true},
         },
         "additionalProperties": false,
@@ -186,6 +186,16 @@ const models: TsoaRoute.Models = {
     "Partial_Tag_": {
         "dataType": "refAlias",
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"double"},"name":{"dataType":"string"},"slug":{"dataType":"string"},"language":{"dataType":"string"},"image_background":{"dataType":"string"},"games":{"dataType":"array","array":{"dataType":"refObject","ref":"Game"}}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "EntityUpdateDto": {
+        "dataType": "refObject",
+        "properties": {
+            "name": {"dataType":"string","required":true},
+            "slug": {"dataType":"string","required":true},
+            "image_background": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
+        },
+        "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ListResponse_Store_": {
@@ -482,7 +492,7 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsTagController_update: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
-                data: {"in":"body","name":"data","required":true,"ref":"Partial_Tag_"},
+                data: {"in":"body","name":"data","required":true,"ref":"EntityUpdateDto"},
         };
         app.put('/tags/:id',
             authenticateMiddleware([{"admin":[]}]),
@@ -635,7 +645,7 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsStoreController_update: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
-                data: {"in":"body","name":"data","required":true,"ref":"Partial_Store_"},
+                data: {"in":"body","name":"data","required":true,"ref":"EntityUpdateDto"},
         };
         app.put('/stores/:id',
             authenticateMiddleware([{"admin":[]}]),
@@ -788,7 +798,7 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsPublisherController_update: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
-                data: {"in":"body","name":"data","required":true,"ref":"Partial_Publisher_"},
+                data: {"in":"body","name":"data","required":true,"ref":"EntityUpdateDto"},
         };
         app.put('/publishers/:id',
             authenticateMiddleware([{"admin":[]}]),
@@ -941,7 +951,7 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsParentPlatformController_update: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
-                data: {"in":"body","name":"data","required":true,"ref":"Partial_ParentPlatform_"},
+                data: {"in":"body","name":"data","required":true,"ref":"EntityUpdateDto"},
         };
         app.put('/platforms/lists/parents/:id',
             authenticateMiddleware([{"admin":[]}]),
@@ -1215,7 +1225,7 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsGenreController_update: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
-                data: {"in":"body","name":"data","required":true,"ref":"Partial_Genre_"},
+                data: {"in":"body","name":"data","required":true,"ref":"EntityUpdateDto"},
         };
         app.put('/genres/:id',
             authenticateMiddleware([{"admin":[]}]),
@@ -1593,7 +1603,7 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsDeveloperController_update: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
-                data: {"in":"body","name":"data","required":true,"ref":"Partial_Developer_"},
+                data: {"in":"body","name":"data","required":true,"ref":"EntityUpdateDto"},
         };
         app.put('/developers/:id',
             authenticateMiddleware([{"admin":[]}]),
