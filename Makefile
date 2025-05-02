@@ -1,5 +1,6 @@
 up:
 	docker compose up -d --scale seeder=0
+	$(MAKE) open-tabs
 
 up-seeder:
 	docker compose up -d
@@ -14,3 +15,5 @@ up-build:
 down:
 	docker compose down
 
+open-tabs:
+	cmd.exe /C start chrome http://localhost:3000/ http://localhost:5000/redoc http://localhost:5000/docs/
