@@ -23,6 +23,9 @@ interface Props<T> {
   selectedItemId?: number;
   useDataHook: () => UseQueryResult<Response<T>, Error>;
   useCreateHook: () => { mutateAsync: (data: Partial<T>) => Promise<any> };
+  useUpdateHook?: () => {
+    mutateAsync: (args: { id: number; data: Partial<T> }) => Promise<any>;
+  };
   useDeleteHook?: (options?: any) => { mutateAsync: (id: any) => Promise<any> };
 }
 
@@ -40,6 +43,7 @@ const CustomList = <T extends Item>({
   title,
   useDataHook,
   useCreateHook,
+  useUpdateHook,
   useDeleteHook,
 }: Props<T>) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -60,6 +64,7 @@ const CustomList = <T extends Item>({
   const bgActive = colorMode === "light" ? "lightGray.300" : "accent.500";
 
   const createMutation = useCreateHook ? useCreateHook() : undefined;
+  const updateMutation = useUpdateHook ? useUpdateHook() : undefined;
 
   const items = data?.results;
   const displayedItems = isExpanded
@@ -75,7 +80,11 @@ const CustomList = <T extends Item>({
 
   // Example: save handler (replace with your update logic)
   const handleSave = async (updated: Partial<T>) => {
-    if (createMutation) {
+    if (editEntity && editEntity.id && updateMutation) {
+      // Update existing entity (PUT)
+      await updateMutation.mutateAsync({ id: editEntity.id, data: updated });
+    } else if (createMutation) {
+      // Create new entity (POST)
       await createMutation.mutateAsync(updated);
     }
     setIsEditOpen(false);
