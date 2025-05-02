@@ -8,7 +8,7 @@
     "start-prod": "node dist/index.js",
     "build": "npm install && tsc",
     "tsoa:spec": "tsoa spec",
-    "tsoa:routes": "tsoa routes"
+    "tsoa:routes": "tsoa routes && node patch-tsoa.js"
   },
   "keywords": [],
   "author": "",

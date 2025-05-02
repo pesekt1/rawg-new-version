@@ -20,7 +20,6 @@ import { ListResponse, IBaseController } from "./IBaseController";
 @Tags("Tags")
 export class TagController extends Controller implements IBaseController<Tag> {
   @Get("/")
-  @Security("admin")
   public async getAll(): Promise<ListResponse<Tag>> {
     return formatListResponse(tagService);
   }

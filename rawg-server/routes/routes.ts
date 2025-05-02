@@ -1,3 +1,6 @@
+import { expressAuthentication } from '../middleware/expressAuthentication';
+const expressAuthenticationRecasted = expressAuthentication;
+// --- PATCH END ---
 /* tslint:disable */
 /* eslint-disable */
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -390,7 +393,6 @@ export function RegisterRoutes(app: Router) {
         const argsTagController_getAll: Record<string, TsoaRoute.ParameterSchema> = {
         };
         app.get('/tags',
-            authenticateMiddleware([{"admin":[]}]),
             ...(fetchMiddlewares<RequestHandler>(TagController)),
             ...(fetchMiddlewares<RequestHandler>(TagController.prototype.getAll)),
 
@@ -1721,7 +1723,7 @@ export function RegisterRoutes(app: Router) {
 
                     for (const name in secMethod) {
                         secMethodAndPromises.push(
-                            expressAuthenticationRecasted(request, name, secMethod[name], response)
+                            expressAuthenticationRecasted(request, name, secMethod[name])
                                 .catch(pushAndRethrow)
                         );
                     }
@@ -1733,7 +1735,7 @@ export function RegisterRoutes(app: Router) {
                 } else {
                     for (const name in secMethod) {
                         secMethodOrPromises.push(
-                            expressAuthenticationRecasted(request, name, secMethod[name], response)
+                            expressAuthenticationRecasted(request, name, secMethod[name])
                                 .catch(pushAndRethrow)
                         );
                     }

@@ -12,5 +12,5 @@
   "routes": {
     "routesDir": "routes"
   },
-  "authenticationModule": "./middleware/expressAuthentication.ts"
+  "authenticationModule": "./middleware/expressAuthentication"
 }
