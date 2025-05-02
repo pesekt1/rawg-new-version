@@ -2,6 +2,7 @@ import CustomList from "../../components/CustomList";
 import useGenres from "./useGenres";
 import useCreateGenre from "./useCreateGenre";
 import useDeleteGenre from "./useDeleteGenre";
+import useUpdateGenre from "./useUpdateGenre";
 import useGameQueryStore from "../../state";
 
 const GenreList = () => {
@@ -15,6 +16,7 @@ const GenreList = () => {
       selectedItemId={genreId}
       useDataHook={useGenres}
       useCreateHook={useCreateGenre}
+      useUpdateHook={useUpdateGenre}
       useDeleteHook={useDeleteGenre}
     />
   );

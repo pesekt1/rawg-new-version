@@ -1,8 +1,10 @@
 import CustomList from "../../components/CustomList";
-import useDevelopers from "./useDevelopers";
-import useCreateDeveloper from "./useCreateDeveloper";
+
 import useGameQueryStore from "../../state";
+import useCreateDeveloper from "./useCreateDeveloper";
 import useDeleteDeveloper from "./useDeleteDeveloper";
+import useUpdateDeveloper from "./useUpdateDeveloper";
+import useDevelopers from "./useDevelopers";
 
 const DeveloperList = () => {
   const developerId = useGameQueryStore((s) => s.gameQuery.developerId);
@@ -15,6 +17,7 @@ const DeveloperList = () => {
       selectedItemId={developerId}
       useDataHook={useDevelopers}
       useCreateHook={useCreateDeveloper}
+      useUpdateHook={useUpdateDeveloper}
       useDeleteHook={useDeleteDeveloper}
     />
   );

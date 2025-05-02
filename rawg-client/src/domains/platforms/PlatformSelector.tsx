@@ -15,6 +15,7 @@ import { useState } from "react";
 import useCreateParentPlatform from "./useCreateParentPlatform";
 import usePlatforms from "./usePlatforms";
 import useDeleteParentPlatform from "./useDeleteParentPlatform";
+import useUpdateParentPlatform from "./useUpdateParentPlatform";
 import { useAuth } from "../auth/useAuth";
 
 const PlatformSelector = () => {
@@ -30,6 +31,7 @@ const PlatformSelector = () => {
   const [editEntity, setEditEntity] = useState<any>(null);
   const createPlatformMutation = useCreateParentPlatform();
   const deletePlatformMutation = useDeleteParentPlatform();
+  const updatePlatformMutation = useUpdateParentPlatform();
   const { role } = useAuth();
 
   const editFields = [
@@ -38,7 +40,17 @@ const PlatformSelector = () => {
   ];
 
   const handleSave = async (updated: Partial<any>) => {
-    await createPlatformMutation.mutateAsync(updated);
+    if (editEntity && editEntity.id) {
+      // Update existing platform (PUT)
+      const { id, ...dataWithoutId } = updated as any;
+      await updatePlatformMutation.mutateAsync({
+        id: editEntity.id,
+        data: dataWithoutId,
+      });
+    } else {
+      // Create new platform (POST)
+      await createPlatformMutation.mutateAsync(updated);
+    }
     setIsEditOpen(false);
   };
 
