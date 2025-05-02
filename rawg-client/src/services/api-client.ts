@@ -101,6 +101,17 @@ class ApiClient<T> {
     axiosInstance
       .patch<T>(`${this.endpoint}/${idOrSlug}`, data)
       .then((res) => res.data);
+
+  /**
+   * Update an entity by id or slug using PUT.
+   * @param idOrSlug - The id or slug of the entity.
+   * @param data - Partial entity data to update.
+   * @returns A promise resolving to the updated entity.
+   */
+  put = (idOrSlug: string | number, data: Partial<T>) =>
+    axiosInstance
+      .put<T>(`${this.endpoint}/${idOrSlug}`, data)
+      .then((res) => res.data);
 }
 
 export default ApiClient;
