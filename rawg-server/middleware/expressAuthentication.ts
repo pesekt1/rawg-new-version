@@ -1,5 +1,19 @@
+/**
+ * expressAuthentication is used by tsoa to secure endpoints.
+ * It verifies the Bearer token and checks for admin role when "admin" security is required.
+ * Throws an error if authentication or authorization fails.
+ */
+
 import { AuthService } from "../services/authService";
 
+/**
+ * Middleware for tsoa security integration.
+ * @param request The Express request object.
+ * @param securityName The security scheme name (e.g., "admin").
+ * @param scopes Optional scopes (unused).
+ * @returns The decoded token payload if authentication succeeds.
+ * @throws Error if authentication or authorization fails.
+ */
 export async function expressAuthentication(
   request: any,
   securityName: string,
