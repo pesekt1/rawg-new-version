@@ -5,6 +5,7 @@ import { RegisterRoutes } from "./routes/routes"; // tsoa-generated
 import swaggerUi from "swagger-ui-express";
 import swaggerDocument from "./swagger.json";
 import { errorHandler } from "./middleware/errorHandler"; // <-- add import
+import { Request, Response, NextFunction } from "express";
 
 dotenv.config();
 
@@ -22,6 +23,12 @@ const app = express();
 init(app);
 
 app.use(express.json());
+
+// Log all incoming requests for debugging
+app.use((req, res, next) => {
+  console.log(`[${req.method}] ${req.originalUrl}`);
+  next();
+});
 
 // Optionally clear user before each request (for tsoa authentication)
 app.use((req, res, next) => {
@@ -61,6 +68,12 @@ app.get("/redoc", (req, res) => {
       </body>
     </html>
   `);
+});
+
+// Log all errors before the error handler
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  console.error("Global error handler:", err);
+  next(err);
 });
 
 // Register error handler after all routes
