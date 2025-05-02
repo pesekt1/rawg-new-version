@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { RegisterRoutes } from "./routes/routes"; // tsoa-generated
 import swaggerUi from "swagger-ui-express";
 import swaggerDocument from "./swagger.json";
+import { errorHandler } from "./middleware/errorHandler"; // <-- add import
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ init(app);
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 RegisterRoutes(app);
 
+//just for testing purposes
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
@@ -43,6 +45,9 @@ app.get("/redoc", (req, res) => {
     </html>
   `);
 });
+
+// Register error handler after all routes
+app.use(errorHandler);
 
 const port = process.env.PORT || 5000;
 

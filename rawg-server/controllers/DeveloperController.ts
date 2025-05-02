@@ -12,27 +12,29 @@ import {
 } from "tsoa";
 import { developerService } from "../services/developerService";
 import { Developer } from "../entities/Developer";
-import { BaseController } from "./BaseController";
+import { ListResponse, IBaseController } from "./IBaseController";
+import { formatListResponse, handleDelete } from "./controllerUtils";
 
 @Route("developers")
 @Tags("Developers")
-export class DeveloperController extends Controller {
-  private base = new BaseController<Developer>(developerService);
-
+export class DeveloperController
+  extends Controller
+  implements IBaseController<Developer>
+{
   @Get("/")
-  public async getAll(): Promise<Developer[]> {
-    return this.base.getAll();
+  public async getAll(): Promise<ListResponse<Developer>> {
+    return formatListResponse(developerService);
   }
 
   @Get("{id}")
   public async getById(@Path() id: number): Promise<Developer | null> {
-    return this.base.getById(id);
+    return developerService.getById(id);
   }
 
   @SuccessResponse("201", "Created")
   @Post("/")
   public async create(@Body() data: Partial<Developer>): Promise<Developer> {
-    return this.base.create(data);
+    return developerService.create(data);
   }
 
   @Put("{id}")
@@ -40,12 +42,11 @@ export class DeveloperController extends Controller {
     @Path() id: number,
     @Body() data: Partial<Developer>
   ): Promise<Developer | null> {
-    return this.base.update(id, data);
+    return developerService.update(id, data);
   }
 
   @Delete("{id}")
   public async delete(@Path() id: number): Promise<{ message: string }> {
-    await this.base.delete(id);
-    return { message: "Deleted" };
+    return handleDelete(developerService, id);
   }
 }

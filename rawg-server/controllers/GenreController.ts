@@ -12,27 +12,29 @@ import {
 } from "tsoa";
 import { genreService } from "../services/genreService";
 import { Genre } from "../entities/Genre";
-import { BaseController } from "./BaseController";
+import { formatListResponse, handleDelete } from "./controllerUtils";
+import { IBaseController, ListResponse } from "./IBaseController";
 
 @Route("genres")
 @Tags("Genres")
-export class GenreController extends Controller {
-  private base = new BaseController<Genre>(genreService);
-
+export class GenreController
+  extends Controller
+  implements IBaseController<Genre>
+{
   @Get("/")
-  public async getAll(): Promise<Genre[]> {
-    return this.base.getAll();
+  public async getAll(): Promise<ListResponse<Genre>> {
+    return formatListResponse(genreService);
   }
 
   @Get("{id}")
   public async getById(@Path() id: number): Promise<Genre | null> {
-    return this.base.getById(id);
+    return genreService.getById(id);
   }
 
   @SuccessResponse("201", "Created")
   @Post("/")
   public async create(@Body() data: Partial<Genre>): Promise<Genre> {
-    return this.base.create(data);
+    return genreService.create(data);
   }
 
   @Put("{id}")
@@ -40,12 +42,11 @@ export class GenreController extends Controller {
     @Path() id: number,
     @Body() data: Partial<Genre>
   ): Promise<Genre | null> {
-    return this.base.update(id, data);
+    return genreService.update(id, data);
   }
 
   @Delete("{id}")
   public async delete(@Path() id: number): Promise<{ message: string }> {
-    await this.base.delete(id);
-    return { message: "Deleted" };
+    return handleDelete(genreService, id);
   }
 }
