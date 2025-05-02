@@ -15,8 +15,8 @@ export class Tag {
   @Column()
   language: string;
 
-  @Column({ nullable: true })
-  image_background?: string;
+  @Column({ type: "varchar", nullable: true })
+  image_background?: string | null;
 
   @ManyToMany(() => Game, (game) => game.tags)
   games: Game[];

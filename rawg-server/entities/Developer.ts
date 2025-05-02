@@ -12,8 +12,8 @@ export class Developer {
   @Column()
   slug: string;
 
-  @Column({ nullable: true })
-  image_background?: string;
+  @Column({ type: "varchar", nullable: true })
+  image_background?: string | null;
 
   @ManyToMany(() => Game, (game) => game.developers)
   games: Game[];
