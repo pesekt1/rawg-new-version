@@ -15,7 +15,7 @@ import { ParentPlatform } from "../entities/ParentPlatform";
 import { formatListResponse, handleDelete } from "./controllerUtils";
 import { ListResponse, IBaseController } from "./IBaseController";
 
-@Route("parent-platforms")
+@Route("platforms/lists/parents")
 @Tags("ParentPlatforms")
 export class ParentPlatformController
   extends Controller

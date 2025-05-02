@@ -716,7 +716,7 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsParentPlatformController_getAll: Record<string, TsoaRoute.ParameterSchema> = {
         };
-        app.get('/parent-platforms',
+        app.get('/platforms/lists/parents',
             ...(fetchMiddlewares<RequestHandler>(ParentPlatformController)),
             ...(fetchMiddlewares<RequestHandler>(ParentPlatformController.prototype.getAll)),
 
@@ -746,7 +746,7 @@ export function RegisterRoutes(app: Router) {
         const argsParentPlatformController_getById: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
         };
-        app.get('/parent-platforms/:id',
+        app.get('/platforms/lists/parents/:id',
             ...(fetchMiddlewares<RequestHandler>(ParentPlatformController)),
             ...(fetchMiddlewares<RequestHandler>(ParentPlatformController.prototype.getById)),
 
@@ -776,7 +776,7 @@ export function RegisterRoutes(app: Router) {
         const argsParentPlatformController_create: Record<string, TsoaRoute.ParameterSchema> = {
                 data: {"in":"body","name":"data","required":true,"ref":"Partial_ParentPlatform_"},
         };
-        app.post('/parent-platforms',
+        app.post('/platforms/lists/parents',
             ...(fetchMiddlewares<RequestHandler>(ParentPlatformController)),
             ...(fetchMiddlewares<RequestHandler>(ParentPlatformController.prototype.create)),
 
@@ -807,7 +807,7 @@ export function RegisterRoutes(app: Router) {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
                 data: {"in":"body","name":"data","required":true,"ref":"Partial_ParentPlatform_"},
         };
-        app.put('/parent-platforms/:id',
+        app.put('/platforms/lists/parents/:id',
             ...(fetchMiddlewares<RequestHandler>(ParentPlatformController)),
             ...(fetchMiddlewares<RequestHandler>(ParentPlatformController.prototype.update)),
 
@@ -837,7 +837,7 @@ export function RegisterRoutes(app: Router) {
         const argsParentPlatformController_delete: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
         };
-        app.delete('/parent-platforms/:id',
+        app.delete('/platforms/lists/parents/:id',
             ...(fetchMiddlewares<RequestHandler>(ParentPlatformController)),
             ...(fetchMiddlewares<RequestHandler>(ParentPlatformController.prototype.delete)),
 

@@ -1222,7 +1222,7 @@
 				]
 			}
 		},
-		"/parent-platforms": {
+		"/platforms/lists/parents": {
 			"get": {
 				"operationId": "GetAll",
 				"responses": {
@@ -1274,7 +1274,7 @@
 				}
 			}
 		},
-		"/parent-platforms/{id}": {
+		"/platforms/lists/parents/{id}": {
 			"get": {
 				"operationId": "GetById",
 				"responses": {
