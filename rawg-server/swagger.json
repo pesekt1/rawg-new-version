@@ -972,7 +972,11 @@
 				"tags": [
 					"Tags"
 				],
-				"security": [],
+				"security": [
+					{
+						"admin": []
+					}
+				],
 				"parameters": []
 			},
 			"post": {
@@ -992,7 +996,11 @@
 				"tags": [
 					"Tags"
 				],
-				"security": [],
+				"security": [
+					{
+						"admin": []
+					}
+				],
 				"parameters": [],
 				"requestBody": {
 					"required": true,
@@ -1064,7 +1072,11 @@
 				"tags": [
 					"Tags"
 				],
-				"security": [],
+				"security": [
+					{
+						"admin": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -1112,7 +1124,11 @@
 				"tags": [
 					"Tags"
 				],
-				"security": [],
+				"security": [
+					{
+						"admin": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",

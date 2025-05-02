@@ -9,6 +9,7 @@ import {
   Path,
   SuccessResponse,
   Tags,
+  Security,
 } from "tsoa";
 import { tagService } from "../services/tagService";
 import { Tag } from "../entities/Tag";
@@ -19,6 +20,7 @@ import { ListResponse, IBaseController } from "./IBaseController";
 @Tags("Tags")
 export class TagController extends Controller implements IBaseController<Tag> {
   @Get("/")
+  @Security("admin")
   public async getAll(): Promise<ListResponse<Tag>> {
     return formatListResponse(tagService);
   }
@@ -30,11 +32,13 @@ export class TagController extends Controller implements IBaseController<Tag> {
 
   @SuccessResponse("201", "Created")
   @Post("/")
+  @Security("admin")
   public async create(@Body() data: Partial<Tag>): Promise<Tag> {
     return tagService.create(data);
   }
 
   @Put("{id}")
+  @Security("admin")
   public async update(
     @Path() id: number,
     @Body() data: Partial<Tag>
@@ -43,6 +47,7 @@ export class TagController extends Controller implements IBaseController<Tag> {
   }
 
   @Delete("{id}")
+  @Security("admin")
   public async delete(@Path() id: number): Promise<{ message: string }> {
     return handleDelete(tagService, id);
   }

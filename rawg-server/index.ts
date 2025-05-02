@@ -8,9 +8,26 @@ import { errorHandler } from "./middleware/errorHandler"; // <-- add import
 
 dotenv.config();
 
+// Extend Express Request type to allow req.user
+declare global {
+  namespace Express {
+    interface Request {
+      user?: any;
+    }
+  }
+}
+
 const app = express();
 
 init(app);
+
+app.use(express.json());
+
+// Optionally clear user before each request (for tsoa authentication)
+app.use((req, res, next) => {
+  req.user = undefined;
+  next();
+});
 
 // Add tsoa-generated routes and Swagger UI
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
