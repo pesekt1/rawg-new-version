@@ -55,11 +55,7 @@ jobs:
 
       - name: npm install, build, and test # go to rawg-server directory
         env:
-          DB_HOST: 127.0.0.1
-          DB_PORT: 3306
-          DB_USER: testuser
-          DB_PASSWORD: testpass
-          DB_NAME: testdb
+          DATABASE_URL: mysql://testuser:testpass@127.0.0.1:3306/testdb
         run: |
           cd rawg-server 
           npm install
