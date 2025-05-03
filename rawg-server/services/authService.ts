@@ -9,7 +9,9 @@ const JWT_SECRET = process.env.JWT_SECRET || "dev_secret";
  * Service for handling authentication and user registration.
  */
 export class AuthService {
-  private static userRepository = AppDataSource.getRepository(User);
+  private static get userRepository() {
+    return AppDataSource.getRepository(User);
+  }
 
   /**
    * Register a new user.
