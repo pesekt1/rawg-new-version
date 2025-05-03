@@ -1,5 +1,6 @@
 name: Server CI
 
+# Run on all branches
 on:
   push:
     paths:
