@@ -1,6 +1,13 @@
 import { SelectQueryBuilder } from "typeorm";
 import { Game } from "../entities/Game";
 import { AppDataSource } from "../startup/data-source";
+import { GameUpdateDto } from "../controllers/dto/GameUpdateDto";
+import { Genre } from "../entities/Genre";
+import { ParentPlatform } from "../entities/ParentPlatform";
+import { Store } from "../entities/Store";
+import { Publisher } from "../entities/Publisher";
+import { Developer } from "../entities/Developer";
+import { Tag } from "../entities/Tag";
 
 /**
  * Service functions for querying and manipulating Game entities.
@@ -410,11 +417,11 @@ export const deleteGame = async (id: number) => {
 /**
  * Update a game by ID.
  */
-export const updateGame = async (id: number, data: Partial<Game>) => {
+export const updateGame = async (id: number, data: GameUpdateDto) => {
   const game = await gameRepository.findOneBy({ id });
   if (!game) throw new Error(`Game with id "${id}" not found`);
 
-  // Only update allowed fields
+  // Update primitive fields
   if (data.name !== undefined) game.name = data.name;
   if (data.slug !== undefined) game.slug = data.slug;
   if (data.description_raw !== undefined)
@@ -423,14 +430,44 @@ export const updateGame = async (id: number, data: Partial<Game>) => {
   if (data.website !== undefined) game.website = data.website;
   if (data.background_image !== undefined)
     game.background_image = data.background_image;
-  if (data.genres !== undefined) game.genres = data.genres;
-  if (data.parent_platforms !== undefined) {
-    game.parent_platforms = data.parent_platforms.map((pp: any) => pp.platform);
+  if (data.metacritic !== undefined) game.metacritic = data.metacritic;
+  if (data.rating !== undefined) game.rating = data.rating;
+  if (data.added !== undefined) game.added = data.added;
+  if (data.rating_top !== undefined) game.rating_top = data.rating_top;
+
+  // Assign relations using repository.create() to get entity instances
+  if (data.genres !== undefined) {
+    game.genres = data.genres.map((g) =>
+      AppDataSource.getRepository(Genre).create(g)
+    );
   }
-  if (data.stores !== undefined) game.stores = data.stores;
-  if (data.publishers !== undefined) game.publishers = data.publishers;
-  if (data.developers !== undefined) game.developers = data.developers;
-  if (data.tags !== undefined) game.tags = data.tags;
+  if (data.parent_platforms !== undefined) {
+    game.parent_platforms = data.parent_platforms.map((p) =>
+      AppDataSource.getRepository(ParentPlatform).create({
+        ...p.platform,
+      })
+    );
+  }
+  if (data.stores !== undefined) {
+    game.stores = data.stores.map((s) =>
+      AppDataSource.getRepository(Store).create(s)
+    );
+  }
+  if (data.publishers !== undefined) {
+    game.publishers = data.publishers.map((p) =>
+      AppDataSource.getRepository(Publisher).create(p)
+    );
+  }
+  if (data.developers !== undefined) {
+    game.developers = data.developers.map((d) =>
+      AppDataSource.getRepository(Developer).create(d)
+    );
+  }
+  if (data.tags !== undefined) {
+    game.tags = data.tags.map((t) =>
+      AppDataSource.getRepository(Tag).create(t)
+    );
+  }
 
   await gameRepository.save(game);
   return game;
