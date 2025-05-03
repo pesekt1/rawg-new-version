@@ -9,7 +9,8 @@
     "build": "npm install && tsc",
     "tsoa:spec": "tsoa spec",
     "tsoa:routes": "tsoa routes && node patch-tsoa.js",
-    "test": "vitest run"
+    "test": "vitest run --reporter verbose",
+    "test:ui": "vitest --ui"
   },
   "keywords": [],
   "author": "",
