@@ -430,6 +430,7 @@
 				"additionalProperties": false
 			},
 			"ListResponse_Tag_": {
+				"description": "Standard response for list endpoints.",
 				"properties": {
 					"count": {
 						"type": "number",
@@ -478,6 +479,7 @@
 				"description": "Make all properties in T optional"
 			},
 			"EntityUpdateDto": {
+				"description": "DTO for updating entities with common fields.",
 				"properties": {
 					"name": {
 						"type": "string"
@@ -498,6 +500,7 @@
 				"additionalProperties": false
 			},
 			"ListResponse_Store_": {
+				"description": "Standard response for list endpoints.",
 				"properties": {
 					"count": {
 						"type": "number",
@@ -543,6 +546,7 @@
 				"description": "Make all properties in T optional"
 			},
 			"ListResponse_Publisher_": {
+				"description": "Standard response for list endpoints.",
 				"properties": {
 					"count": {
 						"type": "number",
@@ -588,6 +592,7 @@
 				"description": "Make all properties in T optional"
 			},
 			"ListResponse_ParentPlatform_": {
+				"description": "Standard response for list endpoints.",
 				"properties": {
 					"count": {
 						"type": "number",
@@ -630,6 +635,7 @@
 				"description": "Make all properties in T optional"
 			},
 			"ListResponse_Genre_": {
+				"description": "Standard response for list endpoints.",
 				"properties": {
 					"count": {
 						"type": "number",
@@ -778,7 +784,144 @@
 				"type": "object",
 				"description": "Make all properties in T optional"
 			},
+			"EntityWithIdDto": {
+				"description": "DTO for entities with an id, name, slug, and optional image_background.",
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"slug": {
+						"type": "string"
+					},
+					"image_background": {
+						"type": "string",
+						"nullable": true
+					},
+					"id": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"name",
+					"slug",
+					"id"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ParentPlatformDto": {
+				"description": "DTO for updating parent platform.",
+				"properties": {
+					"platform": {
+						"properties": {
+							"slug": {
+								"type": "string"
+							},
+							"name": {
+								"type": "string"
+							},
+							"id": {
+								"type": "number",
+								"format": "double"
+							}
+						},
+						"required": [
+							"slug",
+							"name",
+							"id"
+						],
+						"type": "object"
+					}
+				},
+				"required": [
+					"platform"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"GameUpdateDto": {
+				"properties": {
+					"tags": {
+						"items": {
+							"$ref": "#/components/schemas/EntityWithIdDto"
+						},
+						"type": "array"
+					},
+					"developers": {
+						"items": {
+							"$ref": "#/components/schemas/EntityWithIdDto"
+						},
+						"type": "array"
+					},
+					"publishers": {
+						"items": {
+							"$ref": "#/components/schemas/EntityWithIdDto"
+						},
+						"type": "array"
+					},
+					"stores": {
+						"items": {
+							"$ref": "#/components/schemas/EntityWithIdDto"
+						},
+						"type": "array"
+					},
+					"parent_platforms": {
+						"items": {
+							"$ref": "#/components/schemas/ParentPlatformDto"
+						},
+						"type": "array"
+					},
+					"genres": {
+						"items": {
+							"$ref": "#/components/schemas/EntityWithIdDto"
+						},
+						"type": "array"
+					},
+					"website": {
+						"type": "string"
+					},
+					"rating_top": {
+						"type": "number",
+						"format": "double"
+					},
+					"added": {
+						"type": "number",
+						"format": "double"
+					},
+					"released": {
+						"type": "string"
+					},
+					"rating": {
+						"type": "number",
+						"format": "double"
+					},
+					"background_image": {
+						"type": "string"
+					},
+					"metacritic": {
+						"type": "number",
+						"format": "double"
+					},
+					"description_raw": {
+						"type": "string"
+					},
+					"slug": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"slug",
+					"name"
+				],
+				"type": "object",
+				"description": "DTO for updating Game entities.\r\n'name' and 'slug' are required, all other fields are optional."
+			},
 			"ListResponse_Developer_": {
+				"description": "Standard response for list endpoints.",
 				"properties": {
 					"count": {
 						"type": "number",
@@ -872,7 +1015,7 @@
 				"operationId": "Get",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "List of games in the user's wishlist.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -882,12 +1025,14 @@
 						}
 					}
 				},
+				"description": "Get all games in a user's wishlist.",
 				"tags": [
 					"Wishlist"
 				],
 				"security": [],
 				"parameters": [
 					{
+						"description": "User ID.",
 						"in": "path",
 						"name": "userId",
 						"required": true,
@@ -904,7 +1049,7 @@
 				"operationId": "Add",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Result of the add operation.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -914,12 +1059,14 @@
 						}
 					}
 				},
+				"description": "Add a game to a user's wishlist.",
 				"tags": [
 					"Wishlist"
 				],
 				"security": [],
 				"parameters": [
 					{
+						"description": "User ID.",
 						"in": "path",
 						"name": "userId",
 						"required": true,
@@ -929,6 +1076,7 @@
 						}
 					},
 					{
+						"description": "Game ID.",
 						"in": "path",
 						"name": "gameId",
 						"required": true,
@@ -943,7 +1091,7 @@
 				"operationId": "Remove",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Result of the remove operation.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -953,12 +1101,14 @@
 						}
 					}
 				},
+				"description": "Remove a game from a user's wishlist.",
 				"tags": [
 					"Wishlist"
 				],
 				"security": [],
 				"parameters": [
 					{
+						"description": "User ID.",
 						"in": "path",
 						"name": "userId",
 						"required": true,
@@ -968,6 +1118,7 @@
 						}
 					},
 					{
+						"description": "Game ID.",
 						"in": "path",
 						"name": "gameId",
 						"required": true,
@@ -984,7 +1135,7 @@
 				"operationId": "GetAll",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "ListResponse containing tags.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -994,6 +1145,7 @@
 						}
 					}
 				},
+				"description": "Get a list of all tags.",
 				"tags": [
 					"Tags"
 				],
@@ -1014,6 +1166,7 @@
 						}
 					}
 				},
+				"description": "Create a new tag.\r\nRequires admin access.",
 				"tags": [
 					"Tags"
 				],
@@ -1024,11 +1177,13 @@
 				],
 				"parameters": [],
 				"requestBody": {
+					"description": "Partial tag data.",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Partial_Tag_"
+								"$ref": "#/components/schemas/Partial_Tag_",
+								"description": "Partial tag data."
 							}
 						}
 					}
@@ -1040,7 +1195,7 @@
 				"operationId": "GetById",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Tag entity or null if not found.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -1055,12 +1210,14 @@
 						}
 					}
 				},
+				"description": "Get a tag by ID.",
 				"tags": [
 					"Tags"
 				],
 				"security": [],
 				"parameters": [
 					{
+						"description": "Tag ID.",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -1075,7 +1232,7 @@
 				"operationId": "Update",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Updated Tag entity or null if not found.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -1090,6 +1247,7 @@
 						}
 					}
 				},
+				"description": "Update an existing tag.\r\nRequires admin access.",
 				"tags": [
 					"Tags"
 				],
@@ -1100,6 +1258,7 @@
 				],
 				"parameters": [
 					{
+						"description": "Tag ID.",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -1110,11 +1269,13 @@
 					}
 				],
 				"requestBody": {
+					"description": "Update data.",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/EntityUpdateDto"
+								"$ref": "#/components/schemas/EntityUpdateDto",
+								"description": "Update data."
 							}
 						}
 					}
@@ -1124,7 +1285,7 @@
 				"operationId": "Delete",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Message indicating result.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -1142,6 +1303,7 @@
 						}
 					}
 				},
+				"description": "Delete a tag by ID.\r\nRequires admin access.",
 				"tags": [
 					"Tags"
 				],
@@ -1152,6 +1314,7 @@
 				],
 				"parameters": [
 					{
+						"description": "Tag ID.",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -1168,7 +1331,7 @@
 				"operationId": "GetAll",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "ListResponse containing stores.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -1178,6 +1341,7 @@
 						}
 					}
 				},
+				"description": "Get a list of all stores.",
 				"tags": [
 					"Stores"
 				],
@@ -1198,6 +1362,7 @@
 						}
 					}
 				},
+				"description": "Create a new store.\r\nRequires admin access.",
 				"tags": [
 					"Stores"
 				],
@@ -1208,11 +1373,13 @@
 				],
 				"parameters": [],
 				"requestBody": {
+					"description": "Partial store data.",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Partial_Store_"
+								"$ref": "#/components/schemas/Partial_Store_",
+								"description": "Partial store data."
 							}
 						}
 					}
@@ -1224,7 +1391,7 @@
 				"operationId": "GetById",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Store entity or null if not found.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -1239,12 +1406,14 @@
 						}
 					}
 				},
+				"description": "Get a store by ID.",
 				"tags": [
 					"Stores"
 				],
 				"security": [],
 				"parameters": [
 					{
+						"description": "Store ID.",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -1259,7 +1428,7 @@
 				"operationId": "Update",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Updated Store entity or null if not found.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -1274,6 +1443,7 @@
 						}
 					}
 				},
+				"description": "Update an existing store.\r\nRequires admin access.",
 				"tags": [
 					"Stores"
 				],
@@ -1284,6 +1454,7 @@
 				],
 				"parameters": [
 					{
+						"description": "Store ID.",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -1294,11 +1465,13 @@
 					}
 				],
 				"requestBody": {
+					"description": "Update data.",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/EntityUpdateDto"
+								"$ref": "#/components/schemas/EntityUpdateDto",
+								"description": "Update data."
 							}
 						}
 					}
@@ -1308,7 +1481,7 @@
 				"operationId": "Delete",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Message indicating result.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -1326,6 +1499,7 @@
 						}
 					}
 				},
+				"description": "Delete a store by ID.\r\nRequires admin access.",
 				"tags": [
 					"Stores"
 				],
@@ -1336,6 +1510,7 @@
 				],
 				"parameters": [
 					{
+						"description": "Store ID.",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -1352,7 +1527,7 @@
 				"operationId": "GetAll",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "ListResponse containing publishers.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -1362,6 +1537,7 @@
 						}
 					}
 				},
+				"description": "Get a list of all publishers.",
 				"tags": [
 					"Publishers"
 				],
@@ -1382,6 +1558,7 @@
 						}
 					}
 				},
+				"description": "Create a new publisher.\r\nRequires admin access.",
 				"tags": [
 					"Publishers"
 				],
@@ -1392,11 +1569,13 @@
 				],
 				"parameters": [],
 				"requestBody": {
+					"description": "Partial publisher data.",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Partial_Publisher_"
+								"$ref": "#/components/schemas/Partial_Publisher_",
+								"description": "Partial publisher data."
 							}
 						}
 					}
@@ -1408,7 +1587,7 @@
 				"operationId": "GetById",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Publisher entity or null if not found.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -1423,12 +1602,14 @@
 						}
 					}
 				},
+				"description": "Get a publisher by ID.",
 				"tags": [
 					"Publishers"
 				],
 				"security": [],
 				"parameters": [
 					{
+						"description": "Publisher ID.",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -1443,7 +1624,7 @@
 				"operationId": "Update",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Updated Publisher entity or null if not found.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -1458,6 +1639,7 @@
 						}
 					}
 				},
+				"description": "Update an existing publisher.\r\nRequires admin access.",
 				"tags": [
 					"Publishers"
 				],
@@ -1468,6 +1650,7 @@
 				],
 				"parameters": [
 					{
+						"description": "Publisher ID.",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -1478,11 +1661,13 @@
 					}
 				],
 				"requestBody": {
+					"description": "Update data.",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/EntityUpdateDto"
+								"$ref": "#/components/schemas/EntityUpdateDto",
+								"description": "Update data."
 							}
 						}
 					}
@@ -1492,7 +1677,7 @@
 				"operationId": "Delete",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Message indicating result.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -1510,6 +1695,7 @@
 						}
 					}
 				},
+				"description": "Delete a publisher by ID.\r\nRequires admin access.",
 				"tags": [
 					"Publishers"
 				],
@@ -1520,6 +1706,7 @@
 				],
 				"parameters": [
 					{
+						"description": "Publisher ID.",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -1536,7 +1723,7 @@
 				"operationId": "GetAll",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "ListResponse containing parent platforms.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -1546,6 +1733,7 @@
 						}
 					}
 				},
+				"description": "Get a list of all parent platforms.",
 				"tags": [
 					"ParentPlatforms"
 				],
@@ -1566,6 +1754,7 @@
 						}
 					}
 				},
+				"description": "Create a new parent platform.\r\nRequires admin access.",
 				"tags": [
 					"ParentPlatforms"
 				],
@@ -1576,11 +1765,13 @@
 				],
 				"parameters": [],
 				"requestBody": {
+					"description": "Partial parent platform data.",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Partial_ParentPlatform_"
+								"$ref": "#/components/schemas/Partial_ParentPlatform_",
+								"description": "Partial parent platform data."
 							}
 						}
 					}
@@ -1592,7 +1783,7 @@
 				"operationId": "GetById",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "ParentPlatform entity or null if not found.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -1607,12 +1798,14 @@
 						}
 					}
 				},
+				"description": "Get a parent platform by ID.",
 				"tags": [
 					"ParentPlatforms"
 				],
 				"security": [],
 				"parameters": [
 					{
+						"description": "ParentPlatform ID.",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -1627,7 +1820,7 @@
 				"operationId": "Update",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Updated ParentPlatform entity or null if not found.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -1642,6 +1835,7 @@
 						}
 					}
 				},
+				"description": "Update an existing parent platform.\r\nRequires admin access.",
 				"tags": [
 					"ParentPlatforms"
 				],
@@ -1652,6 +1846,7 @@
 				],
 				"parameters": [
 					{
+						"description": "ParentPlatform ID.",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -1662,11 +1857,13 @@
 					}
 				],
 				"requestBody": {
+					"description": "Update data.",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/EntityUpdateDto"
+								"$ref": "#/components/schemas/EntityUpdateDto",
+								"description": "Update data."
 							}
 						}
 					}
@@ -1676,7 +1873,7 @@
 				"operationId": "Delete",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Message indicating result.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -1694,6 +1891,7 @@
 						}
 					}
 				},
+				"description": "Delete a parent platform by ID.\r\nRequires admin access.",
 				"tags": [
 					"ParentPlatforms"
 				],
@@ -1704,6 +1902,7 @@
 				],
 				"parameters": [
 					{
+						"description": "ParentPlatform ID.",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -1720,7 +1919,7 @@
 				"operationId": "Get",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "List of games in the user's library.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -1730,12 +1929,14 @@
 						}
 					}
 				},
+				"description": "Get all games in a user's library.",
 				"tags": [
 					"Library"
 				],
 				"security": [],
 				"parameters": [
 					{
+						"description": "User ID.",
 						"in": "path",
 						"name": "userId",
 						"required": true,
@@ -1752,7 +1953,7 @@
 				"operationId": "Add",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Result of the add operation.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -1762,12 +1963,14 @@
 						}
 					}
 				},
+				"description": "Add a game to a user's library.",
 				"tags": [
 					"Library"
 				],
 				"security": [],
 				"parameters": [
 					{
+						"description": "User ID.",
 						"in": "path",
 						"name": "userId",
 						"required": true,
@@ -1777,6 +1980,7 @@
 						}
 					},
 					{
+						"description": "Game ID.",
 						"in": "path",
 						"name": "gameId",
 						"required": true,
@@ -1791,7 +1995,7 @@
 				"operationId": "Remove",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Result of the remove operation.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -1801,12 +2005,14 @@
 						}
 					}
 				},
+				"description": "Remove a game from a user's library.",
 				"tags": [
 					"Library"
 				],
 				"security": [],
 				"parameters": [
 					{
+						"description": "User ID.",
 						"in": "path",
 						"name": "userId",
 						"required": true,
@@ -1816,6 +2022,7 @@
 						}
 					},
 					{
+						"description": "Game ID.",
 						"in": "path",
 						"name": "gameId",
 						"required": true,
@@ -1869,6 +2076,7 @@
 						}
 					}
 				},
+				"description": "Get a list of all genres.",
 				"tags": [
 					"Genres"
 				],
@@ -1889,6 +2097,7 @@
 						}
 					}
 				},
+				"description": "Create a new genre.\r\nRequires admin access.",
 				"tags": [
 					"Genres"
 				],
@@ -1899,11 +2108,13 @@
 				],
 				"parameters": [],
 				"requestBody": {
+					"description": "Partial genre data.",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Partial_Genre_"
+								"$ref": "#/components/schemas/Partial_Genre_",
+								"description": "Partial genre data."
 							}
 						}
 					}
@@ -1930,12 +2141,14 @@
 						}
 					}
 				},
+				"description": "Get a genre by ID.",
 				"tags": [
 					"Genres"
 				],
 				"security": [],
 				"parameters": [
 					{
+						"description": "Genre ID.",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -1965,6 +2178,7 @@
 						}
 					}
 				},
+				"description": "Update an existing genre.\r\nRequires admin access.",
 				"tags": [
 					"Genres"
 				],
@@ -1975,6 +2189,7 @@
 				],
 				"parameters": [
 					{
+						"description": "Genre ID.",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -1985,11 +2200,13 @@
 					}
 				],
 				"requestBody": {
+					"description": "Update data.",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/EntityUpdateDto"
+								"$ref": "#/components/schemas/EntityUpdateDto",
+								"description": "Update data."
 							}
 						}
 					}
@@ -2017,6 +2234,7 @@
 						}
 					}
 				},
+				"description": "Delete a genre by ID.\r\nRequires admin access.",
 				"tags": [
 					"Genres"
 				],
@@ -2027,6 +2245,7 @@
 				],
 				"parameters": [
 					{
+						"description": "Genre ID.",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -2222,12 +2441,14 @@
 						}
 					}
 				},
+				"description": "Get a list of all games, optionally filtered and paginated.",
 				"tags": [
 					"Games"
 				],
 				"security": [],
 				"parameters": [
 					{
+						"description": "Page number for pagination.",
 						"in": "query",
 						"name": "page",
 						"required": false,
@@ -2237,6 +2458,7 @@
 						}
 					},
 					{
+						"description": "Number of items per page.",
 						"in": "query",
 						"name": "page_size",
 						"required": false,
@@ -2246,6 +2468,7 @@
 						}
 					},
 					{
+						"description": "Filter by genre.",
 						"in": "query",
 						"name": "genreId",
 						"required": false,
@@ -2254,6 +2477,7 @@
 						}
 					},
 					{
+						"description": "Filter by store.",
 						"in": "query",
 						"name": "storeId",
 						"required": false,
@@ -2263,6 +2487,7 @@
 						}
 					},
 					{
+						"description": "Filter by platform.",
 						"in": "query",
 						"name": "platformId",
 						"required": false,
@@ -2272,6 +2497,7 @@
 						}
 					},
 					{
+						"description": "Filter by publisher.",
 						"in": "query",
 						"name": "publisherId",
 						"required": false,
@@ -2281,6 +2507,7 @@
 						}
 					},
 					{
+						"description": "Filter by developer.",
 						"in": "query",
 						"name": "developerId",
 						"required": false,
@@ -2290,6 +2517,7 @@
 						}
 					},
 					{
+						"description": "Filter by wishlist user.",
 						"in": "query",
 						"name": "wishlistUserId",
 						"required": false,
@@ -2299,6 +2527,7 @@
 						}
 					},
 					{
+						"description": "Filter by library user.",
 						"in": "query",
 						"name": "libraryUserId",
 						"required": false,
@@ -2308,6 +2537,7 @@
 						}
 					},
 					{
+						"description": "Sort order.",
 						"in": "query",
 						"name": "sortOrder",
 						"required": false,
@@ -2316,6 +2546,7 @@
 						}
 					},
 					{
+						"description": "Search text.",
 						"in": "query",
 						"name": "searchText",
 						"required": false,
@@ -2324,6 +2555,7 @@
 						}
 					},
 					{
+						"description": "Filter by tag.",
 						"in": "query",
 						"name": "tagId",
 						"required": false,
@@ -2348,6 +2580,7 @@
 						}
 					}
 				},
+				"description": "Create a new game.\r\nRequires admin access.",
 				"tags": [
 					"Games"
 				],
@@ -2358,11 +2591,13 @@
 				],
 				"parameters": [],
 				"requestBody": {
+					"description": "Partial game data.",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Partial_Game_"
+								"$ref": "#/components/schemas/Partial_Game_",
+								"description": "Partial game data."
 							}
 						}
 					}
@@ -2374,7 +2609,7 @@
 				"operationId": "GetById",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Game entity or null if not found.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -2389,12 +2624,14 @@
 						}
 					}
 				},
+				"description": "Get a game by ID.",
 				"tags": [
 					"Games"
 				],
 				"security": [],
 				"parameters": [
 					{
+						"description": "Game ID.",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -2409,7 +2646,7 @@
 				"operationId": "Update",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Updated Game entity.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -2419,6 +2656,7 @@
 						}
 					}
 				},
+				"description": "Update an existing game.\r\nRequires admin access.",
 				"tags": [
 					"Games"
 				],
@@ -2429,6 +2667,7 @@
 				],
 				"parameters": [
 					{
+						"description": "Game ID.",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -2439,11 +2678,13 @@
 					}
 				],
 				"requestBody": {
+					"description": "Update data.",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Partial_Game_"
+								"$ref": "#/components/schemas/GameUpdateDto",
+								"description": "Update data."
 							}
 						}
 					}
@@ -2456,6 +2697,7 @@
 						"description": "No content"
 					}
 				},
+				"description": "Delete a game by ID.\r\nRequires admin access.",
 				"tags": [
 					"Games"
 				],
@@ -2466,6 +2708,7 @@
 				],
 				"parameters": [
 					{
+						"description": "Game ID.",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -2482,7 +2725,7 @@
 				"operationId": "GetTrailers",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "List of trailers.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -2508,12 +2751,14 @@
 						}
 					}
 				},
+				"description": "Get trailers (movies) for a game by ID.",
 				"tags": [
 					"Games"
 				],
 				"security": [],
 				"parameters": [
 					{
+						"description": "Game ID.",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -2530,7 +2775,7 @@
 				"operationId": "GetScreenshots",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "List of screenshots.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -2556,12 +2801,14 @@
 						}
 					}
 				},
+				"description": "Get screenshots for a game by ID.",
 				"tags": [
 					"Games"
 				],
 				"security": [],
 				"parameters": [
 					{
+						"description": "Game ID.",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -2578,7 +2825,7 @@
 				"operationId": "GetAll",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "ListResponse containing developers.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -2588,6 +2835,7 @@
 						}
 					}
 				},
+				"description": "Get a list of all developers.",
 				"tags": [
 					"Developers"
 				],
@@ -2608,6 +2856,7 @@
 						}
 					}
 				},
+				"description": "Create a new developer.\r\nRequires admin access.",
 				"tags": [
 					"Developers"
 				],
@@ -2618,11 +2867,13 @@
 				],
 				"parameters": [],
 				"requestBody": {
+					"description": "Partial developer data.",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Partial_Developer_"
+								"$ref": "#/components/schemas/Partial_Developer_",
+								"description": "Partial developer data."
 							}
 						}
 					}
@@ -2634,7 +2885,7 @@
 				"operationId": "GetById",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Developer entity or null if not found.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -2649,12 +2900,14 @@
 						}
 					}
 				},
+				"description": "Get a developer by ID.",
 				"tags": [
 					"Developers"
 				],
 				"security": [],
 				"parameters": [
 					{
+						"description": "Developer ID.",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -2669,7 +2922,7 @@
 				"operationId": "Update",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Updated Developer entity or null if not found.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -2684,6 +2937,7 @@
 						}
 					}
 				},
+				"description": "Update an existing developer.\r\nRequires admin access.",
 				"tags": [
 					"Developers"
 				],
@@ -2694,6 +2948,7 @@
 				],
 				"parameters": [
 					{
+						"description": "Developer ID.",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -2704,11 +2959,13 @@
 					}
 				],
 				"requestBody": {
+					"description": "Update data.",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/EntityUpdateDto"
+								"$ref": "#/components/schemas/EntityUpdateDto",
+								"description": "Update data."
 							}
 						}
 					}
@@ -2718,7 +2975,7 @@
 				"operationId": "Delete",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "Message indicating result.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -2736,6 +2993,7 @@
 						}
 					}
 				},
+				"description": "Delete a developer by ID.\r\nRequires admin access.",
 				"tags": [
 					"Developers"
 				],
@@ -2746,6 +3004,7 @@
 				],
 				"parameters": [
 					{
+						"description": "Developer ID.",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -2789,17 +3048,20 @@
 						}
 					}
 				},
+				"description": "Register a new user.",
 				"tags": [
 					"Auth"
 				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
+					"description": "Registration data (username and password).",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/RegisterRequest"
+								"$ref": "#/components/schemas/RegisterRequest",
+								"description": "Registration data (username and password)."
 							}
 						}
 					}
@@ -2811,7 +3073,7 @@
 				"operationId": "Login",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "An object containing the authentication token.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -2829,17 +3091,20 @@
 						}
 					}
 				},
+				"description": "Authenticate a user and return a JWT token.",
 				"tags": [
 					"Auth"
 				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
+					"description": "Login data (username and password).",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/LoginRequest"
+								"$ref": "#/components/schemas/LoginRequest",
+								"description": "Login data (username and password)."
 							}
 						}
 					}
