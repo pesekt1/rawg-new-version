@@ -17,3 +17,7 @@ down:
 
 open-tabs:
 	cmd.exe /C start chrome http://localhost:3000/ http://localhost:5000/redoc http://localhost:5000/docs/
+
+# only run the user seeding, not the whole seeder
+up-seeder-user:
+	docker compose up -d --build seeder-user
