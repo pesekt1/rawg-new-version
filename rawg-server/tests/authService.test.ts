@@ -1,7 +1,5 @@
+import "reflect-metadata";
 import { describe, it, expect, beforeEach, vi } from "vitest";
-import { AuthService } from "../services/authService";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 
 // Mock repository and dependencies
 const mockRepo = {
@@ -9,10 +7,20 @@ const mockRepo = {
   create: vi.fn(),
   save: vi.fn(),
 };
-vi.spyOn(AuthService as any, "userRepository", "get").mockReturnValue(mockRepo);
+
+// Mock AppDataSource.getRepository before importing AuthService
+vi.mock("../startup/data-source", () => ({
+  AppDataSource: {
+    getRepository: () => mockRepo,
+  },
+}));
 
 vi.mock("bcryptjs");
 vi.mock("jsonwebtoken");
+
+import { AuthService } from "../services/authService";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 describe("AuthService", () => {
   beforeEach(() => {
@@ -22,6 +30,7 @@ describe("AuthService", () => {
   it("registers a new user", async () => {
     mockRepo.findOneBy.mockResolvedValue(null);
     mockRepo.create.mockReturnValue({
+      id: 1,
       username: "user",
       passwordHash: "hash",
       role: "user",
