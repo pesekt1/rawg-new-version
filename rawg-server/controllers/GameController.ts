@@ -27,6 +27,7 @@ import {
   updateGame,
 } from "../services/gameService";
 import { Game } from "../entities/Game";
+import { GameUpdateDto } from "./dto/GameUpdateDto";
 
 /**
  * Controller for managing Game entities and related resources.
@@ -135,7 +136,7 @@ export class GameController extends Controller {
   @Security("admin")
   public async update(
     @Path() id: number,
-    @Body() data: Partial<Game>
+    @Body() data: GameUpdateDto // <-- use imported DTO
   ): Promise<Game> {
     return updateGame(id, data);
   }
