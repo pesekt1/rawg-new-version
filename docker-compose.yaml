@@ -30,6 +30,22 @@ services:
     volumes:
       - ./seeder:/app
 
+# this service runs only the user seeding part of the seeder script
+  seeder-user:
+    container_name: seeder-user
+    build:
+      context: ./seeder
+      dockerfile: Dockerfile
+    depends_on:
+      - mysql
+    environment:
+      MYSQL_URL: mysql://root:rootpassword@mysql:3306/rawgDatabase
+    networks:
+      - backend
+    volumes:
+      - ./seeder:/app
+    command: ["npm", "start", "--", "user"]
+
   rawg-server:
     container_name: rawg-server
     build:
