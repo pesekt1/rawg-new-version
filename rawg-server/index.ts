@@ -3,7 +3,7 @@ import init from "./startup/init";
 import dotenv from "dotenv";
 import { RegisterRoutes } from "./routes/routes"; // tsoa-generated
 import swaggerUi from "swagger-ui-express";
-import swaggerDocument from "./swagger.json";
+import * as swaggerDocument from "./swagger.json";
 import { errorHandler } from "./middleware/errorHandler"; // <-- add import
 import { Request, Response, NextFunction } from "express";
 
@@ -47,8 +47,7 @@ app.get("/", (req, res) => {
 
 // Serve swagger.json statically at /swagger.json
 app.get("/swagger.json", (req, res) => {
-  res.setHeader("Content-Type", "application/json");
-  res.send(swaggerDocument);
+  res.json(swaggerDocument);
 });
 
 // Serve ReDoc documentation
