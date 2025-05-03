@@ -37,7 +37,7 @@ describe("index.ts Express app", () => {
     const app = createApp();
     const res = await request(app).get("/swagger.json");
     expect(res.status).toBe(200);
-    expect(res.body).toHaveProperty("swagger");
+    expect(res.body).toHaveProperty("openapi");
   });
 
   it("GET /redoc should return HTML", async () => {
