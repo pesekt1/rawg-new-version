@@ -41,10 +41,22 @@ const EditGamePage = () => {
   } = useMutation({
     mutationFn: (data: Partial<Game>) => apiClient.patch(gameId, data),
     onSuccess: () => {
+      //Invalidate the list and the single game
       queryClient.invalidateQueries({ queryKey: ["games"] });
-      queryClient.invalidateQueries({ queryKey: ["games", gameId] });
+      queryClient.invalidateQueries({ queryKey: ["game", gameId] });
     },
   });
+
+  // Navigate to home page after showing success message for a short time
+  useEffect(() => {
+    if (isSuccess) {
+      const timeout = setTimeout(() => {
+        navigate("/");
+      }, 1500); // Show success message for 1.5 seconds
+      return () => clearTimeout(timeout);
+    }
+    return undefined; // Always return a value
+  }, [isSuccess, navigate]);
 
   if (isLoading) return <div>Loading...</div>;
   if (error || !game) return <div>Failed to load game</div>;
