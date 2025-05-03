@@ -1,0 +1,70 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: CI/CD - rawg-server
+
+on: # when to run the workflow
+  push: # when code is pushed to the repository
+    branches:
+      - main # only run on the main branch
+    paths:
+      - "rawg-server/**" # only follow changes in rawg-server directory
+      - ".github/workflows/ci-cd_rawg-server.yml" #and changes in workflow file
+  workflow_dispatch: # allows you to run the workflow manually
+
+jobs:
+  build: # the build job
+    runs-on: ubuntu-latest # the type of runner to use
+    permissions:
+      contents: read #This is required for actions/checkout
+
+    steps:
+      - uses: actions/checkout@v4 # copy the repository to the runner
+
+      - name: Set up Node.js version
+        uses: actions/setup-node@v3
+        with:
+          node-version: "22.x"
+
+      - name: npm install, build, and test # go to rawg-server directory
+        run: |
+          cd rawg-server 
+          npm install
+          npm run build --if-present
+          npm run test --if-present
+
+      - name: Zip artifact for deployment # zip the rawg-server directory
+        run: |
+          cd rawg-server
+          zip -r ../release.zip .
+
+      - name: Upload artifact for deployment job # upload the zip file
+        uses: actions/upload-artifact@v4
+        with:
+          name: node-app
+          path: release.zip
+
+  deploy: # the deploy job
+    runs-on: ubuntu-latest # the type of runner to use
+    needs: build # the deploy job depends on the build job to finish first
+    environment: # the environment to deploy to
+      name: "Production"
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+      - name: Download artifact from build job # download the zip file
+        uses: actions/download-artifact@v4
+        with:
+          name: node-app
+
+      - name: Unzip artifact for deployment
+        run: unzip release.zip
+
+      - name: "Deploy to Azure Web App" # deploy the release artifact to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: "rawg-server"
+          slot-name: "Production" # the slot to deploy to
+          package: .
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1B05ED26C75A42108A5C4903CF4C7F83 }}
