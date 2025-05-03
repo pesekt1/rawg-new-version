@@ -1,0 +1,26 @@
+import { EntityWithIdDto } from "./EntityWithIdDto";
+import { ParentPlatformDto } from "./ParentPlatformDto";
+
+/**
+ * DTO for updating Game entities.
+ * 'name' and 'slug' are required, all other fields are optional.
+ */
+export type GameUpdateDto = {
+  name: string;
+  slug: string;
+  description_raw?: string;
+  metacritic?: number;
+  background_image?: string;
+  rating?: number;
+  released?: string;
+  added?: number;
+  rating_top?: number;
+  website?: string;
+  genres?: EntityWithIdDto[];
+  parent_platforms?: ParentPlatformDto[];
+  stores?: EntityWithIdDto[];
+  publishers?: EntityWithIdDto[];
+  developers?: EntityWithIdDto[];
+  tags?: EntityWithIdDto[];
+  // Add other relations as needed
+};
