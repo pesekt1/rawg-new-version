@@ -1,0 +1,22 @@
+name: Server CI
+
+on:
+  push:
+    paths:
+      - "rawg-server/**"
+  pull_request:
+    paths:
+      - "rawg-server/**"
+
+jobs:
+  test-server:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./rawg-server
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm install
+      - name: Run server tests
+        run: npm test

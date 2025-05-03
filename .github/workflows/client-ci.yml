@@ -1,0 +1,22 @@
+name: Client CI
+
+on:
+  push:
+    paths:
+      - "rawg-client/**"
+  pull_request:
+    paths:
+      - "rawg-client/**"
+
+jobs:
+  test-client:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./rawg-client
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm install
+      - name: Run client tests
+        run: npm test
