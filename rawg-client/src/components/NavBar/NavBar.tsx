@@ -8,7 +8,6 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  Box,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { FiUser, FiUserPlus } from "react-icons/fi";
