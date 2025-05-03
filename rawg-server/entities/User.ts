@@ -12,13 +12,13 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true })
+  @Column({ type: "varchar", unique: true })
   username: string;
 
-  @Column()
+  @Column({ type: "varchar" })
   passwordHash: string;
 
-  @Column({ default: "user" })
+  @Column({ type: "varchar", default: "user" })
   role: "admin" | "user";
 
   @ManyToMany(() => Game, (game) => game.wishlistedBy, {

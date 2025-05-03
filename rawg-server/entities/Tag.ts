@@ -6,13 +6,13 @@ export class Tag {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: "varchar" })
   name: string;
 
-  @Column()
+  @Column({ type: "varchar" })
   slug: string;
 
-  @Column()
+  @Column({ type: "varchar" })
   language: string;
 
   @Column({ type: "varchar", nullable: true })

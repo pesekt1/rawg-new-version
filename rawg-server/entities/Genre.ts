@@ -6,10 +6,10 @@ export class Genre {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: "varchar" })
   name: string;
 
-  @Column()
+  @Column({ type: "varchar" }) // <-- Explicitly set the type for slug
   slug: string;
 
   @Column({ type: "varchar", nullable: true })

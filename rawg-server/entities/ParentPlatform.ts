@@ -6,10 +6,10 @@ export class ParentPlatform {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: "varchar" })
   name: string;
 
-  @Column()
+  @Column({ type: "varchar" })
   slug: string;
 
   @ManyToMany(() => Game, (game) => game.parent_platforms)

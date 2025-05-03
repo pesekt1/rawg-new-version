@@ -21,34 +21,34 @@ export class Game {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: "varchar" })
   name: string;
 
-  @Column()
+  @Column({ type: "varchar" })
   slug: string;
 
   @Column({ type: "text", nullable: true })
   description_raw?: string;
 
-  @Column({ nullable: true })
+  @Column({ type: "int", nullable: true })
   metacritic?: number;
 
-  @Column({ nullable: true })
+  @Column({ type: "varchar", nullable: true })
   background_image?: string;
 
   @Column({ type: "float", nullable: true })
   rating?: number;
 
-  @Column({ nullable: true })
+  @Column({ type: "varchar", nullable: true })
   released?: string;
 
-  @Column({ nullable: true })
+  @Column({ type: "int", nullable: true })
   added?: number;
 
-  @Column({ nullable: true })
+  @Column({ type: "int", nullable: true })
   rating_top?: number;
 
-  @Column({ nullable: true })
+  @Column({ type: "varchar", nullable: true })
   website?: string;
 
   @ManyToMany(() => Genre, (genre) => genre.games)

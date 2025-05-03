@@ -6,16 +6,16 @@ export class Trailer {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: "varchar" })
   name: string;
 
-  @Column()
+  @Column({ type: "varchar" })
   preview: string;
 
-  @Column({ name: "data_480" })
+  @Column({ type: "varchar", name: "data_480" })
   data480: string;
 
-  @Column({ name: "data_max" })
+  @Column({ type: "varchar", name: "data_max" })
   dataMax: string;
 
   @ManyToOne(() => Game, (game) => game.trailers)

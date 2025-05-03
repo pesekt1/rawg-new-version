@@ -6,16 +6,16 @@ export class Screenshot {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: "varchar" })
   image: string;
 
-  @Column()
+  @Column({ type: "int" })
   width: number;
 
-  @Column()
+  @Column({ type: "int" })
   height: number;
 
-  @Column({ default: false })
+  @Column({ type: "boolean", default: false })
   is_deleted: boolean;
 
   @ManyToOne(() => Game, (game) => game.screenshots)
