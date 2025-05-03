@@ -9,7 +9,7 @@ import AddGameButton from "../domains/games/components/AddGameButton";
 import GameGrid from "../domains/games/components/GameGrid";
 import { useAuth } from "../domains/auth/useAuth";
 import UserPanel from "../domains/user/UserPanel";
-import DeveloperList from "../domains/developers-temp-change/DeveloperList";
+import DeveloperList from "../domains/developers/DeveloperList";
 
 const HomePage = () => {
   const { role } = useAuth();

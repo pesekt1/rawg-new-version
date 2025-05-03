@@ -3,7 +3,7 @@ import useGameQueryStore from "../../../state";
 import usePlatform from "../../platforms/usePlatform";
 import useGenre from "../../genres/useGenre";
 import useStore from "../../stores/useStore";
-import useDeveloper from "../../developers-temp-change/useDeveloper";
+import useDeveloper from "../../developers/useDeveloper";
 import useTag from "../../tags/useTag";
 import usePublisher from "../../publishers/usePublisher";
 
