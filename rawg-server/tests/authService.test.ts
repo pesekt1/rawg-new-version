@@ -1,0 +1,75 @@
+import { describe, it, expect, beforeEach, vi } from "vitest";
+import { AuthService } from "../services/authService";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+
+// Mock repository and dependencies
+const mockRepo = {
+  findOneBy: vi.fn(),
+  create: vi.fn(),
+  save: vi.fn(),
+};
+vi.spyOn(AuthService as any, "userRepository", "get").mockReturnValue(mockRepo);
+
+vi.mock("bcryptjs");
+vi.mock("jsonwebtoken");
+
+describe("AuthService", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("registers a new user", async () => {
+    mockRepo.findOneBy.mockResolvedValue(null);
+    mockRepo.create.mockReturnValue({
+      username: "user",
+      passwordHash: "hash",
+      role: "user",
+    });
+    mockRepo.save.mockResolvedValue({ id: 1, username: "user", role: "user" });
+    (bcrypt.hash as any).mockResolvedValue("hash");
+
+    const result = await AuthService.register("user", "pass");
+    expect(result).toEqual({ id: 1, username: "user", role: "user" });
+  });
+
+  it("throws if username exists", async () => {
+    mockRepo.findOneBy.mockResolvedValue({ username: "user" });
+    await expect(AuthService.register("user", "pass")).rejects.toThrow(
+      "Username already exists"
+    );
+  });
+
+  it("logs in with valid credentials", async () => {
+    mockRepo.findOneBy.mockResolvedValue({
+      id: 1,
+      username: "user",
+      passwordHash: "hash",
+      role: "user",
+    });
+    (bcrypt.compare as any).mockResolvedValue(true);
+    (jwt.sign as any).mockReturnValue("token");
+
+    const result = await AuthService.login("user", "pass");
+    expect(result).toEqual({ token: "token" });
+  });
+
+  it("throws on invalid login credentials", async () => {
+    mockRepo.findOneBy.mockResolvedValue(null);
+    await expect(AuthService.login("user", "pass")).rejects.toThrow(
+      "Invalid credentials"
+    );
+  });
+
+  it("returns null for invalid token", () => {
+    (jwt.verify as any).mockImplementation(() => {
+      throw new Error();
+    });
+    expect(AuthService.verifyToken("badtoken")).toBeNull();
+  });
+
+  it("returns payload for valid token", () => {
+    (jwt.verify as any).mockReturnValue({ userId: 1 });
+    expect(AuthService.verifyToken("goodtoken")).toEqual({ userId: 1 });
+  });
+});
