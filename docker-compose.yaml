@@ -45,6 +45,7 @@ services:
     volumes:
       - ./seeder:/app
     command: ["npm", "start", "--", "user"]
+    profiles: ["seeder-user"]
 
   rawg-server:
     container_name: rawg-server
