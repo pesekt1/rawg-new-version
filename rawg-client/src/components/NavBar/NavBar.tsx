@@ -1,6 +1,5 @@
 import {
   HStack,
-  Image,
   IconButton,
   useDisclosure,
   Tooltip,
@@ -9,9 +8,8 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Box,
 } from "@chakra-ui/react";
-import logo from "../../assets/logo.webp";
-
 import { Link } from "react-router-dom";
 import { FiUser, FiUserPlus } from "react-icons/fi";
 import LoginModal from "../../domains/auth/LoginModal";
@@ -20,6 +18,7 @@ import { useAuth } from "../../domains/auth/useAuth";
 import useGameQueryStore from "../../state";
 import ColorModeSwitch from "./ColorModeSwitch";
 import SearchInput from "./SearchInput";
+import Logo from "./Logo";
 
 const NavBar = () => {
   const resetGameQuery = useGameQueryStore((state) => state.reset);
@@ -36,13 +35,11 @@ const NavBar = () => {
   const { isAuthenticated, logout, role } = useAuth();
 
   return (
-    <HStack justifyContent="space-between" paddingX={3}>
+    <HStack justifyContent="space-between" p={4}>
       <Link to="/" onClick={resetGameQuery}>
-        <Image src={logo} boxSize="60px" objectFit="cover" />
+        <Logo />
       </Link>
-
       <SearchInput />
-
       <HStack>
         <ColorModeSwitch />
         {isAuthenticated ? (
