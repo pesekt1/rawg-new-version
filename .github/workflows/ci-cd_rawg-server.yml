@@ -20,6 +20,7 @@ jobs:
 
     services:
       mysql:
+        # MySQL service for integration tests
         image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD: root
@@ -42,7 +43,8 @@ jobs:
         with:
           node-version: "22.x"
 
-      - name: Wait for MySQL to be ready
+      - name: Wait for MySQL to be ready # Ensure MySQL is up before running tests
+        # This loop checks if MySQL is accepting connections before proceeding
         run: |
           for i in {1..30}; do
             if mysqladmin ping -h"127.0.0.1" -u"testuser" -p"testpass" --silent; then
