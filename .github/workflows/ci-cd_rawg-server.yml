@@ -96,4 +96,4 @@ jobs:
           app-name: "rawg-server"
           slot-name: "Production" # the slot to deploy to
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1B05ED26C75A42108A5C4903CF4C7F83 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_RAWGSERVER }}
