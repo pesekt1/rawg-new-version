@@ -62,10 +62,11 @@ jobs:
           npm run build --if-present
           npm run test --if-present
 
-      - name: Zip artifact for deployment # zip the rawg-server directory
+      - name: Zip artifact for deployment # zip the rawg-server directory, excluding node_modules and dist directories
+        # let azure install the dependencies
         run: |
           cd rawg-server
-          zip -r ../release.zip .
+          zip -r ../release.zip . -x "node_modules/*" -x "dist/*"
 
       - name: Upload artifact for deployment job # upload the zip file
         uses: actions/upload-artifact@v4
