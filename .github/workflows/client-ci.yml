@@ -7,6 +7,7 @@ on:
   pull_request:
     paths:
       - "rawg-client/**"
+  workflow_dispatch: # allows you to run the workflow manually
 
 jobs:
   test-client:
