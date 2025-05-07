@@ -254,11 +254,6 @@ const models: TsoaRoute.Models = {
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"double"},"name":{"dataType":"string"},"slug":{"dataType":"string"},"image_background":{"dataType":"string"},"games":{"dataType":"array","array":{"dataType":"refObject","ref":"Game"}}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Partial_Game_": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"double"},"name":{"dataType":"string"},"slug":{"dataType":"string"},"description_raw":{"dataType":"string"},"metacritic":{"dataType":"double"},"background_image":{"dataType":"string"},"rating":{"dataType":"double"},"released":{"dataType":"string"},"added":{"dataType":"double"},"rating_top":{"dataType":"double"},"website":{"dataType":"string"},"genres":{"dataType":"array","array":{"dataType":"refObject","ref":"Genre"}},"parent_platforms":{"dataType":"array","array":{"dataType":"refObject","ref":"ParentPlatform"}},"stores":{"dataType":"array","array":{"dataType":"refObject","ref":"Store"}},"publishers":{"dataType":"array","array":{"dataType":"refObject","ref":"Publisher"}},"developers":{"dataType":"array","array":{"dataType":"refObject","ref":"Developer"}},"tags":{"dataType":"array","array":{"dataType":"refObject","ref":"Tag"}},"wishlistedBy":{"dataType":"array","array":{"dataType":"refObject","ref":"User"}},"inLibraryOf":{"dataType":"array","array":{"dataType":"refObject","ref":"User"}},"trailers":{"dataType":"array","array":{"dataType":"refObject","ref":"Trailer"}},"screenshots":{"dataType":"array","array":{"dataType":"refObject","ref":"Screenshot"}}},"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "EntityWithIdDto": {
         "dataType": "refObject",
         "properties": {
@@ -1434,7 +1429,7 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsGameController_create: Record<string, TsoaRoute.ParameterSchema> = {
-                data: {"in":"body","name":"data","required":true,"ref":"Partial_Game_"},
+                data: {"in":"body","name":"data","required":true,"ref":"GameUpdateDto"},
         };
         app.post('/games',
             authenticateMiddleware([{"admin":[]}]),

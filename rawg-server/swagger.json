@@ -680,110 +680,6 @@
 				"type": "object",
 				"description": "Make all properties in T optional"
 			},
-			"Partial_Game_": {
-				"properties": {
-					"id": {
-						"type": "number",
-						"format": "double"
-					},
-					"name": {
-						"type": "string"
-					},
-					"slug": {
-						"type": "string"
-					},
-					"description_raw": {
-						"type": "string"
-					},
-					"metacritic": {
-						"type": "number",
-						"format": "double"
-					},
-					"background_image": {
-						"type": "string"
-					},
-					"rating": {
-						"type": "number",
-						"format": "double"
-					},
-					"released": {
-						"type": "string"
-					},
-					"added": {
-						"type": "number",
-						"format": "double"
-					},
-					"rating_top": {
-						"type": "number",
-						"format": "double"
-					},
-					"website": {
-						"type": "string"
-					},
-					"genres": {
-						"items": {
-							"$ref": "#/components/schemas/Genre"
-						},
-						"type": "array"
-					},
-					"parent_platforms": {
-						"items": {
-							"$ref": "#/components/schemas/ParentPlatform"
-						},
-						"type": "array"
-					},
-					"stores": {
-						"items": {
-							"$ref": "#/components/schemas/Store"
-						},
-						"type": "array"
-					},
-					"publishers": {
-						"items": {
-							"$ref": "#/components/schemas/Publisher"
-						},
-						"type": "array"
-					},
-					"developers": {
-						"items": {
-							"$ref": "#/components/schemas/Developer"
-						},
-						"type": "array"
-					},
-					"tags": {
-						"items": {
-							"$ref": "#/components/schemas/Tag"
-						},
-						"type": "array"
-					},
-					"wishlistedBy": {
-						"items": {
-							"$ref": "#/components/schemas/User"
-						},
-						"type": "array"
-					},
-					"inLibraryOf": {
-						"items": {
-							"$ref": "#/components/schemas/User"
-						},
-						"type": "array"
-					},
-					"trailers": {
-						"items": {
-							"$ref": "#/components/schemas/Trailer"
-						},
-						"type": "array"
-					},
-					"screenshots": {
-						"items": {
-							"$ref": "#/components/schemas/Screenshot"
-						},
-						"type": "array"
-					}
-				},
-				"type": "object",
-				"description": "Make all properties in T optional"
-			},
 			"EntityWithIdDto": {
 				"description": "DTO for entities with an id, name, slug, and optional image_background.",
 				"properties": {
@@ -2558,7 +2454,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Partial_Game_",
+								"$ref": "#/components/schemas/GameUpdateDto",
 								"description": "Partial game data."
 							}
 						}
