@@ -10,6 +10,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Game } from "../domains/games/Game";
 import { useAuth } from "../domains/auth/useAuth";
 import GameForm from "../domains/games/components/GameForm";
+import useDevelopers from "../domains/developers/useDevelopers";
 
 const apiClient = new ApiClient<Game>("/games");
 
@@ -31,6 +32,7 @@ const EditGamePage = () => {
   const platforms = usePlatforms();
   const stores = useStores();
   const publishers = usePublishers();
+  const developers = useDevelopers();
 
   const {
     mutate,
@@ -74,6 +76,7 @@ const EditGamePage = () => {
         parent_platforms: game.parent_platforms || [],
         stores: game.stores || [],
         publishers: game.publishers || [],
+        developers: game.developers || [],
       }}
       genresData={genres.data}
       genresLoading={genres.isLoading}
@@ -87,6 +90,9 @@ const EditGamePage = () => {
       publishersData={publishers.data}
       publishersLoading={publishers.isLoading}
       publishersError={publishers.error}
+      developersData={developers.data}
+      developersLoading={developers.isLoading}
+      developersError={developers.error}
       onSubmit={mutate}
       isLoading={isSaving}
       isSuccess={isSuccess}

@@ -37,6 +37,7 @@ interface GameFormProps {
     parent_platforms: Entity[];
     stores: Entity[];
     publishers: Entity[];
+    developers: Entity[];
   };
   genresData: { results: Entity[] } | undefined;
   genresLoading: boolean;
@@ -50,6 +51,9 @@ interface GameFormProps {
   publishersData: { results: Entity[] } | undefined;
   publishersLoading: boolean;
   publishersError: any;
+  developersData: { results: Entity[] } | undefined;
+  developersLoading: boolean;
+  developersError: any;
   onSubmit: (values: any) => void;
   isLoading: boolean;
   isSuccess: boolean;
@@ -74,6 +78,9 @@ const GameForm = ({
   publishersData,
   publishersLoading,
   publishersError,
+  developersData,
+  developersLoading,
+  developersError,
   onSubmit,
   isLoading,
   isSuccess,
@@ -111,6 +118,10 @@ const GameForm = ({
     initialValues.publishers
   );
   const [publisherToAdd, setPublisherToAdd] = useState<number | "">("");
+  const [selectedDevelopers, setSelectedDevelopers] = useState<Entity[]>(
+    initialValues.developers
+  );
+  const [developerToAdd, setDeveloperToAdd] = useState<number | "">("");
 
   useEffect(() => {
     setName(initialValues.name);
@@ -123,6 +134,7 @@ const GameForm = ({
     setSelectedPlatforms(initialValues.parent_platforms);
     setSelectedStores(initialValues.stores);
     setSelectedPublishers(initialValues.publishers);
+    setSelectedDevelopers(initialValues.developers);
   }, [initialValues]);
 
   const handleAdd = (
@@ -169,6 +181,7 @@ const GameForm = ({
       parent_platforms: selectedPlatforms,
       stores: selectedStores,
       publishers: selectedPublishers,
+      developers: selectedDevelopers, // <-- add this line
     });
   };
 
@@ -506,6 +519,78 @@ const GameForm = ({
                     publisher.id,
                     selectedPublishers,
                     setSelectedPublishers
+                  )
+                }
+              />
+            </Tag>
+          ))}
+        </HStack>
+      </FormControl>
+    </Box>,
+    // Developers group
+    <Box key="developers-group" mb={4}>
+      <FormControl mb={2}>
+        <FormLabel>Add Developer</FormLabel>
+        {developersLoading ? (
+          <Spinner size="sm" />
+        ) : developersError ? (
+          <Alert status="error">
+            <AlertIcon />
+            Failed to load developers
+          </Alert>
+        ) : (
+          <HStack>
+            <Select
+              placeholder="Select developer"
+              value={developerToAdd}
+              onChange={(e) =>
+                setDeveloperToAdd(
+                  e.target.value ? Number(e.target.value) : ""
+                )
+              }
+              maxW="200px"
+            >
+              {developersData?.results
+                .filter(
+                  (d: any) => !selectedDevelopers.some((sd) => sd.id === d.id)
+                )
+                .map((developer: any) => (
+                  <option key={developer.id} value={developer.id}>
+                    {developer.name}
+                  </option>
+                ))}
+            </Select>
+            <Button
+              onClick={() =>
+                handleAdd(
+                  developerToAdd,
+                  setDeveloperToAdd,
+                  selectedDevelopers,
+                  setSelectedDevelopers,
+                  developersData
+                )
+              }
+              isDisabled={!developerToAdd}
+              colorScheme="teal"
+              size="sm"
+            >
+              Add
+            </Button>
+          </HStack>
+        )}
+      </FormControl>
+      <FormControl mb={2}>
+        <FormLabel>Selected Developers</FormLabel>
+        <HStack wrap="wrap">
+          {selectedDevelopers.map((developer) => (
+            <Tag key={developer.id} m={1} colorScheme="teal">
+              <TagLabel>{developer.name}</TagLabel>
+              <TagCloseButton
+                onClick={() =>
+                  handleRemove(
+                    developer.id,
+                    selectedDevelopers,
+                    setSelectedDevelopers
                   )
                 }
               />

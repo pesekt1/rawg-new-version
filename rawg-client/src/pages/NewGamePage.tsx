@@ -7,6 +7,7 @@ import { useAuth } from "../domains/auth/useAuth";
 import useStores from "../domains/stores/useStores";
 import usePlatforms from "../domains/platforms/usePlatforms";
 import GameForm from "../domains/games/components/GameForm";
+import useDevelopers from "../domains/developers/useDevelopers";
 
 const NewGamePage = () => {
   const { mutate, isLoading, isSuccess, isError, error, reset } =
@@ -15,6 +16,7 @@ const NewGamePage = () => {
   const platforms = usePlatforms();
   const stores = useStores();
   const publishers = usePublishers();
+  const developers = useDevelopers();
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
   useEffect(() => {
@@ -36,6 +38,7 @@ const NewGamePage = () => {
         parent_platforms: [],
         stores: [],
         publishers: [],
+        developers: [],
       }}
       genresData={genres.data}
       genresLoading={genres.isLoading}
@@ -49,6 +52,9 @@ const NewGamePage = () => {
       publishersData={publishers.data}
       publishersLoading={publishers.isLoading}
       publishersError={publishers.error}
+      developersData={developers.data}
+      developersLoading={developers.isLoading}
+      developersError={developers.error}
       onSubmit={(values) => {
         reset();
         mutate(values, {
