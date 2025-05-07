@@ -369,7 +369,7 @@ export const getScreenshots = async (gameId: number) => {
 /**
  * Create a new game.
  */
-export const createGame = async (data: Partial<Game>) => {
+export const createGame = async (data: GameUpdateDto) => {
   // Validate required fields
   if (!data.name || !data.slug) {
     throw new Error("Missing required fields: name and slug");

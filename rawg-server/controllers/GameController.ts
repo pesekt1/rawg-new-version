@@ -121,7 +121,7 @@ export class GameController extends Controller {
   @SuccessResponse("201", "Created")
   @Post("/")
   @Security("admin")
-  public async create(@Body() data: Partial<Game>): Promise<Game> {
+  public async create(@Body() data: GameUpdateDto): Promise<Game> {
     return createGame(data);
   }
 
