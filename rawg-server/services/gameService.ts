@@ -250,9 +250,6 @@ const buildGameQuery = (filters: any) => {
 const modifyGameResponse = (games: Game[]) => {
   return games.map((game) => ({
     ...game,
-    parent_platforms: game.parent_platforms?.map((parent_platform) => ({
-      platform: parent_platform,
-    })),
     wishlistedBy: game.wishlistedBy
       ? game.wishlistedBy.map((u) => ({ id: u.id, username: u.username }))
       : [],
@@ -320,9 +317,6 @@ export const getGame = async (id: number) => {
 
   return {
     ...game,
-    parent_platforms: game.parent_platforms?.map((parent_platform) => ({
-      platform: parent_platform,
-    })),
     wishlistedBy: game.wishlistedBy
       ? game.wishlistedBy.map((u) => ({ id: u.id, username: u.username }))
       : [],
@@ -381,14 +375,6 @@ export const createGame = async (data: Partial<Game>) => {
     throw new Error("Missing required fields: name and slug");
   }
 
-  // Transform parent_platforms from { platform }[] to Platform[]
-  let parentPlatforms = undefined;
-  if (Array.isArray(data.parent_platforms)) {
-    parentPlatforms = data.parent_platforms
-      .map((pp: any) => pp.platform)
-      .filter(Boolean);
-  }
-
   // Unix timestamp in seconds
   const added =
     typeof data.added === "number" ? data.added : Math.floor(Date.now() / 1000);
@@ -396,7 +382,6 @@ export const createGame = async (data: Partial<Game>) => {
   // Create and save the game
   const game = gameRepository.create({
     ...data,
-    parent_platforms: parentPlatforms ?? [],
     added,
   });
   await gameRepository.save(game);
@@ -443,9 +428,7 @@ export const updateGame = async (id: number, data: GameUpdateDto) => {
   }
   if (data.parent_platforms !== undefined) {
     game.parent_platforms = data.parent_platforms.map((p) =>
-      AppDataSource.getRepository(ParentPlatform).create({
-        ...p.platform,
-      })
+      AppDataSource.getRepository(ParentPlatform).create(p)
     );
   }
   if (data.stores !== undefined) {
