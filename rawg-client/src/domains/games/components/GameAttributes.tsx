@@ -19,11 +19,6 @@ const GameAttributes = ({ game }: Props) => {
   const setDeveloperId = useGameQueryStore((s) => s.setDeveloperId);
   const setTagId = useGameQueryStore((s) => s.setTagId);
 
-  const platformBadges = game.parent_platforms.map((p) => ({
-    id: p.platform.id,
-    name: p.platform.name,
-  }));
-
   return (
     <Box
       bg={cardBg}
@@ -37,7 +32,7 @@ const GameAttributes = ({ game }: Props) => {
       <SimpleGrid columns={2} as="dl" spacing={4}>
         <DefinitionItem term="Platforms">
           <AttributeBadge
-            items={platformBadges}
+            items={game.parent_platforms}
             colorScheme="blue"
             onSetId={setPlatformId}
           />

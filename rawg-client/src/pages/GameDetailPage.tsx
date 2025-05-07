@@ -88,7 +88,7 @@ const GameDetailPage = () => {
         )}
         <Heading>{game.name}</Heading>
         <PlatformIconsList
-          platforms={game.parent_platforms?.map((p) => p.platform) || []}
+          platforms={game.parent_platforms}
         />
         <StyledText>
           <ExpandableText>{game.description_raw}</ExpandableText>

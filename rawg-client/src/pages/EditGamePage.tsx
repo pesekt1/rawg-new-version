@@ -70,8 +70,7 @@ const EditGamePage = () => {
         released: game.released,
         background_image: game.background_image,
         genres: game.genres || [],
-        parent_platforms:
-          game.parent_platforms?.map((pp: any) => pp.platform) || [],
+        parent_platforms: game.parent_platforms || [],
         stores: game.stores || [],
         publishers: game.publishers || [],
       }}
