@@ -35,6 +35,7 @@ interface GameFormProps {
     description_raw: string;
     released: string;
     background_image: string;
+    website: string;
     genres: Entity[];
     parent_platforms: Platform[];
     stores: Entity[];
@@ -94,6 +95,9 @@ const GameForm = ({
   const [backgroundImage, setBackgroundImage] = useState(
     initialValues.background_image
   );
+  const [website, setWebsite] = useState(initialValues.website);
+  // Add website validation state
+  const [websiteError, setWebsiteError] = useState<string | null>(null);
   const [selectedGenres, setSelectedGenres] = useState<Entity[]>(
     initialValues.genres
   );
@@ -117,6 +121,7 @@ const GameForm = ({
     setDescriptionRaw(initialValues.description_raw);
     setReleased(initialValues.released);
     setBackgroundImage(initialValues.background_image);
+    setWebsite(initialValues.website);
     setSelectedGenres(initialValues.genres);
     setSelectedPlatforms(initialValues.parent_platforms);
     setSelectedStores(initialValues.stores);
@@ -149,11 +154,19 @@ const GameForm = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    // Validate website URL
+    if (website && !/^https?:\/\/.+/i.test(website)) {
+      setWebsiteError("Website URL must start with http:// or https://");
+      return;
+    } else {
+      setWebsiteError(null);
+    }
     onSubmit({
       name,
       slug,
       description_raw,
       released,
+      website,
       background_image: backgroundImage,
       genres: selectedGenres,
       parent_platforms: selectedPlatforms,
@@ -209,6 +222,28 @@ const GameForm = ({
         onChange={(e) => setBackgroundImage(e.target.value)}
         placeholder="https://example.com/image.jpg"
       />
+    </FormControl>,
+    // Website URL
+    <FormControl mb={4} key="website" isInvalid={!!websiteError}>
+      <FormLabel>Website URL</FormLabel>
+      <Input
+        value={website}
+        onChange={(e) => {
+          setWebsite(e.target.value);
+          // Live validation
+          if (e.target.value && !/^https?:\/\/.+/i.test(e.target.value)) {
+            setWebsiteError("Website URL must start with http:// or https://");
+          } else {
+            setWebsiteError(null);
+          }
+        }}
+        placeholder="https://example.com"
+      />
+      {websiteError && (
+        <Box color="red.500" fontSize="sm" mt={1}>
+          {websiteError}
+        </Box>
+      )}
     </FormControl>,
     // Genres group
     <Box key="genres-group" mb={4}>

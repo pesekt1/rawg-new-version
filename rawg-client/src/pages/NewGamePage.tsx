@@ -31,6 +31,7 @@ const NewGamePage = () => {
         description_raw: "",
         released: "",
         background_image: "",
+        website: "",
         genres: [],
         parent_platforms: [],
         stores: [],

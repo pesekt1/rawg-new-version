@@ -69,6 +69,7 @@ const EditGamePage = () => {
         description_raw: game.description_raw,
         released: game.released,
         background_image: game.background_image,
+        website: game.website,
         genres: game.genres || [],
         parent_platforms: game.parent_platforms || [],
         stores: game.stores || [],
