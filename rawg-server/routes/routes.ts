@@ -270,17 +270,9 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "ParentPlatformDto": {
-        "dataType": "refObject",
-        "properties": {
-            "platform": {"dataType":"nestedObjectLiteral","nestedProperties":{"slug":{"dataType":"string","required":true},"name":{"dataType":"string","required":true},"id":{"dataType":"double","required":true}},"required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "GameUpdateDto": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"tags":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityWithIdDto"}},"developers":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityWithIdDto"}},"publishers":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityWithIdDto"}},"stores":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityWithIdDto"}},"parent_platforms":{"dataType":"array","array":{"dataType":"refObject","ref":"ParentPlatformDto"}},"genres":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityWithIdDto"}},"website":{"dataType":"string"},"rating_top":{"dataType":"double"},"added":{"dataType":"double"},"released":{"dataType":"string"},"rating":{"dataType":"double"},"background_image":{"dataType":"string"},"metacritic":{"dataType":"double"},"description_raw":{"dataType":"string"},"slug":{"dataType":"string","required":true},"name":{"dataType":"string","required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"tags":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityWithIdDto"}},"developers":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityWithIdDto"}},"publishers":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityWithIdDto"}},"stores":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityWithIdDto"}},"parent_platforms":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityWithIdDto"}},"genres":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityWithIdDto"}},"website":{"dataType":"string"},"rating_top":{"dataType":"double"},"added":{"dataType":"double"},"released":{"dataType":"string"},"rating":{"dataType":"double"},"background_image":{"dataType":"string"},"metacritic":{"dataType":"double"},"description_raw":{"dataType":"string"},"slug":{"dataType":"string","required":true},"name":{"dataType":"string","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ListResponse_Developer_": {

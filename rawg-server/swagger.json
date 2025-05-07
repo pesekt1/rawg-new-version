@@ -810,36 +810,6 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"ParentPlatformDto": {
-				"description": "DTO for updating parent platform.",
-				"properties": {
-					"platform": {
-						"properties": {
-							"slug": {
-								"type": "string"
-							},
-							"name": {
-								"type": "string"
-							},
-							"id": {
-								"type": "number",
-								"format": "double"
-							}
-						},
-						"required": [
-							"slug",
-							"name",
-							"id"
-						],
-						"type": "object"
-					}
-				},
-				"required": [
-					"platform"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
 			"GameUpdateDto": {
 				"properties": {
 					"tags": {
@@ -868,7 +838,7 @@
 					},
 					"parent_platforms": {
 						"items": {
-							"$ref": "#/components/schemas/ParentPlatformDto"
+							"$ref": "#/components/schemas/EntityWithIdDto"
 						},
 						"type": "array"
 					},
@@ -2306,6 +2276,12 @@
 														},
 														"type": "array"
 													},
+													"parent_platforms": {
+														"items": {
+															"$ref": "#/components/schemas/ParentPlatform"
+														},
+														"type": "array"
+													},
 													"genres": {
 														"items": {
 															"$ref": "#/components/schemas/Genre"
@@ -2387,20 +2363,6 @@
 															"type": "object"
 														},
 														"type": "array"
-													},
-													"parent_platforms": {
-														"items": {
-															"properties": {
-																"platform": {
-																	"$ref": "#/components/schemas/ParentPlatform"
-																}
-															},
-															"required": [
-																"platform"
-															],
-															"type": "object"
-														},
-														"type": "array"
 													}
 												},
 												"required": [
@@ -2410,13 +2372,13 @@
 													"developers",
 													"publishers",
 													"stores",
+													"parent_platforms",
 													"genres",
 													"slug",
 													"name",
 													"id",
 													"inLibraryOf",
-													"wishlistedBy",
-													"parent_platforms"
+													"wishlistedBy"
 												],
 												"type": "object"
 											},
