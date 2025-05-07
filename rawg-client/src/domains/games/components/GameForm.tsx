@@ -38,6 +38,7 @@ interface GameFormProps {
     stores: Entity[];
     publishers: Entity[];
     developers: Entity[];
+    tags: Entity[];
   };
   genresData: { results: Entity[] } | undefined;
   genresLoading: boolean;
@@ -54,6 +55,9 @@ interface GameFormProps {
   developersData: { results: Entity[] } | undefined;
   developersLoading: boolean;
   developersError: any;
+  tagsData: { results: Entity[] } | undefined;
+  tagsLoading: boolean;
+  tagsError: any;
   onSubmit: (values: any) => void;
   isLoading: boolean;
   isSuccess: boolean;
@@ -81,6 +85,9 @@ const GameForm = ({
   developersData,
   developersLoading,
   developersError,
+  tagsData,
+  tagsLoading,
+  tagsError,
   onSubmit,
   isLoading,
   isSuccess,
@@ -122,6 +129,8 @@ const GameForm = ({
     initialValues.developers
   );
   const [developerToAdd, setDeveloperToAdd] = useState<number | "">("");
+  const [selectedTags, setSelectedTags] = useState<Entity[]>(initialValues.tags);
+  const [tagToAdd, setTagToAdd] = useState<number | "">("" );
 
   useEffect(() => {
     setName(initialValues.name);
@@ -135,6 +144,7 @@ const GameForm = ({
     setSelectedStores(initialValues.stores);
     setSelectedPublishers(initialValues.publishers);
     setSelectedDevelopers(initialValues.developers);
+    setSelectedTags(initialValues.tags);
   }, [initialValues]);
 
   const handleAdd = (
@@ -181,7 +191,8 @@ const GameForm = ({
       parent_platforms: selectedPlatforms,
       stores: selectedStores,
       publishers: selectedPublishers,
-      developers: selectedDevelopers, // <-- add this line
+      developers: selectedDevelopers,
+      tags: selectedTags,
     });
   };
 
@@ -255,6 +266,73 @@ const GameForm = ({
         </Box>
       )}
     </FormControl>,
+    // Tags group
+    <Box key="tags-group" mb={4}>
+      <FormControl mb={2}>
+        <FormLabel>Add Tag</FormLabel>
+        {tagsLoading ? (
+          <Spinner size="sm" />
+        ) : tagsError ? (
+          <Alert status="error">
+            <AlertIcon />
+            Failed to load tags
+          </Alert>
+        ) : (
+          <HStack>
+            <Select
+              placeholder="Select tag"
+              value={tagToAdd}
+              onChange={(e) =>
+                setTagToAdd(e.target.value ? Number(e.target.value) : "")
+              }
+              maxW="200px"
+            >
+              {tagsData?.results
+                .filter(
+                  (t: any) => !selectedTags.some((st) => st.id === t.id)
+                )
+                .sort((a: Entity, b: Entity) => a.name.localeCompare(b.name))
+                .map((tag: any) => (
+                  <option key={tag.id} value={tag.id}>
+                    {tag.name}
+                  </option>
+                ))}
+            </Select>
+            <Button
+              onClick={() =>
+                handleAdd(
+                  tagToAdd,
+                  setTagToAdd,
+                  selectedTags,
+                  setSelectedTags,
+                  tagsData
+                )
+              }
+              isDisabled={!tagToAdd}
+              colorScheme="teal"
+              size="sm"
+            >
+              Add
+            </Button>
+          </HStack>
+        )}
+      </FormControl>
+      <FormControl mb={2}>
+        <FormLabel>Selected Tags</FormLabel>
+        <HStack wrap="wrap">
+          {selectedTags.map((tag) => (
+            <Tag key={tag.id} m={1} colorScheme="purple">
+              <TagLabel>{tag.name}</TagLabel>
+              <TagCloseButton
+                onClick={() =>
+                  handleRemove(tag.id, selectedTags, setSelectedTags)
+                }
+              />
+            </Tag>
+          ))}
+        </HStack>
+      </FormControl>
+    </Box>,
     // Genres group
     <Box key="genres-group" mb={4}>
       <FormControl mb={2}>

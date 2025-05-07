@@ -11,6 +11,7 @@ import { Game } from "../domains/games/Game";
 import { useAuth } from "../domains/auth/useAuth";
 import GameForm from "../domains/games/components/GameForm";
 import useDevelopers from "../domains/developers/useDevelopers";
+import useTags from "../domains/tags/useTags";
 
 const apiClient = new ApiClient<Game>("/games");
 
@@ -33,6 +34,7 @@ const EditGamePage = () => {
   const stores = useStores();
   const publishers = usePublishers();
   const developers = useDevelopers();
+  const tags = useTags();
 
   const {
     mutate,
@@ -77,6 +79,7 @@ const EditGamePage = () => {
         stores: game.stores || [],
         publishers: game.publishers || [],
         developers: game.developers || [],
+        tags: game.tags || [],
       }}
       genresData={genres.data}
       genresLoading={genres.isLoading}
@@ -93,6 +96,9 @@ const EditGamePage = () => {
       developersData={developers.data}
       developersLoading={developers.isLoading}
       developersError={developers.error}
+      tagsData={tags.data}
+      tagsLoading={tags.isLoading}
+      tagsError={tags.error}
       onSubmit={mutate}
       isLoading={isSaving}
       isSuccess={isSuccess}
