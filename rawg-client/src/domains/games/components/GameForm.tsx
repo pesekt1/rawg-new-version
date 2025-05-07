@@ -156,7 +156,7 @@ const GameForm = ({
       released,
       background_image: backgroundImage,
       genres: selectedGenres,
-      parent_platforms: selectedPlatforms.map((p) => ({ platform: p })),
+      parent_platforms: selectedPlatforms,
       stores: selectedStores,
       publishers: selectedPublishers,
     });
