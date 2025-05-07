@@ -1,5 +1,4 @@
 import { EntityWithIdDto } from "./EntityWithIdDto";
-import { ParentPlatformDto } from "./ParentPlatformDto";
 
 /**
  * DTO for updating Game entities.
@@ -17,7 +16,7 @@ export type GameUpdateDto = {
   rating_top?: number;
   website?: string;
   genres?: EntityWithIdDto[];
-  parent_platforms?: ParentPlatformDto[];
+  parent_platforms?: EntityWithIdDto[];
   stores?: EntityWithIdDto[];
   publishers?: EntityWithIdDto[];
   developers?: EntityWithIdDto[];
