@@ -24,10 +24,7 @@ interface Entity {
   id: number;
   name: string;
 }
-interface Platform {
-  id: number;
-  name: string;
-}
+
 interface GameFormProps {
   initialValues: {
     name: string;
@@ -37,14 +34,14 @@ interface GameFormProps {
     background_image: string;
     website: string;
     genres: Entity[];
-    parent_platforms: Platform[];
+    parent_platforms: Entity[];
     stores: Entity[];
     publishers: Entity[];
   };
   genresData: { results: Entity[] } | undefined;
   genresLoading: boolean;
   genresError: any;
-  platformsData: { results: Platform[] } | undefined;
+  platformsData: { results: Entity[] } | undefined;
   platformsLoading: boolean;
   platformsError: any;
   storesData: { results: Entity[] } | undefined;
@@ -102,7 +99,7 @@ const GameForm = ({
     initialValues.genres
   );
   const [genreToAdd, setGenreToAdd] = useState<number | "">("");
-  const [selectedPlatforms, setSelectedPlatforms] = useState<Platform[]>(
+  const [selectedPlatforms, setSelectedPlatforms] = useState<Entity[]>(
     initialValues.parent_platforms
   );
   const [platformToAdd, setPlatformToAdd] = useState<number | "">("");
@@ -131,7 +128,7 @@ const GameForm = ({
   const handleAdd = (
     toAdd: number | "",
     setToAdd: (v: number | "") => void,
-    selected: Entity[] | Platform[],
+    selected: Entity[],
     setSelected: (v: any[]) => void,
     data: { results: any[] } | undefined
   ) => {
@@ -146,7 +143,7 @@ const GameForm = ({
 
   const handleRemove = (
     id: number,
-    selected: Entity[] | Platform[],
+    selected: Entity[],
     setSelected: (v: any[]) => void
   ) => {
     setSelected(selected.filter((g) => g.id !== id));
