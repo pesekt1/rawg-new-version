@@ -490,6 +490,10 @@
 					"image_background": {
 						"type": "string",
 						"nullable": true
+					},
+					"language": {
+						"type": "string",
+						"nullable": true
 					}
 				},
 				"required": [
@@ -690,6 +694,10 @@
 						"type": "string"
 					},
 					"image_background": {
+						"type": "string",
+						"nullable": true
+					},
+					"language": {
 						"type": "string",
 						"nullable": true
 					},
