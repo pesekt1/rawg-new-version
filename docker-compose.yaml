@@ -19,11 +19,6 @@ services:
       interval: 5s
       timeout: 3s
       retries: 10
-    deploy: # limits the cpu and memory usage
-      resources:
-        limits:
-          cpus: '0.50'
-          memory: 512M
 
   seeder:
     container_name: seeder
@@ -39,11 +34,6 @@ services:
       - backend
     volumes:
       - ./seeder:/app
-    deploy: # limits the cpu and memory usage
-      resources:
-        limits:
-          cpus: '0.25'
-          memory: 128M
 
 # this service runs only the user seeding part of the seeder script
   seeder-user:
@@ -61,11 +51,6 @@ services:
       - ./seeder:/app
     command: ["npm", "start", "--", "user"]
     profiles: ["seeder-user"]
-    deploy: # limits the cpu and memory usage
-      resources:
-        limits:
-          cpus: '0.25'
-          memory: 128M
 
   rawg-server:
     container_name: rawg-server
@@ -85,11 +70,6 @@ services:
     volumes:
       - ./rawg-server:/app
       - /app/node_modules # exclude from mounted volumes: much faster startup time, let the container to install the dependencies
-    deploy: # limits the cpu and memory usage
-      resources:
-        limits:
-          cpus: '1.00'
-          memory: 512M
 
   rawg-client:
     container_name: rawg-client
@@ -108,12 +88,6 @@ services:
     volumes:
       - ./rawg-client:/app
       - /app/node_modules # exclude from mounted volumes: much faster startup time, let the container to install the dependencies
-    deploy: # limits the cpu and memory usage
-      resources:
-        limits:
-          cpus: '0.50'
-          memory: 256M
-
 volumes:
   mysql_data:
 
