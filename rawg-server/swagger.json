@@ -906,7 +906,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/Tag"
+									"$ref": "#/components/schemas/TagReadDto"
 								}
 							}
 						}
@@ -978,13 +978,13 @@
 				"operationId": "Update",
 				"responses": {
 					"200": {
-						"description": "Updated Tag entity or null if not found.",
+						"description": "Updated Tag DTO or null if not found.",
 						"content": {
 							"application/json": {
 								"schema": {
 									"allOf": [
 										{
-											"$ref": "#/components/schemas/Tag"
+											"$ref": "#/components/schemas/TagReadDto"
 										}
 									],
 									"nullable": true
@@ -1102,7 +1102,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/Store"
+									"$ref": "#/components/schemas/EntityReadDto"
 								}
 							}
 						}
@@ -1174,13 +1174,13 @@
 				"operationId": "Update",
 				"responses": {
 					"200": {
-						"description": "Updated Store entity or null if not found.",
+						"description": "Updated Store DTO or null if not found.",
 						"content": {
 							"application/json": {
 								"schema": {
 									"allOf": [
 										{
-											"$ref": "#/components/schemas/Store"
+											"$ref": "#/components/schemas/EntityReadDto"
 										}
 									],
 									"nullable": true
@@ -1298,7 +1298,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/Publisher"
+									"$ref": "#/components/schemas/EntityReadDto"
 								}
 							}
 						}
@@ -1370,13 +1370,13 @@
 				"operationId": "Update",
 				"responses": {
 					"200": {
-						"description": "Updated Publisher entity or null if not found.",
+						"description": "Updated Publisher DTO or null if not found.",
 						"content": {
 							"application/json": {
 								"schema": {
 									"allOf": [
 										{
-											"$ref": "#/components/schemas/Publisher"
+											"$ref": "#/components/schemas/EntityReadDto"
 										}
 									],
 									"nullable": true
@@ -1494,7 +1494,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ParentPlatform"
+									"$ref": "#/components/schemas/PlatformReadDto"
 								}
 							}
 						}
@@ -1566,13 +1566,13 @@
 				"operationId": "Update",
 				"responses": {
 					"200": {
-						"description": "Updated ParentPlatform entity or null if not found.",
+						"description": "Updated ParentPlatform DTO or null if not found.",
 						"content": {
 							"application/json": {
 								"schema": {
 									"allOf": [
 										{
-											"$ref": "#/components/schemas/ParentPlatform"
+											"$ref": "#/components/schemas/PlatformReadDto"
 										}
 									],
 									"nullable": true
@@ -1868,7 +1868,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/Genre"
+									"$ref": "#/components/schemas/EntityReadDto"
 								}
 							}
 						}
@@ -1940,13 +1940,13 @@
 				"operationId": "Update",
 				"responses": {
 					"200": {
-						"description": "Updated Genre entity or null if not found.",
+						"description": "Updated Genre DTO or null if not found.",
 						"content": {
 							"application/json": {
 								"schema": {
 									"allOf": [
 										{
-											"$ref": "#/components/schemas/Genre"
+											"$ref": "#/components/schemas/EntityReadDto"
 										}
 									],
 									"nullable": true
@@ -2619,7 +2619,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/Developer"
+									"$ref": "#/components/schemas/EntityReadDto"
 								}
 							}
 						}
@@ -2691,13 +2691,13 @@
 				"operationId": "Update",
 				"responses": {
 					"200": {
-						"description": "Updated Developer entity or null if not found.",
+						"description": "Updated Developer DTO or null if not found.",
 						"content": {
 							"application/json": {
 								"schema": {
 									"allOf": [
 										{
-											"$ref": "#/components/schemas/Developer"
+											"$ref": "#/components/schemas/EntityReadDto"
 										}
 									],
 									"nullable": true
