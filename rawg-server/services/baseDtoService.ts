@@ -1,5 +1,5 @@
 import { BaseService } from "./baseService";
-import { ObjectLiteral, ObjectType } from "typeorm";
+import { ObjectLiteral, ObjectType, DeepPartial } from "typeorm";
 
 /**
  * Generic base service for entities that map to a DTO.
@@ -28,5 +28,21 @@ export class BaseDtoService<T extends ObjectLiteral, D> extends BaseService<T> {
   async getByIdDto(id: number): Promise<D | null> {
     const item = await this.getById(id);
     return item ? this.toDto(item) : null;
+  }
+
+  /**
+   * Create a new entity and return as DTO.
+   */
+  async createDto(data: DeepPartial<T>): Promise<D> {
+    const entity = await super.create(data);
+    return this.toDto(entity);
+  }
+
+  /**
+   * Update an entity by ID and return as DTO.
+   */
+  async updateDto(id: number | string, data: DeepPartial<T>): Promise<D | null> {
+    const entity = await super.update(id, data);
+    return entity ? this.toDto(entity) : null;
   }
 }
