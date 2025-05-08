@@ -12,8 +12,8 @@ export class Tag {
   @Column({ type: "varchar" })
   slug: string;
 
-  @Column({ type: "varchar" })
-  language: string;
+  @Column({ type: "varchar", nullable: true })
+  language?: string | null;
 
   @Column({ type: "varchar", nullable: true })
   image_background?: string | null;
