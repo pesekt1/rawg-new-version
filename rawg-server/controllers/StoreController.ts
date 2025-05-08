@@ -1,5 +1,6 @@
 /**
  * StoreController handles CRUD operations for Store entities.
+ * All endpoints return DTOs (EntityReadDto) instead of raw entities.
  * Endpoints for creating, updating, and deleting require admin privileges.
  */
 
@@ -17,7 +18,6 @@ import {
   Security,
 } from "tsoa";
 import { storeService } from "../services/storeService";
-import { Store } from "../entities/Store";
 import { ListResponse, IBaseController } from "./IBaseController";
 import { formatListResponse, handleDelete } from "./controllerUtils";
 import { EntityUpdateDto } from "./dto/EntityUpdateDto";
@@ -56,13 +56,13 @@ export class StoreController
    * Create a new store.
    * Requires admin access.
    * @param data Store creation data.
-   * @returns The created Store entity.
+   * @returns The created Store DTO.
    */
   @SuccessResponse("201", "Created")
   @Post("/")
   @Security("admin")
-  public async create(@Body() data: EntityUpdateDto): Promise<Store> {
-    return storeService.create(data);
+  public async create(@Body() data: EntityUpdateDto): Promise<EntityReadDto> {
+    return storeService.createDto(data);
   }
 
   /**
@@ -70,15 +70,15 @@ export class StoreController
    * Requires admin access.
    * @param id Store ID.
    * @param data Update data.
-   * @returns Updated Store entity or null if not found.
+   * @returns Updated Store DTO or null if not found.
    */
   @Put("{id}")
   @Security("admin")
   public async update(
     @Path() id: number,
     @Body() data: EntityUpdateDto
-  ): Promise<Store | null> {
-    return storeService.update(id, data);
+  ): Promise<EntityReadDto | null> {
+    return storeService.updateDto(id, data);
   }
 
   /**

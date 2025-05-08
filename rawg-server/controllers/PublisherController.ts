@@ -1,5 +1,6 @@
 /**
  * PublisherController handles CRUD operations for Publisher entities.
+ * All endpoints return DTOs (EntityReadDto) instead of raw entities.
  * Endpoints for creating, updating, and deleting require admin privileges.
  */
 
@@ -17,7 +18,6 @@ import {
   Security,
 } from "tsoa";
 import { publisherService } from "../services/publisherService";
-import { Publisher } from "../entities/Publisher";
 import { ListResponse, IBaseController } from "./IBaseController";
 import { formatListResponse, handleDelete } from "./controllerUtils";
 import { EntityUpdateDto } from "./dto/EntityUpdateDto";
@@ -56,13 +56,13 @@ export class PublisherController
    * Create a new publisher.
    * Requires admin access.
    * @param data Publisher creation data.
-   * @returns The created Publisher entity.
+   * @returns The created Publisher DTO.
    */
   @SuccessResponse("201", "Created")
   @Post("/")
   @Security("admin")
-  public async create(@Body() data: EntityUpdateDto): Promise<Publisher> {
-    return publisherService.create(data);
+  public async create(@Body() data: EntityUpdateDto): Promise<EntityReadDto> {
+    return publisherService.createDto(data);
   }
 
   /**
@@ -70,15 +70,15 @@ export class PublisherController
    * Requires admin access.
    * @param id Publisher ID.
    * @param data Update data.
-   * @returns Updated Publisher entity or null if not found.
+   * @returns Updated Publisher DTO or null if not found.
    */
   @Put("{id}")
   @Security("admin")
   public async update(
     @Path() id: number,
     @Body() data: EntityUpdateDto
-  ): Promise<Publisher | null> {
-    return publisherService.update(id, data);
+  ): Promise<EntityReadDto | null> {
+    return publisherService.updateDto(id, data);
   }
 
   /**

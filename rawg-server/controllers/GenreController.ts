@@ -1,5 +1,6 @@
 /**
  * GenreController handles CRUD operations for Genre entities.
+ * All endpoints return DTOs (EntityReadDto) instead of raw entities.
  * Some endpoints require admin privileges.
  */
 
@@ -17,7 +18,6 @@ import {
   Security,
 } from "tsoa";
 import { genreService } from "../services/genreService";
-import { Genre } from "../entities/Genre";
 import { ListResponse, IBaseController } from "./IBaseController";
 import { formatListResponse, handleDelete } from "./controllerUtils";
 import { EntityUpdateDto } from "./dto/EntityUpdateDto";
@@ -56,13 +56,13 @@ export class GenreController
    * Create a new genre.
    * Requires admin access.
    * @param data Genre creation data.
-   * @returns The created Genre entity.
+   * @returns The created Genre DTO.
    */
   @SuccessResponse("201", "Created")
   @Post("/")
   @Security("admin")
-  public async create(@Body() data: EntityUpdateDto): Promise<Genre> {
-    return genreService.create(data);
+  public async create(@Body() data: EntityUpdateDto): Promise<EntityReadDto> {
+    return genreService.createDto(data);
   }
 
   /**
@@ -70,15 +70,15 @@ export class GenreController
    * Requires admin access.
    * @param id Genre ID.
    * @param data Update data.
-   * @returns Updated Genre entity or null if not found.
+   * @returns Updated Genre DTO or null if not found.
    */
   @Put("{id}")
   @Security("admin")
   public async update(
     @Path() id: number,
     @Body() data: EntityUpdateDto
-  ): Promise<Genre | null> {
-    return genreService.update(id, data);
+  ): Promise<EntityReadDto | null> {
+    return genreService.updateDto(id, data);
   }
 
   /**

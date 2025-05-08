@@ -1,5 +1,6 @@
 /**
  * DeveloperController handles CRUD operations for Developer entities.
+ * All endpoints return DTOs (EntityReadDto) instead of raw entities.
  * Secured endpoints require admin privileges.
  */
 
@@ -17,7 +18,6 @@ import {
   Security,
 } from "tsoa";
 import { developerService } from "../services/developerService";
-import { Developer } from "../entities/Developer";
 import { ListResponse, IBaseController } from "./IBaseController";
 import { formatListResponse, handleDelete } from "./controllerUtils";
 import { EntityUpdateDto } from "./dto/EntityUpdateDto";
@@ -25,7 +25,7 @@ import { EntityReadDto } from "./dto/EntityReadDto";
 
 /**
  * Controller for managing Developer entities.
- * Returns DTOs for GET endpoints.
+ * Returns DTOs for all endpoints.
  */
 @Route("developers")
 @Tags("Developers")
@@ -56,13 +56,13 @@ export class DeveloperController
    * Create a new developer.
    * Requires admin access.
    * @param data Developer creation data.
-   * @returns The created Developer entity.
+   * @returns The created Developer DTO.
    */
   @SuccessResponse("201", "Created")
   @Post("/")
   @Security("admin")
-  public async create(@Body() data: EntityUpdateDto): Promise<Developer> {
-    return developerService.create(data);
+  public async create(@Body() data: EntityUpdateDto): Promise<EntityReadDto> {
+    return developerService.createDto(data);
   }
 
   /**
@@ -70,15 +70,15 @@ export class DeveloperController
    * Requires admin access.
    * @param id Developer ID.
    * @param data Update data.
-   * @returns Updated Developer entity or null if not found.
+   * @returns Updated Developer DTO or null if not found.
    */
   @Put("{id}")
   @Security("admin")
   public async update(
     @Path() id: number,
     @Body() data: EntityUpdateDto
-  ): Promise<Developer | null> {
-    return developerService.update(id, data);
+  ): Promise<EntityReadDto | null> {
+    return developerService.updateDto(id, data);
   }
 
   /**

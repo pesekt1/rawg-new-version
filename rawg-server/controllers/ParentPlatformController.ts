@@ -1,5 +1,6 @@
 /**
  * ParentPlatformController handles CRUD operations for ParentPlatform entities.
+ * All endpoints return DTOs (PlatformReadDto) instead of raw entities.
  * Endpoints for creating, updating, and deleting require admin privileges.
  */
 
@@ -25,7 +26,8 @@ import { PlatformReadDto } from "./dto/PlatformReadDto";
 
 /**
  * Controller for managing ParentPlatform entities.
- * Returns DTOs for GET endpoints.
+ * All endpoints return DTOs (PlatformReadDto) instead of raw entities.
+ * Endpoints for creating, updating, and deleting require admin privileges.
  */
 @Route("platforms/lists/parents")
 @Tags("ParentPlatforms")
@@ -56,13 +58,13 @@ export class ParentPlatformController
    * Create a new parent platform.
    * Requires admin access.
    * @param data Parent platform creation data.
-   * @returns The created ParentPlatform entity.
+   * @returns The created ParentPlatform DTO.
    */
   @SuccessResponse("201", "Created")
   @Post("/")
   @Security("admin")
-  public async create(@Body() data: EntityUpdateDto): Promise<ParentPlatform> {
-    return parentPlatformService.create(data);
+  public async create(@Body() data: EntityUpdateDto): Promise<PlatformReadDto> {
+    return parentPlatformService.createDto(data);
   }
 
   /**
@@ -70,15 +72,15 @@ export class ParentPlatformController
    * Requires admin access.
    * @param id ParentPlatform ID.
    * @param data Update data.
-   * @returns Updated ParentPlatform entity or null if not found.
+   * @returns Updated ParentPlatform DTO or null if not found.
    */
   @Put("{id}")
   @Security("admin")
   public async update(
     @Path() id: number,
     @Body() data: EntityUpdateDto
-  ): Promise<ParentPlatform | null> {
-    return parentPlatformService.update(id, data);
+  ): Promise<PlatformReadDto | null> {
+    return parentPlatformService.updateDto(id, data);
   }
 
   /**
