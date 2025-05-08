@@ -70,6 +70,11 @@ services:
     volumes:
       - ./rawg-server:/app
       - /app/node_modules # exclude from mounted volumes: much faster startup time, let the container to install the dependencies
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
 
   rawg-client:
     container_name: rawg-client
@@ -80,7 +85,8 @@ services:
       VITE_API_URL: http://localhost:5000
       CHOKIDAR_USEPOLLING: true
     depends_on:
-      - rawg-server
+      rawg-server:
+        condition: service_healthy
     ports:
       - "3000:3000"
     networks:
