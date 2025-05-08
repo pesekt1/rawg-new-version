@@ -53,15 +53,13 @@ export class ParentPlatformController
   /**
    * Create a new parent platform.
    * Requires admin access.
-   * @param data Partial parent platform data.
+   * @param data Parent platform creation data.
    * @returns The created ParentPlatform entity.
    */
   @SuccessResponse("201", "Created")
   @Post("/")
   @Security("admin")
-  public async create(
-    @Body() data: Partial<ParentPlatform>
-  ): Promise<ParentPlatform> {
+  public async create(@Body() data: EntityUpdateDto): Promise<ParentPlatform> {
     return parentPlatformService.create(data);
   }
 

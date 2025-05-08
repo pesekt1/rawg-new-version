@@ -53,13 +53,13 @@ export class PublisherController
   /**
    * Create a new publisher.
    * Requires admin access.
-   * @param data Partial publisher data.
+   * @param data Publisher creation data.
    * @returns The created Publisher entity.
    */
   @SuccessResponse("201", "Created")
   @Post("/")
   @Security("admin")
-  public async create(@Body() data: Partial<Publisher>): Promise<Publisher> {
+  public async create(@Body() data: EntityUpdateDto): Promise<Publisher> {
     return publisherService.create(data);
   }
 

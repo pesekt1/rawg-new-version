@@ -53,13 +53,13 @@ export class DeveloperController
   /**
    * Create a new developer.
    * Requires admin access.
-   * @param data Partial developer data.
+   * @param data Developer creation data.
    * @returns The created Developer entity.
    */
   @SuccessResponse("201", "Created")
   @Post("/")
   @Security("admin")
-  public async create(@Body() data: Partial<Developer>): Promise<Developer> {
+  public async create(@Body() data: EntityUpdateDto): Promise<Developer> {
     return developerService.create(data);
   }
 

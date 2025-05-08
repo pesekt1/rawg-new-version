@@ -50,13 +50,13 @@ export class TagController extends Controller implements IBaseController<Tag> {
   /**
    * Create a new tag.
    * Requires admin access.
-   * @param data Partial tag data.
+   * @param data Tag creation data.
    * @returns The created Tag entity.
    */
   @SuccessResponse("201", "Created")
   @Post("/")
   @Security("admin")
-  public async create(@Body() data: Partial<Tag>): Promise<Tag> {
+  public async create(@Body() data: EntityUpdateDto): Promise<Tag> {
     return tagService.create(data);
   }
 

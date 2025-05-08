@@ -51,12 +51,13 @@ export class GenreController
   /**
    * Create a new genre.
    * Requires admin access.
-   * @param data Partial genre data.
+   * @param data Genre creation data.
+   * @returns The created Genre entity.
    */
   @SuccessResponse("201", "Created")
   @Post("/")
   @Security("admin")
-  public async create(@Body() data: Partial<Genre>): Promise<Genre> {
+  public async create(@Body() data: EntityUpdateDto): Promise<Genre> {
     return genreService.create(data);
   }
 

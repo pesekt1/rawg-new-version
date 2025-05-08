@@ -53,13 +53,13 @@ export class StoreController
   /**
    * Create a new store.
    * Requires admin access.
-   * @param data Partial store data.
+   * @param data Store creation data.
    * @returns The created Store entity.
    */
   @SuccessResponse("201", "Created")
   @Post("/")
   @Security("admin")
-  public async create(@Body() data: Partial<Store>): Promise<Store> {
+  public async create(@Body() data: EntityUpdateDto): Promise<Store> {
     return storeService.create(data);
   }
 
