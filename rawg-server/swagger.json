@@ -295,7 +295,8 @@
 						"type": "string"
 					},
 					"language": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					},
 					"image_background": {
 						"type": "string",
@@ -312,7 +313,6 @@
 					"id",
 					"name",
 					"slug",
-					"language",
 					"games"
 				],
 				"type": "object",
@@ -450,36 +450,8 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Partial_Tag_": {
-				"properties": {
-					"id": {
-						"type": "number",
-						"format": "double"
-					},
-					"name": {
-						"type": "string"
-					},
-					"slug": {
-						"type": "string"
-					},
-					"language": {
-						"type": "string"
-					},
-					"image_background": {
-						"type": "string"
-					},
-					"games": {
-						"items": {
-							"$ref": "#/components/schemas/Game"
-						},
-						"type": "array"
-					}
-				},
-				"type": "object",
-				"description": "Make all properties in T optional"
-			},
 			"EntityUpdateDto": {
-				"description": "DTO for updating entities with common fields.",
+				"description": "DTO for updating entities with common fields - some optional.",
 				"properties": {
 					"name": {
 						"type": "string"
@@ -524,31 +496,6 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Partial_Store_": {
-				"properties": {
-					"id": {
-						"type": "number",
-						"format": "double"
-					},
-					"name": {
-						"type": "string"
-					},
-					"slug": {
-						"type": "string"
-					},
-					"image_background": {
-						"type": "string"
-					},
-					"games": {
-						"items": {
-							"$ref": "#/components/schemas/Game"
-						},
-						"type": "array"
-					}
-				},
-				"type": "object",
-				"description": "Make all properties in T optional"
-			},
 			"ListResponse_Publisher_": {
 				"description": "Standard response for list endpoints.",
 				"properties": {
@@ -569,31 +516,6 @@
 				],
 				"type": "object",
 				"additionalProperties": false
-			},
-			"Partial_Publisher_": {
-				"properties": {
-					"id": {
-						"type": "number",
-						"format": "double"
-					},
-					"name": {
-						"type": "string"
-					},
-					"slug": {
-						"type": "string"
-					},
-					"image_background": {
-						"type": "string"
-					},
-					"games": {
-						"items": {
-							"$ref": "#/components/schemas/Game"
-						},
-						"type": "array"
-					}
-				},
-				"type": "object",
-				"description": "Make all properties in T optional"
 			},
 			"ListResponse_ParentPlatform_": {
 				"description": "Standard response for list endpoints.",
@@ -616,28 +538,6 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Partial_ParentPlatform_": {
-				"properties": {
-					"id": {
-						"type": "number",
-						"format": "double"
-					},
-					"name": {
-						"type": "string"
-					},
-					"slug": {
-						"type": "string"
-					},
-					"games": {
-						"items": {
-							"$ref": "#/components/schemas/Game"
-						},
-						"type": "array"
-					}
-				},
-				"type": "object",
-				"description": "Make all properties in T optional"
-			},
 			"ListResponse_Genre_": {
 				"description": "Standard response for list endpoints.",
 				"properties": {
@@ -659,33 +559,8 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Partial_Genre_": {
-				"properties": {
-					"id": {
-						"type": "number",
-						"format": "double"
-					},
-					"name": {
-						"type": "string"
-					},
-					"slug": {
-						"type": "string"
-					},
-					"image_background": {
-						"type": "string"
-					},
-					"games": {
-						"items": {
-							"$ref": "#/components/schemas/Game"
-						},
-						"type": "array"
-					}
-				},
-				"type": "object",
-				"description": "Make all properties in T optional"
-			},
 			"EntityWithIdDto": {
-				"description": "DTO for entities with an id, name, slug, and optional image_background.",
+				"description": "DTO for entities with an id, name, slug, and optional image_background and language.",
 				"properties": {
 					"name": {
 						"type": "string"
@@ -792,7 +667,7 @@
 					"name"
 				],
 				"type": "object",
-				"description": "DTO for updating Game entities.\r\n'name' and 'slug' are required, all other fields are optional."
+				"description": "DTO for updating and creating Game entities.\r\n'name' and 'slug' are required, all other fields are optional."
 			},
 			"ListResponse_Developer_": {
 				"description": "Standard response for list endpoints.",
@@ -814,31 +689,6 @@
 				],
 				"type": "object",
 				"additionalProperties": false
-			},
-			"Partial_Developer_": {
-				"properties": {
-					"id": {
-						"type": "number",
-						"format": "double"
-					},
-					"name": {
-						"type": "string"
-					},
-					"slug": {
-						"type": "string"
-					},
-					"image_background": {
-						"type": "string"
-					},
-					"games": {
-						"items": {
-							"$ref": "#/components/schemas/Game"
-						},
-						"type": "array"
-					}
-				},
-				"type": "object",
-				"description": "Make all properties in T optional"
 			},
 			"RegisterRequest": {
 				"properties": {
@@ -1051,13 +901,13 @@
 				],
 				"parameters": [],
 				"requestBody": {
-					"description": "Partial tag data.",
+					"description": "Tag creation data.",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Partial_Tag_",
-								"description": "Partial tag data."
+								"$ref": "#/components/schemas/EntityUpdateDto",
+								"description": "Tag creation data."
 							}
 						}
 					}
@@ -1247,13 +1097,13 @@
 				],
 				"parameters": [],
 				"requestBody": {
-					"description": "Partial store data.",
+					"description": "Store creation data.",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Partial_Store_",
-								"description": "Partial store data."
+								"$ref": "#/components/schemas/EntityUpdateDto",
+								"description": "Store creation data."
 							}
 						}
 					}
@@ -1443,13 +1293,13 @@
 				],
 				"parameters": [],
 				"requestBody": {
-					"description": "Partial publisher data.",
+					"description": "Publisher creation data.",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Partial_Publisher_",
-								"description": "Partial publisher data."
+								"$ref": "#/components/schemas/EntityUpdateDto",
+								"description": "Publisher creation data."
 							}
 						}
 					}
@@ -1639,13 +1489,13 @@
 				],
 				"parameters": [],
 				"requestBody": {
-					"description": "Partial parent platform data.",
+					"description": "Parent platform creation data.",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Partial_ParentPlatform_",
-								"description": "Partial parent platform data."
+								"$ref": "#/components/schemas/EntityUpdateDto",
+								"description": "Parent platform creation data."
 							}
 						}
 					}
@@ -1982,13 +1832,13 @@
 				],
 				"parameters": [],
 				"requestBody": {
-					"description": "Partial genre data.",
+					"description": "Genre creation data.",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Partial_Genre_",
-								"description": "Partial genre data."
+								"$ref": "#/components/schemas/EntityUpdateDto",
+								"description": "Genre creation data."
 							}
 						}
 					}
@@ -2733,13 +2583,13 @@
 				],
 				"parameters": [],
 				"requestBody": {
-					"description": "Partial developer data.",
+					"description": "Developer creation data.",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Partial_Developer_",
-								"description": "Partial developer data."
+								"$ref": "#/components/schemas/EntityUpdateDto",
+								"description": "Developer creation data."
 							}
 						}
 					}

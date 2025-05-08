@@ -128,7 +128,7 @@ const models: TsoaRoute.Models = {
             "id": {"dataType":"double","required":true},
             "name": {"dataType":"string","required":true},
             "slug": {"dataType":"string","required":true},
-            "language": {"dataType":"string","required":true},
+            "language": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
             "image_background": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
             "games": {"dataType":"array","array":{"dataType":"refObject","ref":"Game"},"required":true},
         },
@@ -183,11 +183,6 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Partial_Tag_": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"double"},"name":{"dataType":"string"},"slug":{"dataType":"string"},"language":{"dataType":"string"},"image_background":{"dataType":"string"},"games":{"dataType":"array","array":{"dataType":"refObject","ref":"Game"}}},"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "EntityUpdateDto": {
         "dataType": "refObject",
         "properties": {
@@ -208,11 +203,6 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Partial_Store_": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"double"},"name":{"dataType":"string"},"slug":{"dataType":"string"},"image_background":{"dataType":"string"},"games":{"dataType":"array","array":{"dataType":"refObject","ref":"Game"}}},"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ListResponse_Publisher_": {
         "dataType": "refObject",
         "properties": {
@@ -220,11 +210,6 @@ const models: TsoaRoute.Models = {
             "results": {"dataType":"array","array":{"dataType":"refObject","ref":"Publisher"},"required":true},
         },
         "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Partial_Publisher_": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"double"},"name":{"dataType":"string"},"slug":{"dataType":"string"},"image_background":{"dataType":"string"},"games":{"dataType":"array","array":{"dataType":"refObject","ref":"Game"}}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ListResponse_ParentPlatform_": {
@@ -236,11 +221,6 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Partial_ParentPlatform_": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"double"},"name":{"dataType":"string"},"slug":{"dataType":"string"},"games":{"dataType":"array","array":{"dataType":"refObject","ref":"Game"}}},"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ListResponse_Genre_": {
         "dataType": "refObject",
         "properties": {
@@ -248,11 +228,6 @@ const models: TsoaRoute.Models = {
             "results": {"dataType":"array","array":{"dataType":"refObject","ref":"Genre"},"required":true},
         },
         "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Partial_Genre_": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"double"},"name":{"dataType":"string"},"slug":{"dataType":"string"},"image_background":{"dataType":"string"},"games":{"dataType":"array","array":{"dataType":"refObject","ref":"Game"}}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "EntityWithIdDto": {
@@ -279,11 +254,6 @@ const models: TsoaRoute.Models = {
             "results": {"dataType":"array","array":{"dataType":"refObject","ref":"Developer"},"required":true},
         },
         "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Partial_Developer_": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"double"},"name":{"dataType":"string"},"slug":{"dataType":"string"},"image_background":{"dataType":"string"},"games":{"dataType":"array","array":{"dataType":"refObject","ref":"Game"}}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "RegisterRequest": {
@@ -473,7 +443,7 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsTagController_create: Record<string, TsoaRoute.ParameterSchema> = {
-                data: {"in":"body","name":"data","required":true,"ref":"Partial_Tag_"},
+                data: {"in":"body","name":"data","required":true,"ref":"EntityUpdateDto"},
         };
         app.post('/tags',
             authenticateMiddleware([{"admin":[]}]),
@@ -626,7 +596,7 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsStoreController_create: Record<string, TsoaRoute.ParameterSchema> = {
-                data: {"in":"body","name":"data","required":true,"ref":"Partial_Store_"},
+                data: {"in":"body","name":"data","required":true,"ref":"EntityUpdateDto"},
         };
         app.post('/stores',
             authenticateMiddleware([{"admin":[]}]),
@@ -779,7 +749,7 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsPublisherController_create: Record<string, TsoaRoute.ParameterSchema> = {
-                data: {"in":"body","name":"data","required":true,"ref":"Partial_Publisher_"},
+                data: {"in":"body","name":"data","required":true,"ref":"EntityUpdateDto"},
         };
         app.post('/publishers',
             authenticateMiddleware([{"admin":[]}]),
@@ -932,7 +902,7 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsParentPlatformController_create: Record<string, TsoaRoute.ParameterSchema> = {
-                data: {"in":"body","name":"data","required":true,"ref":"Partial_ParentPlatform_"},
+                data: {"in":"body","name":"data","required":true,"ref":"EntityUpdateDto"},
         };
         app.post('/platforms/lists/parents',
             authenticateMiddleware([{"admin":[]}]),
@@ -1206,7 +1176,7 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsGenreController_create: Record<string, TsoaRoute.ParameterSchema> = {
-                data: {"in":"body","name":"data","required":true,"ref":"Partial_Genre_"},
+                data: {"in":"body","name":"data","required":true,"ref":"EntityUpdateDto"},
         };
         app.post('/genres',
             authenticateMiddleware([{"admin":[]}]),
@@ -1584,7 +1554,7 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsDeveloperController_create: Record<string, TsoaRoute.ParameterSchema> = {
-                data: {"in":"body","name":"data","required":true,"ref":"Partial_Developer_"},
+                data: {"in":"body","name":"data","required":true,"ref":"EntityUpdateDto"},
         };
         app.post('/developers',
             authenticateMiddleware([{"admin":[]}]),
