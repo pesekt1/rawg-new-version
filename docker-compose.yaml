@@ -63,6 +63,7 @@ services:
       - frontend
     volumes:
       - ./rawg-server:/app
+      - /app/node_modules # exclude from mounted volumes: much faster startup time, let the container to install the dependencies
 
   rawg-client:
     container_name: rawg-client
@@ -80,7 +81,7 @@ services:
       - frontend
     volumes:
       - ./rawg-client:/app
-      - /app/node_modules
+      - /app/node_modules # exclude from mounted volumes: much faster startup time, let the container to install the dependencies
 
 volumes:
   mysql_data:
