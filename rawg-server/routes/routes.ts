@@ -176,11 +176,23 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "ListResponse_Tag_": {
+    "TagReadDto": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"double","required":true},
+            "name": {"dataType":"string","required":true},
+            "slug": {"dataType":"string","required":true},
+            "image_background": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
+            "language": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ListResponse_TagReadDto_": {
         "dataType": "refObject",
         "properties": {
             "count": {"dataType":"double","required":true},
-            "results": {"dataType":"array","array":{"dataType":"refObject","ref":"Tag"},"required":true},
+            "results": {"dataType":"array","array":{"dataType":"refObject","ref":"TagReadDto"},"required":true},
         },
         "additionalProperties": false,
     },
@@ -196,38 +208,46 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "ListResponse_Store_": {
+    "EntityReadDto": {
         "dataType": "refObject",
         "properties": {
-            "count": {"dataType":"double","required":true},
-            "results": {"dataType":"array","array":{"dataType":"refObject","ref":"Store"},"required":true},
+            "id": {"dataType":"double","required":true},
+            "name": {"dataType":"string","required":true},
+            "slug": {"dataType":"string","required":true},
+            "image_background": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
         },
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "ListResponse_Publisher_": {
+    "ListResponse_EntityReadDto_": {
         "dataType": "refObject",
         "properties": {
             "count": {"dataType":"double","required":true},
-            "results": {"dataType":"array","array":{"dataType":"refObject","ref":"Publisher"},"required":true},
+            "results": {"dataType":"array","array":{"dataType":"refObject","ref":"EntityReadDto"},"required":true},
         },
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "ListResponse_ParentPlatform_": {
-        "dataType": "refObject",
-        "properties": {
-            "count": {"dataType":"double","required":true},
-            "results": {"dataType":"array","array":{"dataType":"refObject","ref":"ParentPlatform"},"required":true},
-        },
-        "additionalProperties": false,
+    "Pick_EntityReadDto.Exclude_keyofEntityReadDto.image_background__": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"double","required":true},"name":{"dataType":"string","required":true},"slug":{"dataType":"string","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "ListResponse_Genre_": {
+    "Omit_EntityReadDto.image_background_": {
+        "dataType": "refAlias",
+        "type": {"ref":"Pick_EntityReadDto.Exclude_keyofEntityReadDto.image_background__","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "PlatformReadDto": {
+        "dataType": "refAlias",
+        "type": {"ref":"Omit_EntityReadDto.image_background_","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ListResponse_PlatformReadDto_": {
         "dataType": "refObject",
         "properties": {
             "count": {"dataType":"double","required":true},
-            "results": {"dataType":"array","array":{"dataType":"refObject","ref":"Genre"},"required":true},
+            "results": {"dataType":"array","array":{"dataType":"refAlias","ref":"PlatformReadDto"},"required":true},
         },
         "additionalProperties": false,
     },
@@ -247,15 +267,6 @@ const models: TsoaRoute.Models = {
     "GameUpdateDto": {
         "dataType": "refAlias",
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"tags":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityWithIdDto"}},"developers":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityWithIdDto"}},"publishers":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityWithIdDto"}},"stores":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityWithIdDto"}},"parent_platforms":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityWithIdDto"}},"genres":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityWithIdDto"}},"website":{"dataType":"string"},"rating_top":{"dataType":"double"},"added":{"dataType":"double"},"released":{"dataType":"string"},"rating":{"dataType":"double"},"background_image":{"dataType":"string"},"metacritic":{"dataType":"double"},"description_raw":{"dataType":"string"},"slug":{"dataType":"string","required":true},"name":{"dataType":"string","required":true}},"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "ListResponse_Developer_": {
-        "dataType": "refObject",
-        "properties": {
-            "count": {"dataType":"double","required":true},
-            "results": {"dataType":"array","array":{"dataType":"refObject","ref":"Developer"},"required":true},
-        },
-        "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "RegisterRequest": {
