@@ -7,14 +7,14 @@ import { ObjectLiteral } from "typeorm";
 import { ListResponse } from "./IBaseController";
 
 /**
- * Formats the response for a list endpoint.
- * @param service The service to fetch entities from.
+ * Formats the response for a list endpoint using a service that returns DTOs.
+ * @param service The service to fetch DTOs from.
  * @returns An object containing the count and the results array.
  */
-export async function formatListResponse<T extends ObjectLiteral>(
-  service: BaseService<T>
-): Promise<ListResponse<T>> {
-  const items = await service.getAll();
+export async function formatListResponse<TDto>(
+  service: { getAllDtos: () => Promise<TDto[]> }
+): Promise<ListResponse<TDto>> {
+  const items = await service.getAllDtos();
   return {
     count: items.length,
     results: items,
