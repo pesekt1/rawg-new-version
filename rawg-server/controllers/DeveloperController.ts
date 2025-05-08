@@ -21,33 +21,35 @@ import { Developer } from "../entities/Developer";
 import { ListResponse, IBaseController } from "./IBaseController";
 import { formatListResponse, handleDelete } from "./controllerUtils";
 import { EntityUpdateDto } from "./dto/EntityUpdateDto";
+import { EntityReadDto } from "./dto/EntityReadDto";
 
 /**
  * Controller for managing Developer entities.
+ * Returns DTOs for GET endpoints.
  */
 @Route("developers")
 @Tags("Developers")
 export class DeveloperController
   extends Controller
-  implements IBaseController<Developer>
+  implements IBaseController<EntityReadDto>
 {
   /**
    * Get a list of all developers.
-   * @returns ListResponse containing developers.
+   * @returns ListResponse containing developer DTOs.
    */
   @Get("/")
-  public async getAll(): Promise<ListResponse<Developer>> {
+  public async getAll(): Promise<ListResponse<EntityReadDto>> {
     return formatListResponse(developerService);
   }
 
   /**
    * Get a developer by ID.
    * @param id Developer ID.
-   * @returns Developer entity or null if not found.
+   * @returns Developer DTO or null if not found.
    */
   @Get("{id}")
-  public async getById(@Path() id: number): Promise<Developer | null> {
-    return developerService.getById(id);
+  public async getById(@Path() id: number): Promise<EntityReadDto | null> {
+    return developerService.getByIdDto(id);
   }
 
   /**

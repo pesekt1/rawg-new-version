@@ -18,34 +18,38 @@ import {
 } from "tsoa";
 import { genreService } from "../services/genreService";
 import { Genre } from "../entities/Genre";
+import { ListResponse, IBaseController } from "./IBaseController";
 import { formatListResponse, handleDelete } from "./controllerUtils";
-import { IBaseController, ListResponse } from "./IBaseController";
 import { EntityUpdateDto } from "./dto/EntityUpdateDto";
+import { EntityReadDto } from "./dto/EntityReadDto";
 
 /**
  * Controller for managing Genre entities.
+ * Returns DTOs for GET endpoints.
  */
 @Route("genres")
 @Tags("Genres")
 export class GenreController
   extends Controller
-  implements IBaseController<Genre>
+  implements IBaseController<EntityReadDto>
 {
   /**
    * Get a list of all genres.
+   * @returns ListResponse containing genre DTOs.
    */
   @Get("/")
-  public async getAll(): Promise<ListResponse<Genre>> {
+  public async getAll(): Promise<ListResponse<EntityReadDto>> {
     return formatListResponse(genreService);
   }
 
   /**
    * Get a genre by ID.
    * @param id Genre ID.
+   * @returns Genre DTO or null if not found.
    */
   @Get("{id}")
-  public async getById(@Path() id: number): Promise<Genre | null> {
-    return genreService.getById(id);
+  public async getById(@Path() id: number): Promise<EntityReadDto | null> {
+    return genreService.getByIdDto(id);
   }
 
   /**
@@ -66,6 +70,7 @@ export class GenreController
    * Requires admin access.
    * @param id Genre ID.
    * @param data Update data.
+   * @returns Updated Genre entity or null if not found.
    */
   @Put("{id}")
   @Security("admin")
@@ -80,6 +85,7 @@ export class GenreController
    * Delete a genre by ID.
    * Requires admin access.
    * @param id Genre ID.
+   * @returns Message indicating result.
    */
   @Delete("{id}")
   @Security("admin")

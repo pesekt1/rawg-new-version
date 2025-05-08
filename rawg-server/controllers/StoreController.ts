@@ -18,36 +18,38 @@ import {
 } from "tsoa";
 import { storeService } from "../services/storeService";
 import { Store } from "../entities/Store";
-import { formatListResponse, handleDelete } from "./controllerUtils";
 import { ListResponse, IBaseController } from "./IBaseController";
+import { formatListResponse, handleDelete } from "./controllerUtils";
 import { EntityUpdateDto } from "./dto/EntityUpdateDto";
+import { EntityReadDto } from "./dto/EntityReadDto";
 
 /**
  * Controller for managing Store entities.
+ * Returns DTOs for GET endpoints.
  */
 @Route("stores")
 @Tags("Stores")
 export class StoreController
   extends Controller
-  implements IBaseController<Store>
+  implements IBaseController<EntityReadDto>
 {
   /**
    * Get a list of all stores.
-   * @returns ListResponse containing stores.
+   * @returns ListResponse containing store DTOs.
    */
   @Get("/")
-  public async getAll(): Promise<ListResponse<Store>> {
+  public async getAll(): Promise<ListResponse<EntityReadDto>> {
     return formatListResponse(storeService);
   }
 
   /**
    * Get a store by ID.
    * @param id Store ID.
-   * @returns Store entity or null if not found.
+   * @returns Store DTO or null if not found.
    */
   @Get("{id}")
-  public async getById(@Path() id: number): Promise<Store | null> {
-    return storeService.getById(id);
+  public async getById(@Path() id: number): Promise<EntityReadDto | null> {
+    return storeService.getByIdDto(id);
   }
 
   /**

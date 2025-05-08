@@ -21,33 +21,35 @@ import { ParentPlatform } from "../entities/ParentPlatform";
 import { formatListResponse, handleDelete } from "./controllerUtils";
 import { ListResponse, IBaseController } from "./IBaseController";
 import { EntityUpdateDto } from "./dto/EntityUpdateDto";
+import { PlatformReadDto } from "./dto/PlatformReadDto";
 
 /**
  * Controller for managing ParentPlatform entities.
+ * Returns DTOs for GET endpoints.
  */
 @Route("platforms/lists/parents")
 @Tags("ParentPlatforms")
 export class ParentPlatformController
   extends Controller
-  implements IBaseController<ParentPlatform>
+  implements IBaseController<PlatformReadDto>
 {
   /**
    * Get a list of all parent platforms.
-   * @returns ListResponse containing parent platforms.
+   * @returns ListResponse containing parent platform DTOs.
    */
   @Get("/")
-  public async getAll(): Promise<ListResponse<ParentPlatform>> {
+  public async getAll(): Promise<ListResponse<PlatformReadDto>> {
     return formatListResponse(parentPlatformService);
   }
 
   /**
    * Get a parent platform by ID.
    * @param id ParentPlatform ID.
-   * @returns ParentPlatform entity or null if not found.
+   * @returns ParentPlatform DTO or null if not found.
    */
   @Get("{id}")
-  public async getById(@Path() id: number): Promise<ParentPlatform | null> {
-    return parentPlatformService.getById(id);
+  public async getById(@Path() id: number): Promise<PlatformReadDto | null> {
+    return parentPlatformService.getByIdDto(id);
   }
 
   /**

@@ -21,30 +21,32 @@ import { Tag } from "../entities/Tag";
 import { formatListResponse, handleDelete } from "./controllerUtils";
 import { ListResponse, IBaseController } from "./IBaseController";
 import { EntityUpdateDto } from "./dto/EntityUpdateDto";
+import { TagReadDto } from "./dto/TagReadDto";
 
 /**
  * Controller for managing Tag entities.
+ * Returns DTOs for GET endpoints.
  */
 @Route("tags")
 @Tags("Tags")
-export class TagController extends Controller implements IBaseController<Tag> {
+export class TagController extends Controller implements IBaseController<TagReadDto> {
   /**
    * Get a list of all tags.
-   * @returns ListResponse containing tags.
+   * @returns ListResponse containing tag DTOs.
    */
   @Get("/")
-  public async getAll(): Promise<ListResponse<Tag>> {
+  public async getAll(): Promise<ListResponse<TagReadDto>> {
     return formatListResponse(tagService);
   }
 
   /**
    * Get a tag by ID.
    * @param id Tag ID.
-   * @returns Tag entity or null if not found.
+   * @returns Tag DTO or null if not found.
    */
   @Get("{id}")
-  public async getById(@Path() id: number): Promise<Tag | null> {
-    return tagService.getById(id);
+  public async getById(@Path() id: number): Promise<TagReadDto | null> {
+    return tagService.getByIdDto(id);
   }
 
   /**

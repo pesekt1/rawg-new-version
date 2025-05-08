@@ -18,36 +18,38 @@ import {
 } from "tsoa";
 import { publisherService } from "../services/publisherService";
 import { Publisher } from "../entities/Publisher";
-import { formatListResponse, handleDelete } from "./controllerUtils";
 import { ListResponse, IBaseController } from "./IBaseController";
+import { formatListResponse, handleDelete } from "./controllerUtils";
 import { EntityUpdateDto } from "./dto/EntityUpdateDto";
+import { EntityReadDto } from "./dto/EntityReadDto";
 
 /**
  * Controller for managing Publisher entities.
+ * Returns DTOs for GET endpoints.
  */
 @Route("publishers")
 @Tags("Publishers")
 export class PublisherController
   extends Controller
-  implements IBaseController<Publisher>
+  implements IBaseController<EntityReadDto>
 {
   /**
    * Get a list of all publishers.
-   * @returns ListResponse containing publishers.
+   * @returns ListResponse containing publisher DTOs.
    */
   @Get("/")
-  public async getAll(): Promise<ListResponse<Publisher>> {
+  public async getAll(): Promise<ListResponse<EntityReadDto>> {
     return formatListResponse(publisherService);
   }
 
   /**
    * Get a publisher by ID.
    * @param id Publisher ID.
-   * @returns Publisher entity or null if not found.
+   * @returns Publisher DTO or null if not found.
    */
   @Get("{id}")
-  public async getById(@Path() id: number): Promise<Publisher | null> {
-    return publisherService.getById(id);
+  public async getById(@Path() id: number): Promise<EntityReadDto | null> {
+    return publisherService.getByIdDto(id);
   }
 
   /**
