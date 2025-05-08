@@ -14,6 +14,11 @@ services:
       - mysql_data:/var/lib/mysql
     networks:
       - backend
+    healthcheck: # checks if mysql is ready to accept connections
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-prootpassword"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
 
   seeder:
     container_name: seeder
@@ -53,7 +58,8 @@ services:
       context: ./rawg-server
       dockerfile: Dockerfile
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy # wait for mysql to be healthy - which means it is ready to accept connections
     environment:
       DATABASE_URL: mysql://root:rootpassword@mysql:3306/rawgDatabase
     ports:
