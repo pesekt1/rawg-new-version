@@ -1,5 +1,5 @@
 /**
- * DTO for updating entities with common fields.
+ * DTO for updating entities with common fields - some optional.
  */
 export interface EntityUpdateDto {
   name: string;

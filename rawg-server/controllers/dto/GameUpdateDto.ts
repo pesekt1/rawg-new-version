@@ -1,7 +1,7 @@
 import { EntityWithIdDto } from "./EntityWithIdDto";
 
 /**
- * DTO for updating Game entities.
+ * DTO for updating and creating Game entities.
  * 'name' and 'slug' are required, all other fields are optional.
  */
 export type GameUpdateDto = {
