@@ -18,44 +18,23 @@ import { handleAdd, handleRemove } from "../../utils/entityHandlers";
 
 interface EntityGroupProps {
   label: string;
-  fetchData: () => { results: Entity[] } | undefined;
-  selectedEntities: Entity[];
-  setSelectedEntities: (entities: Entity[]) => void;
+  data: { results: Entity[] } | undefined;
 }
 
-const EntityGroup: React.FC<EntityGroupProps> = ({
-  label,
-  fetchData,
-  selectedEntities,
-  setSelectedEntities,
-}) => {
+const EntityGroup: React.FC<EntityGroupProps> = ({ label, data }) => {
   const [entityToAdd, setEntityToAdd] = useState<number | "">("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-
-  const data = (() => {
-    try {
-      setIsLoading(true);
-      const result = fetchData();
-      setIsLoading(false);
-      return result;
-    } catch (error) {
-      setIsLoading(false);
-      setIsError(true);
-      return undefined;
-    }
-  })();
+  const [selectedEntities, setSelectedEntities] = useState<Entity[]>([]);
 
   return (
     <Box mb={4}>
       <FormControl mb={2}>
         <FormLabel>Add {label}</FormLabel>
-        {isLoading ? (
+        {!data ? (
           <Spinner size="sm" />
-        ) : isError ? (
+        ) : data.results.length === 0 ? (
           <Alert status="error">
             <AlertIcon />
-            Failed to load {label.toLowerCase()}s
+            No {label.toLowerCase()}s available
           </Alert>
         ) : (
           <HStack>
@@ -67,7 +46,7 @@ const EntityGroup: React.FC<EntityGroupProps> = ({
               }
               maxW="200px"
             >
-              {data?.results
+              {data.results
                 .filter((item) => !selectedEntities.some((se) => se.id === item.id))
                 .map((entity) => (
                   <option key={entity.id} value={entity.id}>
