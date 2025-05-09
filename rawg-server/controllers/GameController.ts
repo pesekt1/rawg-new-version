@@ -1,5 +1,6 @@
 /**
  * GameController handles CRUD operations and related queries for Game entities.
+ * All endpoints return DTOs (GameCardDto or GameReadDto) instead of raw entities.
  * Endpoints for creating, updating, and deleting require admin privileges.
  */
 
@@ -18,17 +19,20 @@ import {
   Security,
 } from "tsoa";
 import { gameService } from "../services/game/gameService";
-import { Game } from "../entities/Game";
 import { GameUpdateDto } from "./dto/GameUpdateDto";
+import { GameCardDto } from "./dto/GameCardDto";
+import { GameReadDto } from "./dto/GameReadDto";
 
 /**
- * Controller for managing Game entities and related resources.
+ * Controller for managing Game entities.
+ * Returns DTOs for all endpoints.
  */
 @Route("games")
 @Tags("Games")
 export class GameController extends Controller {
   /**
    * Get a list of all games, optionally filtered and paginated.
+   * Returns a paginated object with GameCardDto results.
    * @param page Page number for pagination.
    * @param page_size Number of items per page.
    * @param genreId Filter by genre.
@@ -56,7 +60,7 @@ export class GameController extends Controller {
     @Query() sortOrder?: string,
     @Query() searchText?: string,
     @Query() tagId?: number
-  ) {
+  ): Promise<{ count: number; next: string | null; results: GameCardDto[] }> {
     // Pass filter params as a plain object
     return gameService.getGames({
       page,
@@ -76,18 +80,18 @@ export class GameController extends Controller {
 
   /**
    * Get a game by ID.
+   * Returns a GameReadDto or throws if not found.
    * @param id Game ID.
-   * @returns Game entity or null if not found.
    */
   @Get("{id}")
-  public async getById(@Path() id: number): Promise<Game | any> {
+  public async getById(@Path() id: number): Promise<GameReadDto> {
     return gameService.getGame(id);
   }
 
   /**
    * Get trailers (movies) for a game by ID.
+   * Returns a list of trailers.
    * @param id Game ID.
-   * @returns List of trailers.
    */
   @Get("{id}/movies")
   public async getTrailers(@Path() id: number) {
@@ -96,8 +100,8 @@ export class GameController extends Controller {
 
   /**
    * Get screenshots for a game by ID.
+   * Returns a list of screenshots.
    * @param id Game ID.
-   * @returns List of screenshots.
    */
   @Get("{id}/screenshots")
   public async getScreenshots(@Path() id: number) {
@@ -107,13 +111,13 @@ export class GameController extends Controller {
   /**
    * Create a new game.
    * Requires admin access.
-   * @param data Partial game data.
-   * @returns The created Game entity.
+   * @param data Game creation data.
+   * @returns The created GameReadDto.
    */
   @SuccessResponse("201", "Created")
   @Post("/")
   @Security("admin")
-  public async create(@Body() data: GameUpdateDto): Promise<Game> {
+  public async create(@Body() data: GameUpdateDto): Promise<GameReadDto> {
     return gameService.createGame(data);
   }
 
@@ -122,14 +126,14 @@ export class GameController extends Controller {
    * Requires admin access.
    * @param id Game ID.
    * @param data Update data.
-   * @returns Updated Game entity.
+   * @returns Updated GameReadDto.
    */
   @Patch("{id}")
   @Security("admin")
   public async update(
     @Path() id: number,
     @Body() data: GameUpdateDto
-  ): Promise<Game> {
+  ): Promise<GameReadDto> {
     return gameService.updateGame(id, data);
   }
 
