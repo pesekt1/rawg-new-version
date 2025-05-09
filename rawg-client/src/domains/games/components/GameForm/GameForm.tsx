@@ -5,10 +5,6 @@ import {
   Alert,
   AlertIcon,
   SimpleGrid,
-  FormControl,
-  FormLabel,
-  Input,
-  Textarea,
   Button,
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
@@ -20,6 +16,9 @@ import PublishersGroup from "./PublishersGroup";
 import StoresGroup from "./StoresGroup";
 import TagsGroup from "./TagsGroup";
 import { Entity } from "./Entity";
+import { isValidUrl } from "../../utils/validation";
+import TextareaField from "./TextareaField";
+import TextInputField from "./TextInputField";
 
 interface GameFormProps {
   initialValues: {
@@ -103,7 +102,6 @@ const GameForm = ({
     initialValues.background_image
   );
   const [website, setWebsite] = useState(initialValues.website);
-  // Add website validation state
   const [websiteError, setWebsiteError] = useState<string | null>(null);
   const [selectedGenres, setSelectedGenres] = useState<Entity[]>(
     initialValues.genres
@@ -169,8 +167,7 @@ const GameForm = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Validate website URL
-    if (website && !/^https?:\/\/.+/i.test(website)) {
+    if (website && !isValidUrl(website)) {
       setWebsiteError("Website URL must start with http:// or https://");
       return;
     } else {
@@ -194,74 +191,61 @@ const GameForm = ({
 
   // Define your fields as an array of React nodes
   const fieldNodes = [
-    // Name
-    <FormControl mb={4} isRequired key="name">
-      <FormLabel>Name</FormLabel>
-      <Input
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Game name"
-      />
-    </FormControl>,
-    // Slug
-    <FormControl mb={4} isRequired key="slug">
-      <FormLabel>Slug</FormLabel>
-      <Input
-        value={slug}
-        onChange={(e) => setSlug(e.target.value)}
-        placeholder="game-slug"
-      />
-    </FormControl>,
-    // Description
-    <FormControl mb={4} key="desc">
-      <FormLabel>Description</FormLabel>
-      <Textarea
-        value={description_raw}
-        onChange={(e) => setDescriptionRaw(e.target.value)}
-        placeholder="Game description"
-      />
-    </FormControl>,
-    // Release Date
-    <FormControl mb={4} key="release">
-      <FormLabel>Release Date</FormLabel>
-      <Input
-        type="date"
-        value={released}
-        onChange={(e) => setReleased(e.target.value)}
-        placeholder="YYYY-MM-DD"
-      />
-    </FormControl>,
-    // Image URL
-    <FormControl mb={4} key="img">
-      <FormLabel>Image URL</FormLabel>
-      <Input
-        value={backgroundImage}
-        onChange={(e) => setBackgroundImage(e.target.value)}
-        placeholder="https://example.com/image.jpg"
-      />
-    </FormControl>,
-    // Website URL
-    <FormControl mb={4} key="website" isInvalid={!!websiteError}>
-      <FormLabel>Website URL</FormLabel>
-      <Input
-        value={website}
-        onChange={(e) => {
-          setWebsite(e.target.value);
-          // Live validation
-          if (e.target.value && !/^https?:\/\/.+/i.test(e.target.value)) {
-            setWebsiteError("Website URL must start with http:// or https://");
-          } else {
-            setWebsiteError(null);
-          }
-        }}
-        placeholder="https://example.com"
-      />
-      {websiteError && (
-        <Box color="red.500" fontSize="sm" mt={1}>
-          {websiteError}
-        </Box>
-      )}
-    </FormControl>,
+    <TextInputField
+      key="name"
+      label="Name"
+      value={name}
+      onChange={(e) => setName(e.target.value)}
+      placeholder="Game name"
+      isRequired
+    />,
+    <TextInputField
+      key="slug"
+      label="Slug"
+      value={slug}
+      onChange={(e) => setSlug(e.target.value)}
+      placeholder="game-slug"
+      isRequired
+    />,
+    <TextareaField
+      key="desc"
+      label="Description"
+      value={description_raw}
+      onChange={(e) => setDescriptionRaw(e.target.value)}
+      placeholder="Game description"
+    />,
+    <TextInputField
+      key="release"
+      label="Release Date"
+      value={released}
+      onChange={(e) => setReleased(e.target.value)}
+      placeholder="YYYY-MM-DD"
+      type="date"
+    />,
+    <TextInputField
+      key="img"
+      label="Image URL"
+      value={backgroundImage}
+      onChange={(e) => setBackgroundImage(e.target.value)}
+      placeholder="https://example.com/image.jpg"
+    />,
+    <TextInputField
+      key="website"
+      label="Website URL"
+      value={website}
+      onChange={(e) => {
+        setWebsite(e.target.value);
+        // Live validation
+        if (e.target.value && !isValidUrl(e.target.value)) {
+          setWebsiteError("Website URL must start with http:// or https://");
+        } else {
+          setWebsiteError(null);
+        }
+      }}
+      placeholder="https://example.com"
+      isInvalid={!!websiteError}
+      errorMessage={websiteError || undefined} // Convert null to undefined
+    />,
     // Tags group
     <TagsGroup
       key="tags-group"
