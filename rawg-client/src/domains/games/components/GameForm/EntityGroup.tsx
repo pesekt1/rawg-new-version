@@ -12,38 +12,47 @@ import {
   TagLabel,
   TagCloseButton,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import { Entity } from "./Entity";
 import { handleAdd, handleRemove } from "../../utils/entityHandlers";
 
 interface EntityGroupProps {
   label: string;
-  data: { results: Entity[] } | undefined;
-  loading: boolean;
-  error: any;
+  fetchData: () => { results: Entity[] } | undefined;
   selectedEntities: Entity[];
   setSelectedEntities: (entities: Entity[]) => void;
-  entityToAdd: number | "";
-  setEntityToAdd: (entity: number | "") => void;
 }
 
 const EntityGroup: React.FC<EntityGroupProps> = ({
   label,
-  data,
-  loading,
-  error,
+  fetchData,
   selectedEntities,
   setSelectedEntities,
-  entityToAdd,
-  setEntityToAdd,
 }) => {
+  const [entityToAdd, setEntityToAdd] = useState<number | "">("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+
+  const data = (() => {
+    try {
+      setIsLoading(true);
+      const result = fetchData();
+      setIsLoading(false);
+      return result;
+    } catch (error) {
+      setIsLoading(false);
+      setIsError(true);
+      return undefined;
+    }
+  })();
+
   return (
     <Box mb={4}>
       <FormControl mb={2}>
         <FormLabel>Add {label}</FormLabel>
-        {loading ? (
+        {isLoading ? (
           <Spinner size="sm" />
-        ) : error ? (
+        ) : isError ? (
           <Alert status="error">
             <AlertIcon />
             Failed to load {label.toLowerCase()}s

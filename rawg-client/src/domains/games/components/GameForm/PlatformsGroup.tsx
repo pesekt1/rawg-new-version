@@ -4,33 +4,23 @@ import { Entity } from "./Entity";
 
 interface PlatformsGroupProps {
   platformsData: { results: Entity[] } | undefined;
-  platformsLoading: boolean;
-  platformsError: any;
   selectedPlatforms: Entity[];
   setSelectedPlatforms: (platforms: Entity[]) => void;
-  platformToAdd: number | "";
-  setPlatformToAdd: (platform: number | "") => void;
 }
 
 const PlatformsGroup: React.FC<PlatformsGroupProps> = ({
   platformsData,
-  platformsLoading,
-  platformsError,
   selectedPlatforms,
   setSelectedPlatforms,
-  platformToAdd,
-  setPlatformToAdd,
 }) => {
+  const fetchData = () => platformsData;
+
   return (
     <EntityGroup
       label="Platform"
-      data={platformsData}
-      loading={platformsLoading}
-      error={platformsError}
+      fetchData={fetchData}
       selectedEntities={selectedPlatforms}
       setSelectedEntities={setSelectedPlatforms}
-      entityToAdd={platformToAdd}
-      setEntityToAdd={setPlatformToAdd}
     />
   );
 };

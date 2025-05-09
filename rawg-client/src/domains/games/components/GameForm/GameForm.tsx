@@ -106,25 +106,19 @@ const GameForm = ({
   const [selectedGenres, setSelectedGenres] = useState<Entity[]>(
     initialValues.genres
   );
-  const [genreToAdd, setGenreToAdd] = useState<number | "">("");
   const [selectedPlatforms, setSelectedPlatforms] = useState<Entity[]>(
     initialValues.parent_platforms
   );
-  const [platformToAdd, setPlatformToAdd] = useState<number | "">("");
   const [selectedStores, setSelectedStores] = useState<Entity[]>(
     initialValues.stores
   );
-  const [storeToAdd, setStoreToAdd] = useState<number | "">("");
   const [selectedPublishers, setSelectedPublishers] = useState<Entity[]>(
     initialValues.publishers
   );
-  const [publisherToAdd, setPublisherToAdd] = useState<number | "">("");
   const [selectedDevelopers, setSelectedDevelopers] = useState<Entity[]>(
     initialValues.developers
   );
-  const [developerToAdd, setDeveloperToAdd] = useState<number | "">("");
   const [selectedTags, setSelectedTags] = useState<Entity[]>(initialValues.tags);
-  const [tagToAdd, setTagToAdd] = useState<number | "">("" );
 
   useEffect(() => {
     setName(initialValues.name);
@@ -226,67 +220,43 @@ const GameForm = ({
     <TagsGroup
       key="tags-group"
       tagsData={tagsData}
-      tagsLoading={tagsLoading}
-      tagsError={tagsError}
       selectedTags={selectedTags}
       setSelectedTags={setSelectedTags}
-      tagToAdd={tagToAdd}
-      setTagToAdd={setTagToAdd}
     />,
     // Genres group
     <GenresGroup
       key="genres-group"
       genresData={genresData}
-      genresLoading={genresLoading}
-      genresError={genresError}
       selectedGenres={selectedGenres}
       setSelectedGenres={setSelectedGenres}
-      genreToAdd={genreToAdd}
-      setGenreToAdd={setGenreToAdd}
     />,
     // Platforms group
     <PlatformsGroup
       key="platforms-group"
       platformsData={platformsData}
-      platformsLoading={platformsLoading}
-      platformsError={platformsError}
       selectedPlatforms={selectedPlatforms}
       setSelectedPlatforms={setSelectedPlatforms}
-      platformToAdd={platformToAdd}
-      setPlatformToAdd={setPlatformToAdd}
     />,
     // Stores group
     <StoresGroup
       key="stores-group"
       storesData={storesData}
-      storesLoading={storesLoading}
-      storesError={storesError}
       selectedStores={selectedStores}
       setSelectedStores={setSelectedStores}
-      storeToAdd={storeToAdd}
-      setStoreToAdd={setStoreToAdd}
     />,
     // Publishers group
     <PublishersGroup
       key="publishers-group"
       publishersData={publishersData}
-      publishersLoading={publishersLoading}
-      publishersError={publishersError}
       selectedPublishers={selectedPublishers}
       setSelectedPublishers={setSelectedPublishers}
-      publisherToAdd={publisherToAdd}
-      setPublisherToAdd={setPublisherToAdd}
     />,
     // Developers group
     <DevelopersGroup
       key="developers-group"
       developersData={developersData}
-      developersLoading={developersLoading}
-      developersError={developersError}
       selectedDevelopers={selectedDevelopers}
       setSelectedDevelopers={setSelectedDevelopers}
-      developerToAdd={developerToAdd}
-      setDeveloperToAdd={setDeveloperToAdd}
     />,
   ];
 

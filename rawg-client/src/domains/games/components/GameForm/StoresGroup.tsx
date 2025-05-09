@@ -4,33 +4,23 @@ import { Entity } from "./Entity";
 
 interface StoresGroupProps {
   storesData: { results: Entity[] } | undefined;
-  storesLoading: boolean;
-  storesError: any;
   selectedStores: Entity[];
   setSelectedStores: (stores: Entity[]) => void;
-  storeToAdd: number | "";
-  setStoreToAdd: (store: number | "") => void;
 }
 
 const StoresGroup: React.FC<StoresGroupProps> = ({
   storesData,
-  storesLoading,
-  storesError,
   selectedStores,
   setSelectedStores,
-  storeToAdd,
-  setStoreToAdd,
 }) => {
+  const fetchData = () => storesData;
+
   return (
     <EntityGroup
       label="Store"
-      data={storesData}
-      loading={storesLoading}
-      error={storesError}
+      fetchData={fetchData}
       selectedEntities={selectedStores}
       setSelectedEntities={setSelectedStores}
-      entityToAdd={storeToAdd}
-      setEntityToAdd={setStoreToAdd}
     />
   );
 };

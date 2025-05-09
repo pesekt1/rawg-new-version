@@ -4,33 +4,23 @@ import { Entity } from "./Entity";
 
 interface PublishersGroupProps {
   publishersData: { results: Entity[] } | undefined;
-  publishersLoading: boolean;
-  publishersError: any;
   selectedPublishers: Entity[];
   setSelectedPublishers: (publishers: Entity[]) => void;
-  publisherToAdd: number | "";
-  setPublisherToAdd: (publisher: number | "") => void;
 }
 
 const PublishersGroup: React.FC<PublishersGroupProps> = ({
   publishersData,
-  publishersLoading,
-  publishersError,
   selectedPublishers,
   setSelectedPublishers,
-  publisherToAdd,
-  setPublisherToAdd,
 }) => {
+  const fetchData = () => publishersData;
+
   return (
     <EntityGroup
       label="Publisher"
-      data={publishersData}
-      loading={publishersLoading}
-      error={publishersError}
+      fetchData={fetchData}
       selectedEntities={selectedPublishers}
       setSelectedEntities={setSelectedPublishers}
-      entityToAdd={publisherToAdd}
-      setEntityToAdd={setPublisherToAdd}
     />
   );
 };
