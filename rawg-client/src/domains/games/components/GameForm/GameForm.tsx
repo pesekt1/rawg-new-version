@@ -1,4 +1,5 @@
 import {
+  useBreakpointValue,
   Box,
   Heading,
   Alert,
@@ -6,8 +7,7 @@ import {
   SimpleGrid,
   Button,
 } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import EntityGroup from "./EntityGroup";
 import { isValidUrl } from "../../utils/validation";
 import TextareaField from "./TextareaField";
@@ -40,9 +40,9 @@ interface GameFormProps {
   isSuccess: boolean;
   isError: boolean;
   error: any;
-  buttonLabel: string;
+  buttonLabel?: string;
   heading: string;
-  successMessage: string;
+  successMessage?: string;
 }
 
 const GameForm = ({
@@ -58,48 +58,157 @@ const GameForm = ({
   isSuccess,
   isError,
   error,
-  buttonLabel,
+  buttonLabel = "Submit",
   heading,
-  successMessage,
+  successMessage = "Operation successful!",
 }: GameFormProps) => {
-  const [name, setName] = useState(initialValues.name);
-  const [slug, setSlug] = useState(initialValues.slug);
-  const [description_raw, setDescriptionRaw] = useState(
-    initialValues.description_raw
-  );
-  const [released, setReleased] = useState(initialValues.released);
-  const [backgroundImage, setBackgroundImage] = useState(
-    initialValues.background_image
-  );
-  const [website, setWebsite] = useState(initialValues.website);
+  const [formValues, setFormValues] = useState(initialValues);
   const [websiteError, setWebsiteError] = useState<string | null>(null);
 
+  // State for selected entities
+  const [selectedGenres, setSelectedGenres] = useState<Entity[]>(initialValues.genres);
+  const [selectedPlatforms, setSelectedPlatforms] = useState<Entity[]>(initialValues.parent_platforms);
+  const [selectedStores, setSelectedStores] = useState<Entity[]>(initialValues.stores);
+  const [selectedPublishers, setSelectedPublishers] = useState<Entity[]>(initialValues.publishers);
+  const [selectedDevelopers, setSelectedDevelopers] = useState<Entity[]>(initialValues.developers);
+  const [selectedTags, setSelectedTags] = useState<Entity[]>(initialValues.tags);
+
   useEffect(() => {
-    setName(initialValues.name);
-    setSlug(initialValues.slug);
-    setDescriptionRaw(initialValues.description_raw);
-    setReleased(initialValues.released);
-    setBackgroundImage(initialValues.background_image);
-    setWebsite(initialValues.website);
+    setFormValues(initialValues);
+    setSelectedGenres(initialValues.genres);
+    setSelectedPlatforms(initialValues.parent_platforms);
+    setSelectedStores(initialValues.stores);
+    setSelectedPublishers(initialValues.publishers);
+    setSelectedDevelopers(initialValues.developers);
+    setSelectedTags(initialValues.tags);
   }, [initialValues]);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (website && !isValidUrl(website)) {
+  const handleChange = (field: string, value: string) => {
+    setFormValues((prev) => ({ ...prev, [field]: value }));
+    if (field === "website" && value && !isValidUrl(value)) {
       setWebsiteError("Website URL must start with http:// or https://");
-      return;
     } else {
       setWebsiteError(null);
     }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (formValues.website && !isValidUrl(formValues.website)) {
+      setWebsiteError("Website URL must start with http:// or https://");
+      return;
+    }
     onSubmit({
-      name,
-      slug,
-      description_raw,
-      released,
-      website,
-      background_image: backgroundImage,
+      ...formValues,
+      genres: selectedGenres,
+      parent_platforms: selectedPlatforms,
+      stores: selectedStores,
+      publishers: selectedPublishers,
+      developers: selectedDevelopers,
+      tags: selectedTags,
     });
   };
+
+  // Define fields as an array of React nodes
+  const fieldNodes = [
+    <TextInputField
+      key="name"
+      label="Name"
+      value={formValues.name}
+      onChange={(e) => handleChange("name", e.target.value)}
+      placeholder="Game name"
+      isRequired
+    />,
+    <TextInputField
+      key="slug"
+      label="Slug"
+      value={formValues.slug}
+      onChange={(e) => handleChange("slug", e.target.value)}
+      placeholder="game-slug"
+      isRequired
+    />,
+    <TextareaField
+      key="description"
+      label="Description"
+      value={formValues.description_raw}
+      onChange={(e) => handleChange("description_raw", e.target.value)}
+      placeholder="Game description"
+    />,
+    <TextInputField
+      key="release-date"
+      label="Release Date"
+      value={formValues.released}
+      onChange={(e) => handleChange("released", e.target.value)}
+      placeholder="YYYY-MM-DD"
+      type="date"
+    />,
+    <TextInputField
+      key="image-url"
+      label="Image URL"
+      value={formValues.background_image}
+      onChange={(e) => handleChange("background_image", e.target.value)}
+      placeholder="https://example.com/image.jpg"
+    />,
+    <TextInputField
+      key="website-url"
+      label="Website URL"
+      value={formValues.website}
+      onChange={(e) => handleChange("website", e.target.value)}
+      placeholder="https://example.com"
+      isInvalid={!!websiteError}
+      errorMessage={websiteError || undefined}
+    />,
+    <EntityGroup
+      key="tags-group"
+      label="Tag"
+      data={tagsData}
+      selectedEntities={selectedTags}
+      setSelectedEntities={setSelectedTags}
+    />,
+    <EntityGroup
+      key="genres-group"
+      label="Genre"
+      data={genresData}
+      selectedEntities={selectedGenres}
+      setSelectedEntities={setSelectedGenres}
+    />,
+    <EntityGroup
+      key="platforms-group"
+      label="Platform"
+      data={platformsData}
+      selectedEntities={selectedPlatforms}
+      setSelectedEntities={setSelectedPlatforms}
+    />,
+    <EntityGroup
+      key="stores-group"
+      label="Store"
+      data={storesData}
+      selectedEntities={selectedStores}
+      setSelectedEntities={setSelectedStores}
+    />,
+    <EntityGroup
+      key="publishers-group"
+      label="Publisher"
+      data={publishersData}
+      selectedEntities={selectedPublishers}
+      setSelectedEntities={setSelectedPublishers}
+    />,
+    <EntityGroup
+      key="developers-group"
+      label="Developer"
+      data={developersData}
+      selectedEntities={selectedDevelopers}
+      setSelectedEntities={setSelectedDevelopers}
+    />,
+  ];
+
+  // Determine number of columns dynamically
+  const columnsCount = useBreakpointValue({ base: 1, md: 2, lg: 3 }) ?? 1;
+
+  // Chunk fields into columns
+  const chunkedFields = Array.from({ length: columnsCount }, (_, i) =>
+    fieldNodes.filter((_, idx) => idx % columnsCount === i)
+  );
 
   return (
     <Box w="100%" mx="auto" mt={8} p={4} borderWidth={1} borderRadius="md">
@@ -119,61 +228,10 @@ const GameForm = ({
         </Alert>
       )}
       <form onSubmit={handleSubmit}>
-        <SimpleGrid columns={1} spacing={6}>
-          <TextInputField
-            label="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Game name"
-            isRequired
-          />
-          <TextInputField
-            label="Slug"
-            value={slug}
-            onChange={(e) => setSlug(e.target.value)}
-            placeholder="game-slug"
-            isRequired
-          />
-          <TextareaField
-            label="Description"
-            value={description_raw}
-            onChange={(e) => setDescriptionRaw(e.target.value)}
-            placeholder="Game description"
-          />
-          <TextInputField
-            label="Release Date"
-            value={released}
-            onChange={(e) => setReleased(e.target.value)}
-            placeholder="YYYY-MM-DD"
-            type="date"
-          />
-          <TextInputField
-            label="Image URL"
-            value={backgroundImage}
-            onChange={(e) => setBackgroundImage(e.target.value)}
-            placeholder="https://example.com/image.jpg"
-          />
-          <TextInputField
-            label="Website URL"
-            value={website}
-            onChange={(e) => {
-              setWebsite(e.target.value);
-              if (e.target.value && !isValidUrl(e.target.value)) {
-                setWebsiteError("Website URL must start with http:// or https://");
-              } else {
-                setWebsiteError(null);
-              }
-            }}
-            placeholder="https://example.com"
-            isInvalid={!!websiteError}
-            errorMessage={websiteError || undefined}
-          />
-          <EntityGroup key="tags-group" label="Tag" data={tagsData} />
-          <EntityGroup key="genres-group" label="Genre" data={genresData} />
-          <EntityGroup key="platforms-group" label="Platform" data={platformsData} />
-          <EntityGroup key="stores-group" label="Store" data={storesData} />
-          <EntityGroup key="publishers-group" label="Publisher" data={publishersData} />
-          <EntityGroup key="developers-group" label="Developer" data={developersData} />
+        <SimpleGrid columns={columnsCount} spacing={6}>
+          {chunkedFields.map((fields, idx) => (
+            <Box key={idx}>{fields}</Box>
+          ))}
         </SimpleGrid>
         <Button mt={6} type="submit" colorScheme="teal" isLoading={isLoading}>
           {buttonLabel}

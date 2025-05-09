@@ -9,7 +9,7 @@ import ApiClient from "../services/api-client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Game } from "../domains/games/Game";
 import { useAuth } from "../domains/auth/useAuth";
-import GameForm from "../domains/games/components/GameForm";
+import GameForm from "../domains/games/components/GameForm/GameForm";
 import useDevelopers from "../domains/developers/useDevelopers";
 import useTags from "../domains/tags/useTags";
 
@@ -82,23 +82,11 @@ const EditGamePage = () => {
         tags: game.tags || [],
       }}
       genresData={genres.data}
-      genresLoading={genres.isLoading}
-      genresError={genres.error}
       platformsData={platforms.data}
-      platformsLoading={platforms.isLoading}
-      platformsError={platforms.error}
       storesData={stores.data}
-      storesLoading={stores.isLoading}
-      storesError={stores.error}
       publishersData={publishers.data}
-      publishersLoading={publishers.isLoading}
-      publishersError={publishers.error}
       developersData={developers.data}
-      developersLoading={developers.isLoading}
-      developersError={developers.error}
       tagsData={tags.data}
-      tagsLoading={tags.isLoading}
-      tagsError={tags.error}
       onSubmit={mutate}
       isLoading={isSaving}
       isSuccess={isSuccess}

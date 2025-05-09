@@ -12,18 +12,24 @@ import {
   TagLabel,
   TagCloseButton,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { Entity } from "./Entity";
 import { handleAdd, handleRemove } from "../../utils/entityHandlers";
 
 interface EntityGroupProps {
   label: string;
   data: { results: Entity[] } | undefined;
+  selectedEntities: Entity[]; // Add selectedEntities prop
+  setSelectedEntities: Dispatch<SetStateAction<Entity[]>>; // Add setSelectedEntities prop
 }
 
-const EntityGroup: React.FC<EntityGroupProps> = ({ label, data }) => {
+const EntityGroup: React.FC<EntityGroupProps> = ({
+  label,
+  data,
+  selectedEntities,
+  setSelectedEntities,
+}) => {
   const [entityToAdd, setEntityToAdd] = useState<number | "">("");
-  const [selectedEntities, setSelectedEntities] = useState<Entity[]>([]);
 
   return (
     <Box mb={4}>
