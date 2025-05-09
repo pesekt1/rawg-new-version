@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon --legacy-watch --exec ts-node --transpile-only index.ts",
     "start-prod": "node dist/index.js",
-    "build": "npm install && tsc",
+    "build": "tsc",
     "tsoa:spec": "tsoa spec",
     "tsoa:routes": "tsoa routes && node patch-tsoa.js",
     "test": "vitest run --reporter verbose"
