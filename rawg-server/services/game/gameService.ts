@@ -1,6 +1,9 @@
 import { Game } from "../../entities/Game";
 import { AppDataSource } from "../../startup/data-source";
 import { GameUpdateDto } from "../../controllers/dto/GameUpdateDto";
+import { GameReadDto } from "../../controllers/dto/GameReadDto";
+import { GameCardDto } from "../../controllers/dto/GameCardDto";
+import { toGameCardDto, toGameReadDto } from "../../controllers/dto/entityMappers";
 import { Genre } from "../../entities/Genre";
 import { ParentPlatform } from "../../entities/ParentPlatform";
 import { Store } from "../../entities/Store";
@@ -12,22 +15,10 @@ import { buildGameQuery } from "./gameQueryBuilder";
 export class GameService {
   private gameRepository = AppDataSource.getRepository(Game);
 
-  private modifyGameResponse(games: Game[]) {
-    return games.map((game) => ({
-      ...game,
-      wishlistedBy: game.wishlistedBy
-        ? game.wishlistedBy.map((u) => ({ id: u.id, username: u.username }))
-        : [],
-      inLibraryOf: game.inLibraryOf
-        ? game.inLibraryOf.map((u) => ({ id: u.id, username: u.username }))
-        : [],
-    }));
-  }
-
   /**
    * Get a paginated list of games with filters and sorting.
    */
-  async getGames(filters: any) {
+  async getGames(filters: any): Promise<{ count: number; next: string | null; results: GameCardDto[] }> {
     const DEFAULT_PAGE_SIZE = 10;
     const MAX_PAGE_SIZE = 40;
     const DEFAULT_PAGE = 1;
@@ -45,7 +36,7 @@ export class GameService {
     queryBuilder.skip((page - 1) * pageSize).take(pageSize);
 
     const [games, total] = await queryBuilder.getManyAndCount();
-    const modifiedGames = this.modifyGameResponse(games);
+    const results = games.map(toGameCardDto);
 
     return {
       count: total,
@@ -55,14 +46,14 @@ export class GameService {
               page + 1
             }&page_size=${pageSize}`
           : null,
-      results: modifiedGames,
+      results,
     };
   }
 
   /**
    * Get a single game by ID, including all relations.
    */
-  async getGame(id: number) {
+  async getGame(id: number): Promise<GameReadDto> {
     const game = await this.gameRepository
       .createQueryBuilder("game")
       .leftJoinAndSelect("game.genres", "genres")
@@ -79,16 +70,7 @@ export class GameService {
     if (!game) {
       throw new Error(`Game with id "${id}" not found`);
     }
-
-    return {
-      ...game,
-      wishlistedBy: game.wishlistedBy
-        ? game.wishlistedBy.map((u) => ({ id: u.id, username: u.username }))
-        : [],
-      inLibraryOf: game.inLibraryOf
-        ? game.inLibraryOf.map((u) => ({ id: u.id, username: u.username }))
-        : [],
-    };
+    return toGameReadDto(game);
   }
 
   /**
@@ -134,7 +116,7 @@ export class GameService {
   /**
    * Create a new game.
    */
-  async createGame(data: GameUpdateDto) {
+  async createGame(data: GameUpdateDto): Promise<GameReadDto> {
     // Validate required fields
     if (!data.name || !data.slug) {
       throw new Error("Missing required fields: name and slug");
@@ -150,7 +132,7 @@ export class GameService {
       added,
     });
     await this.gameRepository.save(game);
-    return game;
+    return toGameReadDto(game);
   }
 
   /**
@@ -167,7 +149,7 @@ export class GameService {
   /**
    * Update a game by ID.
    */
-  async updateGame(id: number, data: GameUpdateDto) {
+  async updateGame(id: number, data: GameUpdateDto): Promise<GameReadDto> {
     const game = await this.gameRepository.findOneBy({ id });
     if (!game) throw new Error(`Game with id "${id}" not found`);
 
@@ -218,7 +200,7 @@ export class GameService {
     }
 
     await this.gameRepository.save(game);
-    return game;
+    return toGameReadDto(game);
   }
 }
 
