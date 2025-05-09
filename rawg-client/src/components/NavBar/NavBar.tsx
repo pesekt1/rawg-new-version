@@ -33,6 +33,12 @@ const NavBar = () => {
   } = useDisclosure();
   const { isAuthenticated, logout, role } = useAuth();
 
+  const handleLogout = () => {
+    logout();
+    localStorage.removeItem("token");
+    window.location.reload(); // Temporary solution
+  };
+
   const authContent = isAuthenticated ? (
     <Menu>
       <Tooltip label={role === "admin" ? "Admin" : "User"}>
@@ -53,15 +59,7 @@ const NavBar = () => {
         />
       </Tooltip>
       <MenuList>
-        <MenuItem
-          onClick={() => {
-            logout();
-            localStorage.removeItem("token");
-            window.location.reload();
-          }}
-        >
-          Logout
-        </MenuItem>
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </MenuList>
     </Menu>
   ) : (
