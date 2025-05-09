@@ -632,6 +632,194 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"GameCardDto": {
+				"properties": {
+					"inLibraryOf": {
+						"items": {
+							"properties": {
+								"id": {
+									"type": "number",
+									"format": "double"
+								}
+							},
+							"required": [
+								"id"
+							],
+							"type": "object"
+						},
+						"type": "array"
+					},
+					"wishlistedBy": {
+						"items": {
+							"properties": {
+								"id": {
+									"type": "number",
+									"format": "double"
+								}
+							},
+							"required": [
+								"id"
+							],
+							"type": "object"
+						},
+						"type": "array"
+					},
+					"parent_platforms": {
+						"items": {
+							"$ref": "#/components/schemas/EntityWithIdDto"
+						},
+						"type": "array"
+					},
+					"rating_top": {
+						"type": "number",
+						"format": "double"
+					},
+					"background_image": {
+						"type": "string"
+					},
+					"metacritic": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"id": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"inLibraryOf",
+					"wishlistedBy",
+					"parent_platforms",
+					"name",
+					"id"
+				],
+				"type": "object"
+			},
+			"GameReadDto": {
+				"properties": {
+					"inLibraryOf": {
+						"items": {
+							"properties": {
+								"id": {
+									"type": "number",
+									"format": "double"
+								}
+							},
+							"required": [
+								"id"
+							],
+							"type": "object"
+						},
+						"type": "array"
+					},
+					"wishlistedBy": {
+						"items": {
+							"properties": {
+								"id": {
+									"type": "number",
+									"format": "double"
+								}
+							},
+							"required": [
+								"id"
+							],
+							"type": "object"
+						},
+						"type": "array"
+					},
+					"tags": {
+						"items": {
+							"$ref": "#/components/schemas/TagReadDto"
+						},
+						"type": "array"
+					},
+					"developers": {
+						"items": {
+							"$ref": "#/components/schemas/EntityReadDto"
+						},
+						"type": "array"
+					},
+					"publishers": {
+						"items": {
+							"$ref": "#/components/schemas/EntityReadDto"
+						},
+						"type": "array"
+					},
+					"stores": {
+						"items": {
+							"$ref": "#/components/schemas/EntityReadDto"
+						},
+						"type": "array"
+					},
+					"parent_platforms": {
+						"items": {
+							"$ref": "#/components/schemas/PlatformReadDto"
+						},
+						"type": "array"
+					},
+					"genres": {
+						"items": {
+							"$ref": "#/components/schemas/EntityReadDto"
+						},
+						"type": "array"
+					},
+					"website": {
+						"type": "string"
+					},
+					"rating_top": {
+						"type": "number",
+						"format": "double"
+					},
+					"added": {
+						"type": "number",
+						"format": "double"
+					},
+					"released": {
+						"type": "string"
+					},
+					"rating": {
+						"type": "number",
+						"format": "double"
+					},
+					"background_image": {
+						"type": "string"
+					},
+					"metacritic": {
+						"type": "number",
+						"format": "double"
+					},
+					"description_raw": {
+						"type": "string"
+					},
+					"slug": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"id": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"inLibraryOf",
+					"wishlistedBy",
+					"tags",
+					"developers",
+					"publishers",
+					"stores",
+					"parent_platforms",
+					"genres",
+					"slug",
+					"name",
+					"id"
+				],
+				"type": "object"
+			},
 			"GameUpdateDto": {
 				"properties": {
 					"tags": {
@@ -2046,153 +2234,13 @@
 									"properties": {
 										"results": {
 											"items": {
-												"properties": {
-													"screenshots": {
-														"items": {
-															"$ref": "#/components/schemas/Screenshot"
-														},
-														"type": "array"
-													},
-													"trailers": {
-														"items": {
-															"$ref": "#/components/schemas/Trailer"
-														},
-														"type": "array"
-													},
-													"tags": {
-														"items": {
-															"$ref": "#/components/schemas/Tag"
-														},
-														"type": "array"
-													},
-													"developers": {
-														"items": {
-															"$ref": "#/components/schemas/Developer"
-														},
-														"type": "array"
-													},
-													"publishers": {
-														"items": {
-															"$ref": "#/components/schemas/Publisher"
-														},
-														"type": "array"
-													},
-													"stores": {
-														"items": {
-															"$ref": "#/components/schemas/Store"
-														},
-														"type": "array"
-													},
-													"parent_platforms": {
-														"items": {
-															"$ref": "#/components/schemas/ParentPlatform"
-														},
-														"type": "array"
-													},
-													"genres": {
-														"items": {
-															"$ref": "#/components/schemas/Genre"
-														},
-														"type": "array"
-													},
-													"website": {
-														"type": "string"
-													},
-													"rating_top": {
-														"type": "number",
-														"format": "double"
-													},
-													"added": {
-														"type": "number",
-														"format": "double"
-													},
-													"released": {
-														"type": "string"
-													},
-													"rating": {
-														"type": "number",
-														"format": "double"
-													},
-													"background_image": {
-														"type": "string"
-													},
-													"metacritic": {
-														"type": "number",
-														"format": "double"
-													},
-													"description_raw": {
-														"type": "string"
-													},
-													"slug": {
-														"type": "string"
-													},
-													"name": {
-														"type": "string"
-													},
-													"id": {
-														"type": "number",
-														"format": "double"
-													},
-													"inLibraryOf": {
-														"items": {
-															"properties": {
-																"username": {
-																	"type": "string"
-																},
-																"id": {
-																	"type": "number",
-																	"format": "double"
-																}
-															},
-															"required": [
-																"username",
-																"id"
-															],
-															"type": "object"
-														},
-														"type": "array"
-													},
-													"wishlistedBy": {
-														"items": {
-															"properties": {
-																"username": {
-																	"type": "string"
-																},
-																"id": {
-																	"type": "number",
-																	"format": "double"
-																}
-															},
-															"required": [
-																"username",
-																"id"
-															],
-															"type": "object"
-														},
-														"type": "array"
-													}
-												},
-												"required": [
-													"screenshots",
-													"trailers",
-													"tags",
-													"developers",
-													"publishers",
-													"stores",
-													"parent_platforms",
-													"genres",
-													"slug",
-													"name",
-													"id",
-													"inLibraryOf",
-													"wishlistedBy"
-												],
-												"type": "object"
+												"$ref": "#/components/schemas/GameCardDto"
 											},
 											"type": "array"
 										},
 										"next": {
-											"type": "string"
+											"type": "string",
+											"nullable": true
 										},
 										"count": {
 											"type": "number",
@@ -2210,7 +2258,7 @@
 						}
 					}
 				},
-				"description": "Get a list of all games, optionally filtered and paginated.",
+				"description": "Get a list of all games, optionally filtered and paginated.\r\nReturns a paginated object with GameCardDto results.",
 				"tags": [
 					"Games"
 				],
@@ -2343,7 +2391,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/Game"
+									"$ref": "#/components/schemas/GameReadDto"
 								}
 							}
 						}
@@ -2360,13 +2408,13 @@
 				],
 				"parameters": [],
 				"requestBody": {
-					"description": "Partial game data.",
+					"description": "Game creation data.",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
 								"$ref": "#/components/schemas/GameUpdateDto",
-								"description": "Partial game data."
+								"description": "Game creation data."
 							}
 						}
 					}
@@ -2378,22 +2426,17 @@
 				"operationId": "GetById",
 				"responses": {
 					"200": {
-						"description": "Game entity or null if not found.",
+						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/Game"
-										},
-										{}
-									]
+									"$ref": "#/components/schemas/GameReadDto"
 								}
 							}
 						}
 					}
 				},
-				"description": "Get a game by ID.",
+				"description": "Get a game by ID.\r\nReturns a GameReadDto or throws if not found.",
 				"tags": [
 					"Games"
 				],
@@ -2415,11 +2458,11 @@
 				"operationId": "Update",
 				"responses": {
 					"200": {
-						"description": "Updated Game entity.",
+						"description": "Updated GameReadDto.",
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/Game"
+									"$ref": "#/components/schemas/GameReadDto"
 								}
 							}
 						}
@@ -2494,7 +2537,7 @@
 				"operationId": "GetTrailers",
 				"responses": {
 					"200": {
-						"description": "List of trailers.",
+						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -2520,7 +2563,7 @@
 						}
 					}
 				},
-				"description": "Get trailers (movies) for a game by ID.",
+				"description": "Get trailers (movies) for a game by ID.\r\nReturns a list of trailers.",
 				"tags": [
 					"Games"
 				],
@@ -2544,7 +2587,7 @@
 				"operationId": "GetScreenshots",
 				"responses": {
 					"200": {
-						"description": "List of screenshots.",
+						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -2570,7 +2613,7 @@
 						}
 					}
 				},
-				"description": "Get screenshots for a game by ID.",
+				"description": "Get screenshots for a game by ID.\r\nReturns a list of screenshots.",
 				"tags": [
 					"Games"
 				],
