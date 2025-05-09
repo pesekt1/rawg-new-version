@@ -24,9 +24,11 @@ init(app);
 
 app.use(express.json());
 
-// Log all incoming requests for debugging
+// Log all incoming requests for debugging, except healthcheck
 app.use((req, res, next) => {
-  console.log(`[${req.method}] ${req.originalUrl}`);
+  if (req.originalUrl !== "/health") {
+    console.log(`[${req.method}] ${req.originalUrl}`);
+  }
   next();
 });
 
