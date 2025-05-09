@@ -17,15 +17,7 @@ import {
   Query,
   Security,
 } from "tsoa";
-import {
-  getGame,
-  getGames,
-  getScreenshots,
-  getTrailers,
-  createGame,
-  deleteGame,
-  updateGame,
-} from "../services/gameService";
+import { gameService } from "../services/game/gameService";
 import { Game } from "../entities/Game";
 import { GameUpdateDto } from "./dto/GameUpdateDto";
 
@@ -66,7 +58,7 @@ export class GameController extends Controller {
     @Query() tagId?: number
   ) {
     // Pass filter params as a plain object
-    return getGames({
+    return gameService.getGames({
       page,
       page_size,
       genreId,
@@ -89,7 +81,7 @@ export class GameController extends Controller {
    */
   @Get("{id}")
   public async getById(@Path() id: number): Promise<Game | any> {
-    return getGame(id);
+    return gameService.getGame(id);
   }
 
   /**
@@ -99,7 +91,7 @@ export class GameController extends Controller {
    */
   @Get("{id}/movies")
   public async getTrailers(@Path() id: number) {
-    return getTrailers(id);
+    return gameService.getTrailers(id);
   }
 
   /**
@@ -109,7 +101,7 @@ export class GameController extends Controller {
    */
   @Get("{id}/screenshots")
   public async getScreenshots(@Path() id: number) {
-    return getScreenshots(id);
+    return gameService.getScreenshots(id);
   }
 
   /**
@@ -122,7 +114,7 @@ export class GameController extends Controller {
   @Post("/")
   @Security("admin")
   public async create(@Body() data: GameUpdateDto): Promise<Game> {
-    return createGame(data);
+    return gameService.createGame(data);
   }
 
   /**
@@ -136,9 +128,9 @@ export class GameController extends Controller {
   @Security("admin")
   public async update(
     @Path() id: number,
-    @Body() data: GameUpdateDto // <-- use imported DTO
+    @Body() data: GameUpdateDto
   ): Promise<Game> {
-    return updateGame(id, data);
+    return gameService.updateGame(id, data);
   }
 
   /**
@@ -149,6 +141,6 @@ export class GameController extends Controller {
   @Delete("{id}")
   @Security("admin")
   public async remove(@Path() id: number): Promise<void> {
-    await deleteGame(id);
+    await gameService.deleteGame(id);
   }
 }
