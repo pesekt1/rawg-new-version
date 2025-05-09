@@ -1,18 +1,5 @@
-import {
-  Box,
-  FormControl,
-  FormLabel,
-  HStack,
-  Select,
-  Button,
-  Spinner,
-  Alert,
-  AlertIcon,
-  Tag,
-  TagLabel,
-  TagCloseButton,
-} from "@chakra-ui/react";
 import React from "react";
+import EntityGroup from "./EntityGroup";
 import { Entity } from "./Entity";
 
 interface PlatformsGroupProps {
@@ -49,73 +36,18 @@ const PlatformsGroup: React.FC<PlatformsGroupProps> = ({
   handleRemove,
 }) => {
   return (
-    <Box mb={4}>
-      <FormControl mb={2}>
-        <FormLabel>Add Platform</FormLabel>
-        {platformsLoading ? (
-          <Spinner size="sm" />
-        ) : platformsError ? (
-          <Alert status="error">
-            <AlertIcon />
-            Failed to load platforms
-          </Alert>
-        ) : (
-          <HStack>
-            <Select
-              placeholder="Select platform"
-              value={platformToAdd}
-              onChange={(e) =>
-                setPlatformToAdd(e.target.value ? Number(e.target.value) : "")
-              }
-              maxW="200px"
-            >
-              {platformsData?.results
-                .filter((p) => !selectedPlatforms.some((sp) => sp.id === p.id))
-                .map((platform) => (
-                  <option key={platform.id} value={platform.id}>
-                    {platform.name}
-                  </option>
-                ))}
-            </Select>
-            <Button
-              onClick={() =>
-                handleAdd(
-                  platformToAdd,
-                  setPlatformToAdd,
-                  selectedPlatforms,
-                  setSelectedPlatforms,
-                  platformsData
-                )
-              }
-              isDisabled={!platformToAdd}
-              colorScheme="teal"
-              size="sm"
-            >
-              Add
-            </Button>
-          </HStack>
-        )}
-      </FormControl>
-      <FormControl mb={2}>
-        <FormLabel>Selected Platforms</FormLabel>
-        <HStack wrap="wrap">
-          {selectedPlatforms.map((platform) => (
-            <Tag key={platform.id} m={1} colorScheme="teal">
-              <TagLabel>{platform.name}</TagLabel>
-              <TagCloseButton
-                onClick={() =>
-                  handleRemove(
-                    platform.id,
-                    selectedPlatforms,
-                    setSelectedPlatforms
-                  )
-                }
-              />
-            </Tag>
-          ))}
-        </HStack>
-      </FormControl>
-    </Box>
+    <EntityGroup
+      label="Platform"
+      data={platformsData}
+      loading={platformsLoading}
+      error={platformsError}
+      selectedEntities={selectedPlatforms}
+      setSelectedEntities={setSelectedPlatforms}
+      entityToAdd={platformToAdd}
+      setEntityToAdd={setPlatformToAdd}
+      handleAdd={handleAdd}
+      handleRemove={handleRemove}
+    />
   );
 };
 
