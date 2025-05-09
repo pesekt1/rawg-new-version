@@ -10,18 +10,6 @@ interface DevelopersGroupProps {
   setSelectedDevelopers: (developers: Entity[]) => void;
   developerToAdd: number | "";
   setDeveloperToAdd: (developer: number | "") => void;
-  handleAdd: (
-    toAdd: number | "",
-    setToAdd: (v: number | "") => void,
-    selected: Entity[],
-    setSelected: (v: Entity[]) => void,
-    data: { results: Entity[] } | undefined
-  ) => void;
-  handleRemove: (
-    id: number,
-    selected: Entity[],
-    setSelected: (v: Entity[]) => void
-  ) => void;
 }
 
 const DevelopersGroup: React.FC<DevelopersGroupProps> = ({
@@ -32,8 +20,6 @@ const DevelopersGroup: React.FC<DevelopersGroupProps> = ({
   setSelectedDevelopers,
   developerToAdd,
   setDeveloperToAdd,
-  handleAdd,
-  handleRemove,
 }) => {
   return (
     <EntityGroup
@@ -45,8 +31,6 @@ const DevelopersGroup: React.FC<DevelopersGroupProps> = ({
       setSelectedEntities={setSelectedDevelopers}
       entityToAdd={developerToAdd}
       setEntityToAdd={setDeveloperToAdd}
-      handleAdd={handleAdd}
-      handleRemove={handleRemove}
     />
   );
 };

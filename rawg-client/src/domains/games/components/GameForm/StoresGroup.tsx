@@ -10,18 +10,6 @@ interface StoresGroupProps {
   setSelectedStores: (stores: Entity[]) => void;
   storeToAdd: number | "";
   setStoreToAdd: (store: number | "") => void;
-  handleAdd: (
-    toAdd: number | "",
-    setToAdd: (v: number | "") => void,
-    selected: Entity[],
-    setSelected: (v: Entity[]) => void,
-    data: { results: Entity[] } | undefined
-  ) => void;
-  handleRemove: (
-    id: number,
-    selected: Entity[],
-    setSelected: (v: Entity[]) => void
-  ) => void;
 }
 
 const StoresGroup: React.FC<StoresGroupProps> = ({
@@ -32,8 +20,6 @@ const StoresGroup: React.FC<StoresGroupProps> = ({
   setSelectedStores,
   storeToAdd,
   setStoreToAdd,
-  handleAdd,
-  handleRemove,
 }) => {
   return (
     <EntityGroup
@@ -45,8 +31,6 @@ const StoresGroup: React.FC<StoresGroupProps> = ({
       setSelectedEntities={setSelectedStores}
       entityToAdd={storeToAdd}
       setEntityToAdd={setStoreToAdd}
-      handleAdd={handleAdd}
-      handleRemove={handleRemove}
     />
   );
 };

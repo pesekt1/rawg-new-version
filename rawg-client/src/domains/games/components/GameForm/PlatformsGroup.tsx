@@ -10,18 +10,6 @@ interface PlatformsGroupProps {
   setSelectedPlatforms: (platforms: Entity[]) => void;
   platformToAdd: number | "";
   setPlatformToAdd: (platform: number | "") => void;
-  handleAdd: (
-    toAdd: number | "",
-    setToAdd: (v: number | "") => void,
-    selected: Entity[],
-    setSelected: (v: Entity[]) => void,
-    data: { results: Entity[] } | undefined
-  ) => void;
-  handleRemove: (
-    id: number,
-    selected: Entity[],
-    setSelected: (v: Entity[]) => void
-  ) => void;
 }
 
 const PlatformsGroup: React.FC<PlatformsGroupProps> = ({
@@ -32,8 +20,6 @@ const PlatformsGroup: React.FC<PlatformsGroupProps> = ({
   setSelectedPlatforms,
   platformToAdd,
   setPlatformToAdd,
-  handleAdd,
-  handleRemove,
 }) => {
   return (
     <EntityGroup
@@ -45,8 +31,6 @@ const PlatformsGroup: React.FC<PlatformsGroupProps> = ({
       setSelectedEntities={setSelectedPlatforms}
       entityToAdd={platformToAdd}
       setEntityToAdd={setPlatformToAdd}
-      handleAdd={handleAdd}
-      handleRemove={handleRemove}
     />
   );
 };

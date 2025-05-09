@@ -141,30 +141,6 @@ const GameForm = ({
     setSelectedTags(initialValues.tags);
   }, [initialValues]);
 
-  const handleAdd = (
-    toAdd: number | "",
-    setToAdd: (v: number | "") => void,
-    selected: Entity[],
-    setSelected: (v: any[]) => void,
-    data: { results: any[] } | undefined
-  ) => {
-    if (toAdd && !selected.some((g) => g.id === toAdd) && data?.results) {
-      const obj = data.results.find((g: any) => g.id === toAdd);
-      if (obj) {
-        setSelected([...selected, obj]);
-        setToAdd("");
-      }
-    }
-  };
-
-  const handleRemove = (
-    id: number,
-    selected: Entity[],
-    setSelected: (v: any[]) => void
-  ) => {
-    setSelected(selected.filter((g) => g.id !== id));
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (website && !isValidUrl(website)) {
@@ -256,8 +232,6 @@ const GameForm = ({
       setSelectedTags={setSelectedTags}
       tagToAdd={tagToAdd}
       setTagToAdd={setTagToAdd}
-      handleAdd={handleAdd}
-      handleRemove={handleRemove}
     />,
     // Genres group
     <GenresGroup
@@ -269,8 +243,6 @@ const GameForm = ({
       setSelectedGenres={setSelectedGenres}
       genreToAdd={genreToAdd}
       setGenreToAdd={setGenreToAdd}
-      handleAdd={handleAdd}
-      handleRemove={handleRemove}
     />,
     // Platforms group
     <PlatformsGroup
@@ -282,8 +254,6 @@ const GameForm = ({
       setSelectedPlatforms={setSelectedPlatforms}
       platformToAdd={platformToAdd}
       setPlatformToAdd={setPlatformToAdd}
-      handleAdd={handleAdd}
-      handleRemove={handleRemove}
     />,
     // Stores group
     <StoresGroup
@@ -295,8 +265,6 @@ const GameForm = ({
       setSelectedStores={setSelectedStores}
       storeToAdd={storeToAdd}
       setStoreToAdd={setStoreToAdd}
-      handleAdd={handleAdd}
-      handleRemove={handleRemove}
     />,
     // Publishers group
     <PublishersGroup
@@ -308,8 +276,6 @@ const GameForm = ({
       setSelectedPublishers={setSelectedPublishers}
       publisherToAdd={publisherToAdd}
       setPublisherToAdd={setPublisherToAdd}
-      handleAdd={handleAdd}
-      handleRemove={handleRemove}
     />,
     // Developers group
     <DevelopersGroup
@@ -321,8 +287,6 @@ const GameForm = ({
       setSelectedDevelopers={setSelectedDevelopers}
       developerToAdd={developerToAdd}
       setDeveloperToAdd={setDeveloperToAdd}
-      handleAdd={handleAdd}
-      handleRemove={handleRemove}
     />,
   ];
 

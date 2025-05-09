@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { Entity } from "./Entity";
+import { handleAdd, handleRemove } from "../../utils/entityHandlers";
 
 interface EntityGroupProps {
   label: string;
@@ -24,18 +25,6 @@ interface EntityGroupProps {
   setSelectedEntities: (entities: Entity[]) => void;
   entityToAdd: number | "";
   setEntityToAdd: (entity: number | "") => void;
-  handleAdd: (
-    toAdd: number | "",
-    setToAdd: (v: number | "") => void,
-    selected: Entity[],
-    setSelected: (v: Entity[]) => void,
-    data: { results: Entity[] } | undefined
-  ) => void;
-  handleRemove: (
-    id: number,
-    selected: Entity[],
-    setSelected: (v: Entity[]) => void
-  ) => void;
 }
 
 const EntityGroup: React.FC<EntityGroupProps> = ({
@@ -47,8 +36,6 @@ const EntityGroup: React.FC<EntityGroupProps> = ({
   setSelectedEntities,
   entityToAdd,
   setEntityToAdd,
-  handleAdd,
-  handleRemove,
 }) => {
   return (
     <Box mb={4}>

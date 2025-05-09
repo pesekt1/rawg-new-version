@@ -10,18 +10,6 @@ interface PublishersGroupProps {
   setSelectedPublishers: (publishers: Entity[]) => void;
   publisherToAdd: number | "";
   setPublisherToAdd: (publisher: number | "") => void;
-  handleAdd: (
-    toAdd: number | "",
-    setToAdd: (v: number | "") => void,
-    selected: Entity[],
-    setSelected: (v: Entity[]) => void,
-    data: { results: Entity[] } | undefined
-  ) => void;
-  handleRemove: (
-    id: number,
-    selected: Entity[],
-    setSelected: (v: Entity[]) => void
-  ) => void;
 }
 
 const PublishersGroup: React.FC<PublishersGroupProps> = ({
@@ -32,8 +20,6 @@ const PublishersGroup: React.FC<PublishersGroupProps> = ({
   setSelectedPublishers,
   publisherToAdd,
   setPublisherToAdd,
-  handleAdd,
-  handleRemove,
 }) => {
   return (
     <EntityGroup
@@ -45,8 +31,6 @@ const PublishersGroup: React.FC<PublishersGroupProps> = ({
       setSelectedEntities={setSelectedPublishers}
       entityToAdd={publisherToAdd}
       setEntityToAdd={setPublisherToAdd}
-      handleAdd={handleAdd}
-      handleRemove={handleRemove}
     />
   );
 };

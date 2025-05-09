@@ -10,18 +10,6 @@ interface TagsGroupProps {
   setSelectedTags: (tags: Entity[]) => void;
   tagToAdd: number | "";
   setTagToAdd: (tag: number | "") => void;
-  handleAdd: (
-    toAdd: number | "",
-    setToAdd: (v: number | "") => void,
-    selected: Entity[],
-    setSelected: (v: Entity[]) => void,
-    data: { results: Entity[] } | undefined
-  ) => void;
-  handleRemove: (
-    id: number,
-    selected: Entity[],
-    setSelected: (v: Entity[]) => void
-  ) => void;
 }
 
 const TagsGroup: React.FC<TagsGroupProps> = ({
@@ -32,8 +20,6 @@ const TagsGroup: React.FC<TagsGroupProps> = ({
   setSelectedTags,
   tagToAdd,
   setTagToAdd,
-  handleAdd,
-  handleRemove,
 }) => {
   return (
     <EntityGroup
@@ -45,8 +31,6 @@ const TagsGroup: React.FC<TagsGroupProps> = ({
       setSelectedEntities={setSelectedTags}
       entityToAdd={tagToAdd}
       setEntityToAdd={setTagToAdd}
-      handleAdd={handleAdd}
-      handleRemove={handleRemove}
     />
   );
 };

@@ -10,18 +10,6 @@ interface GenresGroupProps {
   setSelectedGenres: (genres: Entity[]) => void;
   genreToAdd: number | "";
   setGenreToAdd: (genre: number | "") => void;
-  handleAdd: (
-    toAdd: number | "",
-    setToAdd: (v: number | "") => void,
-    selected: Entity[],
-    setSelected: (v: Entity[]) => void,
-    data: { results: Entity[] } | undefined
-  ) => void;
-  handleRemove: (
-    id: number,
-    selected: Entity[],
-    setSelected: (v: Entity[]) => void
-  ) => void;
 }
 
 const GenresGroup: React.FC<GenresGroupProps> = ({
@@ -32,8 +20,6 @@ const GenresGroup: React.FC<GenresGroupProps> = ({
   setSelectedGenres,
   genreToAdd,
   setGenreToAdd,
-  handleAdd,
-  handleRemove,
 }) => {
   return (
     <EntityGroup
@@ -45,8 +31,6 @@ const GenresGroup: React.FC<GenresGroupProps> = ({
       setSelectedEntities={setSelectedGenres}
       entityToAdd={genreToAdd}
       setEntityToAdd={setGenreToAdd}
-      handleAdd={handleAdd}
-      handleRemove={handleRemove}
     />
   );
 };
