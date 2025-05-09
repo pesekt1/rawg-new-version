@@ -13,7 +13,7 @@ import {
   TagCloseButton,
 } from "@chakra-ui/react";
 import React from "react";
-import { Entity } from "./GameForm";
+import { Entity } from "./Entity";
 
 interface GenresGroupProps {
   genresData: { results: Entity[] } | undefined;

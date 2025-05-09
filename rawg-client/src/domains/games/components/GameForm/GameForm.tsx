@@ -19,11 +19,7 @@ import PlatformsGroup from "./PlatformsGroup";
 import PublishersGroup from "./PublishersGroup";
 import StoresGroup from "./StoresGroup";
 import TagsGroup from "./TagsGroup";
-
-export interface Entity {
-  id: number;
-  name: string;
-}
+import { Entity } from "./Entity";
 
 interface GameFormProps {
   initialValues: {
