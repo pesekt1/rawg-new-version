@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { Spinner, Center, Text } from "@chakra-ui/react";
+import { Spinner, Center, Text, Box, Heading } from "@chakra-ui/react";
 import EntityGrid from "../components/EntityGrid";
 import EntityCard from "../components/EntityCard";
 import useGenresPagination from "../domains/genres/useGenresPagination";
@@ -75,8 +75,8 @@ const EntityPage = () => {
   }
 
   return (
-    <div>
-      <h1>{title}</h1>
+    <Box>
+      <Heading>{title}</Heading>
       <EntityGrid
         data={entities}
         isLoading={isLoading}
@@ -93,7 +93,7 @@ const EntityPage = () => {
           />
         )}
       />
-    </div>
+    </Box>
   );
 };
 
