@@ -39,15 +39,17 @@ const useGetEntitiesPagination = <T>({
 }: UseGetEntitiesPaginationParams<T>) =>
   useInfiniteQuery<Response<T>, Error>({
     queryKey,
-    queryFn: ({ pageParam }) =>
+    queryFn: ({ pageParam = 1 }) =>
       queryFn({
-        pageParam: pageParam || 1, // Default to page 1 if pageParam is undefined
-        page_size: PAGE_SIZE, // Use the PAGE_SIZE constant in the request
+        pageParam,
+        page_size: PAGE_SIZE,
       }),
     staleTime,
     cacheTime,
     enabled,
-    getNextPageParam: (lastPage) => lastPage.next,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.next ? allPages.length + 1 : undefined; // Calculate the next page number
+    },
     ...options,
   });
 
