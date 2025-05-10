@@ -2,25 +2,31 @@
  * Utility functions for controller operations such as formatting list responses and handling deletes.
  */
 
+import { PaginatedResponse } from "../interfaces/PaginatedResponse";
 import { BaseService } from "../services/baseService";
 import { ObjectLiteral } from "typeorm";
-import { ListResponse } from "./IBaseController";
 
 /**
  * Formats the response for a list endpoint using a service that returns DTOs.
  * Supports optional pagination.
  * @param service The service to fetch DTOs from.
  * @param pagination Pagination parameters (page and page_size).
- * @returns An object containing the count and the results array.
+ * @param baseUrl Base URL for constructing the "next" link.
+ * @returns An object containing the count, next link, and the results array.
  */
 export async function formatListResponse<TDto>(
-  service: { getAllDtos: (page?: number, page_size?: number) => Promise<TDto[]> },
+  service: { getAllDtos: (page: number, page_size: number, baseUrl: string) => Promise<PaginatedResponse<TDto>> },
+  baseUrl: string, // Reintroduced baseUrl
   pagination?: { page?: number; page_size?: number }
-): Promise<ListResponse<TDto>> {
-  const items = await service.getAllDtos(pagination?.page, pagination?.page_size);
+): Promise<PaginatedResponse<TDto>> {
+  const page = pagination?.page || 1;
+  const page_size = pagination?.page_size || 10;
+
+  const paginatedResponse = await service.getAllDtos(page, page_size, baseUrl); // Pass baseUrl
   return {
-    count: items.length,
-    results: items,
+    count: paginatedResponse.count,
+    next: paginatedResponse.next,
+    results: paginatedResponse.results,
   };
 }
 
