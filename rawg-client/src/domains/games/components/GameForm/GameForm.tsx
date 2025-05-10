@@ -89,19 +89,18 @@ const GameForm = ({
 
   const handleChange = (field: string, value: string) => {
     setFormValues((prev) => ({ ...prev, [field]: value }));
-    if (field === "website" && value && !isValidUrl(value)) {
-      setWebsiteError("Website URL must start with http:// or https://");
-    } else {
-      setWebsiteError(null);
+    if (field === "website") {
+      setWebsiteError(
+        isValidUrl(value)
+          ? null
+          : "Website URL must start with http:// or https://"
+      );
     }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formValues.website && !isValidUrl(formValues.website)) {
-      setWebsiteError("Website URL must start with http:// or https://");
-      return;
-    }
+    if (websiteError) return;
     onSubmit({
       ...formValues,
       ...selectedEntities,
