@@ -17,6 +17,7 @@ import GenericEditModal from "./GenericEditModal";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 import { useAuth } from "../domains/auth/useAuth";
 import { useNavigate } from "react-router-dom";
+import useGameQueryStore from "../state"; // Import the zustand store
 
 interface Props<T> {
   title: string;
@@ -48,6 +49,7 @@ const CustomList = <T extends Item>({
   useDeleteHook,
 }: Props<T>) => {
   const navigate = useNavigate();
+  const resetGameQuery = useGameQueryStore((state) => state.reset); // Access the reset function
   const [isExpanded, setIsExpanded] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [editEntity, setEditEntity] = useState<T | null>(null);
@@ -126,7 +128,10 @@ const CustomList = <T extends Item>({
         )}
         <Button
           variant="link"
-          onClick={() => navigate(`/entities/${title.toLowerCase()}`)} // Navigate to EntityPage
+          onClick={() => {
+            resetGameQuery(); // Reset the GameQuery state
+            navigate(`/entities/${title.toLowerCase()}`); // Navigate to EntityPage
+          }}
           bg="transparent"
           _hover={{
             textDecoration: "none",
