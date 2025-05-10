@@ -16,6 +16,7 @@ import {
   SuccessResponse,
   Tags,
   Security,
+  Query,
 } from "tsoa";
 import { developerService } from "../services/developerService";
 import { ListResponse, IBaseController } from "./IBaseController";
@@ -34,12 +35,17 @@ export class DeveloperController
   implements IBaseController<EntityReadDto>
 {
   /**
-   * Get a list of all developers.
+   * Get a list of all developers with optional pagination.
+   * @param page Page number for pagination.
+   * @param page_size Number of items per page.
    * @returns ListResponse containing developer DTOs.
    */
   @Get("/")
-  public async getAll(): Promise<ListResponse<EntityReadDto>> {
-    return formatListResponse(developerService);
+  public async getAll(
+    @Query() page?: number,
+    @Query() page_size?: number
+  ): Promise<ListResponse<EntityReadDto>> {
+    return formatListResponse(developerService, { page, page_size });
   }
 
   /**

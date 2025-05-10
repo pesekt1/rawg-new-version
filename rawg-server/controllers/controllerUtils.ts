@@ -8,13 +8,16 @@ import { ListResponse } from "./IBaseController";
 
 /**
  * Formats the response for a list endpoint using a service that returns DTOs.
+ * Supports optional pagination.
  * @param service The service to fetch DTOs from.
+ * @param pagination Pagination parameters (page and page_size).
  * @returns An object containing the count and the results array.
  */
 export async function formatListResponse<TDto>(
-  service: { getAllDtos: () => Promise<TDto[]> }
+  service: { getAllDtos: (page?: number, page_size?: number) => Promise<TDto[]> },
+  pagination?: { page?: number; page_size?: number }
 ): Promise<ListResponse<TDto>> {
-  const items = await service.getAllDtos();
+  const items = await service.getAllDtos(pagination?.page, pagination?.page_size);
   return {
     count: items.length,
     results: items,

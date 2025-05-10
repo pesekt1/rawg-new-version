@@ -17,10 +17,12 @@ export interface ListResponse<T> {
  */
 export interface IBaseController<T> {
   /**
-   * Get all entities.
+   * Get all entities with optional pagination.
+   * @param page Page number for pagination.
+   * @param page_size Number of items per page.
    * @returns ListResponse containing entities.
    */
-  getAll(): Promise<ListResponse<T>>;
+  getAll(page?: number, page_size?: number): Promise<ListResponse<T>>;
 
   /**
    * Get an entity by ID.

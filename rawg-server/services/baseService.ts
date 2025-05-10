@@ -14,11 +14,19 @@ export class BaseService<T extends ObjectLiteral> {
   constructor(private entity: ObjectType<T>) {}
 
   /**
-   * Get all entities.
+   * Get all entities with optional pagination.
+   * @param page Page number for pagination.
+   * @param page_size Number of items per page.
    * @returns Promise resolving to an array of entities.
    */
-  getAll(): Promise<T[]> {
-    return this.repository.find() as Promise<T[]>;
+  getAll(page?: number, page_size?: number): Promise<T[]> {
+    const skip = page && page_size ? (page - 1) * page_size : undefined;
+    const take = page_size;
+
+    return this.repository.find({
+      skip,
+      take,
+    }) as Promise<T[]>;
   }
 
   /**

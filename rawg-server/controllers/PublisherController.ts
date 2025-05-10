@@ -16,6 +16,7 @@ import {
   SuccessResponse,
   Tags,
   Security,
+  Query,
 } from "tsoa";
 import { publisherService } from "../services/publisherService";
 import { ListResponse, IBaseController } from "./IBaseController";
@@ -34,12 +35,17 @@ export class PublisherController
   implements IBaseController<EntityReadDto>
 {
   /**
-   * Get a list of all publishers.
+   * Get a list of all publishers with optional pagination.
+   * @param page Page number for pagination.
+   * @param page_size Number of items per page.
    * @returns ListResponse containing publisher DTOs.
    */
   @Get("/")
-  public async getAll(): Promise<ListResponse<EntityReadDto>> {
-    return formatListResponse(publisherService);
+  public async getAll(
+    @Query() page?: number,
+    @Query() page_size?: number
+  ): Promise<ListResponse<EntityReadDto>> {
+    return formatListResponse(publisherService, { page, page_size });
   }
 
   /**

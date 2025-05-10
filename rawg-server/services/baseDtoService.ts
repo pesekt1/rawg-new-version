@@ -15,10 +15,12 @@ export class BaseDtoService<T extends ObjectLiteral, D> extends BaseService<T> {
   }
 
   /**
-   * Get all entities as DTOs.
+   * Get all entities as DTOs with optional pagination.
+   * @param page Page number for pagination.
+   * @param page_size Number of items per page.
    */
-  async getAllDtos(): Promise<D[]> {
-    const items = await this.getAll();
+  async getAllDtos(page?: number, page_size?: number): Promise<D[]> {
+    const items = await this.getAll(page, page_size);
     return items.map(this.toDto);
   }
 

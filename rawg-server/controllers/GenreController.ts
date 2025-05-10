@@ -16,6 +16,7 @@ import {
   SuccessResponse,
   Tags,
   Security,
+  Query,
 } from "tsoa";
 import { genreService } from "../services/genreService";
 import { ListResponse, IBaseController } from "./IBaseController";
@@ -34,12 +35,17 @@ export class GenreController
   implements IBaseController<EntityReadDto>
 {
   /**
-   * Get a list of all genres.
+   * Get a list of all genres with optional pagination.
+   * @param page Page number for pagination.
+   * @param page_size Number of items per page.
    * @returns ListResponse containing genre DTOs.
    */
   @Get("/")
-  public async getAll(): Promise<ListResponse<EntityReadDto>> {
-    return formatListResponse(genreService);
+  public async getAll(
+    @Query() page?: number,
+    @Query() page_size?: number
+  ): Promise<ListResponse<EntityReadDto>> {
+    return formatListResponse(genreService, { page, page_size });
   }
 
   /**
