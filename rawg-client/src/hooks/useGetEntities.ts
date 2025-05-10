@@ -44,7 +44,7 @@ const useGetEntities = <T>({
     placeholderData,
     staleTime,
     cacheTime,
-    enabled, //controls if the query should run
+    enabled,
     ...options,
   });
 
