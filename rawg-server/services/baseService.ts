@@ -97,9 +97,11 @@ export class BaseService<T extends ObjectLiteral> {
     // Ensure baseUrl starts with a "/"
     const normalizedBaseUrl = baseUrl?.startsWith("/") ? baseUrl : `/${baseUrl}`;
 
+    // Construct the next URL as an absolute URL
+    const serverUrl = process.env.SERVER_URL
     const next =
       total > page * page_size
-        ? `${normalizedBaseUrl}?page=${page + 1}&page_size=${page_size}`
+        ? `${serverUrl}${normalizedBaseUrl}?page=${page + 1}&page_size=${page_size}`
         : null;
 
     return {
