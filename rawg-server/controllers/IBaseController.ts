@@ -3,14 +3,7 @@
  */
 
 import { DeepPartial } from "typeorm";
-
-/**
- * Standard response for list endpoints.
- */
-export interface ListResponse<T> {
-  count: number;
-  results: T[];
-}
+import { PaginatedResponse } from "../interfaces/PaginatedResponse";
 
 /**
  * Generic interface for CRUD controller methods.
@@ -20,9 +13,9 @@ export interface IBaseController<T> {
    * Get all entities with optional pagination.
    * @param page Page number for pagination.
    * @param page_size Number of items per page.
-   * @returns ListResponse containing entities.
+   * @returns PaginatedResponse containing entities.
    */
-  getAll(page?: number, page_size?: number): Promise<ListResponse<T>>;
+  getAll(page?: number, page_size?: number): Promise<PaginatedResponse<T>>;
 
   /**
    * Get an entity by ID.

@@ -1,14 +1,6 @@
+import { PaginatedResponse } from "../interfaces/PaginatedResponse";
 import { AppDataSource } from "../startup/data-source";
 import { ObjectType, DeepPartial, ObjectLiteral } from "typeorm";
-
-/**
- * Interface for paginated responses.
- */
-export interface PaginatedResponse<T> {
-  count: number; // Total number of items
-  next: string | null; // URL for the next page, or null if no more pages
-  results: T[]; // Items for the current page
-}
 
 /**
  * Generic base service for CRUD operations on entities.
@@ -92,6 +84,8 @@ export class BaseService<T extends ObjectLiteral> {
     page_size: number = 10,
     baseUrl: string
   ): Promise<PaginatedResponse<T>> {
+    console.log("Received baseUrl:", baseUrl); // Debug log
+
     const skip = (page - 1) * page_size;
     const take = page_size;
 
@@ -100,9 +94,12 @@ export class BaseService<T extends ObjectLiteral> {
       take,
     });
 
+    // Ensure baseUrl starts with a "/"
+    const normalizedBaseUrl = baseUrl.startsWith("/") ? baseUrl : `/${baseUrl}`;
+
     const next =
       total > page * page_size
-        ? `${baseUrl}?page=${page + 1}&page_size=${page_size}`
+        ? `${normalizedBaseUrl}?page=${page + 1}&page_size=${page_size}`
         : null;
 
     return {

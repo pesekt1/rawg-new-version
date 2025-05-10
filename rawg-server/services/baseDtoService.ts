@@ -1,4 +1,5 @@
-import { BaseService, PaginatedResponse } from "./baseService";
+import { PaginatedResponse } from "../interfaces/PaginatedResponse";
+import { BaseService } from "./baseService";
 import { ObjectLiteral, ObjectType, DeepPartial } from "typeorm";
 
 /**
