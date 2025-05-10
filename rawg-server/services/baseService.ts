@@ -1,6 +1,7 @@
 import { PaginatedResponse } from "../interfaces/PaginatedResponse";
 import { AppDataSource } from "../startup/data-source";
 import { ObjectType, DeepPartial, ObjectLiteral } from "typeorm";
+import { constructNextUrl } from "../utils/paginationUtils";
 
 /**
  * Generic base service for CRUD operations on entities.
@@ -94,15 +95,7 @@ export class BaseService<T extends ObjectLiteral> {
       take,
     });
 
-    // Ensure baseUrl starts with a "/"
-    const normalizedBaseUrl = baseUrl?.startsWith("/") ? baseUrl : `/${baseUrl}`;
-
-    // Construct the next URL as an absolute URL
-    const serverUrl = process.env.SERVER_URL
-    const next =
-      total > page * page_size
-        ? `${serverUrl}${normalizedBaseUrl}?page=${page + 1}&page_size=${page_size}`
-        : null;
+    const next = constructNextUrl(baseUrl || "", page, page_size, total);
 
     return {
       count: total,

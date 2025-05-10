@@ -11,6 +11,7 @@ import { Publisher } from "../../entities/Publisher";
 import { Developer } from "../../entities/Developer";
 import { Tag } from "../../entities/Tag";
 import { buildGameQuery } from "./gameQueryBuilder";
+import { constructNextUrl } from "../../utils/paginationUtils";
 
 export class GameService {
   private gameRepository = AppDataSource.getRepository(Game);
@@ -38,14 +39,11 @@ export class GameService {
     const [games, total] = await queryBuilder.getManyAndCount();
     const results = games.map(toGameCardDto);
 
+    const next = constructNextUrl("/games", page, pageSize, total);
+
     return {
       count: total,
-      next:
-        total > page * pageSize
-          ? `${process.env.SERVER_URL}/games?page=${
-              page + 1
-            }&page_size=${pageSize}`
-          : null,
+      next,
       results,
     };
   }
