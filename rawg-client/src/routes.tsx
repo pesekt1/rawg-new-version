@@ -6,6 +6,7 @@ import ErrorPage from "./pages/ErrorPage";
 import NewGamePage from "./pages/NewGamePage";
 import EditGamePage from "./pages/EditGamePage";
 import AdminRoute from "./components/AdminRoute";
+import EntityPage from "./pages/EntityPage";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,7 @@ const router = createBrowserRouter([
           </AdminRoute>
         ),
       },
+      { path: "entities/:entityType", element: <EntityPage /> }, // Dynamic route
     ],
   },
 ]);
