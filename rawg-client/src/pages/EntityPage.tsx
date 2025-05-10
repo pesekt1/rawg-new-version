@@ -12,11 +12,13 @@ import { Store } from "../domains/stores/Store";
 import { Publisher } from "../domains/publishers/Publisher";
 import { UseInfiniteQueryResult } from "@tanstack/react-query";
 import { Response } from "../services/api-client";
+import useGameQueryStore from "../state";
 
 type EntityConfig<T> = {
   hook: () => UseInfiniteQueryResult<Response<T>, Error>;
   title: string;
   renderDetails: (entity: T) => React.ReactNode;
+  setter: (id: number | undefined) => void; // Add setter to config
 };
 
 const entityConfig: Record<string, EntityConfig<any>> = {
@@ -24,21 +26,25 @@ const entityConfig: Record<string, EntityConfig<any>> = {
     hook: useGenresPagination, // Use pagination hook
     title: "Genres",
     renderDetails: (entity: Genre) => <p>Slug: {entity.slug}</p>,
+    setter: useGameQueryStore.getState().setGenreId, // Map to zustand setter
   },
   developers: {
     hook: useDevelopersPagination, // Use pagination hook
     title: "Developers",
     renderDetails: (entity: Developer) => <p>ID: {entity.id}</p>,
+    setter: useGameQueryStore.getState().setDeveloperId, // Map to zustand setter
   },
   stores: {
     hook: useStoresPagination, // Use pagination hook
     title: "Stores",
     renderDetails: (entity: Store) => <p>Slug: {entity.slug}</p>,
+    setter: useGameQueryStore.getState().setStoreId, // Map to zustand setter
   },
   publishers: {
     hook: usePublishersPagination, // Use pagination hook
     title: "Publishers",
     renderDetails: (entity: Publisher) => <p>ID: {entity.id}</p>,
+    setter: useGameQueryStore.getState().setPublisherId, // Map to zustand setter
   },
 };
 
@@ -50,7 +56,7 @@ const EntityPage = () => {
     return <p>Invalid entity type.</p>;
   }
 
-  const { hook, title, renderDetails } = config;
+  const { hook, title, renderDetails, setter } = config;
   const { data, isLoading, error, fetchNextPage, hasNextPage } = hook();
 
   // Flatten the results from all pages
@@ -90,6 +96,7 @@ const EntityPage = () => {
             name={entity.name}
             image={entity.image_background}
             renderDetails={renderDetails}
+            setter={setter} // Pass the appropriate setter
           />
         )}
       />

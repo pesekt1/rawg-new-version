@@ -1,18 +1,28 @@
 import { Box, Heading, Image, VStack, Button } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 interface EntityCardProps<T> {
   entity: T;
   image: string;
   name: string;
   renderDetails?: (entity: T) => React.ReactNode;
+  setter: (id: number | undefined) => void; // Setter function from zustand
 }
 
-const EntityCard = <T,>({
+const EntityCard = <T extends { id: number }>({
   entity,
   image,
   name,
   renderDetails,
+  setter,
 }: EntityCardProps<T>) => {
+  const navigate = useNavigate();
+
+  const handleHeadingClick = () => {
+    setter(entity.id); // Dynamically call the provided setter
+    navigate("/");
+  };
+
   return (
     <Box
       borderWidth="1px"
@@ -35,7 +45,12 @@ const EntityCard = <T,>({
           p={2}
           textAlign="center"
         >
-          <Heading size="md" isTruncated>
+          <Heading
+            size="md"
+            isTruncated
+            onClick={handleHeadingClick}
+            cursor="pointer"
+          >
             {name}
           </Heading>
         </Box>

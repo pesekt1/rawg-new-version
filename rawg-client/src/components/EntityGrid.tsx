@@ -2,7 +2,7 @@ import { SimpleGrid, Spinner, Text } from "@chakra-ui/react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import EntityCard from "./EntityCard";
 
-interface EntityGridProps<T> {
+interface EntityGridProps<T extends { id: number }> {
   data: T[];
   isLoading: boolean;
   error: Error | null;
@@ -11,7 +11,7 @@ interface EntityGridProps<T> {
   renderCard: (entity: T) => React.ReactNode;
 }
 
-const EntityGrid = <T,>({
+const EntityGrid = <T extends { id: number }>({
   data,
   isLoading,
   error,
@@ -41,6 +41,7 @@ const EntityGrid = <T,>({
                 entity={{} as T}
                 name="Loading..."
                 image="https://via.placeholder.com/300x150"
+                setter={() => {}} // Provide a no-op setter
               />
             ))
           : data.map((entity) => renderCard(entity))}
