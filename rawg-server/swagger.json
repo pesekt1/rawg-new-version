@@ -1275,12 +1275,33 @@
 						}
 					}
 				},
-				"description": "Get a list of all stores.",
+				"description": "Get a list of all stores with optional pagination.",
 				"tags": [
 					"Stores"
 				],
 				"security": [],
-				"parameters": []
+				"parameters": [
+					{
+						"description": "Page number for pagination.",
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Number of items per page.",
+						"in": "query",
+						"name": "page_size",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
 			},
 			"post": {
 				"operationId": "Create",
@@ -1471,12 +1492,33 @@
 						}
 					}
 				},
-				"description": "Get a list of all publishers.",
+				"description": "Get a list of all publishers with optional pagination.",
 				"tags": [
 					"Publishers"
 				],
 				"security": [],
-				"parameters": []
+				"parameters": [
+					{
+						"description": "Page number for pagination.",
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Number of items per page.",
+						"in": "query",
+						"name": "page_size",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
 			},
 			"post": {
 				"operationId": "Create",
@@ -2041,12 +2083,33 @@
 						}
 					}
 				},
-				"description": "Get a list of all genres.",
+				"description": "Get a list of all genres with optional pagination.",
 				"tags": [
 					"Genres"
 				],
 				"security": [],
-				"parameters": []
+				"parameters": [
+					{
+						"description": "Page number for pagination.",
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Number of items per page.",
+						"in": "query",
+						"name": "page_size",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
 			},
 			"post": {
 				"operationId": "Create",
@@ -2647,12 +2710,33 @@
 						}
 					}
 				},
-				"description": "Get a list of all developers.",
+				"description": "Get a list of all developers with optional pagination.",
 				"tags": [
 					"Developers"
 				],
 				"security": [],
-				"parameters": []
+				"parameters": [
+					{
+						"description": "Page number for pagination.",
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Number of items per page.",
+						"in": "query",
+						"name": "page_size",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
 			},
 			"post": {
 				"operationId": "Create",
