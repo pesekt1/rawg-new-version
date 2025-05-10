@@ -19,13 +19,13 @@ export class BaseDtoService<T extends ObjectLiteral, D> extends BaseService<T> {
    * Get all entities as DTOs with optional pagination.
    * @param page Page number for pagination.
    * @param page_size Number of items per page.
-   * @param baseUrl Base URL for constructing the "next" link.
+   * @param baseUrl optional Base URL for constructing the "next" link.
    * @returns Promise resolving to a paginated response with DTOs.
    */
   async getAllDtos(
     page: number = 1,
     page_size: number = 10,
-    baseUrl: string
+    baseUrl?: string
   ): Promise<PaginatedResponse<D>> {
     const paginatedResponse = await this.getAllPaginated(page, page_size, baseUrl);
 

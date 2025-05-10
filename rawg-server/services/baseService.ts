@@ -76,13 +76,13 @@ export class BaseService<T extends ObjectLiteral> {
    * Get all entities with optional pagination and return a paginated response.
    * @param page Page number for pagination.
    * @param page_size Number of items per page.
-   * @param baseUrl Base URL for constructing the "next" link.
+   * @param baseUrl optional Base URL for constructing the "next" link.
    * @returns Promise resolving to a paginated response.
    */
   async getAllPaginated(
     page: number = 1,
     page_size: number = 10,
-    baseUrl: string
+    baseUrl?: string
   ): Promise<PaginatedResponse<T>> {
     console.log("Received baseUrl:", baseUrl); // Debug log
 
@@ -95,7 +95,7 @@ export class BaseService<T extends ObjectLiteral> {
     });
 
     // Ensure baseUrl starts with a "/"
-    const normalizedBaseUrl = baseUrl.startsWith("/") ? baseUrl : `/${baseUrl}`;
+    const normalizedBaseUrl = baseUrl?.startsWith("/") ? baseUrl : `/${baseUrl}`;
 
     const next =
       total > page * page_size
