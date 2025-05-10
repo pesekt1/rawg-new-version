@@ -16,6 +16,7 @@ import AdminEditIcon from "./AdminEditIcon";
 import GenericEditModal from "./GenericEditModal";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 import { useAuth } from "../domains/auth/useAuth";
+import { useNavigate } from "react-router-dom";
 
 interface Props<T> {
   title: string;
@@ -46,6 +47,7 @@ const CustomList = <T extends Item>({
   useUpdateHook,
   useDeleteHook,
 }: Props<T>) => {
+  const navigate = useNavigate();
   const [isExpanded, setIsExpanded] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [editEntity, setEditEntity] = useState<T | null>(null);
@@ -54,6 +56,10 @@ const CustomList = <T extends Item>({
   const { colorMode } = useColorMode();
   const deleteMutation = useDeleteHook ? useDeleteHook() : undefined;
   const { role } = useAuth();
+
+  // Safely access the results
+  const items = data?.results || [];
+  const displayedItems = isExpanded ? items : items.slice(0, DEFAULT_VISIBLE_ITEMS);
 
   // Color variables for easier use
   const colorMain = colorMode === "light" ? "gray.800" : "white";
@@ -65,11 +71,6 @@ const CustomList = <T extends Item>({
 
   const createMutation = useCreateHook ? useCreateHook() : undefined;
   const updateMutation = useUpdateHook ? useUpdateHook() : undefined;
-
-  const items = data?.results;
-  const displayedItems = isExpanded
-    ? items
-    : items?.slice(0, DEFAULT_VISIBLE_ITEMS);
 
   // Example: fields for generic modal (customize as needed)
   const editFields = [
@@ -125,7 +126,7 @@ const CustomList = <T extends Item>({
         )}
         <Button
           variant="link"
-          onClick={() => onSelectedItemId(undefined)}
+          onClick={() => navigate(`/entities/${title.toLowerCase()}`)} // Navigate to EntityPage
           bg="transparent"
           _hover={{
             textDecoration: "none",
@@ -143,7 +144,7 @@ const CustomList = <T extends Item>({
         </Button>
       </HStack>
       <List>
-        {displayedItems?.map((item) => (
+        {displayedItems.map((item) => (
           <ListItem key={item.id} paddingY="5px">
             <HStack>
               {role === "admin" && (
@@ -174,7 +175,7 @@ const CustomList = <T extends Item>({
             </HStack>
           </ListItem>
         ))}
-        {items && items.length > DEFAULT_VISIBLE_ITEMS && (
+        {items.length > DEFAULT_VISIBLE_ITEMS && (
           <ListItem paddingY="5px">
             <HStack>
               {isExpanded ? (
