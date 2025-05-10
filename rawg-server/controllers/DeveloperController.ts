@@ -19,10 +19,11 @@ import {
   Query,
 } from "tsoa";
 import { developerService } from "../services/developerService";
-import { ListResponse, IBaseController } from "./IBaseController";
+import { IBaseController } from "./IBaseController";
 import { formatListResponse, handleDelete } from "./controllerUtils";
 import { EntityUpdateDto } from "./dto/EntityUpdateDto";
 import { EntityReadDto } from "./dto/EntityReadDto";
+import { PaginatedResponse } from "../interfaces/PaginatedResponse";
 
 /**
  * Controller for managing Developer entities.
@@ -38,14 +39,15 @@ export class DeveloperController
    * Get a list of all developers with optional pagination.
    * @param page Page number for pagination.
    * @param page_size Number of items per page.
-   * @returns ListResponse containing developer DTOs.
+   * @returns PaginatedResponse containing developer DTOs.
    */
   @Get("/")
   public async getAll(
     @Query() page?: number,
     @Query() page_size?: number
-  ): Promise<ListResponse<EntityReadDto>> {
-    return formatListResponse(developerService, { page, page_size });
+  ): Promise<PaginatedResponse<EntityReadDto>> {
+    const baseUrl = "developers"; // Define the baseUrl for this controller
+    return formatListResponse(developerService, baseUrl, { page, page_size }); // Pass baseUrl
   }
 
   /**

@@ -19,10 +19,11 @@ import {
   Query,
 } from "tsoa";
 import { storeService } from "../services/storeService";
-import { ListResponse, IBaseController } from "./IBaseController";
+import { IBaseController } from "./IBaseController";
 import { formatListResponse, handleDelete } from "./controllerUtils";
 import { EntityUpdateDto } from "./dto/EntityUpdateDto";
 import { EntityReadDto } from "./dto/EntityReadDto";
+import { PaginatedResponse } from "../interfaces/PaginatedResponse";
 
 /**
  * Controller for managing Store entities.
@@ -38,14 +39,15 @@ export class StoreController
    * Get a list of all stores with optional pagination.
    * @param page Page number for pagination.
    * @param page_size Number of items per page.
-   * @returns ListResponse containing store DTOs.
+   * @returns PaginatedResponse containing store DTOs.
    */
   @Get("/")
   public async getAll(
     @Query() page?: number,
     @Query() page_size?: number
-  ): Promise<ListResponse<EntityReadDto>> {
-    return formatListResponse(storeService, { page, page_size });
+  ): Promise<PaginatedResponse<EntityReadDto>> {
+    const baseUrl = "stores"; // Define the baseUrl for this controller
+    return formatListResponse(storeService, baseUrl, { page, page_size }); // Pass baseUrl
   }
 
   /**

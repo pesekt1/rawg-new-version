@@ -19,10 +19,11 @@ import {
   Query,
 } from "tsoa";
 import { genreService } from "../services/genreService";
-import { ListResponse, IBaseController } from "./IBaseController";
+import { IBaseController } from "./IBaseController";
 import { formatListResponse, handleDelete } from "./controllerUtils";
 import { EntityUpdateDto } from "./dto/EntityUpdateDto";
 import { EntityReadDto } from "./dto/EntityReadDto";
+import { PaginatedResponse } from "../interfaces/PaginatedResponse";
 
 /**
  * Controller for managing Genre entities.
@@ -38,14 +39,15 @@ export class GenreController
    * Get a list of all genres with optional pagination.
    * @param page Page number for pagination.
    * @param page_size Number of items per page.
-   * @returns ListResponse containing genre DTOs.
+   * @returns PaginatedResponse containing genre DTOs.
    */
   @Get("/")
   public async getAll(
     @Query() page?: number,
     @Query() page_size?: number
-  ): Promise<ListResponse<EntityReadDto>> {
-    return formatListResponse(genreService, { page, page_size });
+  ): Promise<PaginatedResponse<EntityReadDto>> {
+    const baseUrl = "genres"; // Define the baseUrl for this controller
+    return formatListResponse(genreService, baseUrl, { page, page_size }); // Pass baseUrl
   }
 
   /**
