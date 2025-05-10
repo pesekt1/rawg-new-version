@@ -2,6 +2,15 @@ import { AppDataSource } from "../startup/data-source";
 import { ObjectType, DeepPartial, ObjectLiteral } from "typeorm";
 
 /**
+ * Interface for paginated responses.
+ */
+export interface PaginatedResponse<T> {
+  count: number; // Total number of items
+  next: string | null; // URL for the next page, or null if no more pages
+  results: T[]; // Items for the current page
+}
+
+/**
  * Generic base service for CRUD operations on entities.
  * @template T Entity type
  */
@@ -69,5 +78,37 @@ export class BaseService<T extends ObjectLiteral> {
   async delete(id: number | string): Promise<boolean> {
     const result = await this.repository.delete(id);
     return !!result.affected && result.affected > 0;
+  }
+
+  /**
+   * Get all entities with optional pagination and return a paginated response.
+   * @param page Page number for pagination.
+   * @param page_size Number of items per page.
+   * @param baseUrl Base URL for constructing the "next" link.
+   * @returns Promise resolving to a paginated response.
+   */
+  async getAllPaginated(
+    page: number = 1,
+    page_size: number = 10,
+    baseUrl: string
+  ): Promise<PaginatedResponse<T>> {
+    const skip = (page - 1) * page_size;
+    const take = page_size;
+
+    const [items, total] = await this.repository.findAndCount({
+      skip,
+      take,
+    });
+
+    const next =
+      total > page * page_size
+        ? `${baseUrl}?page=${page + 1}&page_size=${page_size}`
+        : null;
+
+    return {
+      count: total,
+      next,
+      results: items,
+    };
   }
 }
