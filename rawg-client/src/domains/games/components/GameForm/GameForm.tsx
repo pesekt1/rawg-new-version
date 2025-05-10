@@ -66,21 +66,25 @@ const GameForm = ({
   const [websiteError, setWebsiteError] = useState<string | null>(null);
 
   // State for selected entities
-  const [selectedGenres, setSelectedGenres] = useState<Entity[]>(initialValues.genres);
-  const [selectedPlatforms, setSelectedPlatforms] = useState<Entity[]>(initialValues.parent_platforms);
-  const [selectedStores, setSelectedStores] = useState<Entity[]>(initialValues.stores);
-  const [selectedPublishers, setSelectedPublishers] = useState<Entity[]>(initialValues.publishers);
-  const [selectedDevelopers, setSelectedDevelopers] = useState<Entity[]>(initialValues.developers);
-  const [selectedTags, setSelectedTags] = useState<Entity[]>(initialValues.tags);
+  const [selectedEntities, setSelectedEntities] = useState({
+    genres: initialValues.genres,
+    parent_platforms: initialValues.parent_platforms,
+    stores: initialValues.stores,
+    publishers: initialValues.publishers,
+    developers: initialValues.developers,
+    tags: initialValues.tags,
+  });
 
   useEffect(() => {
     setFormValues(initialValues);
-    setSelectedGenres(initialValues.genres);
-    setSelectedPlatforms(initialValues.parent_platforms);
-    setSelectedStores(initialValues.stores);
-    setSelectedPublishers(initialValues.publishers);
-    setSelectedDevelopers(initialValues.developers);
-    setSelectedTags(initialValues.tags);
+    setSelectedEntities({
+      genres: initialValues.genres,
+      parent_platforms: initialValues.parent_platforms,
+      stores: initialValues.stores,
+      publishers: initialValues.publishers,
+      developers: initialValues.developers,
+      tags: initialValues.tags,
+    });
   }, [initialValues]);
 
   const handleChange = (field: string, value: string) => {
@@ -100,12 +104,7 @@ const GameForm = ({
     }
     onSubmit({
       ...formValues,
-      genres: selectedGenres,
-      parent_platforms: selectedPlatforms,
-      stores: selectedStores,
-      publishers: selectedPublishers,
-      developers: selectedDevelopers,
-      tags: selectedTags,
+      ...selectedEntities,
     });
   };
 
@@ -162,43 +161,49 @@ const GameForm = ({
       key="tags-group"
       label="Tag"
       data={tagsData}
-      selectedEntities={selectedTags}
-      setSelectedEntities={setSelectedTags}
+      onChange={(updated) =>
+        setSelectedEntities((prev) => ({ ...prev, tags: updated }))
+      }
     />,
     <EntityGroup
       key="genres-group"
       label="Genre"
       data={genresData}
-      selectedEntities={selectedGenres}
-      setSelectedEntities={setSelectedGenres}
+      onChange={(updated) =>
+        setSelectedEntities((prev) => ({ ...prev, genres: updated }))
+      }
     />,
     <EntityGroup
       key="platforms-group"
       label="Platform"
       data={platformsData}
-      selectedEntities={selectedPlatforms}
-      setSelectedEntities={setSelectedPlatforms}
+      onChange={(updated) =>
+        setSelectedEntities((prev) => ({ ...prev, parent_platforms: updated }))
+      }
     />,
     <EntityGroup
       key="stores-group"
       label="Store"
       data={storesData}
-      selectedEntities={selectedStores}
-      setSelectedEntities={setSelectedStores}
+      onChange={(updated) =>
+        setSelectedEntities((prev) => ({ ...prev, stores: updated }))
+      }
     />,
     <EntityGroup
       key="publishers-group"
       label="Publisher"
       data={publishersData}
-      selectedEntities={selectedPublishers}
-      setSelectedEntities={setSelectedPublishers}
+      onChange={(updated) =>
+        setSelectedEntities((prev) => ({ ...prev, publishers: updated }))
+      }
     />,
     <EntityGroup
       key="developers-group"
       label="Developer"
       data={developersData}
-      selectedEntities={selectedDevelopers}
-      setSelectedEntities={setSelectedDevelopers}
+      onChange={(updated) =>
+        setSelectedEntities((prev) => ({ ...prev, developers: updated }))
+      }
     />,
   ];
 

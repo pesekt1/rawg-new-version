@@ -12,24 +12,33 @@ import {
   TagLabel,
   TagCloseButton,
 } from "@chakra-ui/react";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { useState } from "react";
 import { Entity } from "./Entity";
 import { handleAdd, handleRemove } from "../../utils/entityHandlers";
 
 interface EntityGroupProps {
   label: string;
   data: { results: Entity[] } | undefined;
-  selectedEntities: Entity[]; // Add selectedEntities prop
-  setSelectedEntities: Dispatch<SetStateAction<Entity[]>>; // Add setSelectedEntities prop
+  onChange: (selectedEntities: Entity[]) => void; // Notify parent of changes
 }
 
-const EntityGroup: React.FC<EntityGroupProps> = ({
-  label,
-  data,
-  selectedEntities,
-  setSelectedEntities,
-}) => {
+const EntityGroup: React.FC<EntityGroupProps> = ({ label, data, onChange }) => {
+  const [selectedEntities, setSelectedEntities] = useState<Entity[]>([]);
   const [entityToAdd, setEntityToAdd] = useState<number | "">("");
+
+  const handleAddEntity = () => {
+    handleAdd(entityToAdd, setEntityToAdd, selectedEntities, (updated) => {
+      setSelectedEntities(updated);
+      onChange(updated); // Notify parent of changes
+    }, data);
+  };
+
+  const handleRemoveEntity = (id: number) => {
+    handleRemove(id, selectedEntities, (updated) => {
+      setSelectedEntities(updated);
+      onChange(updated); // Notify parent of changes
+    });
+  };
 
   return (
     <Box mb={4}>
@@ -61,15 +70,7 @@ const EntityGroup: React.FC<EntityGroupProps> = ({
                 ))}
             </Select>
             <Button
-              onClick={() =>
-                handleAdd(
-                  entityToAdd,
-                  setEntityToAdd,
-                  selectedEntities,
-                  setSelectedEntities,
-                  data
-                )
-              }
+              onClick={handleAddEntity}
               isDisabled={!entityToAdd}
               colorScheme="teal"
               size="sm"
@@ -85,11 +86,7 @@ const EntityGroup: React.FC<EntityGroupProps> = ({
           {selectedEntities.map((entity) => (
             <Tag key={entity.id} m={1} colorScheme="teal">
               <TagLabel>{entity.name}</TagLabel>
-              <TagCloseButton
-                onClick={() =>
-                  handleRemove(entity.id, selectedEntities, setSelectedEntities)
-                }
-              />
+              <TagCloseButton onClick={() => handleRemoveEntity(entity.id)} />
             </Tag>
           ))}
         </HStack>
