@@ -15,7 +15,7 @@ const AddGameButton = () => {
       size="sm"
       onClick={() => navigate("/new-game")}
     >
-      Add New Game
+      New
     </Button>
   );
 };
