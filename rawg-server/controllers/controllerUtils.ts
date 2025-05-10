@@ -3,26 +3,27 @@
  */
 
 import { PaginatedResponse } from "../interfaces/PaginatedResponse";
-import { BaseService } from "../services/baseService";
+import { BaseDtoService } from "../services/baseDtoService";
 import { ObjectLiteral } from "typeorm";
+import { BaseService } from "../services/baseService";
 
 /**
  * Formats the response for a list endpoint using a service that returns DTOs.
  * Supports optional pagination.
- * @param service The service to fetch DTOs from.
+ * @param service The BaseDtoService to fetch DTOs from.
+ * @param baseUrl optional Base URL for constructing the "next" link.
  * @param pagination Pagination parameters (page and page_size).
- * @param baseUrl Base URL for constructing the "next" link.
  * @returns An object containing the count, next link, and the results array.
  */
 export async function formatListResponse<TDto>(
-  service: { getAllDtos: (page: number, page_size: number, baseUrl: string) => Promise<PaginatedResponse<TDto>> },
-  baseUrl: string, // Reintroduced baseUrl
+  service: BaseDtoService<any, TDto>, // Use BaseDtoService as the type
+  baseUrl?: string,
   pagination?: { page?: number; page_size?: number }
 ): Promise<PaginatedResponse<TDto>> {
   const page = pagination?.page || 1;
   const page_size = pagination?.page_size || 10;
 
-  const paginatedResponse = await service.getAllDtos(page, page_size, baseUrl); // Pass baseUrl
+  const paginatedResponse = await service.getAllDtos(page, page_size, baseUrl); // Use BaseDtoService's method
   return {
     count: paginatedResponse.count,
     next: paginatedResponse.next,
