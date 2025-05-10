@@ -459,12 +459,16 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"ListResponse_TagReadDto_": {
-				"description": "Standard response for list endpoints.",
+			"PaginatedResponse_TagReadDto_": {
+				"description": "Standard interface for paginated responses.",
 				"properties": {
 					"count": {
 						"type": "number",
 						"format": "double"
+					},
+					"next": {
+						"type": "string",
+						"nullable": true
 					},
 					"results": {
 						"items": {
@@ -475,6 +479,7 @@
 				},
 				"required": [
 					"count",
+					"next",
 					"results"
 				],
 				"type": "object",
@@ -531,12 +536,16 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"ListResponse_EntityReadDto_": {
-				"description": "Standard response for list endpoints.",
+			"PaginatedResponse_EntityReadDto_": {
+				"description": "Standard interface for paginated responses.",
 				"properties": {
 					"count": {
 						"type": "number",
 						"format": "double"
+					},
+					"next": {
+						"type": "string",
+						"nullable": true
 					},
 					"results": {
 						"items": {
@@ -547,6 +556,7 @@
 				},
 				"required": [
 					"count",
+					"next",
 					"results"
 				],
 				"type": "object",
@@ -581,12 +591,16 @@
 				"$ref": "#/components/schemas/Omit_EntityReadDto.image_background_",
 				"description": "DTO for ParentPlatform entity, without image_background."
 			},
-			"ListResponse_PlatformReadDto_": {
-				"description": "Standard response for list endpoints.",
+			"PaginatedResponse_PlatformReadDto_": {
+				"description": "Standard interface for paginated responses.",
 				"properties": {
 					"count": {
 						"type": "number",
 						"format": "double"
+					},
+					"next": {
+						"type": "string",
+						"nullable": true
 					},
 					"results": {
 						"items": {
@@ -597,6 +611,7 @@
 				},
 				"required": [
 					"count",
+					"next",
 					"results"
 				],
 				"type": "object",
@@ -1073,7 +1088,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ListResponse_TagReadDto_"
+									"$ref": "#/components/schemas/PaginatedResponse_TagReadDto_"
 								}
 							}
 						}
@@ -1265,11 +1280,11 @@
 				"operationId": "GetAll",
 				"responses": {
 					"200": {
-						"description": "ListResponse containing store DTOs.",
+						"description": "PaginatedResponse containing store DTOs.",
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ListResponse_EntityReadDto_"
+									"$ref": "#/components/schemas/PaginatedResponse_EntityReadDto_"
 								}
 							}
 						}
@@ -1482,11 +1497,11 @@
 				"operationId": "GetAll",
 				"responses": {
 					"200": {
-						"description": "ListResponse containing publisher DTOs.",
+						"description": "PaginatedResponse containing publisher DTOs.",
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ListResponse_EntityReadDto_"
+									"$ref": "#/components/schemas/PaginatedResponse_EntityReadDto_"
 								}
 							}
 						}
@@ -1703,7 +1718,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ListResponse_PlatformReadDto_"
+									"$ref": "#/components/schemas/PaginatedResponse_PlatformReadDto_"
 								}
 							}
 						}
@@ -2073,11 +2088,11 @@
 				"operationId": "GetAll",
 				"responses": {
 					"200": {
-						"description": "ListResponse containing genre DTOs.",
+						"description": "PaginatedResponse containing genre DTOs.",
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ListResponse_EntityReadDto_"
+									"$ref": "#/components/schemas/PaginatedResponse_EntityReadDto_"
 								}
 							}
 						}
@@ -2700,11 +2715,11 @@
 				"operationId": "GetAll",
 				"responses": {
 					"200": {
-						"description": "ListResponse containing developer DTOs.",
+						"description": "PaginatedResponse containing developer DTOs.",
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ListResponse_EntityReadDto_"
+									"$ref": "#/components/schemas/PaginatedResponse_EntityReadDto_"
 								}
 							}
 						}

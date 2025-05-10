@@ -188,10 +188,11 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "ListResponse_TagReadDto_": {
+    "PaginatedResponse_TagReadDto_": {
         "dataType": "refObject",
         "properties": {
             "count": {"dataType":"double","required":true},
+            "next": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
             "results": {"dataType":"array","array":{"dataType":"refObject","ref":"TagReadDto"},"required":true},
         },
         "additionalProperties": false,
@@ -219,10 +220,11 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "ListResponse_EntityReadDto_": {
+    "PaginatedResponse_EntityReadDto_": {
         "dataType": "refObject",
         "properties": {
             "count": {"dataType":"double","required":true},
+            "next": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
             "results": {"dataType":"array","array":{"dataType":"refObject","ref":"EntityReadDto"},"required":true},
         },
         "additionalProperties": false,
@@ -243,10 +245,11 @@ const models: TsoaRoute.Models = {
         "type": {"ref":"Omit_EntityReadDto.image_background_","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "ListResponse_PlatformReadDto_": {
+    "PaginatedResponse_PlatformReadDto_": {
         "dataType": "refObject",
         "properties": {
             "count": {"dataType":"double","required":true},
+            "next": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
             "results": {"dataType":"array","array":{"dataType":"refAlias","ref":"PlatformReadDto"},"required":true},
         },
         "additionalProperties": false,
