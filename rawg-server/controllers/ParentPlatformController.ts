@@ -18,11 +18,11 @@ import {
   Security,
 } from "tsoa";
 import { parentPlatformService } from "../services/parentPlatformService";
-import { ParentPlatform } from "../entities/ParentPlatform";
 import { formatListResponse, handleDelete } from "./controllerUtils";
-import { ListResponse, IBaseController } from "./IBaseController";
+import { IBaseController } from "./IBaseController";
 import { EntityUpdateDto } from "./dto/EntityUpdateDto";
 import { PlatformReadDto } from "./dto/PlatformReadDto";
+import { PaginatedResponse } from "../interfaces/PaginatedResponse";
 
 /**
  * Controller for managing ParentPlatform entities.
@@ -40,7 +40,7 @@ export class ParentPlatformController
    * @returns ListResponse containing parent platform DTOs.
    */
   @Get("/")
-  public async getAll(): Promise<ListResponse<PlatformReadDto>> {
+  public async getAll(): Promise<PaginatedResponse<PlatformReadDto>> {
     return formatListResponse(parentPlatformService);
   }
 

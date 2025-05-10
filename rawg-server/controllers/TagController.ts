@@ -18,10 +18,11 @@ import {
   Security,
 } from "tsoa";
 import { tagService } from "../services/tagService";
-import { ListResponse, IBaseController } from "./IBaseController";
+import { IBaseController } from "./IBaseController";
 import { formatListResponse, handleDelete } from "./controllerUtils";
 import { EntityUpdateDto } from "./dto/EntityUpdateDto";
 import { TagReadDto } from "./dto/TagReadDto";
+import { PaginatedResponse } from "../interfaces/PaginatedResponse";
 
 /**
  * Controller for managing Tag entities.
@@ -35,7 +36,7 @@ export class TagController extends Controller implements IBaseController<TagRead
    * @returns ListResponse containing tag DTOs.
    */
   @Get("/")
-  public async getAll(): Promise<ListResponse<TagReadDto>> {
+  public async getAll(): Promise<PaginatedResponse<TagReadDto>> {
     return formatListResponse(tagService);
   }
 
