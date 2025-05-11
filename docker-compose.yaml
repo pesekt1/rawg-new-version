@@ -29,13 +29,13 @@ services:
       - mysql
     environment:
       MYSQL_URL: mysql://root:rootpassword@mysql:3306/rawgDatabase
-      GAME_PAGES: 1 # Number of game pages to seed 
+      GAME_PAGES: ${GAME_PAGES:-1} # Use the GAME_PAGES environment variable or default to 1
     networks:
       - backend
     volumes:
       - ./seeder:/app
 
-# this service runs only the user seeding part of the seeder script
+  # this service runs only the user seeding part of the seeder script
   seeder-user:
     container_name: seeder-user
     build:
