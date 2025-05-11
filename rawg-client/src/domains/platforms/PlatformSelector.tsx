@@ -63,7 +63,7 @@ const PlatformSelector = () => {
   if (error) return null;
 
   return (
-    <HStack>
+    <HStack paddingBottom={2}>
       <Menu>
         <MenuButton as={Button} rightIcon={<BsChevronDown />}>
           {selectedPlatform ? selectedPlatform.name : "Platforms"}
