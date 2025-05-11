@@ -38,11 +38,13 @@ const HomePage = () => {
           </HStack>
           <Box
             paddingBottom={4}
-            display={{ base: "flex", lg: "block" }}
-            flexDirection="column"
-            alignItems="flex-start"
+            display="flex"
+            width="fit-content" 
+            flexDirection={{ base: "column", md: "row" }}
+            alignItems={{ base: "stretch", md: "flex-start" }}
+            gap={{ base: 0, md: 2 }}
           >
-            <PlatformSelector/>
+            <PlatformSelector />
             <SortSelector />
           </Box>
           <GameGrid />
