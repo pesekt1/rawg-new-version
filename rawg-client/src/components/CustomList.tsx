@@ -14,7 +14,7 @@ import { UseQueryResult } from "@tanstack/react-query";
 import { Response } from "../services/api-client";
 import AdminEditIcon from "./AdminEditIcon";
 import GenericEditModal from "./GenericEditModal";
-import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { FiChevronDown, FiChevronUp, FiX } from "react-icons/fi"; // Import FiX from React Icons
 import { useAuth } from "../domains/auth/useAuth";
 import { useNavigate } from "react-router-dom";
 import useGameQueryStore from "../state"; // Import the zustand store
@@ -61,7 +61,9 @@ const CustomList = <T extends Item>({
 
   // Safely access the results
   const items = data?.results || [];
-  const displayedItems = isExpanded ? items : items.slice(0, DEFAULT_VISIBLE_ITEMS);
+  const displayedItems = isExpanded
+    ? items
+    : items.slice(0, DEFAULT_VISIBLE_ITEMS);
 
   // Color variables for easier use
   const colorMain = colorMode === "light" ? "gray.800" : "white";
@@ -126,27 +128,46 @@ const CustomList = <T extends Item>({
         {role === "admin" && (
           <AdminEditIcon title="Add new" onClick={handleCreateClick} />
         )}
-        <Button
-          variant="link"
-          onClick={() => {
-            resetGameQuery(); // Reset the GameQuery state
-            navigate(`/entities/${title.toLowerCase()}`); // Navigate to EntityPage
-          }}
-          bg="transparent"
-          _hover={{
-            textDecoration: "none",
-            color: colorHover,
-          }}
-          fontSize="2xl"
-          fontWeight="bold"
-          color={colorMain}
-          _active={{
-            color: colorActive,
-            bg: bgActive,
-          }}
-        >
-          <Heading size="md">{title}</Heading>
-        </Button>
+        <HStack>
+          <Button
+            variant="link"
+            onClick={() => {
+              resetGameQuery(); // Reset the GameQuery state
+              navigate(`/entities/${title.toLowerCase()}`); // Navigate to EntityPage
+            }}
+            bg="transparent"
+            _hover={{
+              textDecoration: "none",
+              color: colorHover,
+            }}
+            fontSize="2xl"
+            fontWeight="bold"
+            color={colorMain}
+            _active={{
+              color: colorActive,
+              bg: bgActive,
+            }}
+          >
+            <Heading size="md">{title}</Heading>
+          </Button>
+          {selectedItemId !== undefined && (
+            <Button
+              onClick={() => onSelectedItemId(undefined)} // Unselect the selected item
+              bg="transparent"
+              _hover={{
+                bg: bgHover,
+              }}
+              _active={{
+                bg: bgActive,
+              }}
+              padding={0}
+              height="auto"
+              minWidth={0}
+            >
+              <FiX size={16} color={colorMain} />{" "}
+            </Button>
+          )}
+        </HStack>
       </HStack>
       <List>
         {displayedItems.map((item) => (
