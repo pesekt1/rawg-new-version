@@ -1,4 +1,4 @@
-import { FaBook } from "react-icons/fa";
+import { FaGamepad } from "react-icons/fa";
 import UserPanelAction from "./UserPanelAction";
 
 interface LibraryActionProps {
@@ -13,7 +13,7 @@ const LibraryAction = ({
   onKeyDown,
 }: LibraryActionProps) => (
   <UserPanelAction
-    icon={FaBook}
+    icon={FaGamepad}
     label="My Library"
     selected={selected}
     onClick={onClick}

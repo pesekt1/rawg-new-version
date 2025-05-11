@@ -1,4 +1,4 @@
-import { FaGift } from "react-icons/fa";
+import { FaStar } from "react-icons/fa";
 import UserPanelAction from "./UserPanelAction";
 
 interface WishlistActionProps {
@@ -13,7 +13,7 @@ const WishlistAction = ({
   onKeyDown,
 }: WishlistActionProps) => (
   <UserPanelAction
-    icon={FaGift}
+    icon={FaStar}
     label="My Wishlist"
     selected={selected}
     onClick={onClick}
