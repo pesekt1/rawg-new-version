@@ -31,7 +31,7 @@ const UserPanel = () => {
   const isLibrarySelected = libraryId === user.id;
 
   return (
-    <VStack align="start" spacing={6} mb={6}>
+    <VStack align="start" mb={2}>
       <HStack spacing={3} alignItems="center">
         <Text fontWeight="bold" fontSize="2xl">
           {user.username}

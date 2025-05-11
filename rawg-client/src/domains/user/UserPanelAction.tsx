@@ -26,7 +26,7 @@ const UserPanelAction = ({
 
   return (
     <Box
-      w="100%"
+      w="auto"
       cursor="pointer"
       onClick={onClick}
       onKeyDown={onKeyDown}
@@ -35,8 +35,6 @@ const UserPanelAction = ({
       display="flex"
       alignItems="center"
       gap={2}
-      px={2}
-      py={1}
       borderRadius="md"
       color={selected ? colorSelected : colorMain}
       bg={bgSelected}
