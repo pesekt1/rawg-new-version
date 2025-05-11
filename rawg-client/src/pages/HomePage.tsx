@@ -32,11 +32,11 @@ const HomePage = () => {
       </Show>
       <GridItem area={"main"}>
         <Box>
-          <HStack>
+          <HStack paddingBottom={2}>
             {role === "admin" && <AddGameButton />}
             <GameHeading />  
           </HStack>
-          <HStack py={2}>
+          <HStack paddingBottom={4}>
             <PlatformSelector />
             <SortSelector />
           </HStack>
