@@ -27,9 +27,11 @@ const GameAttributes = ({ game }: Props) => {
       border="1px solid"
       borderColor={cardBorder}
       p={5}
-      my={4}
     >
-      <SimpleGrid columns={2} as="dl" spacing={4}>
+      <SimpleGrid
+        columns={{ base: 1, sm: 2 }}
+        as="dl"
+      >
         <DefinitionItem term="Platforms">
           <AttributeBadge
             items={game.parent_platforms}
