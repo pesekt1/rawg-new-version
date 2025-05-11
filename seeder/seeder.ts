@@ -1,3 +1,6 @@
+import { config } from "dotenv"; // Import dotenv
+config(); // Load environment variables
+
 import { AppDataSource } from "./data-source";
 import { truncateAllTables } from "./utils/truncateAllTables";
 import { seedUser } from "./utils/seedUser";
@@ -8,6 +11,7 @@ import { seedGames } from "./utils/seedGames";
   await AppDataSource.initialize(); //initialize connection
 
   const mode = process.argv[2];
+  const gamePages = parseInt(process.env.GAME_PAGES || "1", 10); // Default to 1 if not set
 
   if (mode === "user") {
     await seedUser(AppDataSource);
@@ -17,7 +21,7 @@ import { seedGames } from "./utils/seedGames";
 
   await truncateAllTables(AppDataSource);
   await seedUser(AppDataSource);
-  await seedGames(AppDataSource);
+  await seedGames(AppDataSource, gamePages); // Pass gamePages to seedGames
 
   console.log("Seeding completed successfully.");
   //terminate the process
