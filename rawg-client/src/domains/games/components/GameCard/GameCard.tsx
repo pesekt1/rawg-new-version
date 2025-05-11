@@ -77,6 +77,7 @@ const GameCard = ({ game }: Props) => {
       position="relative"
       overflow="hidden"
       transition="transform 0.4s, filter 0.4s"
+      boxShadow="none"
       _hover={{
         transform: "scale(1.05)",
         filter: "brightness(1.2)",
