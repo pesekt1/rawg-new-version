@@ -36,7 +36,7 @@ const HomePage = () => {
             {role === "admin" && <AddGameButton />}
             <GameHeading />  
           </HStack>
-          <HStack>
+          <HStack py={2}>
             <PlatformSelector />
             <SortSelector />
           </HStack>

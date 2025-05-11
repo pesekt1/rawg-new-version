@@ -8,7 +8,7 @@ const Layout = () => {
     <Box mt={5}>
       <ScrollToTop />
       <NavBar />
-      <Box padding={5}>
+      <Box p={5}>
         <Outlet />
       </Box>
     </Box>

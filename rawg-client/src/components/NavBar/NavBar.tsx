@@ -86,7 +86,7 @@ const NavBar = () => {
   );
 
   return (
-    <HStack justifyContent="space-between" p={4}>
+    <HStack justifyContent="space-between"  px={4}>
       <Link to="/" onClick={resetGameQuery}>
         <Logo />
       </Link>

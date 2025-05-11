@@ -43,7 +43,7 @@ const GameHeading = () => {
   }
 
   return (
-    <Heading as="h1" fontSize="5xl" paddingY={5}>
+    <Heading as="h1" fontSize="5xl">
       {heading}
     </Heading>
   );
