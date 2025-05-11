@@ -145,7 +145,7 @@ const CustomList = <T extends Item>({
             bg: bgActive,
           }}
         >
-          <Heading size="lg">{title}</Heading>
+          <Heading size="md">{title}</Heading>
         </Button>
       </HStack>
       <List>
@@ -157,7 +157,7 @@ const CustomList = <T extends Item>({
               )}
               <Image
                 src={getCroppedImageUrl(item.image_background)}
-                boxSize="32px"
+                boxSize="26px"
                 borderRadius={8}
                 objectFit="cover"
               />
@@ -166,7 +166,7 @@ const CustomList = <T extends Item>({
                 whiteSpace="normal"
                 color={selectedItemId === item.id ? colorSelected : colorMain}
                 variant="link"
-                fontSize="lg"
+                fontSize="sm"
                 bg="transparent"
                 _hover={{
                   textDecoration: "none",
