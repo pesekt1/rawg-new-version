@@ -8,6 +8,8 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  VStack,
+  Box,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { FiUser, FiUserPlus } from "react-icons/fi";
@@ -86,18 +88,40 @@ const NavBar = () => {
   );
 
   return (
-    <HStack justifyContent="space-between"  px={4}>
-      <Link to="/" onClick={resetGameQuery}>
-        <Logo />
-      </Link>
-      <SearchInput />
-      <HStack>
-        <ColorModeSwitch />
-        {authContent}
+    <Box px={4} py={2}>
+      <VStack
+        spacing={4}
+        align="stretch"
+        display={{ base: "flex", md: "none" }} // Stack vertically on small screens
+      >
+        <HStack justifyContent="space-between">
+          <Link to="/" onClick={resetGameQuery}>
+            <Logo />
+          </Link>
+          <ColorModeSwitch />
+        </HStack>
+        <HStack justifyContent="space-between">
+          <SearchInput />
+          {authContent}
+        </HStack>
+      </VStack>
+      <HStack
+        justifyContent="space-between"
+        px={4}
+        display={{ base: "none", md: "flex" }} // Restore original layout for larger screens
+      >
+        <Link to="/" onClick={resetGameQuery}>
+          <Logo />
+        </Link>
+        <SearchInput />
+        <HStack>
+          <ColorModeSwitch />
+          {authContent}
+        </HStack>
       </HStack>
       <LoginModal isOpen={isLoginOpen} onClose={onLoginClose} />
       <RegisterModal isOpen={isRegisterOpen} onClose={onRegisterClose} />
-    </HStack>
+    </Box>
   );
 };
 
