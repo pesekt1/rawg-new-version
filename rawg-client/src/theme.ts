@@ -77,6 +77,27 @@ const theme = extendTheme({
       },
     }),
   },
+  textStyles: {
+    heading: {
+      fontSize: ["24px", "32px", "48px"], // Responsive font sizes for mobile, tablet, and desktop
+      fontWeight: "bold",
+    },
+    body: {
+      fontSize: ["14px", "16px", "18px"], // Adjust text size for different screen sizes
+    },
+  },
+  components: {
+    Text: {
+      baseStyle: {
+        textStyle: "body", // Default textStyle for Text component
+      },
+    },
+    Heading: {
+      baseStyle: {
+        textStyle: "heading", // Ensure Heading uses its own textStyle
+      },
+    },
+  },
 });
 
 export default theme;
