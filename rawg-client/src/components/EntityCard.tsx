@@ -50,6 +50,13 @@ const EntityCard = <T extends { id: number }>({
             isTruncated
             onClick={handleHeadingClick}
             cursor="pointer"
+            textDecoration="underline"
+            _hover={{
+              textDecoration: "none",
+              color: "teal.500",
+              transform: "scale(1.05)",
+              transition: "all 0.2s ease-in-out",
+            }}
           >
             {name}
           </Heading>
@@ -57,7 +64,7 @@ const EntityCard = <T extends { id: number }>({
       </Box>
       <VStack align="start" p={4} spacing={3}>
         {renderDetails && renderDetails(entity)}
-        <Button colorScheme="teal" size="sm" alignSelf="stretch">
+        <Button colorScheme="teal" size="sm" alignSelf={"center"}>
           Follow
         </Button>
       </VStack>
