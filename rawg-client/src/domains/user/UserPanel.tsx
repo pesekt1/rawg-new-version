@@ -48,7 +48,6 @@ const UserPanel = () => {
         onClick={handleLibraryClick}
         onKeyDown={handleLibraryKeyDown}
       />
-      {/* Add more user-related items here in the future */}
     </VStack>
   );
 };

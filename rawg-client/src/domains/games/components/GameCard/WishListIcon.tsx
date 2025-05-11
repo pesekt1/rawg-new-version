@@ -6,7 +6,7 @@ import wishlistService from "../../../wishlist/wishlistService";
 interface WishListIconProps {
   gameId: number;
   initialActive: boolean;
-  onChange?: (active: boolean) => void; // <-- add this line
+  onChange?: (active: boolean) => void;
 }
 
 const WishListIcon = ({
@@ -27,7 +27,7 @@ const WishListIcon = ({
         <FaStar color={colorMode === "light" ? "#ECC94B" : "#F6E05E"} />
       }
       inactiveIcon={<FaRegStar />}
-      onChange={onChange} // <-- pass onChange
+      onChange={onChange}
     />
   );
 };

@@ -9,7 +9,7 @@ const useScreenshots = (gameId: number, enabled: boolean = true) => {
     queryKey: ["screenshots", gameId],
     queryFn: apiClient.getAll,
     staleTime: ms("1d"),
-    enabled, // <-- Only fetch if enabled
+    enabled,
   });
 };
 

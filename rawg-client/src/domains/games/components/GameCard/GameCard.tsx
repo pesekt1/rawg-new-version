@@ -86,20 +86,17 @@ const GameCard = ({ game }: Props) => {
     >
       <Box position="relative">
         <Image src={displayImage} w="100%" h="220px" objectFit="cover" />
-        {screenshots.length > 0 &&
-          isHovered && ( // <-- show only on hover
-            <ScreenshotPanel
-              screenshots={screenshots}
-              currentIndex={currentIndex}
-              setCurrentIndex={setCurrentIndex}
-            />
-          )}
+        {screenshots.length > 0 && isHovered && (
+          <ScreenshotPanel
+            screenshots={screenshots}
+            currentIndex={currentIndex}
+            setCurrentIndex={setCurrentIndex}
+          />
+        )}
       </Box>
       <CardBody p={4}>
         <HStack justifyContent="space-between">
-          <PlatformIconsList
-            platforms={game.parent_platforms}
-          />
+          <PlatformIconsList platforms={game.parent_platforms} />
           <CriticScore score={game.metacritic} />
         </HStack>
         <Heading fontSize="2xl">

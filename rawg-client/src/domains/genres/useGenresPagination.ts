@@ -9,7 +9,7 @@ const useGenresPagination = () =>
       genreService.getAll({
         params: {
           page: pageParam,
-          page_size, // Pass the page_size parameter to the API
+          page_size,
         },
       }),
   });

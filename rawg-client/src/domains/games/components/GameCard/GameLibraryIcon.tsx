@@ -27,7 +27,7 @@ const GameLibraryIcon = ({
         <FaGamepad color={colorMode === "light" ? "#38A169" : "#68D391"} />
       }
       inactiveIcon={<FaGamepad />}
-      onChange={onChange} // <-- pass onChange
+      onChange={onChange}
     />
   );
 };

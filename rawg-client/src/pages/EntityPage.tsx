@@ -18,33 +18,33 @@ type EntityConfig<T> = {
   hook: () => UseInfiniteQueryResult<Response<T>, Error>;
   title: string;
   renderDetails: (entity: T) => React.ReactNode;
-  setter: (id: number | undefined) => void; // Add setter to config
+  setter: (id: number | undefined) => void;
 };
 
 const entityConfig: Record<string, EntityConfig<any>> = {
   genres: {
-    hook: useGenresPagination, // Use pagination hook
+    hook: useGenresPagination,
     title: "Genres",
     renderDetails: (entity: Genre) => <p>Slug: {entity.slug}</p>,
-    setter: useGameQueryStore.getState().setGenreId, // Map to zustand setter
+    setter: useGameQueryStore.getState().setGenreId,
   },
   developers: {
-    hook: useDevelopersPagination, // Use pagination hook
+    hook: useDevelopersPagination,
     title: "Developers",
     renderDetails: (entity: Developer) => <p>ID: {entity.id}</p>,
-    setter: useGameQueryStore.getState().setDeveloperId, // Map to zustand setter
+    setter: useGameQueryStore.getState().setDeveloperId,
   },
   stores: {
-    hook: useStoresPagination, // Use pagination hook
+    hook: useStoresPagination,
     title: "Stores",
     renderDetails: (entity: Store) => <p>Slug: {entity.slug}</p>,
-    setter: useGameQueryStore.getState().setStoreId, // Map to zustand setter
+    setter: useGameQueryStore.getState().setStoreId,
   },
   publishers: {
-    hook: usePublishersPagination, // Use pagination hook
+    hook: usePublishersPagination,
     title: "Publishers",
     renderDetails: (entity: Publisher) => <p>ID: {entity.id}</p>,
-    setter: useGameQueryStore.getState().setPublisherId, // Map to zustand setter
+    setter: useGameQueryStore.getState().setPublisherId,
   },
 };
 
@@ -96,7 +96,7 @@ const EntityPage = () => {
             name={entity.name}
             image={entity.image_background}
             renderDetails={renderDetails}
-            setter={setter} // Pass the appropriate setter
+            setter={setter}
           />
         )}
       />

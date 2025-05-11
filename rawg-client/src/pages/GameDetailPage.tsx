@@ -37,7 +37,8 @@ const GameDetailPage = () => {
     error: deleteError,
   } = useDeleteGame({
     onSuccess: async () => {
-      await queryClient.removeQueries({ queryKey: ["games", gameId] }); // Remove detail query
+      // Clear cached game detail query after deletion
+      await queryClient.removeQueries({ queryKey: ["games", gameId] });
       navigate("/", { replace: true });
       queryClient.invalidateQueries({ queryKey: ["games"] });
     },
@@ -87,9 +88,7 @@ const GameDetailPage = () => {
           </HStack>
         )}
         <Heading>{game.name}</Heading>
-        <PlatformIconsList
-          platforms={game.parent_platforms}
-        />
+        <PlatformIconsList platforms={game.parent_platforms} />
         <StyledText>
           <ExpandableText>{game.description_raw}</ExpandableText>
         </StyledText>

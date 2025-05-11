@@ -6,7 +6,7 @@ interface EntityCardProps<T> {
   image: string;
   name: string;
   renderDetails?: (entity: T) => React.ReactNode;
-  setter: (id: number | undefined) => void; // Setter function from zustand
+  setter: (id: number | undefined) => void;
 }
 
 const EntityCard = <T extends { id: number }>({

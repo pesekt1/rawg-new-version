@@ -13,10 +13,10 @@ const AddGameButton = () => {
     <Button
       colorScheme="teal"
       variant="solid"
-      size="md" // Slightly larger size
+      size="md"
       leftIcon={<FaPlus />}
-      borderRadius="full" // Fully rounded button
-      _hover={{ bg: "teal.600", transform: "scale(1.05)" }} // Hover effect
+      borderRadius="full"
+      _hover={{ bg: "teal.600", transform: "scale(1.05)" }}
       onClick={() => navigate("/new-game")}
     >
       New

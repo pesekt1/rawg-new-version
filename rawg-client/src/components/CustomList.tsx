@@ -14,10 +14,10 @@ import { UseQueryResult } from "@tanstack/react-query";
 import { Response } from "../services/api-client";
 import AdminEditIcon from "./AdminEditIcon";
 import GenericEditModal from "./GenericEditModal";
-import { FiChevronDown, FiChevronUp, FiX } from "react-icons/fi"; // Import FiX from React Icons
+import { FiChevronDown, FiChevronUp, FiX } from "react-icons/fi";
 import { useAuth } from "../domains/auth/useAuth";
 import { useNavigate } from "react-router-dom";
-import useGameQueryStore from "../state"; // Import the zustand store
+import useGameQueryStore from "../state";
 
 interface Props<T> {
   title: string;
@@ -49,7 +49,7 @@ const CustomList = <T extends Item>({
   useDeleteHook,
 }: Props<T>) => {
   const navigate = useNavigate();
-  const resetGameQuery = useGameQueryStore((state) => state.reset); // Access the reset function
+  const resetGameQuery = useGameQueryStore((state) => state.reset);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [editEntity, setEditEntity] = useState<T | null>(null);
@@ -83,19 +83,15 @@ const CustomList = <T extends Item>({
     { name: "image_background", label: "Image Background" },
   ];
 
-  // Example: save handler (replace with your update logic)
   const handleSave = async (updated: Partial<T>) => {
     if (editEntity && editEntity.id && updateMutation) {
-      // Update existing entity (PUT)
       await updateMutation.mutateAsync({ id: editEntity.id, data: updated });
     } else if (createMutation) {
-      // Create new entity (POST)
       await createMutation.mutateAsync(updated);
     }
     setIsEditOpen(false);
   };
 
-  // Delete handler for modal
   const handleDelete = async () => {
     if (deleteMutation && editEntity) {
       // Accept both id and slug, prefer id if present, fallback to slug
@@ -132,8 +128,8 @@ const CustomList = <T extends Item>({
           <Button
             variant="link"
             onClick={() => {
-              resetGameQuery(); // Reset the GameQuery state
-              navigate(`/entities/${title.toLowerCase()}`); // Navigate to EntityPage
+              resetGameQuery();
+              navigate(`/entities/${title.toLowerCase()}`);
             }}
             bg="transparent"
             _hover={{
@@ -152,7 +148,7 @@ const CustomList = <T extends Item>({
           </Button>
           {selectedItemId !== undefined && (
             <Button
-              onClick={() => onSelectedItemId(undefined)} // Unselect the selected item
+              onClick={() => onSelectedItemId(undefined)}
               bg="transparent"
               _hover={{
                 bg: bgHover,
