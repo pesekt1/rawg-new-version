@@ -22,9 +22,6 @@ const HomePage = () => {
       }}
       templateColumns={{ base: "1fr", lg: "200px 1fr" }}
     >
-      <Show below="lg">
-        <SidebarModal />
-      </Show>
       <Show above="lg">
         <GridItem area={"aside"} paddingRight={2}>
           <UserPanel />
