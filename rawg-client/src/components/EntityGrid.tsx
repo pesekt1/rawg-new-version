@@ -2,6 +2,17 @@ import { SimpleGrid, Spinner, Text } from "@chakra-ui/react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import EntityCard from "./EntityCard";
 
+/**
+ * Props for the `EntityGrid` component.
+ *
+ * @template T - The type of the entities being displayed.
+ * @property data - The list of entities to display.
+ * @property isLoading - Whether the data is currently being loaded.
+ * @property error - An error object if an error occurred during data fetching.
+ * @property fetchNextPage - Function to fetch the next page of data.
+ * @property hasNextPage - Whether there are more pages of data to load.
+ * @property renderCard - A function to render a card for each entity.
+ */
 interface EntityGridProps<T extends { id: number }> {
   data: T[];
   isLoading: boolean;
@@ -11,6 +22,13 @@ interface EntityGridProps<T extends { id: number }> {
   renderCard: (entity: T) => React.ReactNode;
 }
 
+/**
+ * A grid component for displaying a list of entities with infinite scrolling support.
+ *
+ * @template T - The type of the entities being displayed.
+ * @param props - The props for the component.
+ * @returns A grid of entity cards with loading, error, and empty state handling.
+ */
 const EntityGrid = <T extends { id: number }>({
   data,
   isLoading,

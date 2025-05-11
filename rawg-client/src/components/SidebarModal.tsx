@@ -14,6 +14,11 @@ import StoreList from "../domains/stores/StoreList";
 import PublisherList from "../domains/publishers/PublisherList";
 import DeveloperList from "../domains/developers/DeveloperList";
 
+/**
+ * A sidebar modal component that displays user information and lists of genres, stores, publishers, and developers.
+ *
+ * @returns A button to open the modal and the modal content itself.
+ */
 const SidebarModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 

@@ -1,6 +1,12 @@
 import { Box, useColorModeValue } from "@chakra-ui/react";
 import { ReactNode } from "react";
 
+/**
+ * A styled text component that adjusts its appearance based on the current color mode.
+ *
+ * @param children - The content to be displayed inside the styled box.
+ * @returns A styled `Box` component with dynamic background, color, and other styles.
+ */
 const StyledText = ({ children }: { children: ReactNode }) => {
   const bg = useColorModeValue("lightGray.100", "gray.800");
   const color = useColorModeValue("gray.800", "gray.100");

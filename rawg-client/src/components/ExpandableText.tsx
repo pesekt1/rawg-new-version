@@ -1,10 +1,21 @@
 import { Button, Text, useColorModeValue } from "@chakra-ui/react";
 import { useState } from "react";
 
+/**
+ * Props for the `ExpandableText` component.
+ *
+ * @property children - The text content to display, which can be expanded or collapsed.
+ */
 interface Props {
   children: string;
 }
 
+/**
+ * A component that displays a text snippet with the ability to expand or collapse it.
+ *
+ * @param props - The props for the component.
+ * @returns A `Text` component with a "Show more" or "Show less" button if the text exceeds the character limit.
+ */
 const ExpandableText = ({ children }: Props) => {
   const [expanded, setExpanded] = useState(false);
   const LIMIT = 300;

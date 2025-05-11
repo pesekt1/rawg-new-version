@@ -14,6 +14,14 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
+/**
+ * Represents a field in the form.
+ *
+ * @property name - The name of the field.
+ * @property label - The label to display for the field.
+ * @property type - The input type (e.g., "text", "number"). Defaults to "text".
+ * @property required - Whether the field is required. Defaults to `false`.
+ */
 interface Field {
   name: string;
   label: string;
@@ -21,6 +29,18 @@ interface Field {
   required?: boolean;
 }
 
+/**
+ * Props for the `GenericEditModal` component.
+ *
+ * @template T - The type of the entity being edited.
+ * @property isOpen - Whether the modal is open.
+ * @property onClose - Function to close the modal.
+ * @property entity - The entity being edited.
+ * @property fields - The fields to display in the form.
+ * @property onSave - Function to handle saving the updated entity.
+ * @property title - The title of the modal. Defaults to "Edit".
+ * @property onDelete - Optional function to handle deleting the entity.
+ */
 interface GenericEditModalProps<T> {
   isOpen: boolean;
   onClose: () => void;
@@ -31,6 +51,13 @@ interface GenericEditModalProps<T> {
   onDelete?: () => Promise<void> | void;
 }
 
+/**
+ * A generic modal component for editing or deleting an entity.
+ *
+ * @template T - The type of the entity being edited.
+ * @param props - The props for the component.
+ * @returns A modal with a form for editing the entity and optional delete functionality.
+ */
 function GenericEditModal<T>({
   isOpen,
   onClose,

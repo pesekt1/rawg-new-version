@@ -1,6 +1,16 @@
 import { Box, Heading, Image, VStack, Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Props for the `EntityCard` component.
+ *
+ * @template T - The type of the entity being displayed.
+ * @property entity - The entity to display in the card.
+ * @property image - The URL of the image to display for the entity.
+ * @property name - The name of the entity.
+ * @property renderDetails - Optional function to render additional details about the entity.
+ * @property setter - A function to set the selected entity's ID.
+ */
 interface EntityCardProps<T> {
   entity: T;
   image: string;
@@ -9,6 +19,13 @@ interface EntityCardProps<T> {
   setter: (id: number | undefined) => void;
 }
 
+/**
+ * A card component for displaying an entity with an image, name, and optional details.
+ *
+ * @template T - The type of the entity being displayed.
+ * @param props - The props for the component.
+ * @returns A styled card with an image, name, and optional details.
+ */
 const EntityCard = <T extends { id: number }>({
   entity,
   image,

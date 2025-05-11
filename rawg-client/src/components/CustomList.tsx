@@ -19,6 +19,31 @@ import { useAuth } from "../domains/auth/useAuth";
 import { useNavigate } from "react-router-dom";
 import useGameQueryStore from "../state";
 
+/**
+ * Represents an item in the list.
+ *
+ * @property id - The unique identifier for the item.
+ * @property image_background - The URL of the item's background image.
+ * @property name - The name of the item.
+ */
+interface Item {
+  id: number;
+  image_background: string;
+  name: string;
+}
+
+/**
+ * Props for the `CustomList` component.
+ *
+ * @template T - The type of the items in the list.
+ * @property title - The title of the list.
+ * @property onSelectedItemId - Callback to handle selection of an item by its ID.
+ * @property selectedItemId - The currently selected item's ID.
+ * @property useDataHook - A hook to fetch the list data.
+ * @property useCreateHook - A hook to handle creating a new item.
+ * @property useUpdateHook - Optional hook to handle updating an existing item.
+ * @property useDeleteHook - Optional hook to handle deleting an item.
+ */
 interface Props<T> {
   title: string;
   onSelectedItemId: (id?: number) => void;
@@ -31,14 +56,15 @@ interface Props<T> {
   useDeleteHook?: (options?: any) => { mutateAsync: (id: any) => Promise<any> };
 }
 
-interface Item {
-  id: number;
-  image_background: string;
-  name: string;
-}
-
 const DEFAULT_VISIBLE_ITEMS = 3;
 
+/**
+ * A customizable list component with support for CRUD operations and expandable items.
+ *
+ * @template T - The type of the items in the list.
+ * @param props - The props for the component.
+ * @returns A styled list with optional admin controls for creating, editing, and deleting items.
+ */
 const CustomList = <T extends Item>({
   onSelectedItemId,
   selectedItemId,
