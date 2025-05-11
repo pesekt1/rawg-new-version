@@ -36,10 +36,15 @@ const HomePage = () => {
             {role === "admin" && <AddGameButton />}
             <GameHeading />  
           </HStack>
-          <HStack paddingBottom={4}>
-            <PlatformSelector />
+          <Box
+            paddingBottom={4}
+            display={{ base: "flex", lg: "block" }}
+            flexDirection="column"
+            alignItems="flex-start"
+          >
+            <PlatformSelector/>
             <SortSelector />
-          </HStack>
+          </Box>
           <GameGrid />
         </Box>
       </GridItem>
