@@ -14,7 +14,6 @@ const StyledText = ({ children }: { children: ReactNode }) => {
       boxShadow={useColorModeValue("md", "dark-lg")}
       border="1px solid"
       borderColor={useColorModeValue("gray.200", "gray.700")}
-      fontSize="lg"
       fontStyle="italic"
       letterSpacing="wide"
     >
