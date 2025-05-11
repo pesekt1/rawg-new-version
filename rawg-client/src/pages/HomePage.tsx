@@ -10,6 +10,7 @@ import GameGrid from "../domains/games/components/GameGrid";
 import { useAuth } from "../domains/auth/useAuth";
 import UserPanel from "../domains/user/UserPanel";
 import DeveloperList from "../domains/developers/DeveloperList";
+import SidebarModal from "../components/SidebarModal";
 
 const HomePage = () => {
   const { role } = useAuth();
@@ -21,6 +22,9 @@ const HomePage = () => {
       }}
       templateColumns={{ base: "1fr", lg: "200px 1fr" }}
     >
+      <Show below="lg">
+        <SidebarModal />
+      </Show>
       <Show above="lg">
         <GridItem area={"aside"} paddingRight={2}>
           <UserPanel />
@@ -34,17 +38,21 @@ const HomePage = () => {
         <Box>
           <HStack paddingBottom={2}>
             {role === "admin" && <AddGameButton />}
-            <GameHeading />  
+            <GameHeading />
           </HStack>
           <Box
             paddingBottom={4}
             display="flex"
-            width="fit-content" 
+            width="fit-content"
             flexDirection={{ base: "column", md: "row" }}
-            alignItems={{ base: "stretch", md: "flex-start" }}
-            gap={{ base: 0, md: 2 }}
+            gap={2}
           >
-            <PlatformSelector />
+            <Box display="flex" flexDirection="row" gap={2}>
+              <Show below="lg">
+                <SidebarModal />
+              </Show>
+              <PlatformSelector />
+            </Box>
             <SortSelector />
           </Box>
           <GameGrid />
