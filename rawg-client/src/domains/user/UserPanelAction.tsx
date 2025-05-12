@@ -22,22 +22,18 @@ const UserPanelAction = ({
   const colorActive = colorMode === "light" ? "accent.700" : "yellow.300";
   const bgHover = colorMode === "light" ? "lightGray.300" : "accent.500";
   const bgActive = colorMode === "light" ? "lightGray.300" : "accent.500";
-  const bgSelected = "transparent";
 
   return (
     <Box
-      w="auto"
+      padding={2}
       cursor="pointer"
       onClick={onClick}
       onKeyDown={onKeyDown}
       role="button"
-      tabIndex={0}
       display="flex"
-      alignItems="center"
       gap={2}
-      borderRadius="md"
+      borderRadius="lg"
       color={selected ? colorSelected : colorMain}
-      bg={bgSelected}
       _hover={{
         bg: bgHover,
         color: colorHover,
@@ -46,18 +42,8 @@ const UserPanelAction = ({
         bg: bgActive,
         color: colorActive,
       }}
-      transition="background 0.2s, color 0.2s"
     >
-      <Box
-        bg="gray.700"
-        color="white"
-        borderRadius="md"
-        p={2}
-        display="flex"
-        alignItems="center"
-      >
-        <Icon as={icon} boxSize={6} />
-      </Box>
+      <Icon as={icon} boxSize={6} />
       <Text fontWeight="bold" fontSize="md">
         {label}
       </Text>
