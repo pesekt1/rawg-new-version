@@ -6,7 +6,7 @@ interface Props {
 }
 
 const GameCardContainer = ({ children }: Props) => {
-  const styles = useStyleConfig("Card"); // Use Card styles from the theme
+  const styles = useStyleConfig("CardContainer"); // Use Card styles from the theme
 
   return (
     <Box
