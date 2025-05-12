@@ -68,7 +68,7 @@ jobs:
         # let azure install the dependencies
         run: |
           cd rawg-server
-          zip -r ../release.zip . -x "node_modules/*" -x "dist/*"
+          zip -r ../release.zip . -x "node_modules/*"
 
       - name: Upload artifact for deployment job # upload the zip file
         uses: actions/upload-artifact@v4
