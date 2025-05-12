@@ -1,4 +1,4 @@
-import { Box, useColorModeValue } from "@chakra-ui/react";
+import { Box, useStyleConfig } from "@chakra-ui/react";
 import { ReactNode } from "react";
 
 interface Props {
@@ -6,10 +6,15 @@ interface Props {
 }
 
 const GameCardContainer = ({ children }: Props) => {
-  const border = useColorModeValue("2px solid #a0a0a0", "none");
+  const styles = useStyleConfig("Card"); // Use Card styles from the theme
 
   return (
-    <Box overflow="hidden" borderRadius={10} border={border}>
+    <Box
+      __css={{
+        ...styles, // Merge theme-based styles
+        overflow: "hidden",
+      }}
+    >
       {children}
     </Box>
   );
