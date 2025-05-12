@@ -23,7 +23,7 @@ const HomePage = () => {
       templateColumns={{ base: "1fr", lg: "200px 1fr" }}
     >
       <Show above="lg">
-        <GridItem area={"aside"} paddingRight={2}>
+        <GridItem area={"aside"} marginRight={2}>
           <UserPanel />
           <GenreList />
           <StoreList />
@@ -38,7 +38,7 @@ const HomePage = () => {
             <GameHeading />
           </HStack>
           <Box
-            paddingBottom={4}
+            marginBottom={2}
             display="flex"
             width="fit-content"
             flexDirection={{ base: "column", md: "row" }}
