@@ -9,7 +9,7 @@ export class Developer {
   @Column({ type: "varchar" })
   name: string;
 
-  @Column({ type: "varchar" })
+  @Column({ type: "varchar", unique: true }) // Add unique constraint
   slug: string;
 
   @Column({ type: "varchar", nullable: true })
