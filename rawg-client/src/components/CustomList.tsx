@@ -147,7 +147,7 @@ const CustomList = <T extends Item>({
   const iconBoxSize = "26px";
 
   return (
-    <Box marginBottom="4">
+    <Box pl={2} marginBottom="4">
       <HStack>
         {role === "admin" && (
           <AdminEditIcon title="Add new" onClick={handleCreateClick} />
@@ -207,6 +207,7 @@ const CustomList = <T extends Item>({
                 objectFit="cover"
               />
               <Button
+                p={1}
                 textAlign="left"
                 whiteSpace="normal"
                 color={selectedItemId === item.id ? colorSelected : colorMain}
