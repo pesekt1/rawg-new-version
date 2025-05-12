@@ -110,25 +110,20 @@ const theme = extendTheme({
         },
       }),
       variants: {
-        ghost: (props: any) => ({
+        // Shared button styles for custom buttons
+        customButton: (props: any) => ({
           bg: "transparent",
+          color: props.colorMode === "light" ? "gray.800" : "white",
           _hover: {
             bg: props.colorMode === "light" ? "lightGray.300" : "accent.500",
+            color: props.colorMode === "light" ? "gray.900" : "white",
           },
           _active: {
-            bg: props.colorMode === "light" ? "lightGray.300" : "accent.500",
+            bg: props.colorMode === "light" ? "lightGray.400" : "accent.600",
+            color: props.colorMode === "light" ? "gray.900" : "white",
           },
-        }),
-        expandCollapse: (props: any) => ({
-          bg: "transparent",
-          padding: 0,
-          height: "auto",
-          minWidth: 0,
-          _hover: {
-            bg: props.colorMode === "light" ? "lightGray.300" : "accent.500",
-          },
-          _active: {
-            bg: props.colorMode === "light" ? "lightGray.300" : "accent.500",
+          _focus: {
+            boxShadow: "0 0 0 3px rgba(255, 107, 107, 0.6)", // Focus ring
           },
         }),
       },
