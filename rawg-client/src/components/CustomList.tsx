@@ -144,6 +144,8 @@ const CustomList = <T extends Item>({
     setIsEditOpen(true);
   };
 
+  const iconBoxSize = "26px";
+
   return (
     <Box marginBottom="4">
       <HStack>
@@ -200,7 +202,7 @@ const CustomList = <T extends Item>({
               )}
               <Image
                 src={getCroppedImageUrl(item.image_background)}
-                boxSize="26px"
+                boxSize={iconBoxSize}
                 borderRadius={8}
                 objectFit="cover"
               />
@@ -225,33 +227,25 @@ const CustomList = <T extends Item>({
         ))}
         {items.length > DEFAULT_VISIBLE_ITEMS && (
           <ListItem paddingY="5px">
-            <HStack>
+            <Button
+              variant="ghost"
+              onClick={() => setIsExpanded(!isExpanded)}
+              _hover={{
+                bg: bgHover,
+              }}
+              _active={{
+                bg: bgActive,
+              }}
+              padding={0} // Remove extra padding
+              height="auto"
+              minWidth={0} // Prevent spreading
+            >
               {isExpanded ? (
-                <FiChevronUp size={24} />
+                <FiChevronUp size={iconBoxSize} color={colorMain} />
               ) : (
-                <FiChevronDown size={24} />
+                <FiChevronDown size={iconBoxSize} color={colorMain} />
               )}
-              <Button
-                textAlign="left"
-                whiteSpace="normal"
-                color={colorMain}
-                variant="link"
-                fontSize="lg"
-                bg="transparent"
-                _hover={{
-                  textDecoration: "none",
-                  color: colorHover,
-                  bg: bgHover,
-                }}
-                onClick={() => setIsExpanded(!isExpanded)}
-                padding={0}
-                height="auto"
-                minWidth={0}
-                margin={0}
-              >
-                {isExpanded ? "Hide" : "Show all"}
-              </Button>
-            </HStack>
+            </Button>
           </ListItem>
         )}
       </List>
