@@ -1,5 +1,13 @@
 import { useState, useMemo } from "react";
-import { Card, CardBody, Heading, HStack, Image, Box } from "@chakra-ui/react";
+import {
+  Card,
+  CardBody,
+  Heading,
+  HStack,
+  Image,
+  Box,
+  useStyleConfig,
+} from "@chakra-ui/react";
 import CriticScore from "./CriticScore";
 import getCroppedImageUrl from "../../../../utils/image-url";
 import { Link } from "react-router-dom";
@@ -22,6 +30,7 @@ interface Props {
 const GameCard = ({ game }: Props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const cardStyles = useStyleConfig("Card"); // Fetch Card styles from the theme
 
   // Only fetch screenshots when hovered
   const { data: screenshotsData } = useScreenshots(game.id, isHovered);
@@ -74,14 +83,7 @@ const GameCard = ({ game }: Props) => {
 
   return (
     <Card
-      position="relative"
-      overflow="hidden"
-      transition="transform 0.4s, filter 0.4s"
-      height="100%" // Ensure GameCard fills the container
-      _hover={{
-        transform: "scale(1.05)",
-        filter: "brightness(1.2)",
-      }}
+      __css={cardStyles}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
     >

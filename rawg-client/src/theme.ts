@@ -84,7 +84,7 @@ const theme = extendTheme({
         textStyle: "heading", // Ensure Heading uses its own textStyle
       },
     },
-    Card: {
+    CardContainer: {
       baseStyle: (props: any) => ({
         bg: props.colorMode === "light" ? "white" : "gray.800",
         borderRadius: "12px",
@@ -94,7 +94,7 @@ const theme = extendTheme({
             : "0px 4px 10px rgba(0, 0, 0, 0.8)",
         _hover: {
           boxShadow: getHoverBoxShadow(props.colorMode), // Reuse hover shadow
-          transition: "box-shadow 0.3s ease",
+          transition: "box-shadow 0.3s ease-in-out",
         },
       }),
     },
@@ -107,6 +107,25 @@ const theme = extendTheme({
           bg: props.colorMode === "light" ? "lightGray.300" : "accent.500",
           color: props.colorMode === "light" ? "gray.900" : "white",
           boxShadow: getHoverBoxShadow(props.colorMode), // Reuse hover shadow
+        },
+      }),
+    },
+    Card: {
+      baseStyle: (props: any) => ({
+        position: "relative",
+        overflow: "hidden",
+        height: "100%",
+        bg: props.colorMode === "light" ? "white" : "gray.800",
+        borderRadius: "12px",
+        boxShadow:
+          props.colorMode === "light"
+            ? "0px 4px 10px rgba(0, 0, 0, 0.1)"
+            : "0px 4px 10px rgba(0, 0, 0, 0.8)",
+        transition: "transform 0.4s, filter 0.4s",
+        _hover: {
+          transform: "scale(1.05)",
+          filter: "brightness(1.2)",
+          boxShadow: getHoverBoxShadow(props.colorMode),
         },
       }),
     },
