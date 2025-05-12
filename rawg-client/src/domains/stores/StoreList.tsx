@@ -1,4 +1,4 @@
-import CustomList from "../../components/CustomList";
+import CustomList from "../../components/CustomList/CustomList";
 import useStores from "./useStores";
 import useCreateStore from "./useCreateStore";
 import useDeleteStore from "./useDeleteStore";

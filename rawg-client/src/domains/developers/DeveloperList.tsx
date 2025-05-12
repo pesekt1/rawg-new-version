@@ -1,4 +1,4 @@
-import CustomList from "../../components/CustomList";
+import CustomList from "../../components/CustomList/CustomList";
 
 import useGameQueryStore from "../../state";
 import useCreateDeveloper from "./useCreateDeveloper";

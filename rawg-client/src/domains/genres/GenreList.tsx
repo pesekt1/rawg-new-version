@@ -1,4 +1,4 @@
-import CustomList from "../../components/CustomList";
+import CustomList from "../../components/CustomList/CustomList";
 import useGenres from "./useGenres";
 import useCreateGenre from "./useCreateGenre";
 import useDeleteGenre from "./useDeleteGenre";
