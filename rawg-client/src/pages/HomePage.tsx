@@ -33,24 +33,26 @@ const HomePage = () => {
       </Show>
       <GridItem area={"main"}>
         <Box>
-          <HStack paddingBottom={2}>
-            {role === "admin" && <AddGameButton />}
-            <GameHeading />
-          </HStack>
-          <Box
-            marginBottom={2}
-            display="flex"
-            width="fit-content"
-            flexDirection={{ base: "column", md: "row" }}
-            gap={2}
-          >
-            <Box display="flex" flexDirection="row" gap={2}>
-              <Show below="lg">
-                <SidebarModal />
-              </Show>
-              <PlatformSelector />
+          <Box marginLeft={2}>
+            <HStack paddingBottom={2}>
+              {role === "admin" && <AddGameButton />}
+              <GameHeading />
+            </HStack>
+            <Box
+              marginBottom={2}
+              display="flex"
+              width="fit-content"
+              flexDirection={{ base: "column", md: "row" }}
+              gap={2}
+            >
+              <Box display="flex" flexDirection="row" gap={2}>
+                <Show below="lg">
+                  <SidebarModal />
+                </Show>
+                <PlatformSelector />
+              </Box>
+              <SortSelector />
             </Box>
-            <SortSelector />
           </Box>
           <GameGrid />
         </Box>
