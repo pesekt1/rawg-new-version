@@ -1,17 +1,17 @@
-import { Box, useColorMode } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { HStack, Image, List, ListItem, Spinner } from "@chakra-ui/react";
 import getCroppedImageUrl from "../../utils/image-url";
 import { useState } from "react";
 import { UseQueryResult } from "@tanstack/react-query";
 import { Response } from "../../services/api-client";
 import AdminEditIcon from "../AdminEditIcon";
-import ListItemButton from "./ListItemButton";
 import GenericEditModal from "../GenericEditModal";
 import { useAuth } from "../../domains/auth/useAuth";
 import useGameQueryStore from "../../state";
 import ExpandCollapseButton from "../ExpandCollapseButton";
 import ClearSelectionButton from "./ClearSelectionButton";
 import TitleButton from "./TitleButton";
+import ListItemButton from "./ListItemButton";
 
 /**
  * Represents an item in the list.
@@ -74,7 +74,6 @@ const CustomList = <T extends Item>({
   const [editEntity, setEditEntity] = useState<T | null>(null);
   const [modalTitle, setModalTitle] = useState<string>("");
   const { data, isLoading, error } = useDataHook();
-  const { colorMode } = useColorMode();
   const deleteMutation = useDeleteHook ? useDeleteHook() : undefined;
   const { role } = useAuth();
 
@@ -83,14 +82,6 @@ const CustomList = <T extends Item>({
   const displayedItems = isExpanded
     ? items
     : items.slice(0, DEFAULT_VISIBLE_ITEMS);
-
-  // Color variables for easier use
-  const colorMain = colorMode === "light" ? "gray.800" : "white";
-  const colorSelected = colorMode === "light" ? "accent.700" : "yellow.300";
-  const colorHover = colorMode === "light" ? "accent.600" : "white";
-  const colorActive = colorMode === "light" ? "accent.700" : "yellow.300";
-  const bgHover = colorMode === "light" ? "lightGray.300" : "accent.500";
-  const bgActive = colorMode === "light" ? "lightGray.300" : "accent.500";
 
   const createMutation = useCreateHook ? useCreateHook() : undefined;
   const updateMutation = useUpdateHook ? useUpdateHook() : undefined;
@@ -169,7 +160,6 @@ const CustomList = <T extends Item>({
                 text={item.name}
                 isSelected={selectedItemId === item.id}
                 onClick={() => onSelectedItemId(item.id)}
-                colorSelected={colorSelected}
               />
             </HStack>
           </ListItem>
