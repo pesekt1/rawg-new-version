@@ -1,24 +1,17 @@
 import { Box, useColorMode } from "@chakra-ui/react";
-import {
-  Button,
-  Heading,
-  HStack,
-  Image,
-  List,
-  ListItem,
-  Spinner,
-} from "@chakra-ui/react";
+import { HStack, Image, List, ListItem, Spinner } from "@chakra-ui/react";
 import getCroppedImageUrl from "../../utils/image-url";
 import { useState } from "react";
 import { UseQueryResult } from "@tanstack/react-query";
 import { Response } from "../../services/api-client";
 import AdminEditIcon from "../AdminEditIcon";
+import ListItemButton from "./ListItemButton";
 import GenericEditModal from "../GenericEditModal";
-import { FiX } from "react-icons/fi";
 import { useAuth } from "../../domains/auth/useAuth";
-import { useNavigate } from "react-router-dom";
 import useGameQueryStore from "../../state";
 import ExpandCollapseButton from "../ExpandCollapseButton";
+import ClearSelectionButton from "./ClearSelectionButton";
+import TitleButton from "./TitleButton";
 
 /**
  * Represents an item in the list.
@@ -75,7 +68,6 @@ const CustomList = <T extends Item>({
   useUpdateHook,
   useDeleteHook,
 }: Props<T>) => {
-  const navigate = useNavigate();
   const resetGameQuery = useGameQueryStore((state) => state.reset);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -148,55 +140,21 @@ const CustomList = <T extends Item>({
   const iconBoxSize = "26px";
 
   return (
-    <Box pl={2} marginBottom="4">
+    <Box pl={2} marginBottom="2">
       <HStack>
         {role === "admin" && (
           <AdminEditIcon title="Add new" onClick={handleCreateClick} />
         )}
         <HStack>
-          <Button
-            variant="link"
-            onClick={() => {
-              resetGameQuery();
-              navigate(`/entities/${title.toLowerCase()}`);
-            }}
-            bg="transparent"
-            _hover={{
-              textDecoration: "none",
-              color: colorHover,
-            }}
-            fontSize="2xl"
-            fontWeight="bold"
-            color={colorMain}
-            _active={{
-              color: colorActive,
-              bg: bgActive,
-            }}
-          >
-            <Heading size="md">{title}</Heading>
-          </Button>
+          <TitleButton title={title} onReset={resetGameQuery} />
           {selectedItemId !== undefined && (
-            <Button
-              onClick={() => onSelectedItemId(undefined)}
-              bg="transparent"
-              _hover={{
-                bg: bgHover,
-              }}
-              _active={{
-                bg: bgActive,
-              }}
-              padding={0}
-              height="auto"
-              minWidth={0}
-            >
-              <FiX size={16} color={colorMain} />{" "}
-            </Button>
+            <ClearSelectionButton onClear={() => onSelectedItemId(undefined)} />
           )}
         </HStack>
       </HStack>
       <List>
         {displayedItems.map((item) => (
-          <ListItem key={item.id} paddingY="5px">
+          <ListItem key={item.id}>
             <HStack>
               {role === "admin" && (
                 <AdminEditIcon onClick={() => handleEditClick(item)} />
@@ -207,23 +165,12 @@ const CustomList = <T extends Item>({
                 borderRadius={8}
                 objectFit="cover"
               />
-              <Button
-                p={1}
-                textAlign="left"
-                whiteSpace="normal"
-                color={selectedItemId === item.id ? colorSelected : colorMain}
-                variant="link"
-                fontSize="sm"
-                bg="transparent"
-                _hover={{
-                  textDecoration: "none",
-                  color: colorHover,
-                  bg: bgHover,
-                }}
+              <ListItemButton
+                text={item.name}
+                isSelected={selectedItemId === item.id}
                 onClick={() => onSelectedItemId(item.id)}
-              >
-                {item.name}
-              </Button>
+                colorSelected={colorSelected}
+              />
             </HStack>
           </ListItem>
         ))}
