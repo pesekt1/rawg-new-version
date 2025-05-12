@@ -15,13 +15,10 @@ down:
 build:
 	$(BAKE)
 
-# Start the seeder service (default mode) after building with bake
+# Start the seeder service with an optional SEED_MODE
+# Example usage: make up-seeder SEED_MODE=user
 up-seeder:
-	$(BAKE) && $(UP)
-
-# Start the seeder service in user-specific mode with parallel builds
-up-seeder-user:
-	$(BAKE) && SEED_MODE=user $(UP)
+	$(BAKE) && SEED_MODE=$(SEED_MODE) $(UP)
 
 # Build and Start the seeder service with a specific number of game pages to seed, using parallel builds
 # --force-recreate ensures the seeder is recreated even if it already exists
