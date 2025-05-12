@@ -88,7 +88,7 @@ const NavBar = () => {
   );
 
   return (
-    <Box px={4} py={2}>
+    <Box py={2}>
       <VStack
         spacing={4}
         align="stretch"
