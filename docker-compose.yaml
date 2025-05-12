@@ -30,27 +30,13 @@ services:
     environment:
       MYSQL_URL: mysql://root:rootpassword@mysql:3306/rawgDatabase
       GAME_PAGES: ${GAME_PAGES:-1} # Use the GAME_PAGES environment variable or default to 1
+      SEED_MODE: ${SEED_MODE:-default} # Use SEED_MODE to control behavior (e.g., 'default' or 'user')
     networks:
       - backend
     volumes:
       - ./seeder:/app
-
-  # this service runs only the user seeding part of the seeder script
-  seeder-user:
-    container_name: seeder-user
-    build:
-      context: ./seeder
-      dockerfile: Dockerfile
-    depends_on:
-      - mysql
-    environment:
-      MYSQL_URL: mysql://root:rootpassword@mysql:3306/rawgDatabase
-    networks:
-      - backend
-    volumes:
-      - ./seeder:/app
-    command: ["npm", "start", "--", "user"]
-    profiles: ["seeder-user"]
+    command: >
+      sh -c "if [ $$SEED_MODE = 'user' ]; then npm start -- user; else npm start; fi"
 
   rawg-server:
     container_name: rawg-server
