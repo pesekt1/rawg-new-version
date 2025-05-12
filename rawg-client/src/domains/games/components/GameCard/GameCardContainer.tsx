@@ -12,7 +12,7 @@ const GameCardContainer = ({ children }: Props) => {
     <Box
       __css={{
         ...styles, // Merge theme-based styles
-        overflow: "hidden",
+        //overflow: "hidden",
       }}
     >
       {children}
