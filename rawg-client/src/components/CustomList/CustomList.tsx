@@ -8,16 +8,17 @@ import {
   ListItem,
   Spinner,
 } from "@chakra-ui/react";
-import getCroppedImageUrl from "../utils/image-url";
+import getCroppedImageUrl from "../../utils/image-url";
 import { useState } from "react";
 import { UseQueryResult } from "@tanstack/react-query";
-import { Response } from "../services/api-client";
-import AdminEditIcon from "./AdminEditIcon";
-import GenericEditModal from "./GenericEditModal";
-import { FiChevronDown, FiChevronUp, FiX } from "react-icons/fi";
-import { useAuth } from "../domains/auth/useAuth";
+import { Response } from "../../services/api-client";
+import AdminEditIcon from "../AdminEditIcon";
+import GenericEditModal from "../GenericEditModal";
+import { FiX } from "react-icons/fi";
+import { useAuth } from "../../domains/auth/useAuth";
 import { useNavigate } from "react-router-dom";
-import useGameQueryStore from "../state";
+import useGameQueryStore from "../../state";
+import ExpandCollapseButton from "../ExpandCollapseButton";
 
 /**
  * Represents an item in the list.
@@ -228,25 +229,11 @@ const CustomList = <T extends Item>({
         ))}
         {items.length > DEFAULT_VISIBLE_ITEMS && (
           <ListItem paddingY="5px">
-            <Button
-              variant="ghost"
-              onClick={() => setIsExpanded(!isExpanded)}
-              _hover={{
-                bg: bgHover,
-              }}
-              _active={{
-                bg: bgActive,
-              }}
-              padding={0} // Remove extra padding
-              height="auto"
-              minWidth={0} // Prevent spreading
-            >
-              {isExpanded ? (
-                <FiChevronUp size={iconBoxSize} color={colorMain} />
-              ) : (
-                <FiChevronDown size={iconBoxSize} color={colorMain} />
-              )}
-            </Button>
+            <ExpandCollapseButton
+              isExpanded={isExpanded}
+              onToggle={() => setIsExpanded(!isExpanded)}
+              iconSize={iconBoxSize}
+            />
           </ListItem>
         )}
       </List>
