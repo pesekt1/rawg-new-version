@@ -1,5 +1,11 @@
 import { extendTheme, type ThemeConfig } from "@chakra-ui/react";
 
+// Utility function for hover boxShadow
+const getHoverBoxShadow = (colorMode: string) =>
+  colorMode === "light"
+    ? "0px 8px 20px rgba(255, 107, 107, 0.3)" // shadow for light mode
+    : "0px 4px 10px rgba(255, 107, 107, 0.5)"; // Dark mode shadow
+
 const config: ThemeConfig = {
   initialColorMode: "dark",
 };
@@ -56,25 +62,6 @@ const theme = extendTheme({
           color: props.colorMode === "light" ? "accent.700" : "accent.600",
         },
       },
-      button: {
-        bg: props.colorMode === "light" ? "lightGray.200" : "gray.700",
-        color: props.colorMode === "light" ? "gray.800" : "gray.50",
-        _hover: {
-          bg: props.colorMode === "light" ? "lightGray.300" : "accent.500",
-          color: props.colorMode === "light" ? "gray.900" : "white",
-          boxShadow:
-            props.colorMode === "light"
-              ? "0px 4px 10px rgba(0, 0, 0, 0.1)"
-              : "0px 4px 10px rgba(255, 107, 107, 0.5)",
-        },
-      },
-      card: {
-        bg: props.colorMode === "light" ? "white" : "gray.800",
-        boxShadow:
-          props.colorMode === "light"
-            ? "0px 4px 10px rgba(0, 0, 0, 0.1)"
-            : "0px 4px 10px rgba(0, 0, 0, 0.8)",
-      },
     }),
   },
   textStyles: {
@@ -96,6 +83,32 @@ const theme = extendTheme({
       baseStyle: {
         textStyle: "heading", // Ensure Heading uses its own textStyle
       },
+    },
+    Card: {
+      baseStyle: (props: any) => ({
+        bg: props.colorMode === "light" ? "white" : "gray.800",
+        borderRadius: "12px",
+        boxShadow:
+          props.colorMode === "light"
+            ? "0px 4px 10px rgba(0, 0, 0, 0.1)"
+            : "0px 4px 10px rgba(0, 0, 0, 0.8)",
+        _hover: {
+          boxShadow: getHoverBoxShadow(props.colorMode), // Reuse hover shadow
+          transition: "box-shadow 0.3s ease",
+        },
+      }),
+    },
+    Button: {
+      // Use PascalCase for the Button component
+      baseStyle: (props: any) => ({
+        bg: props.colorMode === "light" ? "lightGray.200" : "gray.700",
+        color: props.colorMode === "light" ? "gray.800" : "gray.50",
+        _hover: {
+          bg: props.colorMode === "light" ? "lightGray.300" : "accent.500",
+          color: props.colorMode === "light" ? "gray.900" : "white",
+          boxShadow: getHoverBoxShadow(props.colorMode), // Reuse hover shadow
+        },
+      }),
     },
   },
 });
