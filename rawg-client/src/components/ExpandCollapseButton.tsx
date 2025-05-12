@@ -17,7 +17,7 @@ const ExpandCollapseButton = ({
     padding={0}
     height="auto"
     minWidth={0}
-    _focus={"none"}
+    _focus={{ boxShadow: "none" }} // Updated to a valid SystemStyleObject
     onClick={onToggle}
   >
     {isExpanded ? (

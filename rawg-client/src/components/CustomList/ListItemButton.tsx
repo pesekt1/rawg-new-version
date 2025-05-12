@@ -17,7 +17,7 @@ const ListItemButton = ({ text, isSelected, onClick }: ListItemButtonProps) => (
     textAlign="left"
     whiteSpace="normal"
     fontSize="sm"
-    _focus="none"
+    _focus={{ boxShadow: "none" }} // Updated to a valid SystemStyleObject
     onClick={onClick}
   >
     {text}
