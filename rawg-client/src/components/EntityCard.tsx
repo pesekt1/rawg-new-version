@@ -1,4 +1,11 @@
-import { Box, Heading, Image, VStack, Button } from "@chakra-ui/react";
+import {
+  Box,
+  Heading,
+  Image,
+  VStack,
+  Button,
+  useStyleConfig,
+} from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 /**
@@ -34,22 +41,14 @@ const EntityCard = <T extends { id: number }>({
   setter,
 }: EntityCardProps<T>) => {
   const navigate = useNavigate();
-
+  const cardStyles = useStyleConfig("Card");
   const handleHeadingClick = () => {
     setter(entity.id); // Dynamically call the provided setter
     navigate("/");
   };
 
   return (
-    <Box
-      borderWidth="1px"
-      borderRadius="lg"
-      overflow="hidden"
-      boxShadow="md"
-      bg="white"
-      _dark={{ bg: "gray.800" }}
-      maxW="sm"
-    >
+    <Box __css={cardStyles} overflow="hidden">
       <Box position="relative">
         <Image src={image} alt={name} objectFit="cover" w="100%" h="150px" />
         <Box
