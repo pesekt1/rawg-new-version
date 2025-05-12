@@ -49,8 +49,8 @@ const EntityGrid = <T extends { id: number }>({
     >
       <SimpleGrid
         columns={{ base: 1, md: 2, lg: 3, xl: 4, "2xl": 5 }}
-        spacing={8}
-        paddingY={10}
+        spacing={4}
+        margin={10}
       >
         {isLoading
           ? [...Array(10).keys()].map((skeleton) => (
