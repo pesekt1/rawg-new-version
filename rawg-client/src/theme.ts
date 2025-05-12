@@ -106,9 +106,32 @@ const theme = extendTheme({
         _hover: {
           bg: props.colorMode === "light" ? "lightGray.300" : "accent.500",
           color: props.colorMode === "light" ? "gray.900" : "white",
-          boxShadow: getHoverBoxShadow(props.colorMode), // Reuse hover shadow
+          boxShadow: getHoverBoxShadow(props.colorMode),
         },
       }),
+      variants: {
+        ghost: (props: any) => ({
+          bg: "transparent",
+          _hover: {
+            bg: props.colorMode === "light" ? "lightGray.300" : "accent.500",
+          },
+          _active: {
+            bg: props.colorMode === "light" ? "lightGray.300" : "accent.500",
+          },
+        }),
+        expandCollapse: (props: any) => ({
+          bg: "transparent",
+          padding: 0,
+          height: "auto",
+          minWidth: 0,
+          _hover: {
+            bg: props.colorMode === "light" ? "lightGray.300" : "accent.500",
+          },
+          _active: {
+            bg: props.colorMode === "light" ? "lightGray.300" : "accent.500",
+          },
+        }),
+      },
     },
     Card: {
       baseStyle: (props: any) => ({
