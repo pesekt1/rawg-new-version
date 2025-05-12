@@ -1,18 +1,15 @@
-import { Button } from "@chakra-ui/react";
+import { Button, useColorMode } from "@chakra-ui/react";
+const { colorMode } = useColorMode();
 
 interface ListItemButtonProps {
   text: string;
   isSelected: boolean;
   onClick: () => void;
-  colorSelected: string;
 }
 
-const ListItemButton = ({
-  text,
-  isSelected,
-  onClick,
-  colorSelected,
-}: ListItemButtonProps) => (
+const colorSelected = colorMode === "light" ? "accent.700" : "yellow.300";
+
+const ListItemButton = ({ text, isSelected, onClick }: ListItemButtonProps) => (
   <Button
     variant="customButton"
     color={isSelected ? colorSelected : undefined}
