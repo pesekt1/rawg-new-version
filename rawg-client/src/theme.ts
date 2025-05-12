@@ -115,7 +115,7 @@ const theme = extendTheme({
         position: "relative",
         overflow: "hidden",
         height: "100%",
-        bg: props.colorMode === "light" ? "white" : "gray.800",
+        bg: props.colorMode === "light" ? "white" : "gray.700",
         borderRadius: "12px",
         boxShadow:
           props.colorMode === "light"
