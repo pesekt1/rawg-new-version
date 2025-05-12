@@ -12,7 +12,14 @@ const ExpandCollapseButton = ({
   onToggle,
   iconSize = 20,
 }: ExpandCollapseButtonProps) => (
-  <Button variant="expandCollapse" onClick={onToggle}>
+  <Button
+    variant="customButton"
+    padding={0}
+    height="auto"
+    minWidth={0}
+    _focus={"none"}
+    onClick={onToggle}
+  >
     {isExpanded ? (
       <FiChevronUp size={iconSize} />
     ) : (
