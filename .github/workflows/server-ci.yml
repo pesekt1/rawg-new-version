@@ -5,9 +5,11 @@ on:
   push:
     paths:
       - "rawg-server/**"
+      - ".github/workflows/server-ci.yml"
   pull_request:
     paths:
       - "rawg-server/**"
+      - ".github/workflows/server-ci.yml"
   workflow_dispatch: # allows you to run the workflow manually
 
 jobs:
