@@ -24,7 +24,7 @@ jobs:
         image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: testdb
+          MYSQL_DATABASE: testdb # Automatically create testdb
           MYSQL_USER: testuser
           MYSQL_PASSWORD: testpass
         ports:
@@ -44,7 +44,6 @@ jobs:
           node-version: "22.x"
 
       - name: Wait for MySQL to be ready # Ensure MySQL is up before running tests
-        # This loop checks if MySQL is accepting connections before proceeding
         run: |
           for i in {1..30}; do
             if mysqladmin ping -h"127.0.0.1" -u"testuser" -p"testpass" --silent; then
