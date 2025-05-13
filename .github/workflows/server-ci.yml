@@ -43,6 +43,9 @@ jobs:
             echo "Waiting for MySQL..."
             sleep 2
           done
+      - name: Create required databases
+        run: |
+          mysql -h 127.0.0.1 -P 3307 -u root -prootpassword -e "CREATE DATABASE IF NOT EXISTS testdb;"
       - name: Install dependencies
         run: npm install
       - name: Run tests
