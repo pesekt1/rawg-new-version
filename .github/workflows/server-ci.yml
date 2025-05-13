@@ -45,9 +45,5 @@ jobs:
         run: npm install
       - name: Run tests
         env:
-          DB_HOST: 127.0.0.1
-          DB_PORT: 3307
-          DB_USER: root
-          DB_PASSWORD: rootpassword
-          DB_NAME: testdb
+          DATABASE_URL: mysql://root:rootpassword@127.0.0.1:3307/testdb # Updated to use a single connection string
         run: npm test
