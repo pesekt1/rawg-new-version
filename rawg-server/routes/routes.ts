@@ -320,7 +320,7 @@ export function RegisterRoutes(app: Router) {
         const argsWishlistController_get: Record<string, TsoaRoute.ParameterSchema> = {
                 userId: {"in":"path","name":"userId","required":true,"dataType":"double"},
         };
-        app.get('/wishlist/:userId',
+        app.get('/users/:userId/wishlist/games',
             ...(fetchMiddlewares<RequestHandler>(WishlistController)),
             ...(fetchMiddlewares<RequestHandler>(WishlistController.prototype.get)),
 
@@ -351,7 +351,7 @@ export function RegisterRoutes(app: Router) {
                 userId: {"in":"path","name":"userId","required":true,"dataType":"double"},
                 gameId: {"in":"path","name":"gameId","required":true,"dataType":"double"},
         };
-        app.post('/wishlist/:userId/:gameId',
+        app.post('/users/:userId/wishlist/games/:gameId',
             ...(fetchMiddlewares<RequestHandler>(WishlistController)),
             ...(fetchMiddlewares<RequestHandler>(WishlistController.prototype.add)),
 
@@ -382,7 +382,7 @@ export function RegisterRoutes(app: Router) {
                 userId: {"in":"path","name":"userId","required":true,"dataType":"double"},
                 gameId: {"in":"path","name":"gameId","required":true,"dataType":"double"},
         };
-        app.delete('/wishlist/:userId/:gameId',
+        app.delete('/users/:userId/wishlist/games/:gameId',
             ...(fetchMiddlewares<RequestHandler>(WishlistController)),
             ...(fetchMiddlewares<RequestHandler>(WishlistController.prototype.remove)),
 
@@ -1028,7 +1028,7 @@ export function RegisterRoutes(app: Router) {
         const argsLibraryController_get: Record<string, TsoaRoute.ParameterSchema> = {
                 userId: {"in":"path","name":"userId","required":true,"dataType":"double"},
         };
-        app.get('/library/:userId',
+        app.get('/users/:userId/library/games',
             ...(fetchMiddlewares<RequestHandler>(LibraryController)),
             ...(fetchMiddlewares<RequestHandler>(LibraryController.prototype.get)),
 
@@ -1059,7 +1059,7 @@ export function RegisterRoutes(app: Router) {
                 userId: {"in":"path","name":"userId","required":true,"dataType":"double"},
                 gameId: {"in":"path","name":"gameId","required":true,"dataType":"double"},
         };
-        app.post('/library/:userId/:gameId',
+        app.post('/users/:userId/library/games/:gameId',
             ...(fetchMiddlewares<RequestHandler>(LibraryController)),
             ...(fetchMiddlewares<RequestHandler>(LibraryController.prototype.add)),
 
@@ -1090,7 +1090,7 @@ export function RegisterRoutes(app: Router) {
                 userId: {"in":"path","name":"userId","required":true,"dataType":"double"},
                 gameId: {"in":"path","name":"gameId","required":true,"dataType":"double"},
         };
-        app.delete('/library/:userId/:gameId',
+        app.delete('/users/:userId/library/games/:gameId',
             ...(fetchMiddlewares<RequestHandler>(LibraryController)),
             ...(fetchMiddlewares<RequestHandler>(LibraryController.prototype.remove)),
 

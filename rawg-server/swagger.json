@@ -959,7 +959,7 @@
 		"contact": {}
 	},
 	"paths": {
-		"/wishlist/{userId}": {
+		"/users/{userId}/wishlist/games": {
 			"get": {
 				"operationId": "Get",
 				"responses": {
@@ -993,7 +993,7 @@
 				]
 			}
 		},
-		"/wishlist/{userId}/{gameId}": {
+		"/users/{userId}/wishlist/games/{gameId}": {
 			"post": {
 				"operationId": "Add",
 				"responses": {
@@ -1905,7 +1905,7 @@
 				]
 			}
 		},
-		"/library/{userId}": {
+		"/users/{userId}/library/games": {
 			"get": {
 				"operationId": "Get",
 				"responses": {
@@ -1939,7 +1939,7 @@
 				]
 			}
 		},
-		"/library/{userId}/{gameId}": {
+		"/users/{userId}/library/games/{gameId}": {
 			"post": {
 				"operationId": "Add",
 				"responses": {
