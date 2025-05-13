@@ -10,7 +10,7 @@ import { IUserGameRelationController } from "./IUserGameRelationController";
 /**
  * Controller for managing user wishlists.
  */
-@Route("wishlist")
+@Route("users/{userId}/wishlist/games")
 @Tags("Wishlist")
 export class WishlistController
   extends Controller
@@ -21,7 +21,7 @@ export class WishlistController
    * @param userId User ID.
    * @returns List of games in the user's wishlist.
    */
-  @Get("{userId}")
+  @Get()
   public async get(@Path() userId: number) {
     return wishlistService.get(userId);
   }
@@ -32,7 +32,7 @@ export class WishlistController
    * @param gameId Game ID.
    * @returns Result of the add operation.
    */
-  @Post("{userId}/{gameId}")
+  @Post("{gameId}")
   public async add(@Path() userId: number, @Path() gameId: number) {
     return wishlistService.add(userId, gameId);
   }
@@ -43,7 +43,7 @@ export class WishlistController
    * @param gameId Game ID.
    * @returns Result of the remove operation.
    */
-  @Delete("{userId}/{gameId}")
+  @Delete("{gameId}")
   public async remove(@Path() userId: number, @Path() gameId: number) {
     return wishlistService.remove(userId, gameId);
   }

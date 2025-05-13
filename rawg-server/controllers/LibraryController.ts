@@ -10,7 +10,7 @@ import { IUserGameRelationController } from "./IUserGameRelationController";
 /**
  * Controller for managing user game libraries.
  */
-@Route("library")
+@Route("users/{userId}/library/games")
 @Tags("Library")
 export class LibraryController
   extends Controller
@@ -21,7 +21,7 @@ export class LibraryController
    * @param userId User ID.
    * @returns List of games in the user's library.
    */
-  @Get("{userId}")
+  @Get()
   public async get(@Path() userId: number) {
     return gameLibraryService.get(userId);
   }
@@ -32,7 +32,7 @@ export class LibraryController
    * @param gameId Game ID.
    * @returns Result of the add operation.
    */
-  @Post("{userId}/{gameId}")
+  @Post("{gameId}")
   public async add(@Path() userId: number, @Path() gameId: number) {
     return gameLibraryService.add(userId, gameId);
   }
@@ -43,7 +43,7 @@ export class LibraryController
    * @param gameId Game ID.
    * @returns Result of the remove operation.
    */
-  @Delete("{userId}/{gameId}")
+  @Delete("{gameId}")
   public async remove(@Path() userId: number, @Path() gameId: number) {
     return gameLibraryService.remove(userId, gameId);
   }
