@@ -6,6 +6,6 @@ import { Game } from "../games/Game";
  * Provides methods to get, add, and remove games from a user's library
  * using the UserGameRelationClient with the "/library" endpoint.
  */
-const libraryService = new UserGameRelationClient<Game>("/library");
+const libraryService = new UserGameRelationClient<Game>("/library/games");
 
 export default libraryService;

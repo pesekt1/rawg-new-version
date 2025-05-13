@@ -6,6 +6,6 @@ import { Game } from "../games/Game";
  * Provides methods to get, add, and remove games from a user's wishlist
  * using the UserGameRelationClient with the "/wishlist" endpoint.
  */
-const wishlistService = new UserGameRelationClient<Game>("/wishlist");
+const wishlistService = new UserGameRelationClient<Game>("/wishlist/games");
 
 export default wishlistService;
