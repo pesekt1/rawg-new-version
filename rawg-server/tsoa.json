@@ -6,7 +6,18 @@
     "outputDirectory": ".",
     "specVersion": 3,
     "basePath": "/",
-    "securityDefinitions": {},
+    "securityDefinitions": {
+      "admin": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      },
+      "jwt": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }
+    },
     "specFileBaseName": "swagger"
   },
   "routes": {
