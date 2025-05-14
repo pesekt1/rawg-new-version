@@ -8,7 +8,7 @@ interface CreateReviewPayload {
 
 const apiClient = new ApiClient<CreateReviewPayload>("/reviews");
 
-const useReview = () => {
+const useCreteReview = () => {
   const { mutateAsync: createReview, isLoading } = useMutation(
     async (payload: CreateReviewPayload) => {
       return apiClient.post(payload);
@@ -18,4 +18,4 @@ const useReview = () => {
   return { createReview, isLoading };
 };
 
-export default useReview;
+export default useCreteReview;
