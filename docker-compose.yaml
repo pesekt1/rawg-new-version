@@ -48,6 +48,7 @@ services:
         condition: service_healthy # wait for mysql to be healthy - which means it is ready to accept connections
     environment:
       DATABASE_URL: mysql://root:rootpassword@mysql:3306/rawgDatabase
+      JWT_SECRET: dev_secret
     ports:
       - "5000:5000"
     networks:
