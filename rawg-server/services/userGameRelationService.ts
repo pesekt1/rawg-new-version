@@ -14,14 +14,19 @@ export class UserGameRelationService {
   /**
    * Get the user's wishlist or library.
    * @param userId User ID
-   * @returns Promise resolving to the user with the relation loaded.
+   * @returns Promise resolving to the specific relation (wishlist or library).
    */
   async get(userId: number) {
     const userRepo = AppDataSource.getRepository(User);
-    return userRepo.findOne({
+    const user = await userRepo.findOne({
       where: { id: userId },
-      relations: [this.collection],
+      relations: [this.collection], // Fetch only the specified relation
     });
+
+    if (!user) throw new Error("User not found");
+
+    // @ts-ignore
+    return user[this.collection]; // Return only the requested collection
   }
 
   /**
