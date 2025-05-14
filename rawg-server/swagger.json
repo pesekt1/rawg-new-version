@@ -138,6 +138,12 @@
 							"$ref": "#/components/schemas/Screenshot"
 						},
 						"type": "array"
+					},
+					"reviews": {
+						"items": {
+							"$ref": "#/components/schemas/Review"
+						},
+						"type": "array"
 					}
 				},
 				"required": [
@@ -153,7 +159,8 @@
 					"wishlistedBy",
 					"inLibraryOf",
 					"trailers",
-					"screenshots"
+					"screenshots",
+					"reviews"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -380,6 +387,12 @@
 							"$ref": "#/components/schemas/Game"
 						},
 						"type": "array"
+					},
+					"reviews": {
+						"items": {
+							"$ref": "#/components/schemas/Review"
+						},
+						"type": "array"
 					}
 				},
 				"required": [
@@ -388,7 +401,38 @@
 					"passwordHash",
 					"role",
 					"wishlist",
-					"library"
+					"library",
+					"reviews"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Review": {
+				"properties": {
+					"userId": {
+						"type": "number",
+						"format": "double"
+					},
+					"gameId": {
+						"type": "number",
+						"format": "double"
+					},
+					"review": {
+						"type": "string"
+					},
+					"user": {
+						"$ref": "#/components/schemas/User"
+					},
+					"game": {
+						"$ref": "#/components/schemas/Game"
+					}
+				},
+				"required": [
+					"userId",
+					"gameId",
+					"review",
+					"user",
+					"game"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -590,6 +634,66 @@
 					"count",
 					"next",
 					"results"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PaginatedResponse_Review_": {
+				"description": "Standard interface for paginated responses.",
+				"properties": {
+					"count": {
+						"type": "number",
+						"format": "double"
+					},
+					"next": {
+						"type": "string",
+						"nullable": true
+					},
+					"results": {
+						"items": {
+							"$ref": "#/components/schemas/Review"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"count",
+					"next",
+					"results"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ReviewCreateDto": {
+				"properties": {
+					"userId": {
+						"type": "number",
+						"format": "double"
+					},
+					"gameId": {
+						"type": "number",
+						"format": "double"
+					},
+					"review": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"userId",
+					"gameId",
+					"review"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ReviewUpdateDto": {
+				"properties": {
+					"review": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"review"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -1746,6 +1850,235 @@
 						}
 					}
 				]
+			}
+		},
+		"/reviews": {
+			"get": {
+				"operationId": "GetAll",
+				"responses": {
+					"200": {
+						"description": "PaginatedResponse containing Review entities.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PaginatedResponse_Review_"
+								}
+							}
+						}
+					}
+				},
+				"description": "Get a list of all reviews with optional pagination.",
+				"tags": [
+					"Reviews"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "Page number for pagination.",
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Number of items per page.",
+						"in": "query",
+						"name": "page_size",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"post": {
+				"operationId": "Create",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Review"
+								}
+							}
+						}
+					}
+				},
+				"description": "Create a new review.\r\nRequires user authentication.",
+				"tags": [
+					"Reviews"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"description": "Review creation data.",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ReviewCreateDto",
+								"description": "Review creation data."
+							}
+						}
+					}
+				}
+			}
+		},
+		"/reviews/{id}": {
+			"get": {
+				"operationId": "GetById",
+				"responses": {
+					"200": {
+						"description": "Review entity or null if not found.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"$ref": "#/components/schemas/Review"
+										}
+									],
+									"nullable": true
+								}
+							}
+						}
+					}
+				},
+				"description": "Get a review by ID.",
+				"tags": [
+					"Reviews"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "Review ID.",
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "Delete",
+				"responses": {
+					"200": {
+						"description": "Message indicating result.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Delete a review by ID.\r\nRequires user authentication.",
+				"tags": [
+					"Reviews"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "Review ID.",
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/reviews/{userId}/{gameId}": {
+			"put": {
+				"operationId": "Update",
+				"responses": {
+					"200": {
+						"description": "Updated Review entity or null if not found.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"$ref": "#/components/schemas/Review"
+										}
+									],
+									"nullable": true
+								}
+							}
+						}
+					}
+				},
+				"description": "Update an existing review.\r\nRequires user authentication.",
+				"tags": [
+					"Reviews"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "User ID.",
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Game ID.",
+						"in": "path",
+						"name": "gameId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "Update data containing the review text.",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ReviewUpdateDto",
+								"description": "Update data containing the review text."
+							}
+						}
+					}
+				}
 			}
 		},
 		"/publishers": {
