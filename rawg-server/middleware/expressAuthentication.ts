@@ -28,7 +28,7 @@ export async function expressAuthentication(
   const token = authHeader.split(" ")[1];
   let payload: string | JwtPayload;
   try {
-    payload = AuthService.verifyToken(token);
+    payload = AuthService.verifyToken(token); // Decode the JWT token
   } catch (err) {
     throw new Error("Invalid token");
   }
@@ -46,5 +46,6 @@ export async function expressAuthentication(
     throw new Error("Unknown security scheme");
   }
 
-  return payload; // Return the decoded token payload
+  request.user = payload; // Attach the decoded payload to req.user
+  return payload;
 }
