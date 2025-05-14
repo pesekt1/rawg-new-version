@@ -11,7 +11,7 @@ import {
   Textarea,
   useToast,
 } from "@chakra-ui/react";
-import useReview from "./userReview";
+import useCreteReview from "./useCreateReview";
 
 interface CreateReviewModalProps {
   isOpen: boolean;
@@ -26,7 +26,7 @@ const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 }) => {
   const [reviewText, setReviewText] = useState("");
   const toast = useToast();
-  const { createReview, isLoading } = useReview();
+  const { createReview, isLoading } = useCreteReview();
 
   const handleSubmit = async () => {
     try {
