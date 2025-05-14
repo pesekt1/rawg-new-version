@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import EntityGroup from "./EntityGroup";
-import { isValidUrl } from "../../utils/validation";
+import { isValidUrl } from "../../../../utils/validation";
 import TextareaField from "./TextareaField";
 import TextInputField from "./TextInputField";
 import { Entity } from "./Entity";
