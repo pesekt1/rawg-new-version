@@ -273,7 +273,6 @@ const models: TsoaRoute.Models = {
     "ReviewCreateDto": {
         "dataType": "refObject",
         "properties": {
-            "userId": {"dataType":"double","required":true},
             "gameId": {"dataType":"double","required":true},
             "review": {"dataType":"string","required":true},
         },
@@ -977,6 +976,7 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsReviewController_create: Record<string, TsoaRoute.ParameterSchema> = {
+                req: {"in":"request","name":"req","required":true,"dataType":"object"},
                 data: {"in":"body","name":"data","required":true,"ref":"ReviewCreateDto"},
         };
         app.post('/reviews',

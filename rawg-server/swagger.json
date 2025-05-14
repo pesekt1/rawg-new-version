@@ -666,10 +666,6 @@
 			},
 			"ReviewCreateDto": {
 				"properties": {
-					"userId": {
-						"type": "number",
-						"format": "double"
-					},
 					"gameId": {
 						"type": "number",
 						"format": "double"
@@ -679,7 +675,6 @@
 					}
 				},
 				"required": [
-					"userId",
 					"gameId",
 					"review"
 				],
