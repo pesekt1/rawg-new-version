@@ -7,6 +7,38 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"RegisterRequest": {
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"username",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"LoginRequest": {
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"username",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"Game": {
 				"properties": {
 					"id": {
@@ -425,38 +457,6 @@
 					"height",
 					"is_deleted",
 					"game"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"RegisterRequest": {
-				"properties": {
-					"username": {
-						"type": "string"
-					},
-					"password": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"username",
-					"password"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"LoginRequest": {
-				"properties": {
-					"username": {
-						"type": "string"
-					},
-					"password": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"username",
-					"password"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -959,126 +959,6 @@
 		"contact": {}
 	},
 	"paths": {
-		"/users/{userId}/wishlist/games": {
-			"get": {
-				"operationId": "Get",
-				"responses": {
-					"200": {
-						"description": "List of games in the user's wishlist.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/User"
-								}
-							}
-						}
-					}
-				},
-				"description": "Get all games in a user's wishlist.",
-				"tags": [
-					"Wishlist"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"description": "User ID.",
-						"in": "path",
-						"name": "userId",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
-			}
-		},
-		"/users/{userId}/wishlist/games/{gameId}": {
-			"post": {
-				"operationId": "Add",
-				"responses": {
-					"200": {
-						"description": "Result of the add operation.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/User"
-								}
-							}
-						}
-					}
-				},
-				"description": "Add a game to a user's wishlist.",
-				"tags": [
-					"Wishlist"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"description": "User ID.",
-						"in": "path",
-						"name": "userId",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					},
-					{
-						"description": "Game ID.",
-						"in": "path",
-						"name": "gameId",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
-			},
-			"delete": {
-				"operationId": "Remove",
-				"responses": {
-					"200": {
-						"description": "Result of the remove operation.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/User"
-								}
-							}
-						}
-					}
-				},
-				"description": "Remove a game from a user's wishlist.",
-				"tags": [
-					"Wishlist"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"description": "User ID.",
-						"in": "path",
-						"name": "userId",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					},
-					{
-						"description": "Game ID.",
-						"in": "path",
-						"name": "gameId",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
-			}
-		},
 		"/users": {
 			"post": {
 				"operationId": "Register",
@@ -1113,7 +993,7 @@
 				},
 				"description": "Register a new user.",
 				"tags": [
-					"Auth"
+					"User"
 				],
 				"security": [],
 				"parameters": [],
@@ -1131,7 +1011,7 @@
 				}
 			}
 		},
-		"/sessions": {
+		"/users/sessions": {
 			"post": {
 				"operationId": "Login",
 				"responses": {
@@ -1156,7 +1036,7 @@
 				},
 				"description": "Authenticate a user and return a JWT token.",
 				"tags": [
-					"Auth"
+					"User"
 				],
 				"security": [],
 				"parameters": [],
@@ -1172,6 +1052,270 @@
 						}
 					}
 				}
+			}
+		},
+		"/users/{userId}/wishlist": {
+			"get": {
+				"operationId": "GetWishlist",
+				"responses": {
+					"200": {
+						"description": "List of games in the user's wishlist.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/User"
+								}
+							}
+						}
+					}
+				},
+				"description": "Get all games in a user's wishlist.",
+				"tags": [
+					"User"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "User ID.",
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/users/{userId}/wishlist/{gameId}": {
+			"post": {
+				"operationId": "AddToWishlist",
+				"responses": {
+					"200": {
+						"description": "Result of the add operation.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/User"
+								}
+							}
+						}
+					}
+				},
+				"description": "Add a game to a user's wishlist.",
+				"tags": [
+					"User"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "User ID.",
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Game ID.",
+						"in": "path",
+						"name": "gameId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "RemoveFromWishlist",
+				"responses": {
+					"200": {
+						"description": "Result of the remove operation.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/User"
+								}
+							}
+						}
+					}
+				},
+				"description": "Remove a game from a user's wishlist.",
+				"tags": [
+					"User"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "User ID.",
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Game ID.",
+						"in": "path",
+						"name": "gameId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/users/{userId}/library": {
+			"get": {
+				"operationId": "GetLibrary",
+				"responses": {
+					"200": {
+						"description": "List of games in the user's library.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/User"
+								}
+							}
+						}
+					}
+				},
+				"description": "Get all games in a user's library.",
+				"tags": [
+					"User"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "User ID.",
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/users/{userId}/library/{gameId}": {
+			"post": {
+				"operationId": "AddToLibrary",
+				"responses": {
+					"200": {
+						"description": "Result of the add operation.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/User"
+								}
+							}
+						}
+					}
+				},
+				"description": "Add a game to a user's library.",
+				"tags": [
+					"User"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "User ID.",
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Game ID.",
+						"in": "path",
+						"name": "gameId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "RemoveFromLibrary",
+				"responses": {
+					"200": {
+						"description": "Result of the remove operation.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/User"
+								}
+							}
+						}
+					}
+				},
+				"description": "Remove a game from a user's library.",
+				"tags": [
+					"User"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "User ID.",
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Game ID.",
+						"in": "path",
+						"name": "gameId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
 			}
 		},
 		"/tags": {
@@ -1991,126 +2135,6 @@
 						"description": "ParentPlatform ID.",
 						"in": "path",
 						"name": "id",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
-			}
-		},
-		"/users/{userId}/library/games": {
-			"get": {
-				"operationId": "Get",
-				"responses": {
-					"200": {
-						"description": "List of games in the user's library.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/User"
-								}
-							}
-						}
-					}
-				},
-				"description": "Get all games in a user's library.",
-				"tags": [
-					"Library"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"description": "User ID.",
-						"in": "path",
-						"name": "userId",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
-			}
-		},
-		"/users/{userId}/library/games/{gameId}": {
-			"post": {
-				"operationId": "Add",
-				"responses": {
-					"200": {
-						"description": "Result of the add operation.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/User"
-								}
-							}
-						}
-					}
-				},
-				"description": "Add a game to a user's library.",
-				"tags": [
-					"Library"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"description": "User ID.",
-						"in": "path",
-						"name": "userId",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					},
-					{
-						"description": "Game ID.",
-						"in": "path",
-						"name": "gameId",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
-			},
-			"delete": {
-				"operationId": "Remove",
-				"responses": {
-					"200": {
-						"description": "Result of the remove operation.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/User"
-								}
-							}
-						}
-					}
-				},
-				"description": "Remove a game from a user's library.",
-				"tags": [
-					"Library"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"description": "User ID.",
-						"in": "path",
-						"name": "userId",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					},
-					{
-						"description": "Game ID.",
-						"in": "path",
-						"name": "gameId",
 						"required": true,
 						"schema": {
 							"format": "double",
