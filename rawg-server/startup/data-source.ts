@@ -11,6 +11,7 @@ import { Screenshot } from "../entities/Screenshot";
 import { User } from "../entities/User";
 import { Developer } from "../entities/Developer";
 import { Tag } from "../entities/Tag";
+import { Review } from "../entities/Review";
 
 export const AppDataSource = new DataSource({
   type: "mysql",
@@ -28,6 +29,7 @@ export const AppDataSource = new DataSource({
     User,
     Developer,
     Tag,
+    Review,
   ],
   migrations: [],
   subscribers: [],

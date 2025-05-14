@@ -15,6 +15,7 @@ import { Screenshot } from "./Screenshot";
 import { User } from "./User";
 import { Developer } from "./Developer";
 import { Tag } from "./Tag";
+import { Review } from "./Review";
 
 @Entity("games")
 export class Game {
@@ -86,4 +87,7 @@ export class Game {
 
   @OneToMany(() => Screenshot, (screenshot) => screenshot.game)
   screenshots: Screenshot[];
+
+  @OneToMany(() => Review, (review) => review.game, { cascade: true })
+  reviews: Review[];
 }
