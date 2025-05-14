@@ -31,7 +31,9 @@ export class AuthService {
     role: "admin" | "user" = "user"
   ) {
     const existing = await this.userRepository.findOneBy({ username });
-    if (existing) throw new Error("Username already exists");
+    if (existing) {
+      throw new ConflictError("Username already exists");
+    }
 
     const passwordHash = await bcrypt.hash(password, 10);
     const user = this.userRepository.create({ username, passwordHash, role });
@@ -73,5 +75,13 @@ export class AuthService {
     } catch (err) {
       throw new Error("Invalid or expired token");
     }
+  }
+}
+
+class ConflictError extends Error {
+  status: number;
+  constructor(message: string) {
+    super(message);
+    this.status = 409; // Conflict
   }
 }
