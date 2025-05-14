@@ -8,7 +8,7 @@ import { constructNextUrl } from "../utils/paginationUtils";
  * @template T Entity type
  */
 export class BaseService<T extends ObjectLiteral> {
-  private repository = AppDataSource.getRepository<T>(this.entity);
+  protected repository = AppDataSource.getRepository<T>(this.entity);
 
   /**
    * @param entity The entity class to operate on.
