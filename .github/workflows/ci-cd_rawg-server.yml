@@ -21,14 +21,14 @@ jobs:
     services:
       mysql:
         # MySQL service for integration tests
-        image: mysql:8.0
+        image: mysql:8.0-debian
         env:
           MYSQL_ROOT_PASSWORD: rootpassword
           MYSQL_DATABASE: testdb # Automatically create testdb
         ports:
           - 3307:3306
         options: >-
-          --health-cmd="mysqladmin ping -h localhost -prootpassword"
+          --health-cmd="mysql -uroot -prootpassword -e 'SELECT 1'"
           --health-interval=5s
           --health-timeout=3s
           --health-retries=10
@@ -40,17 +40,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "22.x"
-
-      - name: Wait for MySQL to be ready # Ensure MySQL is up before running tests
-        run: |
-          for i in {1..30}; do
-            if mysqladmin ping -h"127.0.0.1" -prootpassword --silent; then
-              echo "MySQL is up!"
-              break
-            fi
-            echo "Waiting for MySQL..."
-            sleep 2
-          done
 
       - name: npm install, build, and test # go to rawg-server directory
         env:
