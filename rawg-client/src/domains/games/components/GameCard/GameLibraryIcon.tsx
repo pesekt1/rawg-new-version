@@ -1,7 +1,7 @@
 import { useColorMode } from "@chakra-ui/react";
 import { FaGamepad } from "react-icons/fa";
 import UserGameRelationIcon from "./UserGameRelationIcon";
-import libraryService from "../../../gameLibrary/libraryService";
+import userService from "../../../user/userService";
 
 interface GameLibraryIconProps {
   gameId: number;
@@ -20,8 +20,8 @@ const GameLibraryIcon = ({
       gameId={gameId}
       initialActive={initialActive}
       service={{
-        add: libraryService.add,
-        remove: libraryService.remove,
+        add: () => userService.addGame(gameId, "library"), // Pass gameId correctly
+        remove: () => userService.removeGame(gameId, "library"), // Pass gameId correctly
       }}
       activeIcon={
         <FaGamepad color={colorMode === "light" ? "#38A169" : "#68D391"} />

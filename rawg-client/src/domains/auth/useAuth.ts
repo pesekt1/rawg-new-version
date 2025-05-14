@@ -1,10 +1,10 @@
 import { useState, useMemo } from "react";
 import { User } from "./User";
-import authService from "./authService";
+import userService from "../user/userService";
 
 /**
  * React hook for accessing and managing authentication state in components.
- * Uses authService for token storage and retrieval.
+ * Uses userService for token storage and retrieval.
  * Provides helpers for saving tokens, logging out, and accessing user info.
  *
  * @returns An object with:
@@ -17,20 +17,20 @@ import authService from "./authService";
  */
 export function useAuth() {
   const [token, setToken] = useState(() => {
-    const t = authService.getToken();
+    const t = userService.getToken();
     return isTokenValid(t) ? t! : "";
   });
 
   const saveToken = (newToken: string) => {
     if (token === newToken) return;
     setToken(newToken);
-    authService.login; // token is already saved in service after login
+    // Token is already saved in userService during login
   };
 
   const logout = () => {
     if (!token) return;
     setToken("");
-    authService.logout();
+    userService.logout();
   };
 
   const isAuthenticated = useMemo(() => isTokenValid(token), [token]);
@@ -42,7 +42,7 @@ export function useAuth() {
 
 // Helper functions
 
-function isTokenValid(token: string | null): boolean {
+export function isTokenValid(token: string | null): boolean {
   if (!token) return false;
   try {
     const [, payloadBase64] = token.split(".");

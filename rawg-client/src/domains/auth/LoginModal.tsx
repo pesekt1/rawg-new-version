@@ -16,7 +16,7 @@ import {
 import { useState } from "react";
 import { useAuth } from "./useAuth";
 import { useNavigate } from "react-router-dom";
-import authService from "./authService";
+import userService from "../user/userService";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -35,11 +35,11 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
     e.preventDefault();
     setError(null);
     try {
-      const { token } = await authService.login(username, password);
+      const { token } = await userService.login(username, password);
       saveToken(token);
       toast({ status: "success", title: "Login successful" });
       onClose();
-      navigate(0); // reload to update UI if needed
+      navigate(0); // Reload to update UI if needed
     } catch (err: any) {
       setError(err.response?.data?.error || "Login failed");
     }
