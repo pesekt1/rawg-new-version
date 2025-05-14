@@ -1,5 +1,5 @@
 import userClient from "./user-client";
-import { isTokenValid } from "../auth/useAuth"; // Import isTokenValid from useAuth
+import { isTokenValid } from "../auth/useAuth";
 
 const TOKEN_KEY = "token";
 
@@ -79,7 +79,9 @@ const userService = {
    * @returns A promise resolving to an array of games.
    */
   getUserGames: (relation: "wishlist" | "library", userId?: number) => {
-    const resolvedUserId = userId ?? userService.ensureAuthenticated(); // Use ensureAuthenticated if userId is not provided
+    const resolvedUserId = userId ?? userService.ensureAuthenticated();
+    // Use authenticated user id if userId is not provided
+    // if we are looking at other user's games, we provide userId
     return userClient.getUserGames(resolvedUserId, relation);
   },
 
@@ -90,7 +92,7 @@ const userService = {
    * @returns A promise resolving to the created relation entity.
    */
   addGame: (gameId: number, relation: "wishlist" | "library") => {
-    const userId = userService.ensureAuthenticated(); // Ensure the user is authenticated
+    const userId = userService.ensureAuthenticated();
     return userClient.addGame(userId, gameId, relation);
   },
 
@@ -101,7 +103,7 @@ const userService = {
    * @returns A promise resolving to void.
    */
   removeGame: (gameId: number, relation: "wishlist" | "library") => {
-    const userId = userService.ensureAuthenticated(); // Ensure the user is authenticated
+    const userId = userService.ensureAuthenticated();
     return userClient.removeGame(userId, gameId, relation);
   },
 };

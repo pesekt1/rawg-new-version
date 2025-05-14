@@ -8,12 +8,12 @@ import userService from "../user/userService";
  * Provides helpers for saving tokens, logging out, and accessing user info.
  *
  * @returns An object with:
- *   - token: The current JWT token (string)
- *   - saveToken: Function to update the token in state and storage
- *   - logout: Function to clear the token from state and storage
- *   - isAuthenticated: Boolean indicating if the user is authenticated
- *   - role: The user's role (string or null)
- *   - user: The current user object (User or null)
+ *   - token: The current JWT token (string).
+ *   - saveToken: Function to update the token in state and storage.
+ *   - logout: Function to clear the token from state and storage.
+ *   - isAuthenticated: Boolean indicating if the user is authenticated.
+ *   - role: The user's role (string or null), extracted from the token.
+ *   - user: The current user object (User or null), containing id, username, and role.
  */
 export function useAuth() {
   const [token, setToken] = useState(() => {
