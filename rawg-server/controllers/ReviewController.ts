@@ -17,6 +17,7 @@ import {
   Tags,
   Query,
   Security,
+  Request,
 } from "tsoa";
 import { reviewService } from "../services/reviewService";
 import { formatEntityList, handleDelete } from "./controllerUtils";
@@ -24,6 +25,7 @@ import { Review } from "../entities/Review";
 import { PaginatedResponse } from "../interfaces/PaginatedResponse";
 import { ReviewCreateDto } from "./dto/ReviewCreateDto";
 import { ReviewUpdateDto } from "./dto/ReviewUpdateDto";
+import { Request as ExpressRequest } from "express";
 
 /**
  * Controller for managing Review entities.
@@ -59,19 +61,24 @@ export class ReviewController extends Controller {
   /**
    * Create a new review.
    * Requires user authentication.
+   * @param req The HTTP request object (to extract userId from the token).
    * @param data Review creation data.
    * @returns The created Review entity.
    */
   @SuccessResponse("201", "Created")
   @Post("/")
   @Security("jwt")
-  public async create(@Body() data: ReviewCreateDto): Promise<Review> {
+  public async create(
+    @Request() req: ExpressRequest, // Use the aliased ExpressRequest type
+    @Body() data: ReviewCreateDto
+  ): Promise<Review> {
+    const userId = req.user?.userId; // Extract userId from the token (set by expressAuthentication)
     const reviewData = {
-      user: { id: data.userId },
-      game: { id: data.gameId },
+      userId,
+      gameId: data.gameId,
       review: data.review,
     };
-    return reviewService.create(reviewData);
+    return reviewService.createReview(reviewData);
   }
 
   /**
