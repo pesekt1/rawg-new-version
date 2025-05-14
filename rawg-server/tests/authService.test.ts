@@ -70,11 +70,13 @@ describe("AuthService", () => {
     );
   });
 
-  it("returns null for invalid token", () => {
+  it("throws an error for invalid token", () => {
     (jwt.verify as any).mockImplementation(() => {
-      throw new Error();
+      throw new Error("Invalid or expired token");
     });
-    expect(AuthService.verifyToken("badtoken")).toBeNull();
+    expect(() => AuthService.verifyToken("badtoken")).toThrow(
+      "Invalid or expired token"
+    );
   });
 
   it("returns payload for valid token", () => {

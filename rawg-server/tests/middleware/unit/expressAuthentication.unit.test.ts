@@ -16,10 +16,12 @@ describe("expressAuthentication middleware (unit)", () => {
     const request = {
       headers: { authorization: "Bearer invalidtoken" },
     } as any;
-    (AuthService.verifyToken as any).mockReturnValue(null);
+    (AuthService.verifyToken as any).mockImplementation(() => {
+      throw new Error("Invalid token");
+    });
 
     await expect(expressAuthentication(request, "admin")).rejects.toThrow(
-      "Not authorized as admin"
+      "Invalid token"
     );
   });
 

@@ -32,13 +32,15 @@ describe("expressAuthentication middleware (integration)", () => {
   });
 
   it("should return 401 if the token is invalid", async () => {
-    (AuthService.verifyToken as any).mockReturnValue(null);
+    (AuthService.verifyToken as any).mockImplementation(() => {
+      throw new Error("Invalid token");
+    });
     const app = createApp();
     const res = await request(app)
       .get("/protected")
       .set("Authorization", "Bearer invalidtoken");
     expect(res.status).toBe(401);
-    expect(res.body).toEqual({ error: "Not authorized as admin" });
+    expect(res.body).toEqual({ error: "Invalid token" });
   });
 
   it("should return 401 if the user is not an admin", async () => {
