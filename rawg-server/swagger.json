@@ -948,7 +948,18 @@
 				"description": "DTO for updating and creating Game entities.\r\n'name' and 'slug' are required, all other fields are optional."
 			}
 		},
-		"securitySchemes": {}
+		"securitySchemes": {
+			"admin": {
+				"type": "apiKey",
+				"name": "Authorization",
+				"in": "header"
+			},
+			"jwt": {
+				"type": "apiKey",
+				"name": "Authorization",
+				"in": "header"
+			}
+		}
 	},
 	"info": {
 		"title": "rawg-server",
@@ -1059,17 +1070,20 @@
 				"operationId": "GetWishlist",
 				"responses": {
 					"200": {
-						"description": "List of games in the user's wishlist.",
+						"description": "A list of games in the user's wishlist.",
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/User"
+									"items": {
+										"$ref": "#/components/schemas/Game"
+									},
+									"type": "array"
 								}
 							}
 						}
 					}
 				},
-				"description": "Get all games in a user's wishlist.",
+				"description": "Get all games in a user's wishlist.\r\nRequires the user's ID to be provided in the path.",
 				"tags": [
 					"User"
 				],
@@ -1097,7 +1111,7 @@
 				"operationId": "AddToWishlist",
 				"responses": {
 					"200": {
-						"description": "Result of the add operation.",
+						"description": "The result of the add operation.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -1107,7 +1121,7 @@
 						}
 					}
 				},
-				"description": "Add a game to a user's wishlist.",
+				"description": "Add a game to a user's wishlist.\r\nRequires the user's ID and the game ID to be provided in the path.",
 				"tags": [
 					"User"
 				],
@@ -1143,7 +1157,7 @@
 				"operationId": "RemoveFromWishlist",
 				"responses": {
 					"200": {
-						"description": "Result of the remove operation.",
+						"description": "The result of the remove operation.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -1153,7 +1167,7 @@
 						}
 					}
 				},
-				"description": "Remove a game from a user's wishlist.",
+				"description": "Remove a game from a user's wishlist.\r\nRequires the user's ID and the game ID to be provided in the path.",
 				"tags": [
 					"User"
 				],
@@ -1191,17 +1205,20 @@
 				"operationId": "GetLibrary",
 				"responses": {
 					"200": {
-						"description": "List of games in the user's library.",
+						"description": "A list of games in the user's library.",
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/User"
+									"items": {
+										"$ref": "#/components/schemas/Game"
+									},
+									"type": "array"
 								}
 							}
 						}
 					}
 				},
-				"description": "Get all games in a user's library.",
+				"description": "Get all games in a user's library.\r\nRequires the user's ID to be provided in the path.",
 				"tags": [
 					"User"
 				],
@@ -1229,7 +1246,7 @@
 				"operationId": "AddToLibrary",
 				"responses": {
 					"200": {
-						"description": "Result of the add operation.",
+						"description": "The result of the add operation.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -1239,7 +1256,7 @@
 						}
 					}
 				},
-				"description": "Add a game to a user's library.",
+				"description": "Add a game to a user's library.\r\nRequires the user's ID and the game ID to be provided in the path.",
 				"tags": [
 					"User"
 				],
@@ -1275,7 +1292,7 @@
 				"operationId": "RemoveFromLibrary",
 				"responses": {
 					"200": {
-						"description": "Result of the remove operation.",
+						"description": "The result of the remove operation.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -1285,7 +1302,7 @@
 						}
 					}
 				},
-				"description": "Remove a game from a user's library.",
+				"description": "Remove a game from a user's library.\r\nRequires the user's ID and the game ID to be provided in the path.",
 				"tags": [
 					"User"
 				],
