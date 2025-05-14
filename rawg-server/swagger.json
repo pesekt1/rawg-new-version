@@ -2927,7 +2927,7 @@
 				]
 			}
 		},
-		"/auth/register": {
+		"/users": {
 			"post": {
 				"operationId": "Register",
 				"responses": {
@@ -2979,7 +2979,7 @@
 				}
 			}
 		},
-		"/auth/login": {
+		"/sessions": {
 			"post": {
 				"operationId": "Login",
 				"responses": {

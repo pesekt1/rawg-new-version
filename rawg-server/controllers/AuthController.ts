@@ -19,7 +19,7 @@ interface LoginRequest {
 /**
  * Controller for authentication operations.
  */
-@Route("auth")
+@Route()
 @Tags("Auth")
 export class AuthController extends Controller {
   /**
@@ -28,7 +28,7 @@ export class AuthController extends Controller {
    * @returns The created user's id, username, and role.
    */
   @SuccessResponse("201", "Created")
-  @Post("register")
+  @Post("users")
   public async register(
     @Body() body: RegisterRequest
   ): Promise<{ id: number; username: string; role: string }> {
@@ -41,7 +41,7 @@ export class AuthController extends Controller {
    * @param body Login data (username and password).
    * @returns An object containing the authentication token.
    */
-  @Post("login")
+  @Post("sessions")
   public async login(@Body() body: LoginRequest): Promise<{ token: string }> {
     const { username, password } = body;
     return AuthService.login(username, password);

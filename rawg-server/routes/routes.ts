@@ -1713,7 +1713,7 @@ export function RegisterRoutes(app: Router) {
         const argsAuthController_register: Record<string, TsoaRoute.ParameterSchema> = {
                 body: {"in":"body","name":"body","required":true,"ref":"RegisterRequest"},
         };
-        app.post('/auth/register',
+        app.post('/users',
             ...(fetchMiddlewares<RequestHandler>(AuthController)),
             ...(fetchMiddlewares<RequestHandler>(AuthController.prototype.register)),
 
@@ -1743,7 +1743,7 @@ export function RegisterRoutes(app: Router) {
         const argsAuthController_login: Record<string, TsoaRoute.ParameterSchema> = {
                 body: {"in":"body","name":"body","required":true,"ref":"LoginRequest"},
         };
-        app.post('/auth/login',
+        app.post('/sessions',
             ...(fetchMiddlewares<RequestHandler>(AuthController)),
             ...(fetchMiddlewares<RequestHandler>(AuthController.prototype.login)),
 

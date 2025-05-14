@@ -17,21 +17,13 @@ import * as Sentry from "@sentry/react";
  * Uses the shared axiosInstance for HTTP requests.
  */
 class AuthClient {
-  private endpoint: string;
-
-  /**
-   * Create a new AuthClient.
-   * @param endpoint - The authentication API endpoint (default: "/auth")
-   */
-  constructor(endpoint: string = "/auth") {
-    this.endpoint = endpoint;
-  }
-
   /**
    * Log in a user with username and password.
+   * Sends a POST request to the "sessions" endpoint to authenticate the user.
    * @param username - The user's username.
    * @param password - The user's password.
-   * @returns A promise resolving to the authentication response (e.g. JWT token).
+   * @returns A promise resolving to the authentication response (e.g., JWT token).
+   * @throws An error if the login request fails.
    */
   login = async (username: string, password: string) => {
     Sentry.addBreadcrumb({
@@ -40,7 +32,7 @@ class AuthClient {
       level: "info",
     });
     try {
-      const res = await axiosInstance.post(`${this.endpoint}/login`, {
+      const res = await axiosInstance.post("sessions", {
         username,
         password,
       });
@@ -53,9 +45,11 @@ class AuthClient {
 
   /**
    * Register a new user with username and password.
+   * Sends a POST request to the "users" endpoint to create a new user.
    * @param username - The desired username.
    * @param password - The desired password.
-   * @returns A promise resolving to the registration response.
+   * @returns A promise resolving to the registration response (e.g., user details).
+   * @throws An error if the registration request fails.
    */
   register = async (username: string, password: string) => {
     Sentry.addBreadcrumb({
@@ -64,7 +58,7 @@ class AuthClient {
       level: "info",
     });
     try {
-      const res = await axiosInstance.post(`${this.endpoint}/register`, {
+      const res = await axiosInstance.post("users", {
         username,
         password,
       });
