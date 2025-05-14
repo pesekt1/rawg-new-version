@@ -50,3 +50,22 @@ export async function handleDelete<T extends ObjectLiteral>(
   }
   return { message: "Deleted" };
 }
+
+/**
+ * Formats the response for a list endpoint using a BaseService.
+ * Supports optional pagination.
+ * @param service The BaseService to fetch entities from.
+ * @param baseUrl optional Base URL for constructing the "next" link.
+ * @param pagination Pagination parameters (page and page_size).
+ * @returns An object containing the count, next link, and the results array.
+ */
+export async function formatEntityList<T extends ObjectLiteral>(
+  service: BaseService<T>,
+  baseUrl?: string,
+  pagination?: { page?: number; page_size?: number }
+): Promise<PaginatedResponse<T>> {
+  const page = pagination?.page || 1;
+  const page_size = pagination?.page_size || 10;
+
+  return service.getAllPaginated(page, page_size, baseUrl);
+}
