@@ -17,14 +17,14 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mysql:
-        image: mysql:latest
+        image: mysql:8.0-debian
         env:
           MYSQL_ROOT_PASSWORD: rootpassword
-          MYSQL_DATABASE: testdb # Automatically create testdb
+          MYSQL_DATABASE: testdb
         ports:
           - 3307:3306
         options: >-
-          --health-cmd="mysqladmin ping -h localhost -prootpassword"
+          --health-cmd="mysql -uroot -prootpassword -e 'SELECT 1'"
           --health-interval=5s
           --health-timeout=3s
           --health-retries=10
@@ -33,16 +33,6 @@ jobs:
         working-directory: ./rawg-server
     steps:
       - uses: actions/checkout@v3
-      - name: Wait for MySQL to be ready
-        run: |
-          for i in {1..30}; do
-            if mysqladmin ping -h"127.0.0.1" -prootpassword --silent; then
-              echo "MySQL is up!"
-              break
-            fi
-            echo "Waiting for MySQL..."
-            sleep 2
-          done
       - name: Install dependencies
         run: npm install
       - name: Run tests
