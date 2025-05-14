@@ -26,6 +26,28 @@ export class ReviewService extends BaseService<Review> {
     this.repository.merge(review, data);
     return this.repository.save(review);
   }
+
+  /**
+   * Create a new review.
+   * @param data The review creation payload.
+   * @returns The created Review entity.
+   */
+  async createReview(data: CreateReviewPayload): Promise<Review> {
+    const review = this.repository.create({
+      userId: data.userId, // Explicitly set userId
+      gameId: data.gameId, // Explicitly set gameId
+      review: data.review,
+      user: { id: data.userId }, // Set the user relationship
+      game: { id: data.gameId }, // Set the game relationship
+    });
+    return this.repository.save(review);
+  }
 }
 
 export const reviewService = new ReviewService();
+
+interface CreateReviewPayload {
+  userId: number;
+  gameId: number;
+  review: string;
+}
