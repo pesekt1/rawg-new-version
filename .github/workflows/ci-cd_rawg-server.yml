@@ -55,6 +55,7 @@ jobs:
       - name: npm install, build, and test # go to rawg-server directory
         env:
           DATABASE_URL: mysql://root:rootpassword@127.0.0.1:3307/testdb
+          JWT_SECRET: dev_secret
         run: |
           cd rawg-server 
           npm install
