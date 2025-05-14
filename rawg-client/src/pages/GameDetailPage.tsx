@@ -20,6 +20,9 @@ import GameTrailer from "../domains/games/components/GameTrailer";
 import StyledText from "../components/StyledText";
 import PlatformIconsList from "../domains/platforms/PlatformIconsList";
 import { useQueryClient } from "@tanstack/react-query";
+import CreateReviewModal from "../domains/reviews/CreateReviewModal";
+import { useState } from "react";
+import { FaPlus } from "react-icons/fa"; // Import the Plus icon
 
 const GameDetailPage = () => {
   const { id } = useParams();
@@ -43,6 +46,8 @@ const GameDetailPage = () => {
       queryClient.invalidateQueries({ queryKey: ["games"] });
     },
   });
+
+  const [isReviewModalOpen, setReviewModalOpen] = useState(false);
 
   if (isLoading)
     return (
@@ -89,6 +94,21 @@ const GameDetailPage = () => {
         )}
         <Heading>{game.name}</Heading>
         <PlatformIconsList platforms={game.parent_platforms} />
+        <Button
+          marginTop={2}
+          variant="outlinedButton"
+          size="sm"
+          onClick={() => setReviewModalOpen(true)}
+          isDisabled={!role} // Disable the button if the user is not authenticated
+          leftIcon={<FaPlus />} // Add the Plus icon to the button
+        >
+          Create Review
+        </Button>
+        <CreateReviewModal
+          isOpen={isReviewModalOpen}
+          onClose={() => setReviewModalOpen(false)}
+          gameId={game.id}
+        />
         <StyledText>
           <ExpandableText>{game.description_raw}</ExpandableText>
         </StyledText>
