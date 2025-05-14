@@ -48,4 +48,5 @@ jobs:
       - name: Run tests
         env:
           DATABASE_URL: mysql://root:rootpassword@127.0.0.1:3307/testdb # Updated to use a single connection string
+          JWT_SECRET: dev_secret
         run: npm test
