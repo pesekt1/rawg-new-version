@@ -16,7 +16,6 @@ import {
 import { useState } from "react";
 import { useAuth } from "./useAuth";
 import userService from "../user/userService";
-import { useNavigate } from "react-router-dom";
 
 interface RegisterModalProps {
   isOpen: boolean;
@@ -28,7 +27,6 @@ const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const { saveToken } = useAuth();
-  const navigate = useNavigate();
   const toast = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -39,7 +37,6 @@ const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
       saveToken(token);
       toast({ status: "success", title: "Registration successful" });
       onClose();
-      navigate(0); // Reload to update UI if needed
     } catch (err: any) {
       setError(err.response?.data?.error || "Registration failed");
     }
