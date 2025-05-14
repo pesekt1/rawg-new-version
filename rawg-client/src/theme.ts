@@ -126,6 +126,29 @@ const theme = extendTheme({
             boxShadow: "0 0 0 3px rgba(255, 107, 107, 0.6)", // Focus ring
           },
         }),
+
+        // Generalized variant for outlined buttons
+        outlinedButton: (props: any) => ({
+          bg: "transparent",
+          border: "2px solid",
+          borderColor: props.colorMode === "light" ? "gray.300" : "gray.600",
+          borderRadius: "8px",
+          color: props.colorMode === "light" ? "gray.800" : "white",
+          _hover: {
+            bg: "accent.500",
+            color: "white",
+            borderColor: "accent.600",
+            boxShadow: "0 0 8px rgba(255, 107, 107, 0.6)", // Add hover shadow
+          },
+          _active: {
+            bg: "accent.600",
+            borderColor: "accent.700",
+          },
+          _focus: {
+            outline: "none", // Remove outline
+            boxShadow: "none", // Remove focus ring
+          },
+        }),
       },
     },
     Card: {
