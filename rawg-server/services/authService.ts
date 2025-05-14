@@ -3,7 +3,11 @@ import { User } from "../entities/User";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET || "dev_secret";
+const JWT_SECRET = process.env.JWT_SECRET;
+
+if (!JWT_SECRET) {
+  throw new Error("JWT_SECRET is not defined in the environment variables");
+}
 
 /**
  * Service for handling authentication and user registration.
@@ -51,7 +55,7 @@ export class AuthService {
 
     const token = jwt.sign(
       { userId: user.id, username: user.username, role: user.role },
-      JWT_SECRET,
+      JWT_SECRET as string,
       { expiresIn: "1d" }
     );
     return { token };
@@ -60,13 +64,14 @@ export class AuthService {
   /**
    * Verify a JWT token.
    * @param token The JWT token to verify.
-   * @returns The decoded token payload if valid, or null if invalid.
+   * @returns The decoded token payload if valid.
+   * @throws Error if the token is invalid or expired.
    */
   static verifyToken(token: string) {
     try {
-      return jwt.verify(token, JWT_SECRET);
-    } catch {
-      return null;
+      return jwt.verify(token, JWT_SECRET as string);
+    } catch (err) {
+      throw new Error("Invalid or expired token");
     }
   }
 }
