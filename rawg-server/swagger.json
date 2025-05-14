@@ -429,6 +429,38 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"RegisterRequest": {
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"username",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"LoginRequest": {
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"username",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"TagReadDto": {
 				"description": "DTO for Tag entity, with language field.",
 				"properties": {
@@ -914,38 +946,6 @@
 				],
 				"type": "object",
 				"description": "DTO for updating and creating Game entities.\r\n'name' and 'slug' are required, all other fields are optional."
-			},
-			"RegisterRequest": {
-				"properties": {
-					"username": {
-						"type": "string"
-					},
-					"password": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"username",
-					"password"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"LoginRequest": {
-				"properties": {
-					"username": {
-						"type": "string"
-					},
-					"password": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"username",
-					"password"
-				],
-				"type": "object",
-				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -1077,6 +1077,101 @@
 						}
 					}
 				]
+			}
+		},
+		"/users": {
+			"post": {
+				"operationId": "Register",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"role": {
+											"type": "string"
+										},
+										"username": {
+											"type": "string"
+										},
+										"id": {
+											"type": "number",
+											"format": "double"
+										}
+									},
+									"required": [
+										"role",
+										"username",
+										"id"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Register a new user.",
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"description": "Registration data (username and password).",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RegisterRequest",
+								"description": "Registration data (username and password)."
+							}
+						}
+					}
+				}
+			}
+		},
+		"/sessions": {
+			"post": {
+				"operationId": "Login",
+				"responses": {
+					"200": {
+						"description": "An object containing the authentication token.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"token": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"token"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Authenticate a user and return a JWT token.",
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"description": "Login data (username and password).",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/LoginRequest",
+								"description": "Login data (username and password)."
+							}
+						}
+					}
+				}
 			}
 		},
 		"/tags": {
@@ -2925,101 +3020,6 @@
 						}
 					}
 				]
-			}
-		},
-		"/users": {
-			"post": {
-				"operationId": "Register",
-				"responses": {
-					"201": {
-						"description": "Created",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"role": {
-											"type": "string"
-										},
-										"username": {
-											"type": "string"
-										},
-										"id": {
-											"type": "number",
-											"format": "double"
-										}
-									},
-									"required": [
-										"role",
-										"username",
-										"id"
-									],
-									"type": "object"
-								}
-							}
-						}
-					}
-				},
-				"description": "Register a new user.",
-				"tags": [
-					"Auth"
-				],
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"description": "Registration data (username and password).",
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/RegisterRequest",
-								"description": "Registration data (username and password)."
-							}
-						}
-					}
-				}
-			}
-		},
-		"/sessions": {
-			"post": {
-				"operationId": "Login",
-				"responses": {
-					"200": {
-						"description": "An object containing the authentication token.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"token": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"token"
-									],
-									"type": "object"
-								}
-							}
-						}
-					}
-				},
-				"description": "Authenticate a user and return a JWT token.",
-				"tags": [
-					"Auth"
-				],
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"description": "Login data (username and password).",
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/LoginRequest",
-								"description": "Login data (username and password)."
-							}
-						}
-					}
-				}
 			}
 		}
 	},

@@ -21,7 +21,7 @@ interface LoginRequest {
  */
 @Route()
 @Tags("Auth")
-export class AuthController extends Controller {
+export class UserController extends Controller {
   /**
    * Register a new user.
    * @param body Registration data (username and password).
