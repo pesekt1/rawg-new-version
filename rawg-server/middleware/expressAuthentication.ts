@@ -5,26 +5,7 @@
  */
 
 import { AuthService } from "../services/authService";
-import jwt from "jsonwebtoken";
-
-/**
- * Helper function to extract and verify the JWT token.
- * @param request The Express request object.
- * @returns The decoded token payload.
- * @throws Error if the token is missing or invalid.
- */
-function extractAndVerifyToken(request: any): any {
-  const authHeader = request.headers["authorization"];
-  if (!authHeader?.startsWith("Bearer ")) {
-    throw new Error("No or invalid Authorization header");
-  }
-  const token = authHeader.split(" ")[1];
-  try {
-    return jwt.verify(token, process.env.JWT_SECRET as string);
-  } catch (err) {
-    throw new Error("Invalid token");
-  }
-}
+import { JwtPayload } from "jsonwebtoken";
 
 /**
  * Middleware for tsoa security integration.
@@ -39,15 +20,25 @@ export async function expressAuthentication(
   securityName: string,
   scopes?: string[]
 ): Promise<any> {
-  const payload = extractAndVerifyToken(request);
+  const authHeader = request.headers["authorization"];
+  if (!authHeader?.startsWith("Bearer ")) {
+    throw new Error("No or invalid Authorization header");
+  }
 
-  //handle admin and normal user security
+  const token = authHeader.split(" ")[1];
+  let payload: string | JwtPayload;
+  try {
+    payload = AuthService.verifyToken(token);
+  } catch (err) {
+    throw new Error("Invalid token");
+  }
+
   if (securityName === "admin") {
-    // Ensure the payload contains a role and it is "admin"
     if (
       !payload ||
       typeof payload !== "object" ||
-      (payload as any).role !== "admin"
+      !("role" in payload) ||
+      payload.role !== "admin"
     ) {
       throw new Error("Not authorized as admin");
     }
