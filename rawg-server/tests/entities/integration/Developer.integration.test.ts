@@ -12,6 +12,7 @@ import { Trailer } from "../../../entities/Trailer";
 import { Screenshot } from "../../../entities/Screenshot";
 import { User } from "../../../entities/User";
 import { Tag } from "../../../entities/Tag";
+import { Review } from "../../../entities/Review";
 
 let dataSource: DataSource;
 
@@ -50,6 +51,7 @@ beforeAll(async () => {
       Screenshot,
       User,
       Tag,
+      Review,
     ], // Include all related entities
   });
 

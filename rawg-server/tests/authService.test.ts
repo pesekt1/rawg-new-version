@@ -1,3 +1,7 @@
+import "dotenv/config"; // Ensure .env variables are loaded
+
+process.env.JWT_SECRET = "test_secret";
+
 import "reflect-metadata";
 import { describe, it, expect, beforeEach, vi } from "vitest";
 
