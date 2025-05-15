@@ -23,6 +23,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import CreateReviewModal from "../domains/reviews/CreateReviewModal";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa"; // Import the Plus icon
+import useReviews from "../domains/reviews/useReviews";
+import InfiniteScroll from "react-infinite-scroll-component";
+import React from "react";
 
 const GameDetailPage = () => {
   const { id } = useParams();
@@ -48,6 +51,15 @@ const GameDetailPage = () => {
   });
 
   const [isReviewModalOpen, setReviewModalOpen] = useState(false);
+  const {
+    data: reviews,
+    isLoading: isLoadingReviews,
+    fetchNextPage,
+    hasNextPage,
+  } = useReviews(gameId);
+
+  const fetchedReviewsCount =
+    reviews?.pages.reduce((total, page) => total + page.results.length, 0) || 0;
 
   if (isLoading)
     return (
@@ -119,6 +131,44 @@ const GameDetailPage = () => {
             {(deleteError as any)?.response?.data?.error ||
               "Failed to delete game"}
           </Alert>
+        )}
+        {isLoadingReviews && !reviews ? (
+          <Spinner size="sm" mt={4} />
+        ) : (
+          <Box mt={4}>
+            <Heading size="md" mb={2}>
+              Reviews
+            </Heading>
+            <InfiniteScroll
+              dataLength={fetchedReviewsCount}
+              next={fetchNextPage}
+              hasMore={hasNextPage || false}
+              loader={<Spinner size="sm" mt={2} />}
+            >
+              {reviews?.pages.map((page, index) => (
+                <React.Fragment key={index}>
+                  {page.results.map((review) => (
+                    <Box
+                      key={review.userId}
+                      p={2}
+                      borderWidth="1px"
+                      borderRadius="md"
+                      mb={2}
+                    >
+                      <StyledText>{review.review}</StyledText>
+                      <Box fontSize="sm" color="gray.500">
+                        - User {review.userId}
+                      </Box>
+                    </Box>
+                  ))}
+                </React.Fragment>
+              ))}
+            </InfiniteScroll>
+            {(!reviews?.pages || reviews.pages[0].results.length === 0) &&
+              !isLoadingReviews && (
+                <StyledText>No reviews available.</StyledText>
+              )}
+          </Box>
         )}
       </GridItem>
       <GridItem>
