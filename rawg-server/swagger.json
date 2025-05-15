@@ -1862,12 +1862,22 @@
 						}
 					}
 				},
-				"description": "Get a list of all reviews with optional pagination.",
+				"description": "Get a list of all reviews with optional pagination and filtering by gameId.",
 				"tags": [
 					"Reviews"
 				],
 				"security": [],
 				"parameters": [
+					{
+						"description": "Optional game ID to filter reviews.",
+						"in": "query",
+						"name": "gameId",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
 					{
 						"description": "Page number for pagination.",
 						"in": "query",
