@@ -4,10 +4,10 @@ import { Game } from "./Game";
 
 @Entity()
 export class Review {
-  @PrimaryColumn()
+  @PrimaryColumn({ type: "int" })
   userId: number;
 
-  @PrimaryColumn()
+  @PrimaryColumn({ type: "int" })
   gameId: number;
 
   @Column({ type: "text" })
