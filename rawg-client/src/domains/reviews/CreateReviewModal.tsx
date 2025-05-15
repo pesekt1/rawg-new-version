@@ -11,6 +11,7 @@ import {
   Textarea,
   useToast,
 } from "@chakra-ui/react";
+import { useQueryClient } from "@tanstack/react-query";
 import useCreteReview from "./useCreateReview";
 
 interface CreateReviewModalProps {
@@ -27,6 +28,7 @@ const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
   const [reviewText, setReviewText] = useState("");
   const toast = useToast();
   const { createReview, isLoading } = useCreteReview();
+  const queryClient = useQueryClient(); // React Query client
 
   const handleSubmit = async () => {
     try {
@@ -38,6 +40,7 @@ const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
         isClosable: true,
       });
       setReviewText("");
+      queryClient.invalidateQueries(["reviews", gameId]); // Invalidate reviews query
       onClose();
     } catch (error: any) {
       toast({
