@@ -34,18 +34,19 @@ import { Request as ExpressRequest } from "express";
 @Tags("Reviews")
 export class ReviewController extends Controller {
   /**
-   * Get a list of all reviews with optional pagination.
+   * Get a list of all reviews with optional pagination and filtering by gameId.
+   * @param gameId Optional game ID to filter reviews.
    * @param page Page number for pagination.
    * @param page_size Number of items per page.
    * @returns PaginatedResponse containing Review entities.
    */
   @Get("/")
   public async getAll(
+    @Query() gameId?: number,
     @Query() page?: number,
     @Query() page_size?: number
   ): Promise<PaginatedResponse<Review>> {
-    const baseUrl = "reviews";
-    return formatEntityList(reviewService, baseUrl, { page, page_size });
+    return reviewService.getFilteredReviews({ gameId, page, page_size });
   }
 
   /**
