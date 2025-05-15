@@ -1,6 +1,7 @@
 import { Review } from "../entities/Review";
 import { BaseService } from "./baseService";
 import { ReviewUpdateDto } from "../controllers/dto/ReviewUpdateDto";
+import { PaginatedResponse } from "../interfaces/PaginatedResponse";
 
 /**
  * Service instance for managing reviews.
@@ -41,6 +42,35 @@ export class ReviewService extends BaseService<Review> {
       game: { id: data.gameId }, // Set the game relationship
     });
     return this.repository.save(review);
+  }
+
+  /**
+   * Get reviews with optional filtering by gameId and pagination.
+   * @param filters Object containing gameId, page, and page_size.
+   * @returns PaginatedResponse containing filtered Review entities.
+   */
+  async getFilteredReviews(filters: {
+    gameId?: number;
+    page?: number;
+    page_size?: number;
+  }): Promise<PaginatedResponse<Review>> {
+    const { gameId, page = 1, page_size = 10 } = filters;
+
+    const queryBuilder = this.repository.createQueryBuilder("review");
+
+    if (gameId) {
+      queryBuilder.where("review.gameId = :gameId", { gameId });
+    }
+
+    queryBuilder.skip((page - 1) * page_size).take(page_size);
+
+    const [results, count] = await queryBuilder.getManyAndCount();
+
+    return {
+      count,
+      next: count > page * page_size ? `${page + 1}` : null,
+      results,
+    };
   }
 }
 
