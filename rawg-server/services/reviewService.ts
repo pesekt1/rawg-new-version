@@ -3,6 +3,12 @@ import { BaseService } from "./baseService";
 import { ReviewUpdateDto } from "../controllers/dto/ReviewUpdateDto";
 import { PaginatedResponse } from "../interfaces/PaginatedResponse";
 
+interface CreateReviewPayload {
+  userId: number;
+  gameId: number;
+  review: string;
+}
+
 /**
  * Service instance for managing reviews.
  * Provides CRUD operations for Review entities.
@@ -51,15 +57,20 @@ export class ReviewService extends BaseService<Review> {
    */
   async getFilteredReviews(filters: {
     gameId?: number;
+    userId?: number; // Add userId to the filter options
     page?: number;
     page_size?: number;
   }): Promise<PaginatedResponse<Review>> {
-    const { gameId, page = 1, page_size = 10 } = filters;
+    const { gameId, userId, page = 1, page_size = 10 } = filters;
 
     const queryBuilder = this.repository.createQueryBuilder("review");
 
     if (gameId) {
       queryBuilder.where("review.gameId = :gameId", { gameId });
+    }
+
+    if (userId) {
+      queryBuilder.andWhere("review.userId = :userId", { userId });
     }
 
     queryBuilder.skip((page - 1) * page_size).take(page_size);
@@ -72,12 +83,19 @@ export class ReviewService extends BaseService<Review> {
       results,
     };
   }
+
+  /**
+   * Delete a review using a composite key (userId, gameId).
+   * @param compositeKey The composite key containing userId and gameId.
+   * @returns True if the review was deleted, false otherwise.
+   */
+  async deleteReview(compositeKey: {
+    userId: number;
+    gameId: number;
+  }): Promise<boolean> {
+    const result = await this.repository.delete(compositeKey);
+    return (result.affected ?? 0) > 0; // Use nullish coalescing to handle null or undefined
+  }
 }
 
 export const reviewService = new ReviewService();
-
-interface CreateReviewPayload {
-  userId: number;
-  gameId: number;
-  review: string;
-}
