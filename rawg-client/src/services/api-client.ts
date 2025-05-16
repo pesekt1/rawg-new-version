@@ -92,6 +92,20 @@ class ApiClient<T> {
       .then((res) => res.data);
 
   /**
+   * Delete an entity by a composite key (e.g., two IDs).
+   * @param keys - An object containing the composite keys (e.g., { userId, gameId }).
+   * @returns A promise resolving to a message object.
+   */
+  deleteComposite = <TKeys extends Record<string, string | number>>(
+    keys: TKeys
+  ) => {
+    const keyPath = Object.values(keys).join("/"); // Construct the path from the keys
+    return axiosInstance
+      .delete<{ message: string }>(`${this.endpoint}/${keyPath}`)
+      .then((res) => res.data);
+  };
+
+  /**
    * Update an entity by id or slug using PATCH.
    * @param idOrSlug - The id or slug of the entity.
    * @param data - Partial entity data to update.
