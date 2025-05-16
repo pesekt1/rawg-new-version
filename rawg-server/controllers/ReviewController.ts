@@ -20,7 +20,7 @@ import {
   Request,
 } from "tsoa";
 import { reviewService } from "../services/reviewService";
-import { formatEntityList, handleDelete } from "./controllerUtils";
+import { handleDelete } from "./controllerUtils";
 import { Review } from "../entities/Review";
 import { PaginatedResponse } from "../interfaces/PaginatedResponse";
 import { ReviewCreateDto } from "./dto/ReviewCreateDto";
@@ -34,8 +34,9 @@ import { Request as ExpressRequest } from "express";
 @Tags("Reviews")
 export class ReviewController extends Controller {
   /**
-   * Get a list of all reviews with optional pagination and filtering by gameId.
+   * Get a list of all reviews with optional pagination and filtering by gameId and userId.
    * @param gameId Optional game ID to filter reviews.
+   * @param userId Optional user ID to filter reviews.
    * @param page Page number for pagination.
    * @param page_size Number of items per page.
    * @returns PaginatedResponse containing Review entities.
@@ -43,10 +44,16 @@ export class ReviewController extends Controller {
   @Get("/")
   public async getAll(
     @Query() gameId?: number,
+    @Query() userId?: number, // Add userId as an optional query parameter
     @Query() page?: number,
     @Query() page_size?: number
   ): Promise<PaginatedResponse<Review>> {
-    return reviewService.getFilteredReviews({ gameId, page, page_size });
+    return reviewService.getFilteredReviews({
+      gameId,
+      userId,
+      page,
+      page_size,
+    }); // Pass userId to the service
   }
 
   /**
@@ -102,14 +109,24 @@ export class ReviewController extends Controller {
   }
 
   /**
-   * Delete a review by ID.
+   * Delete a review by composite key (userId and gameId).
    * Requires user authentication.
-   * @param id Review ID.
+   * @param userId User ID.
+   * @param gameId Game ID.
    * @returns Message indicating result.
    */
-  @Delete("{id}")
+  @Delete("{userId}/{gameId}")
   @Security("jwt")
-  public async delete(@Path() id: number): Promise<{ message: string }> {
-    return handleDelete(reviewService, id);
+  public async delete(
+    @Path() userId: number,
+    @Path() gameId: number
+  ): Promise<{ message: string }> {
+    const compositeKey = { userId, gameId };
+    const deleted = await reviewService.deleteReview(compositeKey);
+    if (!deleted) {
+      this.setStatus(404);
+      return { message: "Review not found" };
+    }
+    return { message: "Review deleted successfully" };
   }
 }
