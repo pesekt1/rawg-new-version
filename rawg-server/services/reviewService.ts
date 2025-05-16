@@ -1,6 +1,7 @@
 import { Review } from "../entities/Review";
-import { BaseService } from "./baseService";
+import { AppDataSource } from "../startup/data-source";
 import { ReviewUpdateDto } from "../controllers/dto/ReviewUpdateDto";
+import { ReviewReadDto } from "../controllers/dto/ReviewReadDto";
 import { PaginatedResponse } from "../interfaces/PaginatedResponse";
 
 interface CreateReviewPayload {
@@ -13,54 +14,36 @@ interface CreateReviewPayload {
  * Service instance for managing reviews.
  * Provides CRUD operations for Review entities.
  */
-export class ReviewService extends BaseService<Review> {
-  constructor() {
-    super(Review);
-  }
-
+export class ReviewService {
   /**
-   * Update a review using a composite key (userId, gameId).
-   * @param compositeKey The composite key containing userId and gameId.
-   * @param data ReviewUpdateDto containing the review text to update.
-   * @returns Updated Review entity or null if not found.
+   * Repository for accessing the Review entity.
    */
-  async updateReview(
-    compositeKey: { userId: number; gameId: number },
-    data: ReviewUpdateDto
-  ): Promise<Review | null> {
-    const review = await this.repository.findOneBy(compositeKey);
-    if (!review) return null;
-    this.repository.merge(review, data);
-    return this.repository.save(review);
-  }
+  private repository = AppDataSource.getRepository(Review);
 
   /**
-   * Create a new review.
-   * @param data The review creation payload.
-   * @returns The created Review entity.
+   * Transform a Review entity into a ReviewReadDto.
+   * @param review The Review entity to transform.
+   * @returns The transformed ReviewReadDto.
    */
-  async createReview(data: CreateReviewPayload): Promise<Review> {
-    const review = this.repository.create({
-      userId: data.userId, // Explicitly set userId
-      gameId: data.gameId, // Explicitly set gameId
-      review: data.review,
-      user: { id: data.userId }, // Set the user relationship
-      game: { id: data.gameId }, // Set the game relationship
-    });
-    return this.repository.save(review);
+  private toDto(review: Review): ReviewReadDto {
+    return {
+      userId: review.userId,
+      gameId: review.gameId,
+      review: review.review,
+    };
   }
 
   /**
-   * Get reviews with optional filtering by gameId and pagination.
-   * @param filters Object containing gameId, page, and page_size.
-   * @returns PaginatedResponse containing filtered Review entities.
+   * Get reviews with optional filtering by gameId and userId, and pagination.
+   * @param filters Object containing optional filters: gameId, userId, page, and page_size.
+   * @returns A paginated response containing filtered Review DTOs.
    */
   async getFilteredReviews(filters: {
     gameId?: number;
-    userId?: number; // Add userId to the filter options
+    userId?: number;
     page?: number;
     page_size?: number;
-  }): Promise<PaginatedResponse<Review>> {
+  }): Promise<PaginatedResponse<ReviewReadDto>> {
     const { gameId, userId, page = 1, page_size = 10 } = filters;
 
     const queryBuilder = this.repository.createQueryBuilder("review");
@@ -77,11 +60,47 @@ export class ReviewService extends BaseService<Review> {
 
     const [results, count] = await queryBuilder.getManyAndCount();
 
+    const dtoResults = results.map(this.toDto);
+
     return {
       count,
       next: count > page * page_size ? `${page + 1}` : null,
-      results,
+      results: dtoResults,
     };
+  }
+
+  /**
+   * Update a review using a composite key (userId, gameId).
+   * @param compositeKey The composite key containing userId and gameId.
+   * @param data The data to update the review with.
+   * @returns The updated Review DTO or null if the review was not found.
+   */
+  async updateReview(
+    compositeKey: { userId: number; gameId: number },
+    data: ReviewUpdateDto
+  ): Promise<ReviewReadDto | null> {
+    const review = await this.repository.findOneBy(compositeKey);
+    if (!review) return null;
+    this.repository.merge(review, data);
+    const updatedReview = await this.repository.save(review);
+    return this.toDto(updatedReview);
+  }
+
+  /**
+   * Create a new review.
+   * @param data The data for creating the review.
+   * @returns The created Review DTO.
+   */
+  async createReview(data: CreateReviewPayload): Promise<ReviewReadDto> {
+    const review = this.repository.create({
+      userId: data.userId,
+      gameId: data.gameId,
+      review: data.review,
+      user: { id: data.userId },
+      game: { id: data.gameId },
+    });
+    const createdReview = await this.repository.save(review);
+    return this.toDto(createdReview);
   }
 
   /**
@@ -94,7 +113,20 @@ export class ReviewService extends BaseService<Review> {
     gameId: number;
   }): Promise<boolean> {
     const result = await this.repository.delete(compositeKey);
-    return (result.affected ?? 0) > 0; // Use nullish coalescing to handle null or undefined
+    return (result.affected ?? 0) > 0;
+  }
+
+  /**
+   * Get a review by composite key (userId, gameId).
+   * @param compositeKey The composite key containing userId and gameId.
+   * @returns The Review DTO or null if the review was not found.
+   */
+  async getByCompositeKey(compositeKey: {
+    userId: number;
+    gameId: number;
+  }): Promise<ReviewReadDto | null> {
+    const review = await this.repository.findOneBy(compositeKey);
+    return review ? this.toDto(review) : null;
   }
 }
 
