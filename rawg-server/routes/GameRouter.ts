@@ -63,7 +63,7 @@ gameRouter.get(
   "/:id/movies",
   asyncHandler(async (req, res) => {
     const gameId = parseInt(req.params.id, 10);
-    const trailers = await gameService.getTrailers(gameId);
+    const trailers = await gameService.getTrailer(gameId);
     res.send(trailers);
   })
 );

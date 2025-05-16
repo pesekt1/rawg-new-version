@@ -23,6 +23,8 @@ import { GameUpdateDto } from "./dto/GameUpdateDto";
 import { GameCardDto } from "./dto/GameCardDto";
 import { GameReadDto } from "./dto/GameReadDto";
 import { PaginatedResponse } from "../interfaces/PaginatedResponse";
+import { TrailerReadDto } from "./dto/TrailerReadDto";
+import { ScreenshotReadDto } from "./dto/ScreenshotReadDto";
 
 /**
  * Controller for managing Game entities.
@@ -90,18 +92,18 @@ export class GameController extends Controller {
   }
 
   /**
-   * Get trailers (movies) for a game by ID.
-   * Returns a list of trailers.
+   * Get one trailer (movie) for a game by ID.
+   * Returns a single trailer DTO.
    * @param id Game ID.
    */
   @Get("{id}/movies")
-  public async getTrailers(@Path() id: number) {
-    return gameService.getTrailers(id);
+  public async getTrailer(@Path() id: number) {
+    return gameService.getTrailer(id);
   }
 
   /**
    * Get screenshots for a game by ID.
-   * Returns a list of screenshots.
+   * Returns a list of screenshots DTOs.
    * @param id Game ID.
    */
   @Get("{id}/screenshots")

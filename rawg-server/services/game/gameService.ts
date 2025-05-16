@@ -16,6 +16,9 @@ import { Tag } from "../../entities/Tag";
 import { buildGameQuery } from "./gameQueryBuilder";
 import { constructNextUrl } from "../../utils/paginationUtils";
 import { PaginatedResponse } from "../../interfaces/PaginatedResponse";
+import { Trailer } from "../../entities/Trailer";
+import { TrailerReadDto } from "../../controllers/dto/TrailerReadDto";
+import { ScreenshotReadDto } from "../../controllers/dto/ScreenshotReadDto";
 
 export class GameService {
   private gameRepository = AppDataSource.getRepository(Game);
@@ -76,22 +79,30 @@ export class GameService {
   }
 
   /**
-   * Get trailers for a specific game.
+   * Get first trailer for a specific game.
    */
-  async getTrailers(gameId: number) {
+  async getTrailer(gameId: number) {
     const game = await this.gameRepository
       .createQueryBuilder("game")
       .leftJoinAndSelect("game.trailers", "trailers")
       .where("game.id = :gameId", { gameId })
       .getOne();
 
-    if (!game || !game.trailers) {
+    if (!game || !game.trailers || game.trailers.length === 0) {
       throw new Error(`No trailers found for game with ID "${gameId}"`);
     }
 
+    const trailer = game.trailers[0]; // Get the first trailer
+    const dto: TrailerReadDto = {
+      id: trailer.id,
+      name: trailer.name,
+      preview: trailer.preview,
+      data480: trailer.data480,
+      dataMax: trailer.dataMax,
+    };
     return {
-      count: game.trailers.length,
-      results: game.trailers,
+      count: 1,
+      results: [dto],
     };
   }
 
@@ -101,17 +112,25 @@ export class GameService {
   async getScreenshots(gameId: number) {
     const game = await this.gameRepository
       .createQueryBuilder("game")
-      .leftJoinAndSelect("game.screenshots", "screenshots") // Assuming a relation exists
+      .leftJoinAndSelect("game.screenshots", "screenshots")
       .where("game.id = :gameId", { gameId })
       .getOne();
 
-    if (!game || !game.screenshots) {
+    if (!game || !game.screenshots || game.screenshots.length === 0) {
       throw new Error(`No screenshots found for game with ID "${gameId}"`);
     }
 
+    const results = game.screenshots.map((screenshot) => ({
+      id: screenshot.id,
+      image: screenshot.image,
+      width: screenshot.width,
+      height: screenshot.height,
+      is_deleted: screenshot.is_deleted,
+    }));
+
     return {
-      count: game.screenshots.length,
-      results: game.screenshots,
+      count: results.length,
+      results,
     };
   }
 
