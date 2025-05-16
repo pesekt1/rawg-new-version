@@ -19,6 +19,8 @@ import {
 import { AuthService } from "../services/authService";
 import { wishlistService } from "../services/wishlistService";
 import { gameLibraryService } from "../services/gameLibraryService";
+import { PaginatedResponse } from "../interfaces/PaginatedResponse";
+import { GameCardDto } from "./dto/GameCardDto";
 
 interface RegisterRequest {
   username: string;
@@ -69,7 +71,9 @@ export class UserController extends Controller {
    */
   @Security("jwt")
   @Get("{userId}/wishlist")
-  public async getWishlist(@Path() userId: number) {
+  public async getWishlist(
+    @Path() userId: number
+  ): Promise<PaginatedResponse<GameCardDto>> {
     return wishlistService.get(userId);
   }
 
@@ -110,7 +114,9 @@ export class UserController extends Controller {
    */
   @Security("jwt")
   @Get("{userId}/library")
-  public async getLibrary(@Path() userId: number) {
+  public async getLibrary(
+    @Path() userId: number
+  ): Promise<PaginatedResponse<GameCardDto>> {
     return gameLibraryService.get(userId);
   }
 
