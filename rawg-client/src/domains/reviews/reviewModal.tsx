@@ -13,9 +13,9 @@ import {
 } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
 import useCreteReview from "./useCreateReview";
-import useReview from "./useReview"; // Import useReview hook
-import { useAuth } from "../auth/useAuth"; // Import useAuth to get user info
-import useDeleteReview from "./useDeleteReview"; // Import useDeleteReview hook
+import useReview from "./useReview";
+import { useAuth } from "../auth/useAuth";
+import useDeleteReview from "./useDeleteReview";
 
 interface ReviewModalProps {
   isOpen: boolean;
@@ -37,7 +37,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
   const { mutateAsync: deleteReview, isLoading: isDeleting } = useDeleteReview(
     gameId,
     user?.id || 0
-  ); // Use mutateAsync for deleteReview
+  );
 
   useEffect(() => {
     if (userReview) {
@@ -51,14 +51,15 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
     try {
       await createReview({ gameId, review: reviewText });
       toast({
-        title: userReview ? "Review updated." : "Review created.", // Adjust message based on action
+        title: userReview ? "Review updated." : "Review created.",
         status: "success",
         duration: 3000,
         isClosable: true,
       });
       setReviewText("");
-      queryClient.invalidateQueries(["reviews", gameId]); // Invalidate reviews query
-      queryClient.invalidateQueries(["review", gameId, user?.id || 0]); // Invalidate the single review query
+      //invalidate cache
+      queryClient.invalidateQueries(["reviews", gameId]);
+      queryClient.invalidateQueries(["review", gameId, user?.id || 0]);
       onClose();
     } catch (error: any) {
       toast({
@@ -86,9 +87,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
           isClosable: true,
         });
         setReviewText("");
-        queryClient.invalidateQueries(["reviews", gameId]); // Invalidate reviews query
-        queryClient.invalidateQueries(["review", gameId, user?.id || 0]); // Invalidate the single review query
-        onClose();
+        onClose(); // Close the modal
       }
     } catch (error: any) {
       toast({
