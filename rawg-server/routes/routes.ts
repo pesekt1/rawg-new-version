@@ -916,6 +916,7 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsReviewController_getAll: Record<string, TsoaRoute.ParameterSchema> = {
                 gameId: {"in":"query","name":"gameId","dataType":"double"},
+                userId: {"in":"query","name":"userId","dataType":"double"},
                 page: {"in":"query","name":"page","dataType":"double"},
                 page_size: {"in":"query","name":"page_size","dataType":"double"},
         };
@@ -1042,9 +1043,10 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsReviewController_delete: Record<string, TsoaRoute.ParameterSchema> = {
-                id: {"in":"path","name":"id","required":true,"dataType":"double"},
+                userId: {"in":"path","name":"userId","required":true,"dataType":"double"},
+                gameId: {"in":"path","name":"gameId","required":true,"dataType":"double"},
         };
-        app.delete('/reviews/:id',
+        app.delete('/reviews/:userId/:gameId',
             authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(ReviewController)),
             ...(fetchMiddlewares<RequestHandler>(ReviewController.prototype.delete)),

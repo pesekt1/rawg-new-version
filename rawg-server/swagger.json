@@ -1862,7 +1862,7 @@
 						}
 					}
 				},
-				"description": "Get a list of all reviews with optional pagination and filtering by gameId.",
+				"description": "Get a list of all reviews with optional pagination and filtering by gameId and userId.",
 				"tags": [
 					"Reviews"
 				],
@@ -1872,6 +1872,16 @@
 						"description": "Optional game ID to filter reviews.",
 						"in": "query",
 						"name": "gameId",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Optional user ID to filter reviews.",
+						"in": "query",
+						"name": "userId",
 						"required": false,
 						"schema": {
 							"format": "double",
@@ -1975,50 +1985,6 @@
 						}
 					}
 				]
-			},
-			"delete": {
-				"operationId": "Delete",
-				"responses": {
-					"200": {
-						"description": "Message indicating result.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"message"
-									],
-									"type": "object"
-								}
-							}
-						}
-					}
-				},
-				"description": "Delete a review by ID.\r\nRequires user authentication.",
-				"tags": [
-					"Reviews"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [
-					{
-						"description": "Review ID.",
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
 			}
 		},
 		"/reviews/{userId}/{gameId}": {
@@ -2084,6 +2050,60 @@
 						}
 					}
 				}
+			},
+			"delete": {
+				"operationId": "Delete",
+				"responses": {
+					"200": {
+						"description": "Message indicating result.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Delete a review by composite key (userId and gameId).\r\nRequires user authentication.",
+				"tags": [
+					"Reviews"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "User ID.",
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Game ID.",
+						"in": "path",
+						"name": "gameId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
 			}
 		},
 		"/publishers": {
