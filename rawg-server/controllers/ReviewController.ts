@@ -20,12 +20,11 @@ import {
   Request,
 } from "tsoa";
 import { reviewService } from "../services/reviewService";
-import { handleDelete } from "./controllerUtils";
-import { Review } from "../entities/Review";
 import { PaginatedResponse } from "../interfaces/PaginatedResponse";
 import { ReviewCreateDto } from "./dto/ReviewCreateDto";
 import { ReviewUpdateDto } from "./dto/ReviewUpdateDto";
 import { Request as ExpressRequest } from "express";
+import { ReviewReadDto } from "./dto/ReviewReadDto";
 
 /**
  * Controller for managing Review entities.
@@ -39,31 +38,35 @@ export class ReviewController extends Controller {
    * @param userId Optional user ID to filter reviews.
    * @param page Page number for pagination.
    * @param page_size Number of items per page.
-   * @returns PaginatedResponse containing Review entities.
+   * @returns PaginatedResponse containing Review DTOs.
    */
   @Get("/")
   public async getAll(
     @Query() gameId?: number,
-    @Query() userId?: number, // Add userId as an optional query parameter
+    @Query() userId?: number,
     @Query() page?: number,
     @Query() page_size?: number
-  ): Promise<PaginatedResponse<Review>> {
+  ): Promise<PaginatedResponse<ReviewReadDto>> {
     return reviewService.getFilteredReviews({
       gameId,
       userId,
       page,
       page_size,
-    }); // Pass userId to the service
+    });
   }
 
   /**
-   * Get a review by ID.
-   * @param id Review ID.
-   * @returns Review entity or null if not found.
+   * Get a review by composite key (userId and gameId).
+   * @param userId User ID.
+   * @param gameId Game ID.
+   * @returns ReviewReadDto or null if not found.
    */
-  @Get("{id}")
-  public async getById(@Path() id: number): Promise<Review | null> {
-    return reviewService.getById(id);
+  @Get("{userId}/{gameId}")
+  public async getById(
+    @Path() userId: number,
+    @Path() gameId: number
+  ): Promise<ReviewReadDto | null> {
+    return reviewService.getByCompositeKey({ userId, gameId });
   }
 
   /**
@@ -71,16 +74,16 @@ export class ReviewController extends Controller {
    * Requires user authentication.
    * @param req The HTTP request object (to extract userId from the token).
    * @param data Review creation data.
-   * @returns The created Review entity.
+   * @returns The created Review DTO.
    */
   @SuccessResponse("201", "Created")
   @Post("/")
   @Security("jwt")
   public async create(
-    @Request() req: ExpressRequest, // Use the aliased ExpressRequest type
+    @Request() req: ExpressRequest,
     @Body() data: ReviewCreateDto
-  ): Promise<Review> {
-    const userId = req.user?.userId; // Extract userId from the token (set by expressAuthentication)
+  ): Promise<ReviewReadDto> {
+    const userId = req.user?.userId; // Extract userId from the token
     const reviewData = {
       userId,
       gameId: data.gameId,
@@ -95,7 +98,7 @@ export class ReviewController extends Controller {
    * @param userId User ID.
    * @param gameId Game ID.
    * @param data Update data containing the review text.
-   * @returns Updated Review entity or null if not found.
+   * @returns Updated Review DTO or null if not found.
    */
   @Put("{userId}/{gameId}")
   @Security("jwt")
@@ -103,7 +106,7 @@ export class ReviewController extends Controller {
     @Path() userId: number,
     @Path() gameId: number,
     @Body() data: ReviewUpdateDto
-  ): Promise<Review | null> {
+  ): Promise<ReviewReadDto | null> {
     const compositeKey = { userId, gameId };
     return reviewService.updateReview(compositeKey, data);
   }
