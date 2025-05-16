@@ -3,7 +3,10 @@ import { AppDataSource } from "../../startup/data-source";
 import { GameUpdateDto } from "../../controllers/dto/GameUpdateDto";
 import { GameReadDto } from "../../controllers/dto/GameReadDto";
 import { GameCardDto } from "../../controllers/dto/GameCardDto";
-import { toGameCardDto, toGameReadDto } from "../../controllers/dto/entityMappers";
+import {
+  toGameCardDto,
+  toGameReadDto,
+} from "../../controllers/dto/entityMappers";
 import { Genre } from "../../entities/Genre";
 import { ParentPlatform } from "../../entities/ParentPlatform";
 import { Store } from "../../entities/Store";
@@ -12,6 +15,7 @@ import { Developer } from "../../entities/Developer";
 import { Tag } from "../../entities/Tag";
 import { buildGameQuery } from "./gameQueryBuilder";
 import { constructNextUrl } from "../../utils/paginationUtils";
+import { PaginatedResponse } from "../../interfaces/PaginatedResponse";
 
 export class GameService {
   private gameRepository = AppDataSource.getRepository(Game);
@@ -19,7 +23,7 @@ export class GameService {
   /**
    * Get a paginated list of games with filters and sorting.
    */
-  async getGames(filters: any): Promise<{ count: number; next: string | null; results: GameCardDto[] }> {
+  async getGames(filters: any): Promise<PaginatedResponse<GameCardDto>> {
     const DEFAULT_PAGE_SIZE = 10;
     const MAX_PAGE_SIZE = 40;
     const DEFAULT_PAGE = 1;
@@ -122,7 +126,9 @@ export class GameService {
 
     // Unix timestamp in seconds
     const added =
-      typeof data.added === "number" ? data.added : Math.floor(Date.now() / 1000);
+      typeof data.added === "number"
+        ? data.added
+        : Math.floor(Date.now() / 1000);
 
     // Create and save the game
     const game = this.gameRepository.create({

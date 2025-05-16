@@ -22,6 +22,7 @@ import { gameService } from "../services/game/gameService";
 import { GameUpdateDto } from "./dto/GameUpdateDto";
 import { GameCardDto } from "./dto/GameCardDto";
 import { GameReadDto } from "./dto/GameReadDto";
+import { PaginatedResponse } from "../interfaces/PaginatedResponse";
 
 /**
  * Controller for managing Game entities.
@@ -60,7 +61,7 @@ export class GameController extends Controller {
     @Query() sortOrder?: string,
     @Query() searchText?: string,
     @Query() tagId?: number
-  ): Promise<{ count: number; next: string | null; results: GameCardDto[] }> {
+  ): Promise<PaginatedResponse<GameCardDto>> {
     // Pass filter params as a plain object
     return gameService.getGames({
       page,
