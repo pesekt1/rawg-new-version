@@ -20,10 +20,11 @@ import GameTrailer from "../domains/games/components/GameTrailer";
 import StyledText from "../components/StyledText";
 import PlatformIconsList from "../domains/platforms/PlatformIconsList";
 import { useQueryClient } from "@tanstack/react-query";
-import CreateReviewModal from "../domains/reviews/CreateReviewModal";
+import ReviewModal from "../domains/reviews/reviewModal";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa"; // Import the Plus icon
 import useReviews from "../domains/reviews/useReviews";
+import useReview from "../domains/reviews/useReview";
 import InfiniteScroll from "react-infinite-scroll-component";
 import React from "react";
 
@@ -33,7 +34,7 @@ const GameDetailPage = () => {
 
   const { data: game, isLoading, error } = useGame(gameId);
   const navigate = useNavigate();
-  const { role } = useAuth();
+  const { role, user } = useAuth();
   const queryClient = useQueryClient();
 
   const {
@@ -57,6 +58,8 @@ const GameDetailPage = () => {
     fetchNextPage,
     hasNextPage,
   } = useReviews(gameId);
+
+  const { data: userReview } = useReview(gameId, user?.id || 0);
 
   const fetchedReviewsCount =
     reviews?.pages.reduce((total, page) => total + page.results.length, 0) || 0;
@@ -114,9 +117,9 @@ const GameDetailPage = () => {
           isDisabled={!role} // Disable the button if the user is not authenticated
           leftIcon={<FaPlus />} // Add the Plus icon to the button
         >
-          Create Review
+          {userReview ? "Update Review" : "Create Review"}
         </Button>
-        <CreateReviewModal
+        <ReviewModal
           isOpen={isReviewModalOpen}
           onClose={() => setReviewModalOpen(false)}
           gameId={game.id}
