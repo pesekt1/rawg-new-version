@@ -1,6 +1,9 @@
 import { AppDataSource } from "../startup/data-source";
 import { Game } from "../entities/Game";
 import { User } from "../entities/User";
+import { GameReadDto } from "../controllers/dto/GameReadDto";
+import { toGameReadDto } from "../controllers/dto/entityMappers"; // Import the mapper
+import { PaginatedResponse } from "../interfaces/PaginatedResponse";
 
 /**
  * Service for managing user-game relations (wishlist, library).
@@ -14,9 +17,9 @@ export class UserGameRelationService {
   /**
    * Get the user's wishlist or library.
    * @param userId User ID
-   * @returns Promise resolving to the specific relation (wishlist or library).
+   * @returns Promise resolving to the specific relation (wishlist or library) as GameReadDto[].
    */
-  async get(userId: number) {
+  async get(userId: number): Promise<PaginatedResponse<GameReadDto>> {
     const userRepo = AppDataSource.getRepository(User);
     const user = await userRepo.findOne({
       where: { id: userId },
@@ -26,7 +29,12 @@ export class UserGameRelationService {
     if (!user) throw new Error("User not found");
 
     // @ts-ignore
-    return user[this.collection]; // Return only the requested collection
+    const results = user[this.collection].map(toGameReadDto); // Use the mapper
+    return {
+      count: results.length,
+      next: null,
+      results,
+    };
   }
 
   /**
