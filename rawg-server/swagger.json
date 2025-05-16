@@ -1015,6 +1015,35 @@
 				],
 				"type": "object"
 			},
+			"TrailerReadDto": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"preview": {
+						"type": "string"
+					},
+					"data480": {
+						"type": "string"
+					},
+					"dataMax": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"preview",
+					"data480",
+					"dataMax"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"GameUpdateDto": {
 				"properties": {
 					"tags": {
@@ -3136,7 +3165,7 @@
 		},
 		"/games/{id}/movies": {
 			"get": {
-				"operationId": "GetTrailers",
+				"operationId": "GetTrailer",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -3146,7 +3175,7 @@
 									"properties": {
 										"results": {
 											"items": {
-												"$ref": "#/components/schemas/Trailer"
+												"$ref": "#/components/schemas/TrailerReadDto"
 											},
 											"type": "array"
 										},
@@ -3165,7 +3194,7 @@
 						}
 					}
 				},
-				"description": "Get trailers (movies) for a game by ID.\r\nReturns a list of trailers.",
+				"description": "Get one trailer (movie) for a game by ID.\r\nReturns a single trailer DTO.",
 				"tags": [
 					"Games"
 				],
@@ -3196,7 +3225,34 @@
 									"properties": {
 										"results": {
 											"items": {
-												"$ref": "#/components/schemas/Screenshot"
+												"properties": {
+													"is_deleted": {
+														"type": "boolean"
+													},
+													"height": {
+														"type": "number",
+														"format": "double"
+													},
+													"width": {
+														"type": "number",
+														"format": "double"
+													},
+													"image": {
+														"type": "string"
+													},
+													"id": {
+														"type": "number",
+														"format": "double"
+													}
+												},
+												"required": [
+													"is_deleted",
+													"height",
+													"width",
+													"image",
+													"id"
+												],
+												"type": "object"
 											},
 											"type": "array"
 										},
@@ -3215,7 +3271,7 @@
 						}
 					}
 				},
-				"description": "Get screenshots for a game by ID.\r\nReturns a list of screenshots.",
+				"description": "Get screenshots for a game by ID.\r\nReturns a list of screenshots DTOs.",
 				"tags": [
 					"Games"
 				],

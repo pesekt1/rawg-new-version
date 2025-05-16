@@ -354,6 +354,18 @@ const models: TsoaRoute.Models = {
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"inLibraryOf":{"dataType":"array","array":{"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"double","required":true}}},"required":true},"wishlistedBy":{"dataType":"array","array":{"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"double","required":true}}},"required":true},"tags":{"dataType":"array","array":{"dataType":"refObject","ref":"TagReadDto"},"required":true},"developers":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityReadDto"},"required":true},"publishers":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityReadDto"},"required":true},"stores":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityReadDto"},"required":true},"parent_platforms":{"dataType":"array","array":{"dataType":"refAlias","ref":"PlatformReadDto"},"required":true},"genres":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityReadDto"},"required":true},"website":{"dataType":"string"},"rating_top":{"dataType":"double"},"added":{"dataType":"double"},"released":{"dataType":"string"},"rating":{"dataType":"double"},"background_image":{"dataType":"string"},"metacritic":{"dataType":"double"},"description_raw":{"dataType":"string"},"slug":{"dataType":"string","required":true},"name":{"dataType":"string","required":true},"id":{"dataType":"double","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "TrailerReadDto": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"double","required":true},
+            "name": {"dataType":"string","required":true},
+            "preview": {"dataType":"string","required":true},
+            "data480": {"dataType":"string","required":true},
+            "dataMax": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "GameUpdateDto": {
         "dataType": "refAlias",
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"tags":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityWithIdDto"}},"developers":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityWithIdDto"}},"publishers":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityWithIdDto"}},"stores":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityWithIdDto"}},"parent_platforms":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityWithIdDto"}},"genres":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityWithIdDto"}},"website":{"dataType":"string"},"rating_top":{"dataType":"double"},"added":{"dataType":"double"},"released":{"dataType":"string"},"rating":{"dataType":"double"},"background_image":{"dataType":"string"},"metacritic":{"dataType":"double"},"description_raw":{"dataType":"string"},"slug":{"dataType":"string","required":true},"name":{"dataType":"string","required":true}},"validators":{}},
@@ -1687,25 +1699,25 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsGameController_getTrailers: Record<string, TsoaRoute.ParameterSchema> = {
+        const argsGameController_getTrailer: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
         };
         app.get('/games/:id/movies',
             ...(fetchMiddlewares<RequestHandler>(GameController)),
-            ...(fetchMiddlewares<RequestHandler>(GameController.prototype.getTrailers)),
+            ...(fetchMiddlewares<RequestHandler>(GameController.prototype.getTrailer)),
 
-            async function GameController_getTrailers(request: ExRequest, response: ExResponse, next: any) {
+            async function GameController_getTrailer(request: ExRequest, response: ExResponse, next: any) {
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
             let validatedArgs: any[] = [];
             try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsGameController_getTrailers, request, response });
+                validatedArgs = templateService.getValidatedArgs({ args: argsGameController_getTrailer, request, response });
 
                 const controller = new GameController();
 
               await templateService.apiHandler({
-                methodName: 'getTrailers',
+                methodName: 'getTrailer',
                 controller,
                 response,
                 next,
