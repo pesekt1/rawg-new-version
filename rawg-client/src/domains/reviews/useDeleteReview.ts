@@ -10,8 +10,9 @@ const useDeleteReview = (gameId: number, userId: number) => {
     ["reviews", gameId],
     {
       onSuccess: () => {
-        // Invalidate the specific review cache for the user
+        //invalidate cache
         queryClient.invalidateQueries(["review", gameId, userId]);
+        queryClient.invalidateQueries(["reviews", gameId]);
       },
     }
   );
