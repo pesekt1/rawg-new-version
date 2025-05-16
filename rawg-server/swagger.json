@@ -39,6 +39,128 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"EntityWithIdDto": {
+				"description": "DTO for entities with an id, name, slug, and optional image_background and language.",
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"slug": {
+						"type": "string"
+					},
+					"image_background": {
+						"type": "string",
+						"nullable": true
+					},
+					"language": {
+						"type": "string",
+						"nullable": true
+					},
+					"id": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"name",
+					"slug",
+					"id"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"GameCardDto": {
+				"properties": {
+					"inLibraryOf": {
+						"items": {
+							"properties": {
+								"id": {
+									"type": "number",
+									"format": "double"
+								}
+							},
+							"required": [
+								"id"
+							],
+							"type": "object"
+						},
+						"type": "array"
+					},
+					"wishlistedBy": {
+						"items": {
+							"properties": {
+								"id": {
+									"type": "number",
+									"format": "double"
+								}
+							},
+							"required": [
+								"id"
+							],
+							"type": "object"
+						},
+						"type": "array"
+					},
+					"parent_platforms": {
+						"items": {
+							"$ref": "#/components/schemas/EntityWithIdDto"
+						},
+						"type": "array"
+					},
+					"rating_top": {
+						"type": "number",
+						"format": "double"
+					},
+					"background_image": {
+						"type": "string"
+					},
+					"metacritic": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"id": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"inLibraryOf",
+					"wishlistedBy",
+					"parent_platforms",
+					"name",
+					"id"
+				],
+				"type": "object"
+			},
+			"PaginatedResponse_GameCardDto_": {
+				"description": "Standard interface for paginated responses.",
+				"properties": {
+					"count": {
+						"type": "number",
+						"format": "double"
+					},
+					"next": {
+						"type": "string",
+						"nullable": true
+					},
+					"results": {
+						"items": {
+							"$ref": "#/components/schemas/GameCardDto"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"count",
+					"next",
+					"results"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"Game": {
 				"properties": {
 					"id": {
@@ -407,36 +529,6 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Review": {
-				"properties": {
-					"userId": {
-						"type": "number",
-						"format": "double"
-					},
-					"gameId": {
-						"type": "number",
-						"format": "double"
-					},
-					"review": {
-						"type": "string"
-					},
-					"user": {
-						"$ref": "#/components/schemas/User"
-					},
-					"game": {
-						"$ref": "#/components/schemas/Game"
-					}
-				},
-				"required": [
-					"userId",
-					"gameId",
-					"review",
-					"user",
-					"game"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
 			"Trailer": {
 				"properties": {
 					"id": {
@@ -500,6 +592,36 @@
 					"width",
 					"height",
 					"is_deleted",
+					"game"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Review": {
+				"properties": {
+					"userId": {
+						"type": "number",
+						"format": "double"
+					},
+					"gameId": {
+						"type": "number",
+						"format": "double"
+					},
+					"review": {
+						"type": "string"
+					},
+					"user": {
+						"$ref": "#/components/schemas/User"
+					},
+					"game": {
+						"$ref": "#/components/schemas/Game"
+					}
+				},
+				"required": [
+					"userId",
+					"gameId",
+					"review",
+					"user",
 					"game"
 				],
 				"type": "object",
@@ -770,102 +892,6 @@
 				],
 				"type": "object",
 				"additionalProperties": false
-			},
-			"EntityWithIdDto": {
-				"description": "DTO for entities with an id, name, slug, and optional image_background and language.",
-				"properties": {
-					"name": {
-						"type": "string"
-					},
-					"slug": {
-						"type": "string"
-					},
-					"image_background": {
-						"type": "string",
-						"nullable": true
-					},
-					"language": {
-						"type": "string",
-						"nullable": true
-					},
-					"id": {
-						"type": "number",
-						"format": "double"
-					}
-				},
-				"required": [
-					"name",
-					"slug",
-					"id"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"GameCardDto": {
-				"properties": {
-					"inLibraryOf": {
-						"items": {
-							"properties": {
-								"id": {
-									"type": "number",
-									"format": "double"
-								}
-							},
-							"required": [
-								"id"
-							],
-							"type": "object"
-						},
-						"type": "array"
-					},
-					"wishlistedBy": {
-						"items": {
-							"properties": {
-								"id": {
-									"type": "number",
-									"format": "double"
-								}
-							},
-							"required": [
-								"id"
-							],
-							"type": "object"
-						},
-						"type": "array"
-					},
-					"parent_platforms": {
-						"items": {
-							"$ref": "#/components/schemas/EntityWithIdDto"
-						},
-						"type": "array"
-					},
-					"rating_top": {
-						"type": "number",
-						"format": "double"
-					},
-					"background_image": {
-						"type": "string"
-					},
-					"metacritic": {
-						"type": "number",
-						"format": "double"
-					},
-					"name": {
-						"type": "string"
-					},
-					"id": {
-						"type": "number",
-						"format": "double"
-					}
-				},
-				"required": [
-					"inLibraryOf",
-					"wishlistedBy",
-					"parent_platforms",
-					"name",
-					"id"
-				],
-				"type": "object"
 			},
 			"GameReadDto": {
 				"properties": {
@@ -1196,10 +1222,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"items": {
-										"$ref": "#/components/schemas/Game"
-									},
-									"type": "array"
+									"$ref": "#/components/schemas/PaginatedResponse_GameCardDto_"
 								}
 							}
 						}
@@ -1331,10 +1354,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"items": {
-										"$ref": "#/components/schemas/Game"
-									},
-									"type": "array"
+									"$ref": "#/components/schemas/PaginatedResponse_GameCardDto_"
 								}
 							}
 						}
@@ -2834,28 +2854,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"properties": {
-										"results": {
-											"items": {
-												"$ref": "#/components/schemas/GameCardDto"
-											},
-											"type": "array"
-										},
-										"next": {
-											"type": "string",
-											"nullable": true
-										},
-										"count": {
-											"type": "number",
-											"format": "double"
-										}
-									},
-									"required": [
-										"results",
-										"next",
-										"count"
-									],
-									"type": "object"
+									"$ref": "#/components/schemas/PaginatedResponse_GameCardDto_"
 								}
 							}
 						}
