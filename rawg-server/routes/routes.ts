@@ -260,12 +260,22 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "PaginatedResponse_Review_": {
+    "ReviewReadDto": {
+        "dataType": "refObject",
+        "properties": {
+            "userId": {"dataType":"double","required":true},
+            "gameId": {"dataType":"double","required":true},
+            "review": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "PaginatedResponse_ReviewReadDto_": {
         "dataType": "refObject",
         "properties": {
             "count": {"dataType":"double","required":true},
             "next": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
-            "results": {"dataType":"array","array":{"dataType":"refObject","ref":"Review"},"required":true},
+            "results": {"dataType":"array","array":{"dataType":"refObject","ref":"ReviewReadDto"},"required":true},
         },
         "additionalProperties": false,
     },
@@ -948,9 +958,10 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsReviewController_getById: Record<string, TsoaRoute.ParameterSchema> = {
-                id: {"in":"path","name":"id","required":true,"dataType":"double"},
+                userId: {"in":"path","name":"userId","required":true,"dataType":"double"},
+                gameId: {"in":"path","name":"gameId","required":true,"dataType":"double"},
         };
-        app.get('/reviews/:id',
+        app.get('/reviews/:userId/:gameId',
             ...(fetchMiddlewares<RequestHandler>(ReviewController)),
             ...(fetchMiddlewares<RequestHandler>(ReviewController.prototype.getById)),
 

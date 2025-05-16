@@ -638,7 +638,30 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"PaginatedResponse_Review_": {
+			"ReviewReadDto": {
+				"description": "DTO for reading reviews with simplified fields.",
+				"properties": {
+					"userId": {
+						"type": "number",
+						"format": "double"
+					},
+					"gameId": {
+						"type": "number",
+						"format": "double"
+					},
+					"review": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"userId",
+					"gameId",
+					"review"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PaginatedResponse_ReviewReadDto_": {
 				"description": "Standard interface for paginated responses.",
 				"properties": {
 					"count": {
@@ -651,7 +674,7 @@
 					},
 					"results": {
 						"items": {
-							"$ref": "#/components/schemas/Review"
+							"$ref": "#/components/schemas/ReviewReadDto"
 						},
 						"type": "array"
 					}
@@ -1852,11 +1875,11 @@
 				"operationId": "GetAll",
 				"responses": {
 					"200": {
-						"description": "PaginatedResponse containing Review entities.",
+						"description": "PaginatedResponse containing Review DTOs.",
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/PaginatedResponse_Review_"
+									"$ref": "#/components/schemas/PaginatedResponse_ReviewReadDto_"
 								}
 							}
 						}
@@ -1918,7 +1941,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/Review"
+									"$ref": "#/components/schemas/ReviewReadDto"
 								}
 							}
 						}
@@ -1948,18 +1971,18 @@
 				}
 			}
 		},
-		"/reviews/{id}": {
+		"/reviews/{userId}/{gameId}": {
 			"get": {
 				"operationId": "GetById",
 				"responses": {
 					"200": {
-						"description": "Review entity or null if not found.",
+						"description": "ReviewReadDto or null if not found.",
 						"content": {
 							"application/json": {
 								"schema": {
 									"allOf": [
 										{
-											"$ref": "#/components/schemas/Review"
+											"$ref": "#/components/schemas/ReviewReadDto"
 										}
 									],
 									"nullable": true
@@ -1968,16 +1991,26 @@
 						}
 					}
 				},
-				"description": "Get a review by ID.",
+				"description": "Get a review by composite key (userId and gameId).",
 				"tags": [
 					"Reviews"
 				],
 				"security": [],
 				"parameters": [
 					{
-						"description": "Review ID.",
+						"description": "User ID.",
 						"in": "path",
-						"name": "id",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Game ID.",
+						"in": "path",
+						"name": "gameId",
 						"required": true,
 						"schema": {
 							"format": "double",
@@ -1985,20 +2018,18 @@
 						}
 					}
 				]
-			}
-		},
-		"/reviews/{userId}/{gameId}": {
+			},
 			"put": {
 				"operationId": "Update",
 				"responses": {
 					"200": {
-						"description": "Updated Review entity or null if not found.",
+						"description": "Updated Review DTO or null if not found.",
 						"content": {
 							"application/json": {
 								"schema": {
 									"allOf": [
 										{
-											"$ref": "#/components/schemas/Review"
+											"$ref": "#/components/schemas/ReviewReadDto"
 										}
 									],
 									"nullable": true
