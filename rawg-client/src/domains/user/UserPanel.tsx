@@ -1,8 +1,9 @@
-import { HStack, Avatar, Text, VStack } from "@chakra-ui/react";
+import { HStack, Text, VStack } from "@chakra-ui/react";
 import { useAuth } from "../../domains/auth/useAuth";
 import useGameQueryStore from "../../state";
 import WishlistAction from "./WishlistAction";
 import LibraryAction from "./LibraryAction";
+import UserAvatar from "./UserAvatar"; // Import the reusable component
 
 const UserPanel = () => {
   //if not logged in, return null - dont show the user panel
@@ -36,7 +37,7 @@ const UserPanel = () => {
         <Text fontWeight="bold" fontSize="2xl">
           {user.username}
         </Text>
-        <Avatar name={user.username} color="white" size="md" />
+        <UserAvatar username={user.username} size="md" />
       </HStack>
       <WishlistAction
         selected={isWishlistSelected}

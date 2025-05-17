@@ -3,7 +3,6 @@ import {
   IconButton,
   useDisclosure,
   Tooltip,
-  Avatar,
   Menu,
   MenuButton,
   MenuList,
@@ -20,6 +19,7 @@ import useGameQueryStore from "../../state";
 import ColorModeSwitch from "./ColorModeSwitch";
 import SearchInput from "./SearchInput";
 import Logo from "./Logo";
+import UserAvatar from "../../domains/user/UserAvatar"; // Import the reusable component
 
 const NavBar = () => {
   const resetGameQuery = useGameQueryStore((state) => state.reset);
@@ -33,7 +33,7 @@ const NavBar = () => {
     onOpen: onRegisterOpen,
     onClose: onRegisterClose,
   } = useDisclosure();
-  const { isAuthenticated, logout, role } = useAuth();
+  const { isAuthenticated, logout, role, user } = useAuth(); // Add `user` to destructuring
 
   const handleLogout = () => {
     logout();
@@ -44,21 +44,9 @@ const NavBar = () => {
   const authContent = isAuthenticated ? (
     <Menu>
       <Tooltip label={role === "admin" ? "Admin" : "User"}>
-        <MenuButton
-          as={Avatar}
-          size="sm"
-          cursor="pointer"
-          _hover={{
-            boxShadow: "0 0 0 2px #319795",
-            bg: "teal.100",
-            _dark: { bg: "teal.700" },
-          }}
-          _active={{
-            boxShadow: "0 0 0 2px #319795",
-            bg: "teal.200",
-            _dark: { bg: "teal.800" },
-          }}
-        />
+        <MenuButton>
+          <UserAvatar username={user?.username || ""} size="sm" />
+        </MenuButton>
       </Tooltip>
       <MenuList>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
