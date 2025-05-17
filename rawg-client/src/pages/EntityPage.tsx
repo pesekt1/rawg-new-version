@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { Spinner, Center, Text, Box, Heading } from "@chakra-ui/react";
+import { Center, Text, Box, Heading, SimpleGrid } from "@chakra-ui/react";
 import EntityGrid from "../components/EntityGrid";
 import EntityCard from "../components/EntityCard";
 import useGenresPagination from "../domains/genres/useGenresPagination";
@@ -13,6 +13,7 @@ import { Publisher } from "../domains/publishers/Publisher";
 import { UseInfiniteQueryResult } from "@tanstack/react-query";
 import { Response } from "../services/api-client";
 import useGameQueryStore from "../state";
+import GameCardSkeleton from "../domains/games/components/GameCard/GameCardSkeleton"; // Import GameCardSkeleton
 
 type EntityConfig<T> = {
   hook: () => UseInfiniteQueryResult<Response<T>, Error>;
@@ -57,16 +58,33 @@ const EntityPage = () => {
   }
 
   const { hook, title, renderDetails, setter } = config;
-  const { data, isLoading, error, fetchNextPage, hasNextPage } = hook();
+  const {
+    data,
+    isLoading,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = hook();
 
   // Flatten the results from all pages
   const entities = data?.pages?.flatMap((page) => page.results) || [];
 
-  if (isLoading) {
+  if (isLoading && entities.length === 0) {
+    // Show skeletons during the initial load
     return (
-      <Center minH="70vh">
-        <Spinner size="xl" />
-      </Center>
+      <Box>
+        <Heading>{title}</Heading>
+        <SimpleGrid
+          columns={{ base: 1, md: 2, lg: 3, xl: 4, "2xl": 5 }}
+          spacing={4}
+          margin={10}
+        >
+          {[...Array(10).keys()].map((skeleton) => (
+            <GameCardSkeleton key={skeleton} />
+          ))}
+        </SimpleGrid>
+      </Box>
     );
   }
 
@@ -85,7 +103,7 @@ const EntityPage = () => {
       <Heading>{title}</Heading>
       <EntityGrid
         data={entities}
-        isLoading={isLoading}
+        isFetchingNextPage={isFetchingNextPage} // Pass only `isFetchingNextPage` for infinite scroll spinner
         error={error}
         fetchNextPage={fetchNextPage}
         hasNextPage={!!hasNextPage}

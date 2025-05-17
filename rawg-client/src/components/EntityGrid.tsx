@@ -1,6 +1,5 @@
 import { SimpleGrid, Spinner, Text } from "@chakra-ui/react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import EntityCard from "./EntityCard";
 import { Entity } from "../interfaces/Entity";
 
 /**
@@ -8,7 +7,7 @@ import { Entity } from "../interfaces/Entity";
  *
  * @template T - The type of the entities being displayed.
  * @property data - The list of entities to display.
- * @property isLoading - Whether the data is currently being loaded.
+ * @property isFetchingNextPage - Whether the next page is currently being fetched.
  * @property error - An error object if an error occurred during data fetching.
  * @property fetchNextPage - Function to fetch the next page of data.
  * @property hasNextPage - Whether there are more pages of data to load.
@@ -16,7 +15,7 @@ import { Entity } from "../interfaces/Entity";
  */
 interface EntityGridProps<T extends Entity> {
   data: T[];
-  isLoading: boolean;
+  isFetchingNextPage: boolean; // Only handle infinite scroll spinner
   error: Error | null;
   fetchNextPage: () => void;
   hasNextPage: boolean;
@@ -32,7 +31,7 @@ interface EntityGridProps<T extends Entity> {
  */
 const EntityGrid = <T extends Entity>({
   data,
-  isLoading,
+  isFetchingNextPage,
   error,
   fetchNextPage,
   hasNextPage,
@@ -45,7 +44,7 @@ const EntityGrid = <T extends Entity>({
       dataLength={data.length}
       next={fetchNextPage}
       hasMore={hasNextPage}
-      loader={<Spinner />}
+      loader={isFetchingNextPage && <Spinner />} // Show spinner during infinite scroll
       scrollThreshold={1}
     >
       <SimpleGrid
@@ -53,22 +52,7 @@ const EntityGrid = <T extends Entity>({
         spacing={4}
         margin={10}
       >
-        {isLoading
-          ? [...Array(10).keys()].map((skeleton) => (
-              <EntityCard
-                key={skeleton}
-                entity={{} as T}
-                name="Loading..."
-                image="https://via.placeholder.com/300x150"
-                setter={() => {}} // Provide a no-op setter
-              />
-            ))
-          : data.map((entity) => renderCard(entity))}
-        {data.length === 0 && !isLoading && (
-          <Text fontSize="2xl" fontWeight="bold" color="purple.400" p={4}>
-            No entities found...
-          </Text>
-        )}
+        {data.map((entity) => renderCard(entity))}
       </SimpleGrid>
     </InfiniteScroll>
   );

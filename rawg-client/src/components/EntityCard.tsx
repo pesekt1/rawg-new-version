@@ -8,6 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { Entity } from "../interfaces/Entity";
+import getCroppedImageUrl from "../utils/image-url";
 
 /**
  * Props for the `EntityCard` component.
@@ -19,8 +20,6 @@ import { Entity } from "../interfaces/Entity";
  */
 interface EntityCardProps<T extends Entity> {
   entity: T;
-  name?: string; // Optional name for cases like loading skeletons
-  image?: string; // Optional image for cases like loading skeletons
   renderDetails?: (entity: T) => React.ReactNode;
   setter: (id: number | undefined) => void;
 }
@@ -34,8 +33,6 @@ interface EntityCardProps<T extends Entity> {
  */
 const EntityCard = <T extends Entity>({
   entity,
-  name,
-  image,
   renderDetails,
   setter,
 }: EntityCardProps<T>) => {
@@ -50,8 +47,8 @@ const EntityCard = <T extends Entity>({
     <Box __css={cardStyles} overflow="hidden">
       <Box position="relative">
         <Image
-          src={image || entity.image_background} // Use provided image or fallback to entity's image
-          alt={name || entity.name} // Use provided name or fallback to entity's name
+          src={getCroppedImageUrl(entity.image_background)}
+          alt={entity.name}
           objectFit="cover"
           w="100%"
           h="150px"
@@ -79,7 +76,7 @@ const EntityCard = <T extends Entity>({
               transition: "all 0.2s ease-in-out",
             }}
           >
-            {name || entity.name} {/* Use provided name or fallback */}
+            {entity.name}
           </Heading>
         </Box>
       </Box>
