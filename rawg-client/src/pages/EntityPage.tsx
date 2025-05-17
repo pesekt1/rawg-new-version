@@ -91,10 +91,7 @@ const EntityPage = () => {
         hasNextPage={!!hasNextPage}
         renderCard={(entity) => (
           <EntityCard
-            key={entity.id}
             entity={entity}
-            name={entity.name}
-            image={entity.image_background}
             renderDetails={renderDetails}
             setter={setter}
           />

@@ -7,21 +7,20 @@ import {
   useStyleConfig,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { Entity } from "../interfaces/Entity";
 
 /**
  * Props for the `EntityCard` component.
  *
  * @template T - The type of the entity being displayed.
  * @property entity - The entity to display in the card.
- * @property image - The URL of the image to display for the entity.
- * @property name - The name of the entity.
  * @property renderDetails - Optional function to render additional details about the entity.
  * @property setter - A function to set the selected entity's ID.
  */
-interface EntityCardProps<T> {
+interface EntityCardProps<T extends Entity> {
   entity: T;
-  image: string;
-  name: string;
+  name?: string; // Optional name for cases like loading skeletons
+  image?: string; // Optional image for cases like loading skeletons
   renderDetails?: (entity: T) => React.ReactNode;
   setter: (id: number | undefined) => void;
 }
@@ -33,10 +32,10 @@ interface EntityCardProps<T> {
  * @param props - The props for the component.
  * @returns A styled card with an image, name, and optional details.
  */
-const EntityCard = <T extends { id: number }>({
+const EntityCard = <T extends Entity>({
   entity,
-  image,
   name,
+  image,
   renderDetails,
   setter,
 }: EntityCardProps<T>) => {
@@ -50,7 +49,13 @@ const EntityCard = <T extends { id: number }>({
   return (
     <Box __css={cardStyles} overflow="hidden">
       <Box position="relative">
-        <Image src={image} alt={name} objectFit="cover" w="100%" h="150px" />
+        <Image
+          src={image || entity.image_background} // Use provided image or fallback to entity's image
+          alt={name || entity.name} // Use provided name or fallback to entity's name
+          objectFit="cover"
+          w="100%"
+          h="150px"
+        />
         <Box
           position="absolute"
           bottom="0"
@@ -74,7 +79,7 @@ const EntityCard = <T extends { id: number }>({
               transition: "all 0.2s ease-in-out",
             }}
           >
-            {name}
+            {name || entity.name} {/* Use provided name or fallback */}
           </Heading>
         </Box>
       </Box>
