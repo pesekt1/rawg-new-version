@@ -89,7 +89,7 @@ export class GameService {
       .getOne();
 
     if (!game || !game.trailers || game.trailers.length === 0) {
-      throw new Error(`No trailers found for game with ID "${gameId}"`);
+      return { count: 0, results: [] }; // Return empty response instead of throwing
     }
 
     const trailer = game.trailers[0]; // Get the first trailer
