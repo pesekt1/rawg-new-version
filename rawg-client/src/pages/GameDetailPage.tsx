@@ -15,7 +15,7 @@ import ExpandableText from "../components/ExpandableText";
 import GameAttributes from "../domains/games/components/GameAttributes";
 import useDeleteGame from "../domains/games/useDeleteGame";
 import { useAuth } from "../domains/auth/useAuth";
-import GameScreenshots from "../domains/games/components/GameScreenshots";
+import GameScreenshots from "../domains/games/components/GameScreenshots/GameScreenshots";
 import GameTrailer from "../domains/games/components/GameTrailer";
 import StyledText from "../components/StyledText";
 import PlatformIconsList from "../domains/platforms/PlatformIconsList";
