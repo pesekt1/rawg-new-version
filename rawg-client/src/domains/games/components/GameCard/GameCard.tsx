@@ -102,7 +102,7 @@ const GameCard = ({ game }: Props) => {
           <PlatformIconsList platforms={game.parent_platforms} />
           <CriticScore score={game.metacritic} />
         </HStack>
-        <Heading fontSize="2xl">
+        <Heading fontSize={["lg", "xl", "2xl"]}>
           <HStack>
             <Link to={`/games/${game.id}`}>{game.name}</Link>
             <Emoji rating_top={game.rating_top} />
