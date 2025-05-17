@@ -93,7 +93,7 @@ const GameDetailPage = () => {
           role={role}
           onOpenReviewModal={() => setReviewModalOpen(true)}
         />
-        <GameDetailsSection game={game} userReview={userReview} role={role} />
+        <GameDetailsSection game={game} />
         <ReviewModal
           isOpen={isReviewModalOpen}
           onClose={() => setReviewModalOpen(false)}
