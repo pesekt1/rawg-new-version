@@ -11,7 +11,7 @@ const ReviewButton = ({
   onOpenReviewModal: () => void;
 }) => (
   <Button
-    marginTop={2}
+    marginBottom={4}
     variant="outlinedButton"
     size="sm"
     onClick={onOpenReviewModal} // Trigger the modal
