@@ -5,10 +5,12 @@ import ScrollToTop from "../components/ScrollToTop";
 
 const Layout = () => {
   return (
-    <Box mt={5}>
+    <Box mt={{ base: 2, md: 5 }}>
       <ScrollToTop />
-      <NavBar />
-      <Box p={5}>
+      <Box mx={{ base: 2, md: 5 }}>
+        <NavBar />
+      </Box>
+      <Box p={{ base: 2, md: 5 }}>
         <Outlet />
       </Box>
     </Box>
