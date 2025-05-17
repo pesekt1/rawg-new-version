@@ -8,11 +8,13 @@
  * This ensures that both unexpected errors and navigation to non-existent routes are logged in Sentry.
  */
 
-import { Box, Heading, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import NavBar from "../components/NavBar/NavBar";
 import { isRouteErrorResponse, useRouteError } from "react-router-dom";
 import * as Sentry from "@sentry/react";
 import React from "react";
+import error404Image from "../assets/404-error.png"; // Import 404 image
+import error500Image from "../assets/500-error.png"; // Import 500 image
 
 const ErrorPage = () => {
   const error = useRouteError();
@@ -28,13 +30,49 @@ const ErrorPage = () => {
   return (
     <>
       <NavBar />
-      <Box padding={5}>
-        <Heading>Oops...</Heading>
-        <Text>
-          {isRouteErrorResponse(error)
-            ? "This page does not exist."
-            : "An unexpected error has occurred."}
-        </Text>
+      <Box
+        position="relative"
+        height="100vh"
+        backgroundImage={
+          isRouteErrorResponse(error)
+            ? `url(${error404Image})` // Use imported 404 image
+            : `url(${error500Image})` // Use imported 500 image
+        }
+        backgroundSize="contain" // Maintain aspect ratio
+        backgroundRepeat="no-repeat"
+        backgroundPosition="center"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Box
+          position="absolute"
+          top="0"
+          left="0"
+          width="100%"
+          height="100%"
+          backgroundColor="rgba(0, 0, 0, 0.8)"
+          zIndex="0"
+        />
+        <Box
+          zIndex="1"
+          textAlign="center"
+          padding={5}
+          backgroundColor="rgba(255, 255, 255, 0.4)" // Keep text background slightly opaque
+          borderRadius="md"
+          boxShadow="lg"
+        >
+          <Box fontSize="4xl" fontWeight="bold" mb={4}>
+            {isRouteErrorResponse(error)
+              ? "404 - Page Not Found"
+              : "Unexpected Error"}
+          </Box>
+          <Box fontSize="lg">
+            {isRouteErrorResponse(error)
+              ? "The page you are looking for does not exist."
+              : "Something went wrong. Please try again later."}
+          </Box>
+        </Box>
       </Box>
     </>
   );
