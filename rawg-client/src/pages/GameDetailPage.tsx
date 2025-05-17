@@ -8,7 +8,6 @@ import {
   Button,
   Alert,
   AlertIcon,
-  HStack,
   Box,
 } from "@chakra-ui/react";
 import ExpandableText from "../components/ExpandableText";
@@ -27,6 +26,7 @@ import useReviews from "../domains/reviews/useReviews";
 import useReview from "../domains/reviews/useReview";
 import InfiniteScroll from "react-infinite-scroll-component";
 import React from "react";
+import AdminActions from "../domains/games/components/AdminActions";
 
 const GameDetailPage = () => {
   const { id } = useParams();
@@ -87,25 +87,11 @@ const GameDetailPage = () => {
     >
       <GridItem>
         {role === "admin" && (
-          <HStack mb={2} spacing={2}>
-            <Button
-              colorScheme="blue"
-              variant="solid"
-              size="sm"
-              onClick={() => navigate(`/games/${game.id}/edit`)}
-            >
-              Edit Game
-            </Button>
-            <Button
-              colorScheme="red"
-              variant="solid"
-              size="sm"
-              onClick={() => deleteGame(game.id)}
-              isLoading={isDeleting}
-            >
-              Delete Game
-            </Button>
-          </HStack>
+          <AdminActions
+            onEdit={() => navigate(`/games/${game.id}/edit`)}
+            onDelete={() => deleteGame(game.id)}
+            isDeleting={isDeleting}
+          />
         )}
         <Heading>{game.name}</Heading>
         <PlatformIconsList platforms={game.parent_platforms} />
