@@ -12,10 +12,10 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
-import useCreteReview from "./useCreateReview";
-import useReview from "./useReview";
-import { useAuth } from "../auth/useAuth";
-import useDeleteReview from "./useDeleteReview";
+import useCreteReview from "../useCreateReview";
+import useReview from "../useReview";
+import { useAuth } from "../../auth/useAuth";
+import useDeleteReview from "../useDeleteReview";
 
 interface ReviewModalProps {
   isOpen: boolean;
