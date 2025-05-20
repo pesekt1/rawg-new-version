@@ -46,10 +46,7 @@ const theme = extendTheme({
   styles: {
     global: (props: any) => ({
       body: {
-        bg:
-          props.colorMode === "light"
-            ? "lightGray.50"
-            : "linear-gradient(to bottom, #121212, #202020)",
+        bg: props.colorMode === "light" ? "lightGray.50" : "gray.900", // Use a solid color for dark mode
         color: props.colorMode === "light" ? "gray.800" : "gray.50",
       },
       "*::placeholder": {
