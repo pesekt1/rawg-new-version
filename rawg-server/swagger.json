@@ -627,6 +627,50 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"UserReadDto": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"username": {
+						"type": "string"
+					},
+					"role": {
+						"type": "string",
+						"enum": [
+							"admin",
+							"user"
+						]
+					}
+				},
+				"required": [
+					"id",
+					"username",
+					"role"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UserUpdateDto": {
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"role": {
+						"type": "string",
+						"enum": [
+							"admin",
+							"user"
+						]
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
 			"TagReadDto": {
 				"description": "DTO for Tag entity, with language field.",
 				"properties": {
@@ -1197,6 +1241,73 @@
 						}
 					}
 				}
+			},
+			"get": {
+				"operationId": "GetAllUsers",
+				"responses": {
+					"200": {
+						"description": "PaginatedResponse containing user DTOs.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"results": {
+											"items": {
+												"$ref": "#/components/schemas/UserReadDto"
+											},
+											"type": "array"
+										},
+										"next": {
+											"type": "string",
+											"nullable": true
+										},
+										"count": {
+											"type": "number",
+											"format": "double"
+										}
+									},
+									"required": [
+										"results",
+										"next",
+										"count"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Get all users (admin only) with optional pagination.",
+				"tags": [
+					"User"
+				],
+				"security": [
+					{
+						"admin": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "Page number for pagination.",
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Number of items per page.",
+						"in": "query",
+						"name": "page_size",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
 			}
 		},
 		"/users/sessions": {
@@ -1497,6 +1608,105 @@
 						"description": "Game ID.",
 						"in": "path",
 						"name": "gameId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/users/{id}": {
+			"put": {
+				"operationId": "Update",
+				"responses": {
+					"200": {
+						"description": "Updated User DTO or null if not found.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"$ref": "#/components/schemas/UserReadDto"
+										}
+									],
+									"nullable": true
+								}
+							}
+						}
+					}
+				},
+				"description": "Update an existing user.\r\nRequires user access.",
+				"tags": [
+					"User"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "User ID.",
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "Update data.",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UserUpdateDto",
+								"description": "Update data."
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "Delete",
+				"responses": {
+					"200": {
+						"description": "Message indicating result.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Delete a user by ID.\r\nRequires user access.",
+				"tags": [
+					"User"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "User ID.",
+						"in": "path",
+						"name": "id",
 						"required": true,
 						"schema": {
 							"format": "double",
