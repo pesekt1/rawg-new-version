@@ -10,6 +10,8 @@ import { Genre } from "../../entities/Genre";
 import { Game } from "../../entities/Game";
 import { GameReadDto } from "./GameReadDto";
 import { GameCardDto } from "./GameCardDto";
+import { User } from "../../entities/User";
+import { UserReadDto } from "./UserReadDto";
 
 /**
  * Mapper for Developer, Publisher, Store, and Genre entities to EntityReadDto.
@@ -98,8 +100,12 @@ export function toGameReadDto(game: Game): GameReadDto {
     publishers: game.publishers ? toEntityReadDtoArray(game.publishers) : [],
     developers: game.developers ? toEntityReadDtoArray(game.developers) : [],
     tags: game.tags ? toTagReadDtoArray(game.tags) : [],
-    wishlistedBy: game.wishlistedBy ? game.wishlistedBy.map((u) => ({ id: u.id })) : [],
-    inLibraryOf: game.inLibraryOf ? game.inLibraryOf.map((u) => ({ id: u.id })) : [],
+    wishlistedBy: game.wishlistedBy
+      ? game.wishlistedBy.map((u) => ({ id: u.id }))
+      : [],
+    inLibraryOf: game.inLibraryOf
+      ? game.inLibraryOf.map((u) => ({ id: u.id }))
+      : [],
   };
 }
 
@@ -114,7 +120,22 @@ export function toGameCardDto(game: Game): GameCardDto {
     background_image: game.background_image,
     rating_top: game.rating_top,
     parent_platforms: game.parent_platforms,
-    wishlistedBy: game.wishlistedBy ? game.wishlistedBy.map((u) => ({ id: u.id })) : [],
-    inLibraryOf: game.inLibraryOf ? game.inLibraryOf.map((u) => ({ id: u.id })) : [],
+    wishlistedBy: game.wishlistedBy
+      ? game.wishlistedBy.map((u) => ({ id: u.id }))
+      : [],
+    inLibraryOf: game.inLibraryOf
+      ? game.inLibraryOf.map((u) => ({ id: u.id }))
+      : [],
+  };
+}
+
+/**
+ * Mapper for User entity to UserDto.
+ */
+export function toUserDto(user: User): UserReadDto {
+  return {
+    id: user.id,
+    username: user.username,
+    role: user.role,
   };
 }
