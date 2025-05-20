@@ -45,7 +45,7 @@ const NavBar = () => {
     <Menu>
       <Tooltip label={role === "admin" ? "Admin" : "User"}>
         <MenuButton>
-          <UserAvatar username={user?.username || ""} size="sm" />
+          <UserAvatar user={user} size="sm" />
         </MenuButton>
       </Tooltip>
       <MenuList>
