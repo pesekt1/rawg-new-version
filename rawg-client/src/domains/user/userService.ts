@@ -1,9 +1,34 @@
 import userClient from "./user-client";
+import ApiClient from "../../services/api-client";
 import { isTokenValid } from "../auth/useAuth";
+import { User } from "../auth/User";
+
+const apiClient = new ApiClient<User>("/users");
 
 const TOKEN_KEY = "token";
 
 const userService = {
+  /**
+   * Fetch all users from the API.
+   * @returns A promise resolving to a paginated response of users.
+   */
+  getAll: apiClient.getAll,
+
+  /**
+   * Fetch a user by ID from the API.
+   * @param id - The user's ID.
+   * @returns A promise resolving to the user object.
+   */
+  get: (id: number) => apiClient.get(id),
+
+  /**
+   * Update a user by ID.
+   * @param id - The user's ID.
+   * @param data - The data to update.
+   * @returns A promise resolving to the updated user object.
+   */
+  put: (id: number, data: Partial<User>) => apiClient.put(id, data),
+
   /**
    * Log in a user and store the token.
    * @param username - The user's username.
