@@ -173,6 +173,18 @@ export class UserController extends Controller {
   }
 
   /**
+   * Get a user by ID.
+   * Requires user access.
+   * @param id User ID.
+   * @returns User DTO or null if not found.
+   */
+  @Get("{id}")
+  @Security("jwt")
+  public async getUserById(@Path() id: number): Promise<UserReadDto | null> {
+    return userService.getByIdDto(id);
+  }
+
+  /**
    * Update an existing user.
    * Requires user access.
    * @param id User ID.
