@@ -26,7 +26,6 @@ import { GameCardDto } from "./dto/GameCardDto";
 import { userService } from "../services/userService";
 import { UserReadDto } from "./dto/UserReadDto";
 import { formatListResponse } from "./controllerUtils";
-import { EntityUpdateDto } from "./dto/EntityUpdateDto";
 import { handleDelete } from "./controllerUtils";
 import { UserUpdateDto } from "./dto/UserUpdateDto";
 
