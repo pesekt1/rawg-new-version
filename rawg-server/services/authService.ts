@@ -1,7 +1,7 @@
 import { AppDataSource } from "../startup/data-source";
 import { User } from "../entities/User";
-import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { hashPassword, comparePassword } from "./passwordUtils";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -35,7 +35,7 @@ export class AuthService {
       throw new ConflictError("Username already exists");
     }
 
-    const passwordHash = await bcrypt.hash(password, 10);
+    const passwordHash = await hashPassword(password);
     const user = this.userRepository.create({ username, passwordHash, role });
     await this.userRepository.save(user);
     return { id: user.id, username: user.username, role: user.role };
@@ -52,7 +52,7 @@ export class AuthService {
     const user = await this.userRepository.findOneBy({ username });
     if (!user) throw new Error("Invalid credentials");
 
-    const valid = await bcrypt.compare(password, user.passwordHash);
+    const valid = await comparePassword(password, user.passwordHash);
     if (!valid) throw new Error("Invalid credentials");
 
     const token = jwt.sign(
