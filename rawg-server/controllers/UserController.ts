@@ -15,12 +15,20 @@ import {
   Delete,
   Security,
   Path,
+  Query,
+  Put,
 } from "tsoa";
 import { AuthService } from "../services/authService";
 import { wishlistService } from "../services/wishlistService";
 import { gameLibraryService } from "../services/gameLibraryService";
 import { PaginatedResponse } from "../interfaces/PaginatedResponse";
 import { GameCardDto } from "./dto/GameCardDto";
+import { userService } from "../services/userService";
+import { UserReadDto } from "./dto/UserReadDto";
+import { formatListResponse } from "./controllerUtils";
+import { EntityUpdateDto } from "./dto/EntityUpdateDto";
+import { handleDelete } from "./controllerUtils";
+import { UserUpdateDto } from "./dto/UserUpdateDto";
 
 interface RegisterRequest {
   username: string;
@@ -147,5 +155,49 @@ export class UserController extends Controller {
     @Path() gameId: number
   ) {
     return gameLibraryService.remove(userId, gameId);
+  }
+
+  /**
+   * Get all users (admin only) with optional pagination.
+   * @param page Page number for pagination.
+   * @param page_size Number of items per page.
+   * @returns PaginatedResponse containing user DTOs.
+   */
+  @Security("admin")
+  @Get("/")
+  public async getAllUsers(
+    @Query() page?: number,
+    @Query() page_size?: number
+  ): Promise<{ count: number; next: string | null; results: UserReadDto[] }> {
+    const baseUrl = "users";
+    return formatListResponse(userService, baseUrl, { page, page_size });
+  }
+
+  /**
+   * Update an existing user.
+   * Requires user access.
+   * @param id User ID.
+   * @param data Update data.
+   * @returns Updated User DTO or null if not found.
+   */
+  @Put("{id}")
+  @Security("jwt")
+  public async update(
+    @Path() id: number,
+    @Body() data: UserUpdateDto
+  ): Promise<UserReadDto | null> {
+    return userService.updateDto(id, data);
+  }
+
+  /**
+   * Delete a user by ID.
+   * Requires user access.
+   * @param id User ID.
+   * @returns Message indicating result.
+   */
+  @Delete("{id}")
+  @Security("jwt")
+  public async delete(@Path() id: number): Promise<{ message: string }> {
+    return handleDelete(userService, id);
   }
 }
