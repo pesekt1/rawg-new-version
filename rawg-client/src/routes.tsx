@@ -9,6 +9,7 @@ import AdminRoute from "./components/AdminRoute";
 import EntityPage from "./pages/EntityPage";
 import UsersPage from "./pages/UsersPage";
 import UserDetailPage from "./pages/UserDetailPage";
+import ReviewsPage from "./pages/ReviewsPage";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <HomePage /> },
       { path: "games/:id", element: <GameDetailPage /> },
+      { path: "reviews", element: <ReviewsPage /> },
       {
         path: "new-game",
         element: (
