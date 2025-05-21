@@ -2,7 +2,7 @@ import { Button } from "@chakra-ui/react";
 import { FiX } from "react-icons/fi";
 
 interface ClearSelectionButtonProps {
-  onClear: () => void;
+  onClear: (e: React.MouseEvent) => void;
 }
 
 const ClearSelectionButton = ({ onClear }: ClearSelectionButtonProps) => (
