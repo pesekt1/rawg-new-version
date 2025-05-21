@@ -60,6 +60,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
       //invalidate cache
       queryClient.invalidateQueries(["reviews", gameId]);
       queryClient.invalidateQueries(["review", gameId, user?.id || 0]);
+      queryClient.invalidateQueries(["reviews-pagination"]);
       onClose();
     } catch (error: any) {
       toast({
