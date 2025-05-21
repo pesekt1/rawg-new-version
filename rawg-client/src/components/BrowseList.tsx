@@ -43,14 +43,11 @@ const BrowseList = () => {
   const location = useLocation();
   const { role } = useAuth();
   const [isExpanded, setIsExpanded] = useState(false);
-  //const hoverBg = useColorModeValue("gray.100", "gray.700");
-  //const activeBg = useColorModeValue("gray.200", "gray.600");
   const iconColor = useColorModeValue("gray.500", "gray.400");
   const { colorMode } = useColorMode();
   const colorSelected = colorMode === "light" ? "accent.700" : "yellow.300";
-  //const textColor = useColorModeValue("gray.800", "gray.100");
 
-  // Filter items based on admin role
+  // Filter items based on admin role - dont show users to non-admins
   const items = allItems.filter((item) => !item.adminOnly || role === "admin");
 
   const displayedItems = isExpanded
@@ -73,7 +70,6 @@ const BrowseList = () => {
                   px={2}
                   borderRadius={8}
                   cursor="pointer"
-                  //bg={isActive ? activeBg : "transparent"}
                   alignItems="center"
                 >
                   <Box
@@ -85,7 +81,6 @@ const BrowseList = () => {
                   <Button
                     variant="customButton"
                     color={isActive ? colorSelected : undefined}
-                    //fontWeight={isActive ? "bold" : "normal"}
                     fontSize="sm"
                     p={1}
                     textAlign="left"
