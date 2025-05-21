@@ -12,11 +12,13 @@ const Logo = () => {
   const borderColor = useColorModeValue("#234E52", "#81E6D9"); // dark teal/light cyan
   const hoverBg = useColorModeValue("teal.100", "teal.700");
   // Use a brighter cyan for the shadow
-  const hoverShadow = useColorModeValue("0 0 0 4px #38E8F9", "0 0 0 4px #63FFF1");
+  const hoverShadow = useColorModeValue(
+    "0 0 0 4px #38E8F9",
+    "0 0 0 4px #63FFF1"
+  );
 
   return (
     <Box
-      as="span"
       cursor="pointer"
       _hover={{
         bg: hoverBg,
