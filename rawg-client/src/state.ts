@@ -13,8 +13,13 @@ interface GameQuery {
   libraryUserId?: number;
 }
 
+interface BrowseListQuery {
+  selectedKey?: string; // e.g., "stores", "genres", etc.
+}
+
 interface GameQueryStore {
   gameQuery: GameQuery;
+  browseListQuery: BrowseListQuery;
   setGenreId: (genreId?: number) => void;
   setPlatformId: (platformId?: number) => void;
   setStoreId: (storeId?: number) => void;
@@ -25,11 +30,14 @@ interface GameQueryStore {
   setSearchText: (searchText: string) => void;
   setWishlistUserId: (wishlistUserId?: number) => void;
   setLibraryUserId: (libraryUserId?: number) => void;
+  setBrowseListKey: (key?: string) => void;
+  resetBrowseListQuery: () => void;
   reset: () => void;
 }
 
 const useGameQueryStore = create<GameQueryStore>((set) => ({
   gameQuery: {} as GameQuery,
+  browseListQuery: {} as BrowseListQuery,
   setGenreId: (genreId) =>
     set((state) => ({
       gameQuery: {
@@ -109,6 +117,14 @@ const useGameQueryStore = create<GameQueryStore>((set) => ({
         sortOrder: "",
         searchText: "",
       },
+    })),
+  setBrowseListKey: (key) =>
+    set(() => ({
+      browseListQuery: { selectedKey: key },
+    })),
+  resetBrowseListQuery: () =>
+    set(() => ({
+      browseListQuery: {} as BrowseListQuery,
     })),
   reset: () => set({ gameQuery: {} as GameQuery }),
 }));
