@@ -6,10 +6,12 @@ import useGenresPagination from "../domains/genres/useGenresPagination";
 import useDevelopersPagination from "../domains/developers/useDevelopersPagination";
 import useStoresPagination from "../domains/stores/useStoresPagination";
 import usePublishersPagination from "../domains/publishers/usePublishersPagination";
+import usePlatformsPagination from "../domains/platforms/usePlatformsPagination"; // <-- add this import
 import { Genre } from "../domains/genres/Genre";
 import { Developer } from "../domains/developers/Developer";
 import { Store } from "../domains/stores/Store";
 import { Publisher } from "../domains/publishers/Publisher";
+import { Platform } from "../domains/platforms/Platform"; // <-- add this import
 import { UseInfiniteQueryResult } from "@tanstack/react-query";
 import { Response } from "../services/api-client";
 import useGameQueryStore from "../state";
@@ -46,6 +48,12 @@ const entityConfig: Record<string, EntityConfig<any>> = {
     title: "Publishers",
     renderDetails: (entity: Publisher) => <p>ID: {entity.id}</p>,
     setter: useGameQueryStore.getState().setPublisherId,
+  },
+  platforms: {
+    hook: usePlatformsPagination,
+    title: "Platforms",
+    renderDetails: (entity: Platform) => <p>Slug: {entity.slug}</p>,
+    setter: useGameQueryStore.getState().setPlatformId,
   },
 };
 
