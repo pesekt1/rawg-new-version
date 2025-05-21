@@ -12,6 +12,7 @@ import ExpandCollapseButton from "../ExpandCollapseButton";
 import ClearSelectionButton from "./ClearSelectionButton";
 import TitleButton from "./TitleButton";
 import ListItemButton from "./ListItemButton";
+import { useNavigate } from "react-router-dom";
 
 /**
  * Represents an item in the list.
@@ -69,6 +70,7 @@ const CustomList = <T extends Item>({
   useDeleteHook,
 }: Props<T>) => {
   const resetGameQuery = useGameQueryStore((state) => state.reset);
+  const resetBrowseListQuery = useGameQueryStore((s) => s.resetBrowseListQuery);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [editEntity, setEditEntity] = useState<T | null>(null);
@@ -76,6 +78,7 @@ const CustomList = <T extends Item>({
   const { data, isLoading, error } = useDataHook();
   const deleteMutation = useDeleteHook ? useDeleteHook() : undefined;
   const { role } = useAuth();
+  const navigate = useNavigate();
 
   // Safely access the results
   const items = data?.results || [];
@@ -159,7 +162,11 @@ const CustomList = <T extends Item>({
               <ListItemButton
                 text={item.name}
                 isSelected={selectedItemId === item.id}
-                onClick={() => onSelectedItemId(item.id)}
+                onClick={() => {
+                  onSelectedItemId(item.id);
+                  resetBrowseListQuery(); // Reset BrowseList selection
+                  navigate("/"); // Navigate to HomePage to show GameGrid
+                }}
               />
             </HStack>
           </ListItem>
