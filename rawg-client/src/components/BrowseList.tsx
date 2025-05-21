@@ -12,7 +12,6 @@ import { Link, useLocation } from "react-router-dom";
 import {
   FaGamepad,
   FaDownload,
-  FaFolder,
   FaCommentDots,
   FaGhost,
   FaUser,
