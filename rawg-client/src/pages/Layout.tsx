@@ -1,18 +1,40 @@
 import { Outlet } from "react-router-dom";
 import NavBar from "../components/NavBar/NavBar";
-import { Box } from "@chakra-ui/react";
+import { Box, Grid, GridItem, Show } from "@chakra-ui/react";
 import ScrollToTop from "../components/ScrollToTop";
+import UserPanel from "../domains/user/UserPanel";
+import BrowseList from "../components/BrowseList";
+import GenreList from "../domains/genres/GenreList";
+import StoreList from "../domains/stores/StoreList";
+import PublisherList from "../domains/publishers/PublisherList";
+import DeveloperList from "../domains/developers/DeveloperList";
 
 const Layout = () => {
   return (
-    <Box mt={{ base: 2, md: 5 }}>
+    <Box p={{ base: 2, md: 5 }}>
       <ScrollToTop />
-      <Box mx={{ base: 2, md: 5 }}>
-        <NavBar />
-      </Box>
-      <Box p={{ base: 2, md: 5 }}>
-        <Outlet />
-      </Box>
+      <NavBar />
+      <Grid
+        templateAreas={{
+          base: `"main"`,
+          lg: `"aside main"`,
+        }}
+        templateColumns={{ base: "1fr", lg: "200px 1fr" }}
+      >
+        <Show above="lg">
+          <GridItem area={"aside"}>
+            <UserPanel />
+            <BrowseList />
+            <GenreList />
+            <StoreList />
+            <PublisherList />
+            <DeveloperList />
+          </GridItem>
+        </Show>
+        <GridItem area={"main"}>
+          <Outlet />
+        </GridItem>
+      </Grid>
     </Box>
   );
 };
