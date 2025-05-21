@@ -37,7 +37,7 @@ const UserPanel = () => {
         <Text fontWeight="bold" fontSize="2xl">
           {user.username}
         </Text>
-        <UserAvatar user={user} size="md" />
+        <UserAvatar user={user} size="sm" />
       </HStack>
       <WishlistAction
         selected={isWishlistSelected}

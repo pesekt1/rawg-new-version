@@ -9,11 +9,15 @@ import StoreList from "../domains/stores/StoreList";
 import PublisherList from "../domains/publishers/PublisherList";
 import DeveloperList from "../domains/developers/DeveloperList";
 
+const responsivePadding = { base: 2, md: 4 };
+
 const Layout = () => {
   return (
-    <Box p={{ base: 2, md: 5 }}>
+    <Box p={responsivePadding}>
       <ScrollToTop />
-      <NavBar />
+      <Box pb={responsivePadding}>
+        <NavBar />
+      </Box>
       <Grid
         templateAreas={{
           base: `"main"`,
