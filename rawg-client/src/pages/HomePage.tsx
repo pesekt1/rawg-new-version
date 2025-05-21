@@ -11,7 +11,7 @@ import { useAuth } from "../domains/auth/useAuth";
 import UserPanel from "../domains/user/UserPanel";
 import DeveloperList from "../domains/developers/DeveloperList";
 import SidebarModal from "../components/SidebarModal";
-import UserButton from "../components/UserButton";
+import BrowseList from "../components/BrowseList";
 
 const HomePage = () => {
   const { role } = useAuth();
@@ -25,8 +25,8 @@ const HomePage = () => {
     >
       <Show above="lg">
         <GridItem area={"aside"} marginRight={2}>
-          <UserButton />
           <UserPanel />
+          <BrowseList />
           <GenreList />
           <StoreList />
           <PublisherList />
