@@ -95,7 +95,6 @@ const NavBar = () => {
       </VStack>
       <HStack
         justifyContent="space-between"
-        px={4}
         display={{ base: "none", md: "flex" }} // Restore original layout for larger screens
       >
         <Link to="/" onClick={resetGameQuery}>
