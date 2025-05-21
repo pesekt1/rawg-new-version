@@ -8,7 +8,7 @@ import {
   Button,
   useColorMode,
 } from "@chakra-ui/react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   FaGamepad,
   FaDownload,
@@ -22,6 +22,8 @@ import {
 import { useState } from "react";
 import ExpandCollapseButton from "./ExpandCollapseButton";
 import { useAuth } from "../domains/auth/useAuth";
+import useGameQueryStore from "../state";
+import ClearSelectionButton from "./CustomList/ClearSelectionButton";
 
 const allItems = [
   { label: "Users", icon: FaUser, to: "/users", adminOnly: true },
@@ -40,12 +42,17 @@ const DEFAULT_VISIBLE_ITEMS = 3;
 const iconBoxSize = "26px";
 
 const BrowseList = () => {
-  const location = useLocation();
   const { role } = useAuth();
   const [isExpanded, setIsExpanded] = useState(false);
   const iconColor = useColorModeValue("gray.500", "gray.400");
   const { colorMode } = useColorMode();
   const colorSelected = colorMode === "light" ? "accent.700" : "yellow.300";
+
+  // Zustand browseListQuery state
+  const browseListKey = useGameQueryStore((s) => s.browseListQuery.selectedKey);
+  const setBrowseListKey = useGameQueryStore((s) => s.setBrowseListKey);
+  const resetGameQuery = useGameQueryStore((s) => s.reset);
+  const navigate = useNavigate();
 
   // Filter items based on admin role - dont show users to non-admins
   const items = allItems.filter((item) => !item.adminOnly || role === "admin");
@@ -56,12 +63,14 @@ const BrowseList = () => {
 
   return (
     <Box mb={4} pl={2}>
-      <Text fontWeight="bold" mb={2} fontSize="lg">
-        Browse
-      </Text>
+      <HStack>
+        <Text fontWeight="bold" mb={2} fontSize="lg">
+          Browse
+        </Text>
+      </HStack>
       <List spacing={1}>
         {displayedItems.map(({ label, icon: Icon, to }) => {
-          const isActive = location.pathname === to;
+          const isActive = browseListKey === to;
           return (
             <ListItem key={label} px={0} py={0}>
               <Link to={to} style={{ textDecoration: "none" }}>
@@ -71,6 +80,10 @@ const BrowseList = () => {
                   borderRadius={8}
                   cursor="pointer"
                   alignItems="center"
+                  onClick={() => {
+                    setBrowseListKey(to);
+                    resetGameQuery();
+                  }}
                 >
                   <Box
                     as={Icon}
@@ -87,12 +100,21 @@ const BrowseList = () => {
                     whiteSpace="normal"
                     _focus={{ boxShadow: "none" }}
                     onClick={(e) => {
-                      // Let Link handle navigation, but trigger :active styles
                       e.currentTarget.blur();
                     }}
                   >
                     {label}
                   </Button>
+                  {isActive && (
+                    <ClearSelectionButton
+                      onClear={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setBrowseListKey(undefined);
+                        navigate("/"); // Go to HomePage to clear selection visually
+                      }}
+                    />
+                  )}
                 </HStack>
               </Link>
             </ListItem>
