@@ -26,15 +26,15 @@ import { useAuth } from "../domains/auth/useAuth";
 
 const allItems = [
   { label: "Users", icon: FaUser, to: "/users", adminOnly: true },
+  { label: "Reviews", icon: FaCommentDots, to: "/entities/reviews" },
+  //{ label: "Collections", icon: FaFolder, to: "/entities/collections" },
   { label: "Platforms", icon: FaGamepad, to: "/entities/platforms" },
   { label: "Stores", icon: FaDownload, to: "/entities/stores" },
-  { label: "Collections", icon: FaFolder, to: "/entities/collections" },
-  { label: "Reviews", icon: FaCommentDots, to: "/entities/reviews" },
   { label: "Genres", icon: FaGhost, to: "/entities/genres" },
-  { label: "Creators", icon: FaUser, to: "/entities/creators" },
-  { label: "Tags", icon: FaHashtag, to: "/entities/tags" },
   { label: "Developers", icon: FaCode, to: "/entities/developers" },
   { label: "Publishers", icon: FaBookOpen, to: "/entities/publishers" },
+  //{ label: "Creators", icon: FaUser, to: "/entities/creators" },
+  { label: "Tags", icon: FaHashtag, to: "/entities/tags" },
 ];
 
 const DEFAULT_VISIBLE_ITEMS = 3;
