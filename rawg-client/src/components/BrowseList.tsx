@@ -27,7 +27,7 @@ import ClearSelectionButton from "./CustomList/ClearSelectionButton";
 
 const allItems = [
   { label: "Users", icon: FaUser, to: "/users", adminOnly: true },
-  { label: "Reviews", icon: FaCommentDots, to: "/entities/reviews" },
+  { label: "Reviews", icon: FaCommentDots, to: "/reviews" },
   //{ label: "Collections", icon: FaFolder, to: "/entities/collections" },
   { label: "Platforms", icon: FaGamepad, to: "/entities/platforms" },
   { label: "Stores", icon: FaDownload, to: "/entities/stores" },
