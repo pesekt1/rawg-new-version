@@ -6,6 +6,7 @@ import {
   ListItem,
   useColorModeValue,
   Button,
+  useColorMode,
 } from "@chakra-ui/react";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -44,10 +45,10 @@ const BrowseList = () => {
   const { role } = useAuth();
   const [isExpanded, setIsExpanded] = useState(false);
   //const hoverBg = useColorModeValue("gray.100", "gray.700");
-  const activeBg = useColorModeValue("gray.200", "gray.600");
+  //const activeBg = useColorModeValue("gray.200", "gray.600");
   const iconColor = useColorModeValue("gray.500", "gray.400");
-  //const { colorMode } = useColorMode();
-  //const colorSelected = colorMode === "light" ? "accent.700" : "yellow.300";
+  const { colorMode } = useColorMode();
+  const colorSelected = colorMode === "light" ? "accent.700" : "yellow.300";
   //const textColor = useColorModeValue("gray.800", "gray.100");
 
   // Filter items based on admin role
@@ -73,7 +74,7 @@ const BrowseList = () => {
                   px={2}
                   borderRadius={8}
                   cursor="pointer"
-                  bg={isActive ? activeBg : "transparent"}
+                  //bg={isActive ? activeBg : "transparent"}
                   alignItems="center"
                 >
                   <Box
@@ -84,7 +85,7 @@ const BrowseList = () => {
                   />
                   <Button
                     variant="customButton"
-                    //color={isActive ? colorSelected : textColor}
+                    color={isActive ? colorSelected : undefined}
                     //fontWeight={isActive ? "bold" : "normal"}
                     fontSize="sm"
                     p={1}
