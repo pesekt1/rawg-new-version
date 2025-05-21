@@ -23,6 +23,21 @@ import UserAvatar from "../../domains/user/UserAvatar"; // Import the reusable c
 
 const NavBar = () => {
   const resetGameQuery = useGameQueryStore((state) => state.reset);
+  const resetBrowseListQuery = useGameQueryStore(
+    (state) => state.resetBrowseListQuery
+  );
+
+  const handleClick = () => {
+    resetGameQuery();
+    resetBrowseListQuery();
+  };
+
+  const NavBarLogo = () => (
+    <Link to="/" onClick={handleClick}>
+      <Logo />
+    </Link>
+  );
+
   const {
     isOpen: isLoginOpen,
     onOpen: onLoginOpen,
@@ -83,9 +98,7 @@ const NavBar = () => {
         display={{ base: "flex", md: "none" }} // Stack vertically on small screens
       >
         <HStack justifyContent="space-between">
-          <Link to="/" onClick={resetGameQuery}>
-            <Logo />
-          </Link>
+          <NavBarLogo />
           <ColorModeSwitch />
         </HStack>
         <HStack justifyContent="space-between">
@@ -97,9 +110,7 @@ const NavBar = () => {
         justifyContent="space-between"
         display={{ base: "none", md: "flex" }} // Restore original layout for larger screens
       >
-        <Link to="/" onClick={resetGameQuery}>
-          <Logo />
-        </Link>
+        <NavBarLogo />
         <SearchInput />
         <HStack>
           <ColorModeSwitch />
