@@ -60,7 +60,7 @@ export class AuthService {
       JWT_SECRET as string,
       { expiresIn: "1d" }
     );
-    return { token };
+    return { token, user };
   }
 
   /**
