@@ -28,6 +28,7 @@ import { UserReadDto } from "./dto/UserReadDto";
 import { formatListResponse } from "./controllerUtils";
 import { handleDelete } from "./controllerUtils";
 import { UserUpdateDto } from "./dto/UserUpdateDto";
+import { toUserDto } from "./dto/entityMappers";
 
 interface RegisterRequest {
   username: string;
@@ -65,9 +66,12 @@ export class UserController extends Controller {
    * @returns An object containing the authentication token.
    */
   @Post("sessions")
-  public async login(@Body() body: LoginRequest): Promise<{ token: string }> {
+  public async login(
+    @Body() body: LoginRequest
+  ): Promise<{ token: string; user: UserReadDto }> {
     const { username, password } = body;
-    return AuthService.login(username, password);
+    const { token, user } = await AuthService.login(username, password);
+    return { token, user: toUserDto(user) };
   }
 
   /**
