@@ -1,5 +1,6 @@
 import { axiosInstance } from "../../services/api-client";
 import * as Sentry from "@sentry/react";
+import { User } from "../auth/User";
 
 export class UserClient {
   private basePath = "users";
@@ -10,7 +11,10 @@ export class UserClient {
    * @param password - The user's password.
    * @returns A promise resolving to the authentication response.
    */
-  login = async (username: string, password: string) => {
+  login = async (
+    username: string,
+    password: string
+  ): Promise<{ token: string; user: User }> => {
     Sentry.addBreadcrumb({
       category: "auth",
       message: `Login attempt for user: ${username}`,
