@@ -1,4 +1,6 @@
 import { Box, Icon, Text, useColorMode } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
+import useGameQueryStore from "../../state";
 
 interface UserPanelActionProps {
   icon: any;
@@ -15,6 +17,11 @@ const UserPanelAction = ({
   onClick,
   onKeyDown,
 }: UserPanelActionProps) => {
+  const navigate = useNavigate();
+  const resetBrowseListQuery = useGameQueryStore(
+    (state) => state.resetBrowseListQuery
+  );
+
   const { colorMode } = useColorMode();
   const colorMain = colorMode === "light" ? "gray.800" : "white";
   const colorSelected = colorMode === "light" ? "accent.700" : "yellow.300";
@@ -23,11 +30,17 @@ const UserPanelAction = ({
   const bgHover = colorMode === "light" ? "lightGray.300" : "accent.500";
   const bgActive = colorMode === "light" ? "lightGray.300" : "accent.500";
 
+  const handleClick = () => {
+    onClick();
+    resetBrowseListQuery(); //reset the browse list cache
+    navigate("/");
+  };
+
   return (
     <Box
       padding={2}
       cursor="pointer"
-      onClick={onClick}
+      onClick={handleClick}
       onKeyDown={onKeyDown}
       role="button"
       display="flex"
