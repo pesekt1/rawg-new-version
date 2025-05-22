@@ -48,23 +48,19 @@ const NavBar = () => {
     onOpen: onRegisterOpen,
     onClose: onRegisterClose,
   } = useDisclosure();
-  const { isAuthenticated, logout, role, user } = useAuth(); // Add `user` to destructuring
-
-  const handleLogout = () => {
-    logout();
-    localStorage.removeItem("token");
-    window.location.reload(); // Temporary solution
-  };
+  //const { isAuthenticated, logout, role, user } = useAuth();
+  const { logout, isAuthenticated } = useAuth();
+  const user = useGameQueryStore((state) => state.user);
 
   const authContent = isAuthenticated ? (
     <Menu>
-      <Tooltip label={role === "admin" ? "Admin" : "User"}>
+      <Tooltip label={user?.role === "admin" ? "Admin" : "User"}>
         <MenuButton>
           <UserAvatar user={user} size="sm" />
         </MenuButton>
       </Tooltip>
       <MenuList>
-        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+        <MenuItem onClick={logout}>Logout</MenuItem>
       </MenuList>
     </Menu>
   ) : (
