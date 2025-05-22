@@ -15,10 +15,13 @@ import {
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import userService from "../domains/user/userService";
+import useGameQueryStore from "../state";
 
 const UserDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const queryClient = useQueryClient();
+  const setUser = useGameQueryStore((s) => s.setUser);
+  const currentUser = useGameQueryStore((s) => s.user);
 
   const {
     data: user,
@@ -46,9 +49,13 @@ const UserDetailPage = () => {
   } = useMutation({
     mutationFn: (data: { username: string; password?: string }) =>
       userService.put(Number(id), data),
-    onSuccess: () => {
+    onSuccess: (updatedUser) => {
       queryClient.invalidateQueries({ queryKey: ["user", id] });
       setPassword("");
+      // If the updated user is the logged-in user, update the state
+      if (currentUser && updatedUser && currentUser.id === updatedUser.id) {
+        setUser(updatedUser);
+      }
     },
   });
 
