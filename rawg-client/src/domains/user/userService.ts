@@ -37,7 +37,7 @@ const userService = {
    */
   login: async (username: string, password: string) => {
     const data = await userClient.login(username, password);
-    localStorage.setItem(TOKEN_KEY, data.token);
+    userService.saveToken(data.token);
     return data;
   },
 
@@ -55,6 +55,14 @@ const userService = {
    */
   logout: () => {
     localStorage.removeItem(TOKEN_KEY);
+  },
+
+  /**
+   * Save a token to localStorage.
+   * @param token - The JWT token string.
+   */
+  saveToken: (token: string) => {
+    localStorage.setItem(TOKEN_KEY, token);
   },
 
   /**
