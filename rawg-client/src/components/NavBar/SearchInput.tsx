@@ -12,7 +12,8 @@ import useGameQueryStore from "../../state";
 const SearchInput = () => {
   const ref = useRef<HTMLInputElement>(null);
   const onSearch = useGameQueryStore((s) => s.setSearchText);
-  const resetGameQuery = useGameQueryStore((s) => s.reset); // add this
+  const resetGameQuery = useGameQueryStore((s) => s.reset);
+  const resetBrowseListQuery = useGameQueryStore((s) => s.resetBrowseListQuery);
   const navigate = useNavigate();
   const inputGroupBg = useColorModeValue("white", "gray.700");
   const inputGroupBorder = useColorModeValue("1.5px solid #e2e8f0", "none");
@@ -23,7 +24,11 @@ const SearchInput = () => {
     <form
       onSubmit={(event) => {
         event.preventDefault();
-        resetGameQuery(); // reset before searching
+
+        //reset cache
+        resetGameQuery();
+        resetBrowseListQuery();
+
         onSearch(ref.current?.value || "");
         navigate("/");
         if (ref.current) ref.current.value = ""; // Clear the input field
