@@ -1,6 +1,7 @@
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import { User } from "./User";
 import userService from "../user/userService";
+import useGameQueryStore from "../../state";
 
 /**
  * React hook for accessing and managing authentication state in components.
@@ -16,28 +17,32 @@ import userService from "../user/userService";
  *   - user: The current user object (User or null), containing id, username, and role.
  */
 export function useAuth() {
-  const [token, setToken] = useState(() => {
-    const t = userService.getToken();
-    return isTokenValid(t) ? t! : "";
-  });
+  const token = useGameQueryStore((s) => s.token);
+  const setToken = useGameQueryStore((s) => s.setToken);
+  const resetToken = useGameQueryStore((s) => s.resetToken);
+  const user = useGameQueryStore((s) => s.user);
+  const setUser = useGameQueryStore((s) => s.setUser);
+  const resetUser = useGameQueryStore((s) => s.resetUser);
 
   const saveToken = (newToken: string) => {
-    if (token === newToken) return;
     setToken(newToken);
-    // Token is already saved in userService during login
+    userService.saveToken(newToken);
+  };
+
+  const saveUser = (user: User) => {
+    setUser(user);
   };
 
   const logout = () => {
-    if (!token) return;
-    setToken("");
+    resetToken();
+    resetUser();
     userService.logout();
   };
 
   const isAuthenticated = useMemo(() => isTokenValid(token), [token]);
   const role = useMemo(() => getUserRole(token), [token]);
-  const user = useMemo(() => getUserFromToken(token), [token]);
 
-  return { token, saveToken, logout, isAuthenticated, role, user };
+  return { token, saveToken, saveUser, logout, isAuthenticated, role, user };
 }
 
 // Helper functions
@@ -68,18 +73,18 @@ function getUserRole(token: string | null): string | null {
   }
 }
 
-function getUserFromToken(token: string | null): User | null {
-  if (!token) return null;
-  try {
-    const [, payloadBase64] = token.split(".");
-    if (!payloadBase64) return null;
-    const payloadJson = atob(payloadBase64);
-    const payload = JSON.parse(payloadJson);
-    // Use userId if present, otherwise id
-    const id = payload.userId ?? payload.id;
-    if (!id || !payload.username) return null;
-    return { id, username: payload.username, role: payload.role };
-  } catch (e) {
-    return null;
-  }
-}
+// function getUserFromToken(token: string | null): User | null {
+//   if (!token) return null;
+//   try {
+//     const [, payloadBase64] = token.split(".");
+//     if (!payloadBase64) return null;
+//     const payloadJson = atob(payloadBase64);
+//     const payload = JSON.parse(payloadJson);
+//     // Use userId if present, otherwise id
+//     const id = payload.userId ?? payload.id;
+//     if (!id || !payload.username) return null;
+//     return { id, username: payload.username, role: payload.role };
+//   } catch (e) {
+//     return null;
+//   }
+// }
