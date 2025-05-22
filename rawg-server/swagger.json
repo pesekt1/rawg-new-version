@@ -23,6 +23,31 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"UserReadDto": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"username": {
+						"type": "string"
+					},
+					"role": {
+						"type": "string",
+						"enum": [
+							"admin",
+							"user"
+						]
+					}
+				},
+				"required": [
+					"id",
+					"username",
+					"role"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"LoginRequest": {
 				"properties": {
 					"username": {
@@ -623,31 +648,6 @@
 					"review",
 					"user",
 					"game"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"UserReadDto": {
-				"properties": {
-					"id": {
-						"type": "number",
-						"format": "double"
-					},
-					"username": {
-						"type": "string"
-					},
-					"role": {
-						"type": "string",
-						"enum": [
-							"admin",
-							"user"
-						]
-					}
-				},
-				"required": [
-					"id",
-					"username",
-					"role"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -1320,11 +1320,15 @@
 							"application/json": {
 								"schema": {
 									"properties": {
+										"user": {
+											"$ref": "#/components/schemas/UserReadDto"
+										},
 										"token": {
 											"type": "string"
 										}
 									},
 									"required": [
+										"user",
 										"token"
 									],
 									"type": "object"
