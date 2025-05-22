@@ -15,8 +15,8 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useAuth } from "./useAuth";
-import { useNavigate } from "react-router-dom";
 import userService from "../user/userService";
+import useGameQueryStore from "../../state";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -27,19 +27,20 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const { saveToken } = useAuth();
-  const navigate = useNavigate();
+  const { saveToken, saveUser } = useAuth();
   const toast = useToast();
+  const setUser = useGameQueryStore((state) => state.setUser);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     try {
-      const { token } = await userService.login(username, password);
+      const { token, user } = await userService.login(username, password);
       saveToken(token);
+      saveUser(user);
       toast({ status: "success", title: "Login successful" });
+      setUser(user); //set user state
       onClose();
-      navigate(0); // Reload to update UI if needed
     } catch (err: any) {
       setError(err.response?.data?.error || "Login failed");
     }
