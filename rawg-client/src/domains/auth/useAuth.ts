@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { User } from "./User";
+import { User } from "../../interfaces/User";
 import userService from "../user/userService";
 import useAuthStore from "../../state/useAuthStore";
 

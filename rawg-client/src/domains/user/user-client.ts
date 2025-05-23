@@ -1,6 +1,6 @@
 import { axiosInstance } from "../../services/api-client";
 import * as Sentry from "@sentry/react";
-import { User } from "../auth/User";
+import { User } from "../../interfaces/User";
 
 export class UserClient {
   private basePath = "users";

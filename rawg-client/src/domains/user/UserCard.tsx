@@ -1,6 +1,6 @@
 import { Card, CardBody, Text } from "@chakra-ui/react";
 import UserAvatar from "./UserAvatar";
-import { User } from "../auth/User";
+import { User } from "../../interfaces/User";
 
 interface UserCardProps {
   user: User;
