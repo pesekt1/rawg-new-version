@@ -12,6 +12,19 @@ const mockRepo = {
   save: vi.fn(),
 };
 
+const user = {
+  id: 1,
+  username: "user",
+  passwordHash: "hash",
+  role: "user",
+};
+
+const userDto = {
+  id: 1,
+  username: "user",
+  role: "user",
+};
+
 // Mock AppDataSource.getRepository before importing AuthService
 vi.mock("../startup/data-source", () => ({
   AppDataSource: {
@@ -33,17 +46,12 @@ describe("AuthService", () => {
 
   it("registers a new user", async () => {
     mockRepo.findOneBy.mockResolvedValue(null);
-    mockRepo.create.mockReturnValue({
-      id: 1,
-      username: "user",
-      passwordHash: "hash",
-      role: "user",
-    });
-    mockRepo.save.mockResolvedValue({ id: 1, username: "user", role: "user" });
+    mockRepo.create.mockReturnValue(user);
+    mockRepo.save.mockResolvedValue(userDto);
     (bcrypt.hash as any).mockResolvedValue("hash");
 
     const result = await AuthService.register("user", "pass");
-    expect(result).toEqual({ id: 1, username: "user", role: "user" });
+    expect(result).toEqual(userDto);
   });
 
   it("throws if username exists", async () => {
@@ -64,7 +72,10 @@ describe("AuthService", () => {
     (jwt.sign as any).mockReturnValue("token");
 
     const result = await AuthService.login("user", "pass");
-    expect(result).toEqual({ token: "token" });
+    expect(result).toEqual({
+      token: "token",
+      user: user,
+    });
   });
 
   it("throws on invalid login credentials", async () => {
