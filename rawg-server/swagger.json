@@ -1766,7 +1766,7 @@
 				"operationId": "GetAll",
 				"responses": {
 					"200": {
-						"description": "ListResponse containing tag DTOs.",
+						"description": "PaginatedResponse containing tag DTOs.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -1776,12 +1776,33 @@
 						}
 					}
 				},
-				"description": "Get a list of all tags.",
+				"description": "Get a list of all tags with optional pagination.",
 				"tags": [
 					"Tags"
 				],
 				"security": [],
-				"parameters": []
+				"parameters": [
+					{
+						"description": "Page number for pagination.",
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Number of items per page.",
+						"in": "query",
+						"name": "page_size",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
 			},
 			"post": {
 				"operationId": "Create",
