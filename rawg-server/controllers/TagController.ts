@@ -16,6 +16,7 @@ import {
   SuccessResponse,
   Tags,
   Security,
+  Query,
 } from "tsoa";
 import { tagService } from "../services/tagService";
 import { IBaseController } from "./IBaseController";
@@ -30,14 +31,23 @@ import { PaginatedResponse } from "../interfaces/PaginatedResponse";
  */
 @Route("tags")
 @Tags("Tags")
-export class TagController extends Controller implements IBaseController<TagReadDto> {
+export class TagController
+  extends Controller
+  implements IBaseController<TagReadDto>
+{
   /**
-   * Get a list of all tags.
-   * @returns ListResponse containing tag DTOs.
+   * Get a list of all tags with optional pagination.
+   * @param page Page number for pagination.
+   * @param page_size Number of items per page.
+   * @returns PaginatedResponse containing tag DTOs.
    */
   @Get("/")
-  public async getAll(): Promise<PaginatedResponse<TagReadDto>> {
-    return formatListResponse(tagService);
+  public async getAll(
+    @Query() page?: number,
+    @Query() page_size?: number
+  ): Promise<PaginatedResponse<TagReadDto>> {
+    const baseUrl = "tags";
+    return formatListResponse(tagService, baseUrl, { page, page_size });
   }
 
   /**
