@@ -42,7 +42,7 @@ const EntityCard = <T extends Entity>({
     <Box __css={cardStyles} overflow="hidden">
       <Box position="relative">
         <Image
-          src={getCroppedImageUrl(entity.image_background)}
+          src={getCroppedImageUrl(entity?.image_background)}
           alt={entity.name}
           objectFit="cover"
           w="100%"
