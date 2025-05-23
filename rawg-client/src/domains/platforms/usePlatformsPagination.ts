@@ -2,14 +2,14 @@ import useGetEntitiesPagination from "../../hooks/useGetEntitiesPagination";
 import { Platform } from "./Platform";
 import platformService from "./platformService";
 
-const usePlatformsPagination = () =>
+const usePlatformsPagination = (pageSize: number = 10) =>
   useGetEntitiesPagination<Platform>({
-    queryKey: ["platforms-pagination"],
+    queryKey: ["platforms-pagination", pageSize],
     queryFn: ({ pageParam = 1, page_size }) =>
       platformService.getAll({
         params: {
           page: pageParam,
-          page_size,
+          page_size: pageSize ?? page_size,
         },
       }),
   });

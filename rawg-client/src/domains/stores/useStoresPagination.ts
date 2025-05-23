@@ -2,14 +2,14 @@ import useGetEntitiesPagination from "../../hooks/useGetEntitiesPagination";
 import { Store } from "./Store";
 import storeService from "./storeService";
 
-const useStoresPagination = () =>
+const useStoresPagination = (pageSize: number = 10) =>
   useGetEntitiesPagination<Store>({
-    queryKey: ["stores-pagination"],
+    queryKey: ["stores-pagination", pageSize],
     queryFn: ({ pageParam = 1, page_size }) =>
       storeService.getAll({
         params: {
           page: pageParam,
-          page_size,
+          page_size: pageSize ?? page_size,
         },
       }),
   });
