@@ -13,7 +13,6 @@ import useAuthStore from "../../state/useAuthStore";
  *   - saveToken: Function to update the token in state and storage.
  *   - logout: Function to clear the token from state and storage.
  *   - isAuthenticated: Boolean indicating if the user is authenticated.
- *   - role: The user's role (string or null), extracted from the token.
  *   - user: The current user object (User or null), containing id, username, and role.
  */
 export function useAuth() {
@@ -40,13 +39,23 @@ export function useAuth() {
   };
 
   const isAuthenticated = useMemo(() => isTokenValid(token), [token]);
-  const role = useMemo(() => getUserRole(token), [token]);
 
-  return { token, saveToken, saveUser, logout, isAuthenticated, role, user };
+  return {
+    token,
+    saveToken,
+    saveUser,
+    logout,
+    isAuthenticated,
+    user,
+    role: user?.role,
+  };
 }
 
-// Helper functions
-
+/**
+ * Checks if a JWT token is valid by decoding it and checking the expiration time.
+ * @param token - The JWT token to check.
+ * @returns True if the token is valid (not expired), false otherwise.
+ */
 export function isTokenValid(token: string | null): boolean {
   if (!token) return false;
   try {
@@ -60,31 +69,3 @@ export function isTokenValid(token: string | null): boolean {
     return false;
   }
 }
-
-function getUserRole(token: string | null): string | null {
-  if (!token) return null;
-  try {
-    const [, payloadBase64] = token.split(".");
-    if (!payloadBase64) return null;
-    const payload = JSON.parse(atob(payloadBase64));
-    return payload.role || null;
-  } catch {
-    return null;
-  }
-}
-
-// function getUserFromToken(token: string | null): User | null {
-//   if (!token) return null;
-//   try {
-//     const [, payloadBase64] = token.split(".");
-//     if (!payloadBase64) return null;
-//     const payloadJson = atob(payloadBase64);
-//     const payload = JSON.parse(payloadJson);
-//     // Use userId if present, otherwise id
-//     const id = payload.userId ?? payload.id;
-//     if (!id || !payload.username) return null;
-//     return { id, username: payload.username, role: payload.role };
-//   } catch (e) {
-//     return null;
-//   }
-// }

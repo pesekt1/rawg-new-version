@@ -15,13 +15,12 @@ import {
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import userService from "../domains/user/userService";
-import useAuthStore from "../state/useAuthStore";
+import { useAuth } from "../domains/auth/useAuth";
 
 const UserDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const queryClient = useQueryClient();
-  const setUser = useAuthStore((s) => s.setUser);
-  const currentUser = useAuthStore((s) => s.user);
+  const { saveUser, user: currentUser } = useAuth();
 
   const {
     data: user,
@@ -54,7 +53,7 @@ const UserDetailPage = () => {
       setPassword("");
       // If the updated user is the logged-in user, update the state
       if (currentUser && updatedUser && currentUser.id === updatedUser.id) {
-        setUser(updatedUser);
+        saveUser(updatedUser);
       }
     },
   });

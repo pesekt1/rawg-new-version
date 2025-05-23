@@ -28,7 +28,7 @@ const GameDetailPage = () => {
 
   const { data: game, isLoading, error } = useGame(gameId);
   const navigate = useNavigate();
-  const { role, user } = useAuth();
+  const { user } = useAuth();
   const queryClient = useQueryClient();
 
   const {
@@ -81,7 +81,7 @@ const GameDetailPage = () => {
       spacing={5}
     >
       <GridItem>
-        {role === "admin" && (
+        {user?.role === "admin" && (
           <AdminActions
             onEdit={() => navigate(`/games/${game.id}/edit`)}
             onDelete={() => deleteGame(game.id)}
@@ -90,7 +90,7 @@ const GameDetailPage = () => {
         )}
         <ReviewButton
           userReview={userReview}
-          role={role}
+          role={user?.role}
           onOpenReviewModal={() => setReviewModalOpen(true)}
         />
         <GameDetailsSection game={game} />
