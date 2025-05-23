@@ -2,6 +2,7 @@ import { AppDataSource } from "../startup/data-source";
 import { User } from "../entities/User";
 import jwt from "jsonwebtoken";
 import { hashPassword, comparePassword } from "./passwordUtils";
+import { ConflictError, UnauthorizedError } from "../utils/errors";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -50,10 +51,10 @@ export class AuthService {
    */
   static async login(username: string, password: string) {
     const user = await this.userRepository.findOneBy({ username });
-    if (!user) throw new Error("Invalid credentials");
+    if (!user) throw new UnauthorizedError("Invalid credentials");
 
     const valid = await comparePassword(password, user.passwordHash);
-    if (!valid) throw new Error("Invalid credentials");
+    if (!valid) throw new UnauthorizedError("Invalid credentials");
 
     const token = jwt.sign(
       { userId: user.id, username: user.username, role: user.role },
@@ -75,13 +76,5 @@ export class AuthService {
     } catch (err) {
       throw new Error("Invalid or expired token");
     }
-  }
-}
-
-class ConflictError extends Error {
-  status: number;
-  constructor(message: string) {
-    super(message);
-    this.status = 409; // Conflict
   }
 }
