@@ -2,11 +2,12 @@ import { HStack, Text, VStack } from "@chakra-ui/react";
 import useGameQueryStore from "../../state";
 import WishlistAction from "./WishlistAction";
 import LibraryAction from "./LibraryAction";
-import UserAvatar from "./UserAvatar"; // Import the reusable component
+import UserAvatar from "./UserAvatar";
+import useAuthStore from "../../state/useAuthStore";
 
 const UserPanel = () => {
   // Always call hooks first, before any return
-  const user = useGameQueryStore((s) => s.user);
+  const user = useAuthStore((s) => s.user);
   const setWishlistId = useGameQueryStore((s) => s.setWishlistUserId);
   const wishlistId = useGameQueryStore((s) => s.gameQuery.wishlistUserId);
   const setLibraryId = useGameQueryStore((s) => s.setLibraryUserId);

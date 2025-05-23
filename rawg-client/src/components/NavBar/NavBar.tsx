@@ -19,7 +19,8 @@ import useGameQueryStore from "../../state";
 import ColorModeSwitch from "./ColorModeSwitch";
 import SearchInput from "./SearchInput";
 import Logo from "./Logo";
-import UserAvatar from "../../domains/user/UserAvatar"; // Import the reusable component
+import UserAvatar from "../../domains/user/UserAvatar";
+import useAuthStore from "../../state/useAuthStore";
 
 const NavBar = () => {
   const resetGameQuery = useGameQueryStore((state) => state.reset);
@@ -50,7 +51,7 @@ const NavBar = () => {
   } = useDisclosure();
   //const { isAuthenticated, logout, role, user } = useAuth();
   const { logout, isAuthenticated } = useAuth();
-  const user = useGameQueryStore((state) => state.user);
+  const user = useAuthStore((s) => s.user);
 
   const authContent = isAuthenticated ? (
     <Menu>

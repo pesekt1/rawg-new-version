@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { User } from "./User";
 import userService from "../user/userService";
-import useGameQueryStore from "../../state";
+import useAuthStore from "../../state/useAuthStore";
 
 /**
  * React hook for accessing and managing authentication state in components.
@@ -17,12 +17,12 @@ import useGameQueryStore from "../../state";
  *   - user: The current user object (User or null), containing id, username, and role.
  */
 export function useAuth() {
-  const token = useGameQueryStore((s) => s.token);
-  const setToken = useGameQueryStore((s) => s.setToken);
-  const resetToken = useGameQueryStore((s) => s.resetToken);
-  const user = useGameQueryStore((s) => s.user);
-  const setUser = useGameQueryStore((s) => s.setUser);
-  const resetUser = useGameQueryStore((s) => s.resetUser);
+  const token = useAuthStore((s) => s.token);
+  const setToken = useAuthStore((s) => s.setToken);
+  const resetToken = useAuthStore((s) => s.resetToken);
+  const user = useAuthStore((s) => s.user);
+  const setUser = useAuthStore((s) => s.setUser);
+  const resetUser = useAuthStore((s) => s.resetUser);
 
   const saveToken = (newToken: string) => {
     setToken(newToken);

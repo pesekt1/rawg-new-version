@@ -16,7 +16,7 @@ import {
 import { useState } from "react";
 import { useAuth } from "./useAuth";
 import userService from "../user/userService";
-import useGameQueryStore from "../../state";
+import useAuthStore from "../../state/useAuthStore";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -29,7 +29,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
   const [error, setError] = useState<string | null>(null);
   const { saveToken, saveUser } = useAuth();
   const toast = useToast();
-  const setUser = useGameQueryStore((state) => state.setUser);
+  const setUser = useAuthStore((s) => s.setUser);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

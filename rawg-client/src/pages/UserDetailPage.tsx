@@ -15,13 +15,13 @@ import {
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import userService from "../domains/user/userService";
-import useGameQueryStore from "../state";
+import useAuthStore from "../state/useAuthStore";
 
 const UserDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const queryClient = useQueryClient();
-  const setUser = useGameQueryStore((s) => s.setUser);
-  const currentUser = useGameQueryStore((s) => s.user);
+  const setUser = useAuthStore((s) => s.setUser);
+  const currentUser = useAuthStore((s) => s.user);
 
   const {
     data: user,
