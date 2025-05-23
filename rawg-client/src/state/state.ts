@@ -13,13 +13,8 @@ interface GameQuery {
   libraryUserId?: number;
 }
 
-interface BrowseListQuery {
-  selectedKey?: string; // e.g., "stores", "genres", etc.
-}
-
 interface GameQueryStore {
   gameQuery: GameQuery;
-  browseListQuery: BrowseListQuery;
   setGenreId: (genreId?: number) => void;
   setPlatformId: (platformId?: number) => void;
   setStoreId: (storeId?: number) => void;
@@ -30,14 +25,11 @@ interface GameQueryStore {
   setSearchText: (searchText: string) => void;
   setWishlistUserId: (wishlistUserId?: number) => void;
   setLibraryUserId: (libraryUserId?: number) => void;
-  setBrowseListKey: (key?: string) => void;
-  resetBrowseListQuery: () => void;
   reset: () => void;
 }
 
 const useGameQueryStore = create<GameQueryStore>((set) => ({
   gameQuery: {} as GameQuery,
-  browseListQuery: {} as BrowseListQuery,
   setGenreId: (genreId) =>
     set((state) => ({
       gameQuery: {
@@ -101,31 +93,27 @@ const useGameQueryStore = create<GameQueryStore>((set) => ({
       },
     })),
   setWishlistUserId: (wishlistUserId) =>
-    set(() => ({
-      gameQuery: {
-        wishlistUserId: wishlistUserId,
-        libraryUserId: undefined,
-        sortOrder: "",
-        searchText: "",
-      },
-    })),
+    set(() => {
+      return {
+        gameQuery: {
+          wishlistUserId: wishlistUserId,
+          libraryUserId: undefined,
+          sortOrder: "",
+          searchText: "",
+        },
+      };
+    }),
   setLibraryUserId: (libraryUserId) =>
-    set(() => ({
-      gameQuery: {
-        libraryUserId: libraryUserId,
-        wishlistUserId: undefined,
-        sortOrder: "",
-        searchText: "",
-      },
-    })),
-  setBrowseListKey: (key) =>
-    set(() => ({
-      browseListQuery: { selectedKey: key },
-    })),
-  resetBrowseListQuery: () =>
-    set(() => ({
-      browseListQuery: {} as BrowseListQuery,
-    })),
+    set(() => {
+      return {
+        gameQuery: {
+          libraryUserId: libraryUserId,
+          wishlistUserId: undefined,
+          sortOrder: "",
+          searchText: "",
+        },
+      };
+    }),
   reset: () => set({ gameQuery: {} as GameQuery }),
 }));
 
