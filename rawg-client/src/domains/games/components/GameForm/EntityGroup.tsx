@@ -27,10 +27,16 @@ const EntityGroup: React.FC<EntityGroupProps> = ({ label, data, onChange }) => {
   const [entityToAdd, setEntityToAdd] = useState<number | "">("");
 
   const handleAddEntity = () => {
-    handleAdd(entityToAdd, setEntityToAdd, selectedEntities, (updated) => {
-      setSelectedEntities(updated);
-      onChange(updated); // Notify parent of changes
-    }, data);
+    handleAdd(
+      entityToAdd,
+      setEntityToAdd,
+      selectedEntities,
+      (updated) => {
+        setSelectedEntities(updated);
+        onChange(updated); // Notify parent of changes
+      },
+      data
+    );
   };
 
   const handleRemoveEntity = (id: number) => {
@@ -60,9 +66,18 @@ const EntityGroup: React.FC<EntityGroupProps> = ({ label, data, onChange }) => {
                 setEntityToAdd(e.target.value ? Number(e.target.value) : "")
               }
               maxW="200px"
+              sx={{
+                "& option[value='']": {
+                  fontWeight: "bold",
+                  fontSize: "lg",
+                  color: "#319795", // teal.700
+                },
+              }}
             >
               {data.results
-                .filter((item) => !selectedEntities.some((se) => se.id === item.id))
+                .filter(
+                  (item) => !selectedEntities.some((se) => se.id === item.id)
+                )
                 .map((entity) => (
                   <option key={entity.id} value={entity.id}>
                     {entity.name}
