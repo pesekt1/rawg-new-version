@@ -8,7 +8,7 @@ import {
   Box,
 } from "@chakra-ui/react";
 import { BsChevronDown } from "react-icons/bs";
-import useGameQueryStore from "../../state";
+import useGameQueryStore from "../../state/state";
 import AdminEditIcon from "../../components/AdminEditIcon";
 import GenericEditModal from "../../components/GenericEditModal";
 import { useState } from "react";

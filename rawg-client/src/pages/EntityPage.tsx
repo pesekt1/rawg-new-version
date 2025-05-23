@@ -14,7 +14,7 @@ import { Publisher } from "../domains/publishers/Publisher";
 import { Platform } from "../domains/platforms/Platform"; // <-- add this import
 import { UseInfiniteQueryResult } from "@tanstack/react-query";
 import { Response } from "../services/api-client";
-import useGameQueryStore from "../state";
+import useGameQueryStore from "../state/state";
 import GameCardSkeleton from "../domains/games/components/GameCard/GameCardSkeleton"; // Import GameCardSkeleton
 
 type EntityConfig<T> = {

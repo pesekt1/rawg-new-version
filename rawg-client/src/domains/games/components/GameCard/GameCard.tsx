@@ -21,7 +21,7 @@ import WishListIcon from "./WishListIcon";
 import GameLibraryIcon from "./GameLibraryIcon";
 import { useAuth } from "../../../auth/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
-import useGameQueryStore from "../../../../state";
+import useGameQueryStore from "../../../../state/state";
 
 interface Props {
   game: Game;

@@ -3,7 +3,7 @@ import useGenres from "./useGenres";
 import useCreateGenre from "./useCreateGenre";
 import useDeleteGenre from "./useDeleteGenre";
 import useUpdateGenre from "./useUpdateGenre";
-import useGameQueryStore from "../../state";
+import useGameQueryStore from "../../state/state";
 
 const GenreList = () => {
   const genreId = useGameQueryStore((s) => s.gameQuery.genreId);

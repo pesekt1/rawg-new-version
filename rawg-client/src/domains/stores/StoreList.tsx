@@ -3,7 +3,7 @@ import useStores from "./useStores";
 import useCreateStore from "./useCreateStore";
 import useDeleteStore from "./useDeleteStore";
 import useUpdateStore from "./useUpdateStore";
-import useGameQueryStore from "../../state";
+import useGameQueryStore from "../../state/state";
 
 const StoreList = () => {
   const storeId = useGameQueryStore((s) => s.gameQuery.storeId);

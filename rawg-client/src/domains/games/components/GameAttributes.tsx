@@ -3,7 +3,7 @@ import { Game } from "../Game";
 import DefinitionItem from "../../../components/DefinitionItem";
 import CriticScore from "../components/GameCard/CriticScore";
 import AttributeBadge from "./AttributeBadge";
-import useGameQueryStore from "../../../state";
+import useGameQueryStore from "../../../state/state";
 
 interface Props {
   game: Game;
@@ -28,10 +28,7 @@ const GameAttributes = ({ game }: Props) => {
       borderColor={cardBorder}
       p={5}
     >
-      <SimpleGrid
-        columns={{ base: 1, sm: 2 }}
-        as="dl"
-      >
+      <SimpleGrid columns={{ base: 1, sm: 2 }} as="dl">
         <DefinitionItem term="Platforms">
           <AttributeBadge
             items={game.parent_platforms}

@@ -22,7 +22,7 @@ import {
 import { useState } from "react";
 import ExpandCollapseButton from "./ExpandCollapseButton";
 import { useAuth } from "../domains/auth/useAuth";
-import useGameQueryStore from "../state";
+import useGameQueryStore from "../state/state";
 import ClearSelectionButton from "./CustomList/ClearSelectionButton";
 
 const allItems = [

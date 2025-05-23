@@ -1,6 +1,6 @@
 import { Box, Icon, Text, useColorMode } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import useGameQueryStore from "../../state";
+import useGameQueryStore from "../../state/state";
 
 interface UserPanelActionProps {
   icon: any;

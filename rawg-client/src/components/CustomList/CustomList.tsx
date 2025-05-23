@@ -7,7 +7,7 @@ import { Response } from "../../services/api-client";
 import AdminEditIcon from "../AdminEditIcon";
 import GenericEditModal from "../GenericEditModal";
 import { useAuth } from "../../domains/auth/useAuth";
-import useGameQueryStore from "../../state";
+import useGameQueryStore from "../../state/state";
 import ExpandCollapseButton from "../ExpandCollapseButton";
 import ClearSelectionButton from "./ClearSelectionButton";
 import TitleButton from "./TitleButton";

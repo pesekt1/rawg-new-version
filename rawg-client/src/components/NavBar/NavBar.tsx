@@ -15,7 +15,7 @@ import { FiUser, FiUserPlus } from "react-icons/fi";
 import LoginModal from "../../domains/auth/LoginModal";
 import RegisterModal from "../../domains/auth/RegisterModal";
 import { useAuth } from "../../domains/auth/useAuth";
-import useGameQueryStore from "../../state";
+import useGameQueryStore from "../../state/state";
 import ColorModeSwitch from "./ColorModeSwitch";
 import SearchInput from "./SearchInput";
 import Logo from "./Logo";

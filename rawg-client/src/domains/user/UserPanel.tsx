@@ -1,5 +1,5 @@
 import { HStack, Text, VStack } from "@chakra-ui/react";
-import useGameQueryStore from "../../state";
+import useGameQueryStore from "../../state/state";
 import WishlistAction from "./WishlistAction";
 import LibraryAction from "./LibraryAction";
 import UserAvatar from "./UserAvatar";
