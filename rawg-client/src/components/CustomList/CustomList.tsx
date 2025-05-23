@@ -13,6 +13,7 @@ import ClearSelectionButton from "./ClearSelectionButton";
 import TitleButton from "./TitleButton";
 import ListItemButton from "./ListItemButton";
 import { useNavigate } from "react-router-dom";
+import useBrowseListStore from "../../state/useBrowseListStore";
 
 /**
  * Represents an item in the list.
@@ -70,7 +71,7 @@ const CustomList = <T extends Item>({
   useDeleteHook,
 }: Props<T>) => {
   const resetGameQuery = useGameQueryStore((state) => state.reset);
-  const resetBrowseListQuery = useGameQueryStore((s) => s.resetBrowseListQuery);
+  const resetBrowseListKey = useBrowseListStore((s) => s.reset);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [editEntity, setEditEntity] = useState<T | null>(null);
@@ -164,7 +165,7 @@ const CustomList = <T extends Item>({
                 isSelected={selectedItemId === item.id}
                 onClick={() => {
                   onSelectedItemId(item.id);
-                  resetBrowseListQuery(); // Reset BrowseList selection
+                  resetBrowseListKey(); // Reset BrowseList selection
                   navigate("/"); // Navigate to HomePage to show GameGrid
                 }}
               />

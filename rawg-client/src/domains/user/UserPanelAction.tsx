@@ -1,6 +1,6 @@
 import { Box, Icon, Text, useColorMode } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import useGameQueryStore from "../../state/state";
+import useBrowseListStore from "../../state/useBrowseListStore";
 
 interface UserPanelActionProps {
   icon: any;
@@ -18,9 +18,7 @@ const UserPanelAction = ({
   onKeyDown,
 }: UserPanelActionProps) => {
   const navigate = useNavigate();
-  const resetBrowseListQuery = useGameQueryStore(
-    (state) => state.resetBrowseListQuery
-  );
+  const resetBrowseListKey = useBrowseListStore((s) => s.reset);
 
   const { colorMode } = useColorMode();
   const colorMain = colorMode === "light" ? "gray.800" : "white";
@@ -31,8 +29,8 @@ const UserPanelAction = ({
   const bgActive = colorMode === "light" ? "lightGray.300" : "accent.500";
 
   const handleClick = () => {
+    resetBrowseListKey();
     onClick();
-    resetBrowseListQuery(); //reset the browse list cache
     navigate("/");
   };
 

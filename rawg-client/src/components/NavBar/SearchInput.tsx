@@ -8,12 +8,13 @@ import { useRef } from "react";
 import { BsSearch } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import useGameQueryStore from "../../state/state";
+import useBrowseListStore from "../../state/useBrowseListStore";
 
 const SearchInput = () => {
   const ref = useRef<HTMLInputElement>(null);
   const onSearch = useGameQueryStore((s) => s.setSearchText);
   const resetGameQuery = useGameQueryStore((s) => s.reset);
-  const resetBrowseListQuery = useGameQueryStore((s) => s.resetBrowseListQuery);
+  const resetBrowseListKey = useBrowseListStore((s) => s.reset);
   const navigate = useNavigate();
   const inputGroupBg = useColorModeValue("white", "gray.700");
   const inputGroupBorder = useColorModeValue("1.5px solid #e2e8f0", "none");
@@ -25,9 +26,9 @@ const SearchInput = () => {
       onSubmit={(event) => {
         event.preventDefault();
 
-        //reset cache
+        //reset state
         resetGameQuery();
-        resetBrowseListQuery();
+        resetBrowseListKey();
 
         onSearch(ref.current?.value || "");
         navigate("/");

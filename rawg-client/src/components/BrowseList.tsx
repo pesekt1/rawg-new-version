@@ -24,6 +24,7 @@ import ExpandCollapseButton from "./ExpandCollapseButton";
 import { useAuth } from "../domains/auth/useAuth";
 import useGameQueryStore from "../state/state";
 import ClearSelectionButton from "./CustomList/ClearSelectionButton";
+import useBrowseListStore from "../state/useBrowseListStore";
 
 const allItems = [
   { label: "Users", icon: FaUser, to: "/users", adminOnly: true },
@@ -49,8 +50,8 @@ const BrowseList = () => {
   const colorSelected = colorMode === "light" ? "accent.700" : "yellow.300";
 
   // Zustand browseListQuery state
-  const browseListKey = useGameQueryStore((s) => s.browseListQuery.selectedKey);
-  const setBrowseListKey = useGameQueryStore((s) => s.setBrowseListKey);
+  const browseListKey = useBrowseListStore((s) => s.selectedKey);
+  const setBrowseListKey = useBrowseListStore((s) => s.setSelectedKey);
   const resetGameQuery = useGameQueryStore((s) => s.reset);
   const navigate = useNavigate();
 

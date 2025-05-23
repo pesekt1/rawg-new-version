@@ -21,16 +21,16 @@ import SearchInput from "./SearchInput";
 import Logo from "./Logo";
 import UserAvatar from "../../domains/user/UserAvatar";
 import useAuthStore from "../../state/useAuthStore";
+import useBrowseListStore from "../../state/useBrowseListStore";
 
 const NavBar = () => {
   const resetGameQuery = useGameQueryStore((state) => state.reset);
-  const resetBrowseListQuery = useGameQueryStore(
-    (state) => state.resetBrowseListQuery
-  );
+  const resetBrowseListKey = useBrowseListStore((state) => state.reset);
 
   const handleClick = () => {
+    //reset the state
     resetGameQuery();
-    resetBrowseListQuery();
+    resetBrowseListKey();
   };
 
   const NavBarLogo = () => (
@@ -49,7 +49,7 @@ const NavBar = () => {
     onOpen: onRegisterOpen,
     onClose: onRegisterClose,
   } = useDisclosure();
-  //const { isAuthenticated, logout, role, user } = useAuth();
+
   const { logout, isAuthenticated } = useAuth();
   const user = useAuthStore((s) => s.user);
 
