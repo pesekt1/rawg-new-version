@@ -49,9 +49,6 @@ const theme = extendTheme({
         bg: props.colorMode === "light" ? "lightGray.50" : "gray.900", // Use a solid color for dark mode
         color: props.colorMode === "light" ? "gray.800" : "gray.50",
       },
-      "*::placeholder": {
-        color: props.colorMode === "light" ? "lightGray.400" : "gray.500",
-      },
       a: {
         color: props.colorMode === "light" ? "accent.600" : "accent.500",
         _hover: {
@@ -166,48 +163,6 @@ const theme = extendTheme({
           boxShadow: getHoverBoxShadow(props.colorMode),
         },
       }),
-    },
-    Input: {
-      variants: {
-        searchInput: (props: any) => ({
-          borderRadius: "20px",
-          fontWeight: "semibold",
-          fontSize: "md",
-          bg: "transparent",
-          _focus: {
-            bg: props.colorMode === "light" ? "white" : "gray.700",
-            borderColor: "teal.400",
-            boxShadow: "0 0 0 2px #319795",
-            _dark: { bg: "gray.800" },
-          },
-          _placeholder: {
-            color: props.colorMode === "light" ? "gray.500" : "teal.400",
-            fontStyle: "italic",
-            letterSpacing: "0.5px",
-          },
-          transition: "all 0.2s",
-        }),
-      },
-    },
-    InputGroup: {
-      variants: {
-        searchInputGroup: (props: any) => ({
-          transition: "box-shadow 0.2s, border-color 0.2s",
-          boxShadow: "sm",
-          border: props.colorMode === "light" ? "1.5px solid #e2e8f0" : "none",
-          borderColor: props.colorMode === "light" ? "gray.300" : "gray.600",
-          _focusWithin: {
-            boxShadow: "0 0 0 2px #319795",
-            borderColor: "teal.500",
-          },
-          _hover: {
-            borderColor: "teal.400",
-            boxShadow: "md",
-          },
-          borderRadius: "full",
-          bg: props.colorMode === "light" ? "white" : "gray.700",
-        }),
-      },
     },
   },
 });
