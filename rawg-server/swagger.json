@@ -2684,7 +2684,7 @@
 				"operationId": "GetAll",
 				"responses": {
 					"200": {
-						"description": "ListResponse containing parent platform DTOs.",
+						"description": "PaginatedResponse containing parent platform DTOs.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -2694,12 +2694,33 @@
 						}
 					}
 				},
-				"description": "Get a list of all parent platforms.",
+				"description": "Get a list of all parent platforms with optional pagination.",
 				"tags": [
 					"ParentPlatforms"
 				],
 				"security": [],
-				"parameters": []
+				"parameters": [
+					{
+						"description": "Page number for pagination.",
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Number of items per page.",
+						"in": "query",
+						"name": "page_size",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
 			},
 			"post": {
 				"operationId": "Create",
