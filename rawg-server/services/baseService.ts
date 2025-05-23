@@ -1,6 +1,11 @@
 import { PaginatedResponse } from "../interfaces/PaginatedResponse";
 import { AppDataSource } from "../startup/data-source";
-import { ObjectType, DeepPartial, ObjectLiteral } from "typeorm";
+import {
+  ObjectType,
+  DeepPartial,
+  FindOptionsOrder,
+  ObjectLiteral,
+} from "typeorm";
 import { constructNextUrl } from "../utils/paginationUtils";
 
 /**
@@ -9,11 +14,15 @@ import { constructNextUrl } from "../utils/paginationUtils";
  */
 export class BaseService<T extends ObjectLiteral> {
   protected repository = AppDataSource.getRepository<T>(this.entity);
+  private sortField: string;
 
   /**
    * @param entity The entity class to operate on.
+   * @param sortField The field to sort by (default: "name")
    */
-  constructor(private entity: ObjectType<T>) {}
+  constructor(private entity: ObjectType<T>, sortField: string = "name") {
+    this.sortField = sortField;
+  }
 
   /**
    * Get all entities with optional pagination.
@@ -78,7 +87,7 @@ export class BaseService<T extends ObjectLiteral> {
    * @param page Page number for pagination.
    * @param page_size Number of items per page.
    * @param baseUrl optional Base URL for constructing the "next" link.
-   * @returns Promise resolving to a paginated response.
+   * @returns Promise resolving to a paginated response that is sorted alphabetically
    */
   async getAllPaginated(
     page: number = 1,
@@ -89,10 +98,12 @@ export class BaseService<T extends ObjectLiteral> {
 
     const skip = (page - 1) * page_size;
     const take = page_size;
+    const order = { [this.sortField]: "ASC" } as FindOptionsOrder<T>;
 
     const [items, total] = await this.repository.findAndCount({
       skip,
       take,
+      order,
     });
 
     const next = constructNextUrl(baseUrl || "", page, page_size, total);
