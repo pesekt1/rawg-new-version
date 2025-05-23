@@ -7,7 +7,7 @@ import { Response } from "../../services/api-client";
 const useTags = () =>
   useGetEntities<Response<Tag>>({
     queryKey: ["tags"],
-    queryFn: tagService.getAll,
+    queryFn: () => tagService.getAll({ params: { page_size: 1000 } }),
     // placeholderData: tags,
   });
 
