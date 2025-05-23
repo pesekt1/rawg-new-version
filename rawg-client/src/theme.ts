@@ -49,6 +49,9 @@ const theme = extendTheme({
         bg: props.colorMode === "light" ? "lightGray.50" : "gray.900", // Use a solid color for dark mode
         color: props.colorMode === "light" ? "gray.800" : "gray.50",
       },
+      "*::placeholder": {
+        color: props.colorMode === "light" ? "lightGray.400" : "gray.500",
+      },
       a: {
         color: props.colorMode === "light" ? "accent.600" : "accent.500",
         _hover: {
