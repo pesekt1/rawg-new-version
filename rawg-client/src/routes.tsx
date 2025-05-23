@@ -10,6 +10,7 @@ import EntityPage from "./pages/EntityPage";
 import UsersPage from "./pages/UsersPage";
 import UserDetailPage from "./pages/UserDetailPage";
 import ReviewsPage from "./pages/ReviewsPage";
+import TagsPage from "./pages/TagsPage";
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
             <UsersPage />
           </AdminRoute>
         ),
+      },
+      {
+        path: "tags",
+        element: <TagsPage />,
       },
       {
         path: "users/:id",
