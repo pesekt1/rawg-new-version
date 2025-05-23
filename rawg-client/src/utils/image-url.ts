@@ -7,7 +7,7 @@ import noImagePlaceholder from "../assets/no-image-placeholder-6f3882e0.webp";
  * @param url - The original image URL or null.
  * @returns The cropped image URL or a placeholder image.
  */
-const getCroppedImageUrl = (url: string | null) => {
+const getCroppedImageUrl = (url: string | null | undefined) => {
   if (!url) return noImagePlaceholder;
   return url.replace("/media/", "/media/crop/600/400/");
 };
