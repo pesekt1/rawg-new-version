@@ -6,9 +6,9 @@ import {
   Button,
   useStyleConfig,
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
 import { Entity } from "../interfaces/Entity";
 import getCroppedImageUrl from "../utils/image-url";
+import { Link } from "react-router-dom";
 
 /**
  * Props for the `EntityCard` component.
@@ -36,12 +36,7 @@ const EntityCard = <T extends Entity>({
   renderDetails,
   setter,
 }: EntityCardProps<T>) => {
-  const navigate = useNavigate();
   const cardStyles = useStyleConfig("Card");
-  const handleHeadingClick = () => {
-    setter(entity.id); // Dynamically call the provided setter
-    navigate("/");
-  };
 
   return (
     <Box __css={cardStyles} overflow="hidden">
@@ -63,20 +58,10 @@ const EntityCard = <T extends Entity>({
           p={2}
           textAlign="center"
         >
-          <Heading
-            size="md"
-            isTruncated
-            onClick={handleHeadingClick}
-            cursor="pointer"
-            textDecoration="underline"
-            _hover={{
-              textDecoration: "none",
-              color: "teal.500",
-              transform: "scale(1.05)",
-              transition: "all 0.2s ease-in-out",
-            }}
-          >
-            {entity.name}
+          <Heading size="md" isTruncated>
+            <Link to="/" onClick={() => setter(entity.id)}>
+              {entity.name}
+            </Link>
           </Heading>
         </Box>
       </Box>
