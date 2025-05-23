@@ -17,17 +17,9 @@ interface BrowseListQuery {
   selectedKey?: string; // e.g., "stores", "genres", etc.
 }
 
-interface User {
-  id: number;
-  username: string;
-  role: string;
-}
-
 interface GameQueryStore {
   gameQuery: GameQuery;
   browseListQuery: BrowseListQuery;
-  user: User;
-  token: string;
   setGenreId: (genreId?: number) => void;
   setPlatformId: (platformId?: number) => void;
   setStoreId: (storeId?: number) => void;
@@ -39,25 +31,13 @@ interface GameQueryStore {
   setWishlistUserId: (wishlistUserId?: number) => void;
   setLibraryUserId: (libraryUserId?: number) => void;
   setBrowseListKey: (key?: string) => void;
-  setUser: (user: User) => void;
-  resetUser: () => void;
   resetBrowseListQuery: () => void;
   reset: () => void;
-  setToken: (token: string) => void;
-  resetToken: () => void;
 }
-
-const getInitialToken = () => localStorage.getItem("token") || "";
-const getInitialUser = () => {
-  const userStr = localStorage.getItem("user");
-  return userStr ? JSON.parse(userStr) : ({} as User);
-};
 
 const useGameQueryStore = create<GameQueryStore>((set) => ({
   gameQuery: {} as GameQuery,
   browseListQuery: {} as BrowseListQuery,
-  user: getInitialUser(),
-  token: getInitialToken(),
   setGenreId: (genreId) =>
     set((state) => ({
       gameQuery: {
@@ -142,27 +122,11 @@ const useGameQueryStore = create<GameQueryStore>((set) => ({
     set(() => ({
       browseListQuery: { selectedKey: key },
     })),
-  setUser: (user) => {
-    localStorage.setItem("user", JSON.stringify(user));
-    set(() => ({ user }));
-  },
-  resetUser: () => {
-    localStorage.removeItem("user");
-    set(() => ({ user: {} as User }));
-  },
   resetBrowseListQuery: () =>
     set(() => ({
       browseListQuery: {} as BrowseListQuery,
     })),
   reset: () => set({ gameQuery: {} as GameQuery }),
-  setToken: (token) => {
-    localStorage.setItem("token", token);
-    set(() => ({ token }));
-  },
-  resetToken: () => {
-    localStorage.removeItem("token");
-    set(() => ({ token: "" }));
-  },
 }));
 
 export default useGameQueryStore;
