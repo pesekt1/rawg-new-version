@@ -30,7 +30,11 @@ const ReviewsSection = ({
       {reviews?.pages.map((page: any, index: number) => (
         <React.Fragment key={index}>
           {page.results.map((review: any) => (
-            <ReviewCard key={review.userId} review={review} />
+            <ReviewCard
+              key={review.userId}
+              review={review}
+              isGameDetail={true} //optional prop to indicate game detail
+            />
           ))}
         </React.Fragment>
       ))}

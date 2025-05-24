@@ -14,7 +14,12 @@ import { Link } from "react-router-dom";
 import ExpandableText from "../../../components/ExpandableText";
 import useUser from "../../user/useUser";
 
-const ReviewCard = ({ review }: { review: any }) => {
+interface Props {
+  review: any;
+  isGameDetail?: boolean;
+}
+
+const ReviewCard = ({ review, isGameDetail }: Props) => {
   const game = useGame(review.gameId).data;
   const { user: currentUser } = useAuth();
   const reviewUser = useUser(review.userId).data;
@@ -22,13 +27,15 @@ const ReviewCard = ({ review }: { review: any }) => {
   return (
     <Card mb={4} borderRadius="lg" boxShadow="md">
       <CardHeader pb={0}>
-        <Heading size="md">
-          {game ? (
-            <Link to={`/games/${game.id}`}>{game.name}</Link>
-          ) : (
-            "Loading game..."
-          )}
-        </Heading>
+        {!isGameDetail && (
+          <Heading size="md">
+            {game ? (
+              <Link to={`/games/${game.id}`}>{game.name}</Link>
+            ) : (
+              "Loading game..."
+            )}
+          </Heading>
+        )}
       </CardHeader>
       <CardBody pt={2} pb={2}>
         <StyledText>
