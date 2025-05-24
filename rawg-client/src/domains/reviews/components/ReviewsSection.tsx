@@ -2,6 +2,7 @@ import { Box, Heading, Spinner } from "@chakra-ui/react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import StyledText from "../../../components/StyledText";
 import React from "react";
+import ReviewCard from "./ReviewCard";
 
 const ReviewsSection = ({
   reviews,
@@ -29,18 +30,7 @@ const ReviewsSection = ({
       {reviews?.pages.map((page: any, index: number) => (
         <React.Fragment key={index}>
           {page.results.map((review: any) => (
-            <Box
-              key={review.userId}
-              p={2}
-              borderWidth="1px"
-              borderRadius="md"
-              mb={2}
-            >
-              <StyledText>{review.review}</StyledText>
-              <Box fontSize="sm" color="gray.500">
-                - User {review.userId}
-              </Box>
-            </Box>
+            <ReviewCard key={review.userId} review={review} />
           ))}
         </React.Fragment>
       ))}
