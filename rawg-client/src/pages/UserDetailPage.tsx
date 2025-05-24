@@ -4,59 +4,20 @@ import {
   Heading,
   Spinner,
   Text,
-  FormControl,
-  FormLabel,
-  Input,
-  Button,
-  Alert,
-  AlertIcon,
   VStack,
+  Button,
+  useDisclosure,
 } from "@chakra-ui/react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState, useEffect } from "react";
-import userService from "../domains/user/userService";
+import useUser from "../domains/user/useUser";
 import { useAuth } from "../domains/auth/useAuth";
+import UserEditModal from "../domains/user/UserEditModal";
 
-const UserDetailPage = () => {
+const UserProfilePage = () => {
   const { id } = useParams<{ id: string }>();
-  const queryClient = useQueryClient();
-  const { saveUser, user: currentUser } = useAuth();
-
-  const {
-    data: user,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ["user", id],
-    queryFn: () => userService.get(Number(id)),
-    enabled: !!id,
-  });
-
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
-  useEffect(() => {
-    if (user) setUsername(user.username);
-  }, [user]);
-
-  const {
-    mutate,
-    isLoading: isSaving,
-    isSuccess,
-    isError,
-    error: saveError,
-  } = useMutation({
-    mutationFn: (data: { username: string; password?: string }) =>
-      userService.put(Number(id), data),
-    onSuccess: (updatedUser) => {
-      queryClient.invalidateQueries({ queryKey: ["user", id] });
-      setPassword("");
-      // If the updated user is the logged-in user, update the state
-      if (currentUser && updatedUser && currentUser.id === updatedUser.id) {
-        saveUser(updatedUser);
-      }
-    },
-  });
+  const userId = id ? Number(id) : undefined;
+  const { data: user, isLoading, error } = useUser(userId);
+  const { user: currentUser } = useAuth();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   if (isLoading) return <Spinner />;
   if (error) return <Text color="tomato">{(error as Error).message}</Text>;
@@ -64,55 +25,26 @@ const UserDetailPage = () => {
 
   return (
     <Box maxW="md" mx="auto" mt={8} p={4} borderWidth={1} borderRadius="md">
-      <Heading mb={4}>User Detail</Heading>
-      <Text mb={2}>ID: {user.id}</Text>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          mutate({
-            username,
-            ...(password ? { password } : {}),
-          });
-        }}
-      >
-        <VStack spacing={4} align="stretch">
-          <FormControl>
-            <FormLabel>Username</FormLabel>
-            <Input
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              isDisabled={isSaving}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel>New Password</FormLabel>
-            <Input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Leave blank to keep current password"
-              isDisabled={isSaving}
-            />
-          </FormControl>
-          <Button type="submit" colorScheme="teal" isLoading={isSaving}>
-            Update User
+      <Heading mb={4}>User Profile</Heading>
+      <VStack align="start" spacing={2}>
+        <Text>
+          <b>ID:</b> {user.id}
+        </Text>
+        <Text>
+          <b>Username:</b> {user.username}
+        </Text>
+        {/* Add more fields as needed */}
+      </VStack>
+      {currentUser && currentUser.id === user.id && (
+        <>
+          <Button mt={4} colorScheme="teal" onClick={onOpen}>
+            Edit Profile
           </Button>
-          {isSuccess && (
-            <Alert status="success">
-              <AlertIcon />
-              User updated successfully!
-            </Alert>
-          )}
-          {isError && (
-            <Alert status="error">
-              <AlertIcon />
-              {(saveError as any)?.message || "Update failed"}
-            </Alert>
-          )}
-        </VStack>
-      </form>
+          <UserEditModal user={user} isOpen={isOpen} onClose={onClose} />
+        </>
+      )}
     </Box>
   );
 };
 
-export default UserDetailPage;
+export default UserProfilePage;
