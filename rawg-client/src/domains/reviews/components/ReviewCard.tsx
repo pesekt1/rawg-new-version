@@ -12,10 +12,12 @@ import useGame from "../../games/useGame";
 import { useAuth } from "../../auth/useAuth";
 import { Link } from "react-router-dom";
 import ExpandableText from "../../../components/ExpandableText";
+import useUser from "../../user/useUser";
 
 const ReviewCard = ({ review }: { review: any }) => {
   const game = useGame(review.gameId).data;
-  const { user } = useAuth();
+  const { user: currentUser } = useAuth();
+  const reviewUser = useUser(review.userId).data;
 
   return (
     <Card mb={4} borderRadius="lg" boxShadow="md">
@@ -35,10 +37,10 @@ const ReviewCard = ({ review }: { review: any }) => {
       </CardBody>
       <CardFooter pt={0} justifyContent="space-between" alignItems="center">
         <Box>
-          {review.userId === user?.id ? (
+          {review.userId === currentUser?.id ? (
             <Text fontWeight="bold">You</Text>
           ) : (
-            <Link to={`/users/${review.userId}`}>User {review.userId}</Link>
+            <Link to={`/users/${review.userId}`}>{reviewUser?.username}</Link>
           )}
         </Box>
         {review.createdAt && (
