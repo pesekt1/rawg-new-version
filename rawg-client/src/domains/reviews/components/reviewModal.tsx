@@ -103,9 +103,18 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      size={{ base: "full", sm: "xl", md: "2xl", lg: "3xl" }}
+    >
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent
+        w={{ base: "98vw", sm: "90vw", md: "600px", lg: "700px" }}
+        minH={{ base: "60vh", md: "400px" }}
+        maxH={{ base: "90vh", md: "80vh" }}
+        overflowY="auto"
+      >
         <ModalHeader>
           {userReview ? "Update Review" : "Create Review"}
         </ModalHeader>
