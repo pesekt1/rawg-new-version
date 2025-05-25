@@ -88,6 +88,7 @@ export class ReviewController extends Controller {
       userId,
       gameId: data.gameId,
       review: data.review,
+      rating: data.rating,
     };
     return reviewService.createReview(reviewData);
   }
