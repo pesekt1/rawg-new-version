@@ -635,6 +635,14 @@
 					"review": {
 						"type": "string"
 					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"rating": {
+						"type": "number",
+						"format": "double"
+					},
 					"user": {
 						"$ref": "#/components/schemas/User"
 					},
@@ -646,6 +654,8 @@
 					"userId",
 					"gameId",
 					"review",
+					"updated_at",
+					"rating",
 					"user",
 					"game"
 				],
@@ -817,12 +827,22 @@
 					},
 					"review": {
 						"type": "string"
+					},
+					"rating": {
+						"type": "number",
+						"format": "double"
+					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time"
 					}
 				},
 				"required": [
 					"userId",
 					"gameId",
-					"review"
+					"review",
+					"rating",
+					"updated_at"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -861,11 +881,16 @@
 					},
 					"review": {
 						"type": "string"
+					},
+					"rating": {
+						"type": "number",
+						"format": "double"
 					}
 				},
 				"required": [
 					"gameId",
-					"review"
+					"review",
+					"rating"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -874,10 +899,15 @@
 				"properties": {
 					"review": {
 						"type": "string"
+					},
+					"rating": {
+						"type": "number",
+						"format": "double"
 					}
 				},
 				"required": [
-					"review"
+					"review",
+					"rating"
 				],
 				"type": "object",
 				"additionalProperties": false

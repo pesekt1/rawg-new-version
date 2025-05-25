@@ -237,6 +237,8 @@ const models: TsoaRoute.Models = {
             "userId": {"dataType":"double","required":true},
             "gameId": {"dataType":"double","required":true},
             "review": {"dataType":"string","required":true},
+            "updated_at": {"dataType":"datetime","required":true},
+            "rating": {"dataType":"double","required":true},
             "user": {"ref":"User","required":true},
             "game": {"ref":"Game","required":true},
         },
@@ -313,6 +315,8 @@ const models: TsoaRoute.Models = {
             "userId": {"dataType":"double","required":true},
             "gameId": {"dataType":"double","required":true},
             "review": {"dataType":"string","required":true},
+            "rating": {"dataType":"double","required":true},
+            "updated_at": {"dataType":"datetime","required":true},
         },
         "additionalProperties": false,
     },
@@ -332,6 +336,7 @@ const models: TsoaRoute.Models = {
         "properties": {
             "gameId": {"dataType":"double","required":true},
             "review": {"dataType":"string","required":true},
+            "rating": {"dataType":"double","required":true},
         },
         "additionalProperties": false,
     },
@@ -340,6 +345,7 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "review": {"dataType":"string","required":true},
+            "rating": {"dataType":"double","required":true},
         },
         "additionalProperties": false,
     },
