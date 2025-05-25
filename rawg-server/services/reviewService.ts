@@ -8,6 +8,7 @@ interface CreateReviewPayload {
   userId: number;
   gameId: number;
   review: string;
+  rating: number;
 }
 
 /**
@@ -30,6 +31,8 @@ export class ReviewService {
       userId: review.userId,
       gameId: review.gameId,
       review: review.review,
+      updated_at: review.updated_at,
+      rating: review.rating,
     };
   }
 
@@ -96,6 +99,7 @@ export class ReviewService {
       userId: data.userId,
       gameId: data.gameId,
       review: data.review,
+      rating: data.rating,
       user: { id: data.userId },
       game: { id: data.gameId },
     });
