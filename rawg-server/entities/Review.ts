@@ -1,4 +1,10 @@
-import { Entity, Column, ManyToOne, PrimaryColumn } from "typeorm";
+import {
+  Entity,
+  Column,
+  ManyToOne,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from "typeorm";
 import { User } from "./User";
 import { Game } from "./Game";
 
@@ -12,6 +18,12 @@ export class Review {
 
   @Column({ type: "text" })
   review: string;
+
+  @UpdateDateColumn({ type: "timestamp" })
+  updated_at: Date;
+
+  @Column({ type: "int" })
+  rating: number;
 
   @ManyToOne(() => User, (user) => user.reviews, { onDelete: "CASCADE" })
   user: User;
