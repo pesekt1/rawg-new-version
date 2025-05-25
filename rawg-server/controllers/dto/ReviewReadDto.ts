@@ -5,4 +5,6 @@ export interface ReviewReadDto {
   userId: number;
   gameId: number;
   review: string;
+  rating: number;
+  updated_at: Date;
 }
