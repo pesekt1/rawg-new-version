@@ -3,8 +3,14 @@ config(); // Load environment variables
 
 import { AppDataSource } from "./data-source";
 import { seedGames } from "./utils/seedGames";
+import { seedReviews } from "./utils/seedReviews";
 import { seedUser } from "./utils/seedUser";
 import { truncateAllTables } from "./utils/truncateAllTables";
+
+const seedUsersAndReviews = async () => {
+  await seedUser(AppDataSource);
+  await seedReviews(AppDataSource);
+};
 
 //await cannot be used at the top level in a module, so we wrap it in an async IIFE
 (async () => {
@@ -15,13 +21,13 @@ import { truncateAllTables } from "./utils/truncateAllTables";
 
   // If mode is "user", only seed users
   if (mode === "user") {
-    await seedUser(AppDataSource);
+    await seedUsersAndReviews();
     console.log("User seeding completed successfully.");
     process.exit();
   }
 
   await truncateAllTables(AppDataSource);
-  await seedUser(AppDataSource);
+  await seedUsersAndReviews();
   await seedGames(AppDataSource, gamePages); // Pass gamePages to seedGames
 
   console.log("Seeding completed successfully.");
