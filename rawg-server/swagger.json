@@ -1045,6 +1045,12 @@
 						},
 						"type": "array"
 					},
+					"summaryUpdatedAt": {
+						"type": "string"
+					},
+					"summary": {
+						"type": "string"
+					},
 					"website": {
 						"type": "string"
 					},
