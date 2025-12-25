@@ -1,26 +1,27 @@
-import { useNavigate, useParams } from "react-router-dom";
-import useGame from "../domains/games/useGame";
 import {
-  Spinner,
-  GridItem,
-  SimpleGrid,
   Alert,
   AlertIcon,
   Box,
+  GridItem,
+  SimpleGrid,
+  Spinner,
 } from "@chakra-ui/react";
-import useDeleteGame from "../domains/games/useDeleteGame";
+import { useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../domains/auth/useAuth";
+import AdminActions from "../domains/games/components/AdminActions";
+import GameDetailsSection from "../domains/games/components/GameDetailsSection";
 import GameScreenshots from "../domains/games/components/GameScreenshots/GameScreenshots";
 import GameTrailer from "../domains/games/components/GameTrailer";
-import { useQueryClient } from "@tanstack/react-query";
-import ReviewModal from "../domains/reviews/components/reviewModal";
-import { useState } from "react";
-import useReviews from "../domains/reviews/useReviews";
-import useReview from "../domains/reviews/useReview";
-import AdminActions from "../domains/games/components/AdminActions";
-import ReviewsSection from "../domains/reviews/components/ReviewsSection";
-import GameDetailsSection from "../domains/games/components/GameDetailsSection";
+import useDeleteGame from "../domains/games/useDeleteGame";
+import useGame from "../domains/games/useGame";
 import ReviewButton from "../domains/reviews/components/ReviewButton";
+import ReviewModal from "../domains/reviews/components/reviewModal";
+import ReviewsSection from "../domains/reviews/components/ReviewsSection";
+import ReviewSummarySection from "../domains/reviews/components/RewiewSummarySection";
+import useReview from "../domains/reviews/useReview";
+import useReviews from "../domains/reviews/useReviews";
 
 const GameDetailPage = () => {
   const { id } = useParams();
@@ -94,6 +95,7 @@ const GameDetailPage = () => {
           onOpenReviewModal={() => setReviewModalOpen(true)}
         />
         <GameDetailsSection game={game} />
+        <ReviewSummarySection game={game} />
         <ReviewModal
           isOpen={isReviewModalOpen}
           onClose={() => setReviewModalOpen(false)}
