@@ -52,6 +52,15 @@ export class Game {
   @Column({ nullable: true })
   website?: string;
 
+  @Column({ type: "text", nullable: true })
+  summary?: string;
+
+  @Column({ type: "datetime", nullable: true })
+  summaryUpdatedAt?: Date;
+
+  @Column({ type: "varchar", length: 64, nullable: true })
+  summaryAiModel?: string;
+
   @ManyToMany(() => Genre, (genre) => genre.games)
   @JoinTable()
   genres: Genre[];
