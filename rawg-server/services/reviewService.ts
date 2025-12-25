@@ -1,8 +1,8 @@
-import { Review } from "../entities/Review";
-import { AppDataSource } from "../startup/data-source";
-import { ReviewUpdateDto } from "../controllers/dto/ReviewUpdateDto";
 import { ReviewReadDto } from "../controllers/dto/ReviewReadDto";
+import { ReviewUpdateDto } from "../controllers/dto/ReviewUpdateDto";
+import { Review } from "../entities/Review";
 import { PaginatedResponse } from "../interfaces/PaginatedResponse";
+import { AppDataSource } from "../startup/data-source";
 
 interface CreateReviewPayload {
   userId: number;
@@ -131,6 +131,20 @@ export class ReviewService {
   }): Promise<ReviewReadDto | null> {
     const review = await this.repository.findOneBy(compositeKey);
     return review ? this.toDto(review) : null;
+  }
+
+  async getMostRecentByGameId(
+    gameId: number,
+    limit = 15
+  ): Promise<ReviewReadDto[]> {
+    const reviews = await this.repository
+      .createQueryBuilder("review")
+      .where("review.gameId = :gameId", { gameId })
+      .orderBy("review.updated_at", "DESC")
+      .take(limit)
+      .getMany();
+
+    return reviews.map(this.toDto);
   }
 }
 

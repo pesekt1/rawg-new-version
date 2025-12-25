@@ -5,26 +5,25 @@
  */
 
 import {
-  Controller,
-  Get,
-  Post,
-  Patch,
-  Delete,
-  Route,
   Body,
+  Controller,
+  Delete,
+  Get,
+  Patch,
   Path,
+  Post,
+  Query,
+  Route,
+  Security,
   SuccessResponse,
   Tags,
-  Query,
-  Security,
 } from "tsoa";
+import { PaginatedResponse } from "../interfaces/PaginatedResponse";
 import { gameService } from "../services/game/gameService";
-import { GameUpdateDto } from "./dto/GameUpdateDto";
+import { gameSummaryService } from "../services/game/gameSummaryService";
 import { GameCardDto } from "./dto/GameCardDto";
 import { GameReadDto } from "./dto/GameReadDto";
-import { PaginatedResponse } from "../interfaces/PaginatedResponse";
-import { TrailerReadDto } from "./dto/TrailerReadDto";
-import { ScreenshotReadDto } from "./dto/ScreenshotReadDto";
+import { GameUpdateDto } from "./dto/GameUpdateDto";
 
 /**
  * Controller for managing Game entities.
@@ -149,5 +148,22 @@ export class GameController extends Controller {
   @Security("admin")
   public async remove(@Path() id: number): Promise<void> {
     await gameService.deleteGame(id);
+  }
+
+  /**
+   * Summarize reviews for a game using AI.
+   * Caches the summary on the Game entity.
+   * @param id Game ID.
+   * @param force If true, forces regeneration of the summary even if cached.
+   * @returns The generated summary.
+   */
+  @SuccessResponse("201", "Created")
+  @Post("{id}/summary")
+  public async summarizeReviews(
+    @Path() id: number,
+    @Query() force?: boolean
+  ): Promise<{ summary: string }> {
+    const summary = await gameSummaryService.summarizeGameReviews(id, !!force);
+    return { summary };
   }
 }

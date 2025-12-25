@@ -226,6 +226,16 @@
 					"website": {
 						"type": "string"
 					},
+					"summary": {
+						"type": "string"
+					},
+					"summaryUpdatedAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"summaryAiModel": {
+						"type": "string"
+					},
 					"genres": {
 						"items": {
 							"$ref": "#/components/schemas/Genre"
@@ -1114,6 +1124,37 @@
 					"preview",
 					"data480",
 					"dataMax"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ScreenshotReadDto": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"image": {
+						"type": "string"
+					},
+					"width": {
+						"type": "number",
+						"format": "double"
+					},
+					"height": {
+						"type": "number",
+						"format": "double"
+					},
+					"is_deleted": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"id",
+					"image",
+					"width",
+					"height",
+					"is_deleted"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -3548,34 +3589,7 @@
 									"properties": {
 										"results": {
 											"items": {
-												"properties": {
-													"is_deleted": {
-														"type": "boolean"
-													},
-													"height": {
-														"type": "number",
-														"format": "double"
-													},
-													"width": {
-														"type": "number",
-														"format": "double"
-													},
-													"image": {
-														"type": "string"
-													},
-													"id": {
-														"type": "number",
-														"format": "double"
-													}
-												},
-												"required": [
-													"is_deleted",
-													"height",
-													"width",
-													"image",
-													"id"
-												],
-												"type": "object"
+												"$ref": "#/components/schemas/ScreenshotReadDto"
 											},
 											"type": "array"
 										},
@@ -3608,6 +3622,57 @@
 						"schema": {
 							"format": "double",
 							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/games/{id}/summary": {
+			"post": {
+				"operationId": "SummarizeReviews",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"summary": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"summary"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Summarize reviews for a game using AI.\r\nCaches the summary on the Game entity.",
+				"tags": [
+					"Games"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "Game ID.",
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "If true, forces regeneration of the summary even if cached.",
+						"in": "query",
+						"name": "force",
+						"required": false,
+						"schema": {
+							"type": "boolean"
 						}
 					}
 				]
