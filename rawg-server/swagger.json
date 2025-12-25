@@ -1671,15 +1671,11 @@
 						}
 					}
 				},
-				"description": "Get a user by ID.\r\nRequires user access.",
+				"description": "Get a user by ID.\r\nPublic access",
 				"tags": [
 					"User"
 				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
+				"security": [],
 				"parameters": [
 					{
 						"description": "User ID.",
