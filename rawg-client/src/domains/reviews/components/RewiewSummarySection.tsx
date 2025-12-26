@@ -7,29 +7,21 @@ import {
   HStack,
   Spinner,
 } from "@chakra-ui/react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import ms from "ms";
+import { useState } from "react";
 import StyledText from "../../../components/StyledText";
-import { axiosInstance } from "../../../services/api-client";
 import type { Game } from "../../games/Game";
-
-type SummaryResponse = { summary: string };
-
+import useGenerateGameSummary from "../../games/useGenerateGameSummary";
 const SUMMARY_FRESH_FOR_MS = ms("24h");
 
 const ReviewSummarySection = ({ game }: { game: Game }) => {
   const queryClient = useQueryClient();
+  const [localUpdatedAtMs, setLocalUpdatedAtMs] = useState<number | null>(null);
 
-  const summaryMutation = useMutation({
-    mutationFn: async (force: boolean) => {
-      const res = await axiosInstance.post<SummaryResponse>(
-        `/games/${game.id}/summary`,
-        undefined,
-        { params: { force } }
-      );
-      return res.data.summary;
-    },
+  const summaryMutation = useGenerateGameSummary(game.id, {
     onSuccess: (summary) => {
+      setLocalUpdatedAtMs(Date.now());
       queryClient.setQueryData<Game>(["game", game.id], (old) => {
         const base = old ?? game;
         return {
@@ -41,13 +33,16 @@ const ReviewSummarySection = ({ game }: { game: Game }) => {
     },
   });
 
-  const currentSummary = game.summary ?? summaryMutation.data ?? null;
+  const isMutating =
+    (summaryMutation as any).isPending ?? (summaryMutation as any).isLoading;
 
-  const updatedAtMsRaw = game.summaryUpdatedAt
-    ? new Date(game.summaryUpdatedAt).getTime()
-    : summaryMutation.data
-    ? Date.now()
-    : undefined;
+  const currentSummary = summaryMutation.data ?? game.summary ?? null;
+
+  const updatedAtMsRaw =
+    localUpdatedAtMs ??
+    (game.summaryUpdatedAt
+      ? new Date(game.summaryUpdatedAt).getTime()
+      : undefined);
 
   const updatedAtMs = Number.isFinite(updatedAtMsRaw)
     ? updatedAtMsRaw
@@ -72,7 +67,7 @@ const ReviewSummarySection = ({ game }: { game: Game }) => {
                   ? summaryMutation.mutate(true) // old summary -> refresh via regenerate
                   : summaryMutation.mutate(false) // no summary -> generate
             }
-            isLoading={summaryMutation.isLoading}
+            isLoading={isMutating}
           >
             {currentSummary ? "Refresh" : "Generate"}
           </Button>
@@ -88,9 +83,7 @@ const ReviewSummarySection = ({ game }: { game: Game }) => {
         </Alert>
       )}
 
-      {summaryMutation.isLoading && !currentSummary && (
-        <Spinner size="sm" mt={2} />
-      )}
+      {isMutating && !currentSummary && <Spinner size="sm" mt={2} />}
 
       {currentSummary && (
         <StyledText>
