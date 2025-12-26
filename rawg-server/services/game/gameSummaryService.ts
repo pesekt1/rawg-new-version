@@ -4,9 +4,33 @@ import { llmClient } from "../llm/client";
 import templatePrompt from "../llm/prompts/summarize-reviews";
 import { reviewService } from "../reviewService";
 
+/**
+ * Generates and persists AI-written summaries of recent user reviews for a game.
+ *
+ * This service is cache-first: summaries are stored on the `Game` entity and reused
+ * unless explicitly regenerated via `force = true`.
+ */
 export class GameSummaryService {
+  /** TypeORM repository for `Game` used for reading/writing the cached summary fields. */
   private gameRepository = AppDataSource.getRepository(Game);
 
+  /**
+   * Returns an AI summary of the most recent reviews for a given game.
+   *
+   * Behavior:
+   * - If `force` is `false` and a cached `game.summary` exists, returns it as-is.
+   * - Otherwise, fetches up to 15 most recent reviews, summarizes them via the LLM,
+   *   writes the summary fields back onto the `Game` record, and returns the summary.
+   *
+   * Side effects:
+   * - Persists `game.summary`, `game.summaryAiModel`, and `game.summaryUpdatedAt`.
+   *
+   * @param gameId Database id of the game to summarize reviews for.
+   * @param force When `true`, bypasses the cached summary and regenerates it.
+   * @throws {Error & { status: number }} 404 when the game is not found.
+   * @throws {Error & { status: number }} 400 when there are no reviews to summarize.
+   * @returns The summary text (cached or newly generated).
+   */
   async summarizeGameReviews(gameId: number, force = false): Promise<string> {
     const game = await this.gameRepository.findOneBy({ id: gameId });
     if (!game) {
