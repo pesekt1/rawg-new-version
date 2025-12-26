@@ -1,8 +1,5 @@
-import {
-  useMutation,
-  useQueryClient,
-  UseMutationOptions,
-} from "@tanstack/react-query";
+import { UseMutationOptions } from "@tanstack/react-query";
+import useMutationWithInvalidation from "./useMutationWithInvalidation";
 
 // deleteFn: The function that deletes the entity by id or composite key
 type DeleteFn =
@@ -19,15 +16,15 @@ type DeleteFn =
  * @param queryKey - the query key to invalidate after deletion (e.g. ["games", id])
  * @param options - react-query mutation options
  */
-const useDeleteEntity = <TVariables = string | number>(
+const useDeleteEntity = <
+  TVariables = string | number | { id1: string | number; id2: string | number }
+>(
   deleteFn: DeleteFn,
   queryKey: (string | number)[],
   options?: UseMutationOptions<{ message: string }, Error, TVariables>
-) => {
-  const queryClient = useQueryClient();
-
-  return useMutation<{ message: string }, Error, TVariables>({
-    mutationFn: async (variables: TVariables) => {
+) =>
+  useMutationWithInvalidation<{ message: string }, TVariables, Error>(
+    async (variables: TVariables) => {
       if (!variables) {
         throw new Error(
           "Invalid variables: variables cannot be null or undefined."
@@ -50,21 +47,15 @@ const useDeleteEntity = <TVariables = string | number>(
             id2: string | number
           ) => Promise<{ message: string }>
         )(id1, id2);
-      } else {
-        // Handle single ID
-        return await (
-          deleteFn as (id: string | number) => Promise<{ message: string }>
-        )(variables as string | number);
       }
+
+      // Handle single ID
+      return await (
+        deleteFn as (id: string | number) => Promise<{ message: string }>
+      )(variables as unknown as string | number);
     },
-    onSuccess: (data, variables, context) => {
-      queryClient.invalidateQueries({ queryKey });
-      if (options?.onSuccess) {
-        options.onSuccess(data, variables, context);
-      }
-    },
-    ...options,
-  });
-};
+    queryKey,
+    options
+  );
 
 export default useDeleteEntity;

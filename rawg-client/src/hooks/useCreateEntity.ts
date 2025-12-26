@@ -1,21 +1,11 @@
-import {
-  useMutation,
-  useQueryClient,
-  UseMutationOptions,
-} from "@tanstack/react-query";
-
-// createFn: The function that creates the entity and returns the created entity or response
+import { UseMutationOptions } from "@tanstack/react-query";
+import useMutationWithInvalidation from "./useMutationWithInvalidation";
 
 /**
- * useCreateEntity is a generic hook for creating an entity and invalidating the related query.
+ * Async create function signature used by `useCreateEntity`.
  *
- * @template T - The entity type to create.
- * @template TResult - The result type returned by the create function (defaults to any).
- * @param createFn - Function to create the entity (should return a promise of the created entity or response).
- * @param queryKey - The query key to invalidate after creation (e.g. ["games"]).
- * @param options - Additional react-query mutation options (e.g. onSuccess, onError, etc).
- *
- * @returns A react-query mutation object for the create operation.
+ * @template T - Entity shape accepted by the create function (input is `Partial<T>`).
+ * @template TResult - Result type returned by the create function.
  */
 type CreateFn<T, TResult = any> = (data: Partial<T>) => Promise<TResult>;
 
@@ -27,20 +17,14 @@ type CreateFn<T, TResult = any> = (data: Partial<T>) => Promise<TResult>;
  */
 const useCreateEntity = <T, TResult = any>(
   createFn: CreateFn<T, TResult>,
+
   queryKey: (string | number)[],
   options?: UseMutationOptions<TResult, Error, Partial<T>>
-) => {
-  const queryClient = useQueryClient();
-  return useMutation<TResult, Error, Partial<T>>({
-    mutationFn: (data) => createFn(data),
-    onSuccess: (data, variables, context) => {
-      queryClient.invalidateQueries({ queryKey });
-      if (options?.onSuccess) {
-        options.onSuccess(data, variables, context);
-      }
-    },
-    ...options,
-  });
-};
+) =>
+  useMutationWithInvalidation<TResult, Partial<T>>(
+    (data) => createFn(data),
+    queryKey,
+    options
+  );
 
 export default useCreateEntity;
