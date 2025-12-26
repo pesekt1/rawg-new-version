@@ -7,6 +7,10 @@ describe("getCroppedImageUrl", () => {
     expect(getCroppedImageUrl(null)).toBe(noImagePlaceholder);
   });
 
+  it("returns placeholder if url is undefined", () => {
+    expect(getCroppedImageUrl(undefined)).toBe(noImagePlaceholder);
+  });
+
   it("returns placeholder if url is empty string", () => {
     expect(getCroppedImageUrl("")).toBe(noImagePlaceholder);
   });

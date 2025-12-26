@@ -13,6 +13,7 @@ import { isValidUrl } from "../../../../utils/validation";
 import TextareaField from "./TextareaField";
 import TextInputField from "./TextInputField";
 import { Entity } from "./Entity";
+import { useGameEntities } from "../../../../utils/useGameEntities";
 
 interface GameFormProps {
   initialValues: {
@@ -29,12 +30,6 @@ interface GameFormProps {
     developers: Entity[];
     tags: Entity[];
   };
-  genresData: { results: Entity[] } | undefined;
-  platformsData: { results: Entity[] } | undefined;
-  storesData: { results: Entity[] } | undefined;
-  publishersData: { results: Entity[] } | undefined;
-  developersData: { results: Entity[] } | undefined;
-  tagsData: { results: Entity[] } | undefined;
   onSubmit: (values: any) => void;
   isLoading: boolean;
   isSuccess: boolean;
@@ -47,12 +42,6 @@ interface GameFormProps {
 
 const GameForm = ({
   initialValues,
-  genresData,
-  platformsData,
-  storesData,
-  publishersData,
-  developersData,
-  tagsData,
   onSubmit,
   isLoading,
   isSuccess,
@@ -62,6 +51,9 @@ const GameForm = ({
   heading,
   successMessage = "Operation successful!",
 }: GameFormProps) => {
+  const { genres, platforms, stores, publishers, developers, tags } =
+    useGameEntities(100);
+
   const [formValues, setFormValues] = useState(initialValues);
   const [websiteError, setWebsiteError] = useState<string | null>(null);
 
@@ -159,7 +151,7 @@ const GameForm = ({
     <EntityGroup
       key="tags-group"
       label="Tag"
-      data={tagsData}
+      data={tags}
       onChange={(updated) =>
         setSelectedEntities((prev) => ({ ...prev, tags: updated }))
       }
@@ -167,7 +159,7 @@ const GameForm = ({
     <EntityGroup
       key="genres-group"
       label="Genre"
-      data={genresData}
+      data={genres}
       onChange={(updated) =>
         setSelectedEntities((prev) => ({ ...prev, genres: updated }))
       }
@@ -175,7 +167,7 @@ const GameForm = ({
     <EntityGroup
       key="platforms-group"
       label="Platform"
-      data={platformsData}
+      data={platforms}
       onChange={(updated) =>
         setSelectedEntities((prev) => ({ ...prev, parent_platforms: updated }))
       }
@@ -183,7 +175,7 @@ const GameForm = ({
     <EntityGroup
       key="stores-group"
       label="Store"
-      data={storesData}
+      data={stores}
       onChange={(updated) =>
         setSelectedEntities((prev) => ({ ...prev, stores: updated }))
       }
@@ -191,7 +183,7 @@ const GameForm = ({
     <EntityGroup
       key="publishers-group"
       label="Publisher"
-      data={publishersData}
+      data={publishers}
       onChange={(updated) =>
         setSelectedEntities((prev) => ({ ...prev, publishers: updated }))
       }
@@ -199,7 +191,7 @@ const GameForm = ({
     <EntityGroup
       key="developers-group"
       label="Developer"
-      data={developersData}
+      data={developers}
       onChange={(updated) =>
         setSelectedEntities((prev) => ({ ...prev, developers: updated }))
       }

@@ -3,11 +3,11 @@ import useGameQueryStore from "../../state/state";
 import WishlistAction from "./WishlistAction";
 import LibraryAction from "./LibraryAction";
 import UserAvatar from "./UserAvatar";
-import useAuthStore from "../../state/useAuthStore";
+import { useAuth } from "../auth/useAuth";
 
 const UserPanel = () => {
   // Always call hooks first, before any return
-  const user = useAuthStore((s) => s.user);
+  const { user } = useAuth();
   const setWishlistId = useGameQueryStore((s) => s.setWishlistUserId);
   const wishlistId = useGameQueryStore((s) => s.gameQuery.wishlistUserId);
   const setLibraryId = useGameQueryStore((s) => s.setLibraryUserId);

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { User } from "../domains/auth/User";
+import { User } from "../interfaces/User";
 
 interface AuthStore {
   user: User;

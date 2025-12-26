@@ -4,12 +4,21 @@ import { UserUpdateDto } from "../controllers/dto/UserUpdateDto";
 import { BaseDtoService } from "./baseDtoService";
 import { toUserDto } from "../controllers/dto/entityMappers";
 import { hashPassword } from "./passwordUtils";
+import { ObjectType } from "typeorm";
 
 /**
  * Service for managing User entities and mapping them to UserReadDto.
  * Handles CRUD operations and ensures password is hashed when updated.
  */
 export class UserService extends BaseDtoService<User, UserReadDto> {
+  constructor(
+    entity: ObjectType<User>,
+    toDto: (entity: User) => UserReadDto,
+    sortField: string = "username"
+  ) {
+    super(entity, toDto, sortField);
+  }
+
   /**
    * Update a user by ID, hashing the password if provided.
    * @param id - User ID (number or string)

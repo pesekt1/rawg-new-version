@@ -1,24 +1,23 @@
-import { Game } from "../../entities/Game";
-import { AppDataSource } from "../../startup/data-source";
-import { GameUpdateDto } from "../../controllers/dto/GameUpdateDto";
-import { GameReadDto } from "../../controllers/dto/GameReadDto";
 import { GameCardDto } from "../../controllers/dto/GameCardDto";
+import { GameReadDto } from "../../controllers/dto/GameReadDto";
+import { GameUpdateDto } from "../../controllers/dto/GameUpdateDto";
+import { ScreenshotReadDto } from "../../controllers/dto/ScreenshotReadDto";
+import { TrailerReadDto } from "../../controllers/dto/TrailerReadDto";
 import {
   toGameCardDto,
   toGameReadDto,
 } from "../../controllers/dto/entityMappers";
+import { Developer } from "../../entities/Developer";
+import { Game } from "../../entities/Game";
 import { Genre } from "../../entities/Genre";
 import { ParentPlatform } from "../../entities/ParentPlatform";
-import { Store } from "../../entities/Store";
 import { Publisher } from "../../entities/Publisher";
-import { Developer } from "../../entities/Developer";
+import { Store } from "../../entities/Store";
 import { Tag } from "../../entities/Tag";
-import { buildGameQuery } from "./gameQueryBuilder";
-import { constructNextUrl } from "../../utils/paginationUtils";
 import { PaginatedResponse } from "../../interfaces/PaginatedResponse";
-import { Trailer } from "../../entities/Trailer";
-import { TrailerReadDto } from "../../controllers/dto/TrailerReadDto";
-import { ScreenshotReadDto } from "../../controllers/dto/ScreenshotReadDto";
+import { AppDataSource } from "../../startup/data-source";
+import { constructNextUrl } from "../../utils/paginationUtils";
+import { buildGameQuery } from "./gameQueryBuilder";
 
 export class GameService {
   private gameRepository = AppDataSource.getRepository(Game);
@@ -120,7 +119,7 @@ export class GameService {
       throw new Error(`No screenshots found for game with ID "${gameId}"`);
     }
 
-    const results = game.screenshots.map((screenshot) => ({
+    const results: ScreenshotReadDto[] = game.screenshots.map((screenshot) => ({
       id: screenshot.id,
       image: screenshot.image,
       width: screenshot.width,

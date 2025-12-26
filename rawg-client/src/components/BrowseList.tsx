@@ -36,7 +36,7 @@ const allItems = [
   { label: "Developers", icon: FaCode, to: "/entities/developers" },
   { label: "Publishers", icon: FaBookOpen, to: "/entities/publishers" },
   //{ label: "Creators", icon: FaUser, to: "/entities/creators" },
-  { label: "Tags", icon: FaHashtag, to: "/entities/tags" },
+  { label: "Tags", icon: FaHashtag, to: "/tags" },
 ];
 
 const DEFAULT_VISIBLE_ITEMS = 3;

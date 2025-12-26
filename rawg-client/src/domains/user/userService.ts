@@ -1,7 +1,7 @@
 import userClient from "./user-client";
 import ApiClient from "../../services/api-client";
 import { isTokenValid } from "../auth/useAuth";
-import { User } from "../auth/User";
+import { User } from "../../interfaces/User";
 
 const apiClient = new ApiClient<User>("/users");
 

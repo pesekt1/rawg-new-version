@@ -10,9 +10,10 @@ import { ObjectLiteral, ObjectType, DeepPartial } from "typeorm";
 export class BaseDtoService<T extends ObjectLiteral, D> extends BaseService<T> {
   constructor(
     entity: ObjectType<T>,
-    private toDto: (entity: T) => D
+    private toDto: (entity: T) => D,
+    sortField: string = "name"
   ) {
-    super(entity);
+    super(entity, sortField);
   }
 
   /**
@@ -27,7 +28,11 @@ export class BaseDtoService<T extends ObjectLiteral, D> extends BaseService<T> {
     page_size: number = 10,
     baseUrl?: string
   ): Promise<PaginatedResponse<D>> {
-    const paginatedResponse = await this.getAllPaginated(page, page_size, baseUrl);
+    const paginatedResponse = await this.getAllPaginated(
+      page,
+      page_size,
+      baseUrl
+    );
 
     return {
       count: paginatedResponse.count,
@@ -55,7 +60,10 @@ export class BaseDtoService<T extends ObjectLiteral, D> extends BaseService<T> {
   /**
    * Update an entity by ID and return as DTO.
    */
-  async updateDto(id: number | string, data: DeepPartial<T>): Promise<D | null> {
+  async updateDto(
+    id: number | string,
+    data: DeepPartial<T>
+  ): Promise<D | null> {
     const entity = await super.update(id, data);
     return entity ? this.toDto(entity) : null;
   }

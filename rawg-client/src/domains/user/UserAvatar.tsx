@@ -1,6 +1,6 @@
 import { Avatar, AvatarProps, useColorModeValue } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { User } from "../auth/User";
+import { User } from "../../interfaces/User";
 
 interface UserAvatarProps extends AvatarProps {
   user: User | null;

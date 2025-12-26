@@ -1,17 +1,11 @@
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useGame from "../domains/games/useGame";
-import useGenres from "../domains/genres/useGenres";
-import usePublishers from "../domains/publishers/usePublishers";
-import useStores from "../domains/stores/useStores";
-import usePlatforms from "../domains/platforms/usePlatforms";
 import ApiClient from "../services/api-client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Game } from "../domains/games/Game";
 import { useAuth } from "../domains/auth/useAuth";
 import GameForm from "../domains/games/components/GameForm/GameForm";
-import useDevelopers from "../domains/developers/useDevelopers";
-import useTags from "../domains/tags/useTags";
 
 const apiClient = new ApiClient<Game>("/games");
 
@@ -28,13 +22,6 @@ const EditGamePage = () => {
     }
   }, [isAuthenticated, navigate]);
   const queryClient = useQueryClient();
-
-  const genres = useGenres();
-  const platforms = usePlatforms();
-  const stores = useStores();
-  const publishers = usePublishers();
-  const developers = useDevelopers();
-  const tags = useTags();
 
   const {
     mutate,
@@ -81,12 +68,6 @@ const EditGamePage = () => {
         developers: game.developers || [],
         tags: game.tags || [],
       }}
-      genresData={genres.data}
-      platformsData={platforms.data}
-      storesData={stores.data}
-      publishersData={publishers.data}
-      developersData={developers.data}
-      tagsData={tags.data}
       onSubmit={mutate}
       isLoading={isSaving}
       isSuccess={isSuccess}

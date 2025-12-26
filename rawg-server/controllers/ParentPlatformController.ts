@@ -16,6 +16,7 @@ import {
   SuccessResponse,
   Tags,
   Security,
+  Query,
 } from "tsoa";
 import { parentPlatformService } from "../services/parentPlatformService";
 import { formatListResponse, handleDelete } from "./controllerUtils";
@@ -36,12 +37,21 @@ export class ParentPlatformController
   implements IBaseController<PlatformReadDto>
 {
   /**
-   * Get a list of all parent platforms.
-   * @returns ListResponse containing parent platform DTOs.
+   * Get a list of all parent platforms with optional pagination.
+   * @param page Page number for pagination.
+   * @param page_size Number of items per page.
+   * @returns PaginatedResponse containing parent platform DTOs.
    */
   @Get("/")
-  public async getAll(): Promise<PaginatedResponse<PlatformReadDto>> {
-    return formatListResponse(parentPlatformService);
+  public async getAll(
+    @Query() page?: number,
+    @Query() page_size?: number
+  ): Promise<PaginatedResponse<PlatformReadDto>> {
+    const baseUrl = "platforms/lists/parents";
+    return formatListResponse(parentPlatformService, baseUrl, {
+      page,
+      page_size,
+    });
   }
 
   /**

@@ -226,6 +226,16 @@
 					"website": {
 						"type": "string"
 					},
+					"summary": {
+						"type": "string"
+					},
+					"summaryUpdatedAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"summaryAiModel": {
+						"type": "string"
+					},
 					"genres": {
 						"items": {
 							"$ref": "#/components/schemas/Genre"
@@ -635,6 +645,14 @@
 					"review": {
 						"type": "string"
 					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"rating": {
+						"type": "number",
+						"format": "double"
+					},
 					"user": {
 						"$ref": "#/components/schemas/User"
 					},
@@ -646,6 +664,8 @@
 					"userId",
 					"gameId",
 					"review",
+					"updated_at",
+					"rating",
 					"user",
 					"game"
 				],
@@ -817,12 +837,22 @@
 					},
 					"review": {
 						"type": "string"
+					},
+					"rating": {
+						"type": "number",
+						"format": "double"
+					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time"
 					}
 				},
 				"required": [
 					"userId",
 					"gameId",
-					"review"
+					"review",
+					"rating",
+					"updated_at"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -861,11 +891,16 @@
 					},
 					"review": {
 						"type": "string"
+					},
+					"rating": {
+						"type": "number",
+						"format": "double"
 					}
 				},
 				"required": [
 					"gameId",
-					"review"
+					"review",
+					"rating"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -874,10 +909,15 @@
 				"properties": {
 					"review": {
 						"type": "string"
+					},
+					"rating": {
+						"type": "number",
+						"format": "double"
 					}
 				},
 				"required": [
-					"review"
+					"review",
+					"rating"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -1005,6 +1045,12 @@
 						},
 						"type": "array"
 					},
+					"summaryUpdatedAt": {
+						"type": "string"
+					},
+					"summary": {
+						"type": "string"
+					},
 					"website": {
 						"type": "string"
 					},
@@ -1084,6 +1130,37 @@
 					"preview",
 					"data480",
 					"dataMax"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ScreenshotReadDto": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"image": {
+						"type": "string"
+					},
+					"width": {
+						"type": "number",
+						"format": "double"
+					},
+					"height": {
+						"type": "number",
+						"format": "double"
+					},
+					"is_deleted": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"id",
+					"image",
+					"width",
+					"height",
+					"is_deleted"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -1641,15 +1718,11 @@
 						}
 					}
 				},
-				"description": "Get a user by ID.\r\nRequires user access.",
+				"description": "Get a user by ID.\r\nPublic access",
 				"tags": [
 					"User"
 				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
+				"security": [],
 				"parameters": [
 					{
 						"description": "User ID.",
@@ -1766,7 +1839,7 @@
 				"operationId": "GetAll",
 				"responses": {
 					"200": {
-						"description": "ListResponse containing tag DTOs.",
+						"description": "PaginatedResponse containing tag DTOs.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -1776,12 +1849,33 @@
 						}
 					}
 				},
-				"description": "Get a list of all tags.",
+				"description": "Get a list of all tags with optional pagination.",
 				"tags": [
 					"Tags"
 				],
 				"security": [],
-				"parameters": []
+				"parameters": [
+					{
+						"description": "Page number for pagination.",
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Number of items per page.",
+						"in": "query",
+						"name": "page_size",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
 			},
 			"post": {
 				"operationId": "Create",
@@ -2663,7 +2757,7 @@
 				"operationId": "GetAll",
 				"responses": {
 					"200": {
-						"description": "ListResponse containing parent platform DTOs.",
+						"description": "PaginatedResponse containing parent platform DTOs.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -2673,12 +2767,33 @@
 						}
 					}
 				},
-				"description": "Get a list of all parent platforms.",
+				"description": "Get a list of all parent platforms with optional pagination.",
 				"tags": [
 					"ParentPlatforms"
 				],
 				"security": [],
-				"parameters": []
+				"parameters": [
+					{
+						"description": "Page number for pagination.",
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Number of items per page.",
+						"in": "query",
+						"name": "page_size",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
 			},
 			"post": {
 				"operationId": "Create",
@@ -3480,34 +3595,7 @@
 									"properties": {
 										"results": {
 											"items": {
-												"properties": {
-													"is_deleted": {
-														"type": "boolean"
-													},
-													"height": {
-														"type": "number",
-														"format": "double"
-													},
-													"width": {
-														"type": "number",
-														"format": "double"
-													},
-													"image": {
-														"type": "string"
-													},
-													"id": {
-														"type": "number",
-														"format": "double"
-													}
-												},
-												"required": [
-													"is_deleted",
-													"height",
-													"width",
-													"image",
-													"id"
-												],
-												"type": "object"
+												"$ref": "#/components/schemas/ScreenshotReadDto"
 											},
 											"type": "array"
 										},
@@ -3540,6 +3628,57 @@
 						"schema": {
 							"format": "double",
 							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/games/{id}/summary": {
+			"post": {
+				"operationId": "SummarizeReviews",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"summary": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"summary"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Summarize reviews for a game using AI.\r\nCaches the summary on the Game entity.",
+				"tags": [
+					"Games"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "Game ID.",
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "If true, forces regeneration of the summary even if cached.",
+						"in": "query",
+						"name": "force",
+						"required": false,
+						"schema": {
+							"type": "boolean"
 						}
 					}
 				]

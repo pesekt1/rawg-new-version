@@ -1,11 +1,13 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
-  ManyToMany,
+  Entity,
   JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
 } from "typeorm";
 import { Game } from "./Game";
+import { Review } from "./Review";
 
 @Entity()
 export class User {
@@ -42,4 +44,7 @@ export class User {
     inverseJoinColumn: { name: "gamesId", referencedColumnName: "id" },
   })
   library: Game[];
+
+  @OneToMany(() => Review, (review) => review.user, { cascade: true })
+  reviews: Review[];
 }

@@ -53,10 +53,10 @@ const theme = extendTheme({
         color: props.colorMode === "light" ? "lightGray.400" : "gray.500",
       },
       a: {
-        color: props.colorMode === "light" ? "accent.600" : "accent.500",
+        color: props.colorMode === "light" ? "black" : "white",
         _hover: {
           textDecoration: "underline",
-          color: props.colorMode === "light" ? "accent.700" : "accent.600",
+          color: props.colorMode === "light" ? "gray.700" : "gray.100",
         },
       },
     }),

@@ -1,16 +1,16 @@
-import { EntityReadDto } from "./EntityReadDto";
-import { PlatformReadDto } from "./PlatformReadDto";
-import { TagReadDto } from "./TagReadDto";
 import { Developer } from "../../entities/Developer";
+import { Game } from "../../entities/Game";
+import { Genre } from "../../entities/Genre";
 import { ParentPlatform } from "../../entities/ParentPlatform";
-import { Tag } from "../../entities/Tag";
 import { Publisher } from "../../entities/Publisher";
 import { Store } from "../../entities/Store";
-import { Genre } from "../../entities/Genre";
-import { Game } from "../../entities/Game";
-import { GameReadDto } from "./GameReadDto";
-import { GameCardDto } from "./GameCardDto";
+import { Tag } from "../../entities/Tag";
 import { User } from "../../entities/User";
+import { EntityReadDto } from "./EntityReadDto";
+import { GameCardDto } from "./GameCardDto";
+import { GameReadDto } from "./GameReadDto";
+import { PlatformReadDto } from "./PlatformReadDto";
+import { TagReadDto } from "./TagReadDto";
 import { UserReadDto } from "./UserReadDto";
 
 /**
@@ -92,6 +92,10 @@ export function toGameReadDto(game: Game): GameReadDto {
     added: game.added,
     rating_top: game.rating_top,
     website: game.website,
+    summary: game.summary,
+    summaryUpdatedAt: game.summaryUpdatedAt
+      ? game.summaryUpdatedAt.toISOString()
+      : undefined,
     genres: game.genres ? toEntityReadDtoArray(game.genres) : [],
     parent_platforms: game.parent_platforms
       ? toPlatformReadDtoArray(game.parent_platforms)

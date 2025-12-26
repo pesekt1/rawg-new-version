@@ -1,22 +1,22 @@
 import "dotenv/config";
 import "reflect-metadata";
 import { DataSource } from "typeorm";
+import { Developer } from "../entities/Developer";
 import { Game } from "../entities/Game";
 import { Genre } from "../entities/Genre";
-import { Store } from "../entities/Store";
 import { ParentPlatform } from "../entities/ParentPlatform";
 import { Publisher } from "../entities/Publisher";
-import { Trailer } from "../entities/Trailer";
-import { Screenshot } from "../entities/Screenshot";
-import { User } from "../entities/User";
-import { Developer } from "../entities/Developer";
-import { Tag } from "../entities/Tag";
 import { Review } from "../entities/Review";
+import { Screenshot } from "../entities/Screenshot";
+import { Store } from "../entities/Store";
+import { Tag } from "../entities/Tag";
+import { Trailer } from "../entities/Trailer";
+import { User } from "../entities/User";
 
 export const AppDataSource = new DataSource({
   type: "mysql",
   url: process.env.DATABASE_URL,
-  synchronize: false, // Set to false in production and use migrations instead
+  synchronize: process.env.NODE_ENV !== "production", // Set to false in production and use migrations instead
   logging: true,
   entities: [
     Game,

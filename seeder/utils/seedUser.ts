@@ -1,5 +1,6 @@
-import { DataSource } from "typeorm";
+import { faker } from "@faker-js/faker";
 import bcrypt from "bcryptjs";
+import { DataSource } from "typeorm";
 import { User } from "../entities/User";
 
 export async function seedUser(dataSource: DataSource) {
@@ -29,14 +30,34 @@ export async function seedUser(dataSource: DataSource) {
       existing.passwordHash = passwordHash;
       existing.role = role;
       await userRepo.save(existing);
-      console.log(`Updated ${role}: ${username}`);
     } else {
       const user = userRepo.create({ username, passwordHash, role });
       await userRepo.save(user);
-      console.log(`Seeded ${role}: ${username}`);
+    }
+  }
+
+  // Replace the old randomUsername with faker-based random names + 0..100
+  const randomUsername = () => {
+    const fullName = `${faker.person.firstName()}_${faker.person.lastName()}`;
+    const n = faker.number.int({ min: 0, max: 100 });
+    return `${fullName}_${n}`
+      .toLowerCase()
+      .replace(/[^a-z0-9_]/g, "_")
+      .replace(/_+/g, "_")
+      .replace(/^_+|_+$/g, "");
+  };
+
+  async function seedHundredUsers() {
+    for (let i = 0; i < 100; i++) {
+      const username = randomUsername();
+      await seedSingleUser(username, username, "user");
     }
   }
 
   await seedSingleUser("user", "user", "user"); //just for testing, remove in production
   await seedSingleUser("admin", "admin", "admin"); //just for testing, remove in production
+
+  await seedHundredUsers();
+
+  console.log("Seeding users completed.");
 }

@@ -14,6 +14,8 @@ export type GameReadDto = {
   added?: number;
   rating_top?: number;
   website?: string;
+  summary?: string;
+  summaryUpdatedAt?: string;
   genres: EntityReadDto[];
   parent_platforms: PlatformReadDto[];
   stores: EntityReadDto[];

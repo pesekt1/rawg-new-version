@@ -1,6 +1,7 @@
 import { Box, Spinner, Text, VStack } from "@chakra-ui/react";
 import { useRef, useEffect } from "react";
 import useReviewsPaginated from "../domains/reviews/useReviewsPaginated";
+import ReviewCard from "../domains/reviews/components/ReviewCard";
 
 const ReviewsPage = () => {
   const {
@@ -46,17 +47,10 @@ const ReviewsPage = () => {
       <VStack spacing={4} align="stretch">
         {data?.pages.map((page, i) =>
           page.results.map((review) => (
-            <Box
+            <ReviewCard
               key={`${review.userId}-${review.gameId}-${i}`}
-              p={4}
-              borderWidth={1}
-              borderRadius="md"
-              bg="gray.50"
-              _dark={{ bg: "gray.700" }}
-            >
-              <Text fontWeight="bold">User {review.userId}</Text>
-              <Text>{review.review}</Text>
-            </Box>
+              review={review}
+            />
           ))
         )}
       </VStack>

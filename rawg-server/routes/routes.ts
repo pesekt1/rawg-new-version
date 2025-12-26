@@ -104,6 +104,9 @@ const models: TsoaRoute.Models = {
             "added": {"dataType":"double"},
             "rating_top": {"dataType":"double"},
             "website": {"dataType":"string"},
+            "summary": {"dataType":"string"},
+            "summaryUpdatedAt": {"dataType":"datetime"},
+            "summaryAiModel": {"dataType":"string"},
             "genres": {"dataType":"array","array":{"dataType":"refObject","ref":"Genre"},"required":true},
             "parent_platforms": {"dataType":"array","array":{"dataType":"refObject","ref":"ParentPlatform"},"required":true},
             "stores": {"dataType":"array","array":{"dataType":"refObject","ref":"Store"},"required":true},
@@ -237,6 +240,8 @@ const models: TsoaRoute.Models = {
             "userId": {"dataType":"double","required":true},
             "gameId": {"dataType":"double","required":true},
             "review": {"dataType":"string","required":true},
+            "updated_at": {"dataType":"datetime","required":true},
+            "rating": {"dataType":"double","required":true},
             "user": {"ref":"User","required":true},
             "game": {"ref":"Game","required":true},
         },
@@ -313,6 +318,8 @@ const models: TsoaRoute.Models = {
             "userId": {"dataType":"double","required":true},
             "gameId": {"dataType":"double","required":true},
             "review": {"dataType":"string","required":true},
+            "rating": {"dataType":"double","required":true},
+            "updated_at": {"dataType":"datetime","required":true},
         },
         "additionalProperties": false,
     },
@@ -332,6 +339,7 @@ const models: TsoaRoute.Models = {
         "properties": {
             "gameId": {"dataType":"double","required":true},
             "review": {"dataType":"string","required":true},
+            "rating": {"dataType":"double","required":true},
         },
         "additionalProperties": false,
     },
@@ -340,6 +348,7 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "review": {"dataType":"string","required":true},
+            "rating": {"dataType":"double","required":true},
         },
         "additionalProperties": false,
     },
@@ -371,7 +380,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "GameReadDto": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"inLibraryOf":{"dataType":"array","array":{"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"double","required":true}}},"required":true},"wishlistedBy":{"dataType":"array","array":{"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"double","required":true}}},"required":true},"tags":{"dataType":"array","array":{"dataType":"refObject","ref":"TagReadDto"},"required":true},"developers":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityReadDto"},"required":true},"publishers":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityReadDto"},"required":true},"stores":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityReadDto"},"required":true},"parent_platforms":{"dataType":"array","array":{"dataType":"refAlias","ref":"PlatformReadDto"},"required":true},"genres":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityReadDto"},"required":true},"website":{"dataType":"string"},"rating_top":{"dataType":"double"},"added":{"dataType":"double"},"released":{"dataType":"string"},"rating":{"dataType":"double"},"background_image":{"dataType":"string"},"metacritic":{"dataType":"double"},"description_raw":{"dataType":"string"},"slug":{"dataType":"string","required":true},"name":{"dataType":"string","required":true},"id":{"dataType":"double","required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"inLibraryOf":{"dataType":"array","array":{"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"double","required":true}}},"required":true},"wishlistedBy":{"dataType":"array","array":{"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"double","required":true}}},"required":true},"tags":{"dataType":"array","array":{"dataType":"refObject","ref":"TagReadDto"},"required":true},"developers":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityReadDto"},"required":true},"publishers":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityReadDto"},"required":true},"stores":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityReadDto"},"required":true},"parent_platforms":{"dataType":"array","array":{"dataType":"refAlias","ref":"PlatformReadDto"},"required":true},"genres":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityReadDto"},"required":true},"summaryUpdatedAt":{"dataType":"string"},"summary":{"dataType":"string"},"website":{"dataType":"string"},"rating_top":{"dataType":"double"},"added":{"dataType":"double"},"released":{"dataType":"string"},"rating":{"dataType":"double"},"background_image":{"dataType":"string"},"metacritic":{"dataType":"double"},"description_raw":{"dataType":"string"},"slug":{"dataType":"string","required":true},"name":{"dataType":"string","required":true},"id":{"dataType":"double","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "TrailerReadDto": {
@@ -382,6 +391,18 @@ const models: TsoaRoute.Models = {
             "preview": {"dataType":"string","required":true},
             "data480": {"dataType":"string","required":true},
             "dataMax": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ScreenshotReadDto": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"double","required":true},
+            "image": {"dataType":"string","required":true},
+            "width": {"dataType":"double","required":true},
+            "height": {"dataType":"double","required":true},
+            "is_deleted": {"dataType":"boolean","required":true},
         },
         "additionalProperties": false,
     },
@@ -694,7 +715,6 @@ export function RegisterRoutes(app: Router) {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
         };
         app.get('/users/:id',
-            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(UserController)),
             ...(fetchMiddlewares<RequestHandler>(UserController.prototype.getUserById)),
 
@@ -785,6 +805,8 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsTagController_getAll: Record<string, TsoaRoute.ParameterSchema> = {
+                page: {"in":"query","name":"page","dataType":"double"},
+                page_size: {"in":"query","name":"page_size","dataType":"double"},
         };
         app.get('/tags',
             ...(fetchMiddlewares<RequestHandler>(TagController)),
@@ -1409,6 +1431,8 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsParentPlatformController_getAll: Record<string, TsoaRoute.ParameterSchema> = {
+                page: {"in":"query","name":"page","dataType":"double"},
+                page_size: {"in":"query","name":"page_size","dataType":"double"},
         };
         app.get('/platforms/lists/parents',
             ...(fetchMiddlewares<RequestHandler>(ParentPlatformController)),
@@ -1993,6 +2017,37 @@ export function RegisterRoutes(app: Router) {
                 next,
                 validatedArgs,
                 successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsGameController_summarizeReviews: Record<string, TsoaRoute.ParameterSchema> = {
+                id: {"in":"path","name":"id","required":true,"dataType":"double"},
+                force: {"in":"query","name":"force","dataType":"boolean"},
+        };
+        app.post('/games/:id/summary',
+            ...(fetchMiddlewares<RequestHandler>(GameController)),
+            ...(fetchMiddlewares<RequestHandler>(GameController.prototype.summarizeReviews)),
+
+            async function GameController_summarizeReviews(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsGameController_summarizeReviews, request, response });
+
+                const controller = new GameController();
+
+              await templateService.apiHandler({
+                methodName: 'summarizeReviews',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: 201,
               });
             } catch (err) {
                 return next(err);

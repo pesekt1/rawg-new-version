@@ -1,21 +1,21 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
-  ManyToMany,
+  Entity,
   JoinTable,
+  ManyToMany,
   OneToMany,
+  PrimaryGeneratedColumn,
 } from "typeorm";
+import { Developer } from "./Developer";
 import { Genre } from "./Genre";
 import { ParentPlatform } from "./ParentPlatform";
-import { Store } from "./Store";
 import { Publisher } from "./Publisher";
-import { Trailer } from "./Trailer";
-import { Screenshot } from "./Screenshot";
-import { User } from "./User";
-import { Developer } from "./Developer";
-import { Tag } from "./Tag";
 import { Review } from "./Review";
+import { Screenshot } from "./Screenshot";
+import { Store } from "./Store";
+import { Tag } from "./Tag";
+import { Trailer } from "./Trailer";
+import { User } from "./User";
 
 @Entity("games")
 export class Game {
@@ -51,6 +51,15 @@ export class Game {
 
   @Column({ type: "varchar", nullable: true })
   website?: string;
+
+  @Column({ type: "text", nullable: true })
+  summary?: string;
+
+  @Column({ type: "datetime", nullable: true })
+  summaryUpdatedAt?: Date;
+
+  @Column({ type: "varchar", length: 64, nullable: true })
+  summaryAiModel?: string;
 
   @ManyToMany(() => Genre, (genre) => genre.games)
   @JoinTable()

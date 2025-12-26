@@ -56,7 +56,6 @@ services:
       - frontend
     volumes:
       - ./rawg-server:/app
-      - /app/node_modules # exclude from mounted volumes: much faster startup time, let the container to install the dependencies
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
       interval: 5s
@@ -80,7 +79,7 @@ services:
       - frontend
     volumes:
       - ./rawg-client:/app
-      - /app/node_modules # exclude from mounted volumes: much faster startup time, let the container to install the dependencies
+      - /app/node_modules # to avoid overwriting node_modules with host folder
 volumes:
   mysql_data:
 

@@ -5,28 +5,27 @@
  */
 
 import {
-  Controller,
-  Post,
-  Route,
   Body,
+  Controller,
+  Delete,
+  Get,
+  Path,
+  Post,
+  Put,
+  Query,
+  Route,
+  Security,
   SuccessResponse,
   Tags,
-  Get,
-  Delete,
-  Security,
-  Path,
-  Query,
-  Put,
 } from "tsoa";
-import { AuthService } from "../services/authService";
-import { wishlistService } from "../services/wishlistService";
-import { gameLibraryService } from "../services/gameLibraryService";
 import { PaginatedResponse } from "../interfaces/PaginatedResponse";
-import { GameCardDto } from "./dto/GameCardDto";
+import { AuthService } from "../services/authService";
+import { gameLibraryService } from "../services/gameLibraryService";
 import { userService } from "../services/userService";
+import { wishlistService } from "../services/wishlistService";
+import { formatListResponse, handleDelete } from "./controllerUtils";
+import { GameCardDto } from "./dto/GameCardDto";
 import { UserReadDto } from "./dto/UserReadDto";
-import { formatListResponse } from "./controllerUtils";
-import { handleDelete } from "./controllerUtils";
 import { UserUpdateDto } from "./dto/UserUpdateDto";
 import { toUserDto } from "./dto/entityMappers";
 
@@ -178,12 +177,11 @@ export class UserController extends Controller {
 
   /**
    * Get a user by ID.
-   * Requires user access.
+   * Public access
    * @param id User ID.
    * @returns User DTO or null if not found.
    */
   @Get("{id}")
-  @Security("jwt")
   public async getUserById(@Path() id: number): Promise<UserReadDto | null> {
     return userService.getByIdDto(id);
   }

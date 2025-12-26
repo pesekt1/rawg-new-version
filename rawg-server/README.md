@@ -40,6 +40,7 @@ Create a `.env` file in the root with your configuration. Example:
 DATABASE_URL=mysql://root:rootpassword@mysql:3306/rawgDatabase
 SERVER_URL=http://localhost:5000
 PORT=5000
+JWT_SECRET=dev_secret
 ```
 
 ## API Documentation

@@ -4,6 +4,7 @@ import ApiClient from "../../services/api-client";
 interface CreateReviewPayload {
   gameId: number;
   review: string;
+  rating: number;
 }
 
 const apiClient = new ApiClient<CreateReviewPayload>("/reviews");

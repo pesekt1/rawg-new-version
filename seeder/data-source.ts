@@ -1,16 +1,17 @@
 import "dotenv/config";
 import "reflect-metadata";
 import { DataSource } from "typeorm";
+import { Developer } from "./entities/Developer";
 import { Game } from "./entities/Game";
 import { Genre } from "./entities/Genre";
-import { Store } from "./entities/Store";
 import { ParentPlatform } from "./entities/ParentPlatform";
 import { Publisher } from "./entities/Publisher";
-import { Trailer } from "./entities/Trailer";
+import { Review } from "./entities/Review";
 import { Screenshot } from "./entities/Screenshot";
-import { User } from "./entities/User";
-import { Developer } from "./entities/Developer";
+import { Store } from "./entities/Store";
 import { Tag } from "./entities/Tag";
+import { Trailer } from "./entities/Trailer";
+import { User } from "./entities/User";
 
 const connectionString = process.env.DATABASE_URL;
 
@@ -31,6 +32,7 @@ export const AppDataSource = new DataSource({
     User,
     Developer,
     Tag,
+    Review,
   ],
   migrations: [],
   subscribers: [],

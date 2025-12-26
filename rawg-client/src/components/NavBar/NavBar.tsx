@@ -20,7 +20,6 @@ import ColorModeSwitch from "./ColorModeSwitch";
 import SearchInput from "./SearchInput";
 import Logo from "./Logo";
 import UserAvatar from "../../domains/user/UserAvatar";
-import useAuthStore from "../../state/useAuthStore";
 import useBrowseListStore from "../../state/useBrowseListStore";
 
 const NavBar = () => {
@@ -50,12 +49,11 @@ const NavBar = () => {
     onClose: onRegisterClose,
   } = useDisclosure();
 
-  const { logout, isAuthenticated } = useAuth();
-  const user = useAuthStore((s) => s.user);
+  const { logout, isAuthenticated, user, role } = useAuth();
 
   const authContent = isAuthenticated ? (
     <Menu>
-      <Tooltip label={user?.role === "admin" ? "Admin" : "User"}>
+      <Tooltip label={role === "admin" ? "Admin" : "User"}>
         <MenuButton>
           <UserAvatar user={user} size="sm" />
         </MenuButton>
