@@ -1,26 +1,27 @@
 import {
+  Box,
   HStack,
   IconButton,
-  useDisclosure,
-  Tooltip,
   Menu,
   MenuButton,
-  MenuList,
   MenuItem,
+  MenuList,
+  Tooltip,
+  useDisclosure,
   VStack,
-  Box,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
 import { FiUser, FiUserPlus } from "react-icons/fi";
+import { Link } from "react-router-dom";
 import LoginModal from "../../domains/auth/LoginModal";
 import RegisterModal from "../../domains/auth/RegisterModal";
 import { useAuth } from "../../domains/auth/useAuth";
-import useGameQueryStore from "../../state/state";
-import ColorModeSwitch from "./ColorModeSwitch";
-import SearchInput from "./SearchInput";
-import Logo from "./Logo";
 import UserAvatar from "../../domains/user/UserAvatar";
+import useGameQueryStore from "../../state/state";
 import useBrowseListStore from "../../state/useBrowseListStore";
+import { ChatbotLauncher } from "../chat/ChatbotLauncher";
+import ColorModeSwitch from "./ColorModeSwitch";
+import Logo from "./Logo";
+import SearchInput from "./SearchInput";
 
 const NavBar = () => {
   const resetGameQuery = useGameQueryStore((state) => state.reset);
@@ -112,6 +113,7 @@ const NavBar = () => {
           {authContent}
         </HStack>
       </HStack>
+      <ChatbotLauncher />
       <LoginModal isOpen={isLoginOpen} onClose={onLoginClose} />
       <RegisterModal isOpen={isRegisterOpen} onClose={onRegisterClose} />
     </Box>

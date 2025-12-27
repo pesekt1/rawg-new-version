@@ -1,5 +1,5 @@
-import axios, { AxiosRequestConfig } from "axios";
 import * as Sentry from "@sentry/react";
+import axios, { AxiosRequestConfig } from "axios";
 
 /**
  * Generic API response type for paginated endpoints.
@@ -130,3 +130,31 @@ class ApiClient<T> {
 
 export default ApiClient;
 export { axiosInstance };
+
+/**
+ * Typed helpers for service modules that don't fit CRUD-style ApiClient (e.g., /chat).
+ * Keeps service code consistent with "return res.data".
+ */
+export const apiGet = async <T>(url: string, config?: AxiosRequestConfig) =>
+  axiosInstance.get<T>(url, config).then((res) => res.data);
+
+export const apiPost = async <TRes, TReq = unknown>(
+  url: string,
+  data?: TReq,
+  config?: AxiosRequestConfig
+) => axiosInstance.post<TRes>(url, data, config).then((res) => res.data);
+
+export const apiPut = async <TRes, TReq = unknown>(
+  url: string,
+  data?: TReq,
+  config?: AxiosRequestConfig
+) => axiosInstance.put<TRes>(url, data, config).then((res) => res.data);
+
+export const apiPatch = async <TRes, TReq = unknown>(
+  url: string,
+  data?: TReq,
+  config?: AxiosRequestConfig
+) => axiosInstance.patch<TRes>(url, data, config).then((res) => res.data);
+
+export const apiDelete = async <T>(url: string, config?: AxiosRequestConfig) =>
+  axiosInstance.delete<T>(url, config).then((res) => res.data);

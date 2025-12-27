@@ -1,11 +1,11 @@
 import { Box, HStack, Show } from "@chakra-ui/react";
-import GameHeading from "../domains/games/components/GameHeading";
-import PlatformSelector from "../domains/platforms/PlatformSelector";
-import SortSelector from "../domains/games/components/SortSelector";
+import SidebarModal from "../components/SidebarModal";
+import { useAuth } from "../domains/auth/useAuth";
 import AddGameButton from "../domains/games/components/AddGameButton";
 import GameGrid from "../domains/games/components/GameGrid";
-import { useAuth } from "../domains/auth/useAuth";
-import SidebarModal from "../components/SidebarModal";
+import GameHeading from "../domains/games/components/GameHeading";
+import SortSelector from "../domains/games/components/SortSelector";
+import PlatformSelector from "../domains/platforms/PlatformSelector";
 
 const HomePage = () => {
   const { role } = useAuth();
