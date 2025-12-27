@@ -27,7 +27,8 @@
     "redoc": "^2.5.0",
     "reflect-metadata": "^0.2.2",
     "swagger-ui-express": "^5.0.1",
-    "typeorm": "^0.3.21"
+    "typeorm": "^0.3.21",
+    "zod": "^4.2.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",

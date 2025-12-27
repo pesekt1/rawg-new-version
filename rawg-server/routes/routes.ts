@@ -28,6 +28,8 @@ import { GenreController } from './../controllers/GenreController';
 import { GameController } from './../controllers/GameController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { DeveloperController } from './../controllers/DeveloperController';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { ChatController } from './../controllers/ChatController';
 import type { Request as ExRequest, Response as ExResponse, RequestHandler, Router } from 'express';
 
 
@@ -410,6 +412,23 @@ const models: TsoaRoute.Models = {
     "GameUpdateDto": {
         "dataType": "refAlias",
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"tags":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityWithIdDto"}},"developers":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityWithIdDto"}},"publishers":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityWithIdDto"}},"stores":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityWithIdDto"}},"parent_platforms":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityWithIdDto"}},"genres":{"dataType":"array","array":{"dataType":"refObject","ref":"EntityWithIdDto"}},"website":{"dataType":"string"},"rating_top":{"dataType":"double"},"added":{"dataType":"double"},"released":{"dataType":"string"},"rating":{"dataType":"double"},"background_image":{"dataType":"string"},"metacritic":{"dataType":"double"},"description_raw":{"dataType":"string"},"slug":{"dataType":"string","required":true},"name":{"dataType":"string","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ChatResponseDto": {
+        "dataType": "refObject",
+        "properties": {
+            "message": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ChatRequestDto": {
+        "dataType": "refObject",
+        "properties": {
+            "prompt": {"dataType":"string","required":true},
+            "conversationId": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
@@ -2198,6 +2217,36 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'delete',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsChatController_sendMessage: Record<string, TsoaRoute.ParameterSchema> = {
+                body: {"in":"body","name":"body","required":true,"ref":"ChatRequestDto"},
+        };
+        app.post('/chat',
+            ...(fetchMiddlewares<RequestHandler>(ChatController)),
+            ...(fetchMiddlewares<RequestHandler>(ChatController.prototype.sendMessage)),
+
+            async function ChatController_sendMessage(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsChatController_sendMessage, request, response });
+
+                const controller = new ChatController();
+
+              await templateService.apiHandler({
+                methodName: 'sendMessage',
                 controller,
                 response,
                 next,

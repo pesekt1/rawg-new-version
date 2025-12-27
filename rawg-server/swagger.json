@@ -1243,7 +1243,35 @@
 					"name"
 				],
 				"type": "object",
-				"description": "DTO for updating and creating Game entities.\r\n'name' and 'slug' are required, all other fields are optional."
+				"description": "DTO for updating and creating Game entities.\n'name' and 'slug' are required, all other fields are optional."
+			},
+			"ChatResponseDto": {
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ChatRequestDto": {
+				"properties": {
+					"prompt": {
+						"type": "string"
+					},
+					"conversationId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"prompt",
+					"conversationId"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {
@@ -1449,7 +1477,7 @@
 						}
 					}
 				},
-				"description": "Get all games in a user's wishlist.\r\nRequires the user's ID to be provided in the path.",
+				"description": "Get all games in a user's wishlist.\nRequires the user's ID to be provided in the path.",
 				"tags": [
 					"User"
 				],
@@ -1487,7 +1515,7 @@
 						}
 					}
 				},
-				"description": "Add a game to a user's wishlist.\r\nRequires the user's ID and the game ID to be provided in the path.",
+				"description": "Add a game to a user's wishlist.\nRequires the user's ID and the game ID to be provided in the path.",
 				"tags": [
 					"User"
 				],
@@ -1533,7 +1561,7 @@
 						}
 					}
 				},
-				"description": "Remove a game from a user's wishlist.\r\nRequires the user's ID and the game ID to be provided in the path.",
+				"description": "Remove a game from a user's wishlist.\nRequires the user's ID and the game ID to be provided in the path.",
 				"tags": [
 					"User"
 				],
@@ -1581,7 +1609,7 @@
 						}
 					}
 				},
-				"description": "Get all games in a user's library.\r\nRequires the user's ID to be provided in the path.",
+				"description": "Get all games in a user's library.\nRequires the user's ID to be provided in the path.",
 				"tags": [
 					"User"
 				],
@@ -1619,7 +1647,7 @@
 						}
 					}
 				},
-				"description": "Add a game to a user's library.\r\nRequires the user's ID and the game ID to be provided in the path.",
+				"description": "Add a game to a user's library.\nRequires the user's ID and the game ID to be provided in the path.",
 				"tags": [
 					"User"
 				],
@@ -1665,7 +1693,7 @@
 						}
 					}
 				},
-				"description": "Remove a game from a user's library.\r\nRequires the user's ID and the game ID to be provided in the path.",
+				"description": "Remove a game from a user's library.\nRequires the user's ID and the game ID to be provided in the path.",
 				"tags": [
 					"User"
 				],
@@ -1718,7 +1746,7 @@
 						}
 					}
 				},
-				"description": "Get a user by ID.\r\nPublic access",
+				"description": "Get a user by ID.\nPublic access",
 				"tags": [
 					"User"
 				],
@@ -1755,7 +1783,7 @@
 						}
 					}
 				},
-				"description": "Update an existing user.\r\nRequires user access.",
+				"description": "Update an existing user.\nRequires user access.",
 				"tags": [
 					"User"
 				],
@@ -1811,7 +1839,7 @@
 						}
 					}
 				},
-				"description": "Delete a user by ID.\r\nRequires user access.",
+				"description": "Delete a user by ID.\nRequires user access.",
 				"tags": [
 					"User"
 				],
@@ -1891,7 +1919,7 @@
 						}
 					}
 				},
-				"description": "Create a new tag.\r\nRequires admin access.",
+				"description": "Create a new tag.\nRequires admin access.",
 				"tags": [
 					"Tags"
 				],
@@ -1972,7 +2000,7 @@
 						}
 					}
 				},
-				"description": "Update an existing tag.\r\nRequires admin access.",
+				"description": "Update an existing tag.\nRequires admin access.",
 				"tags": [
 					"Tags"
 				],
@@ -2028,7 +2056,7 @@
 						}
 					}
 				},
-				"description": "Delete a tag by ID.\r\nRequires admin access.",
+				"description": "Delete a tag by ID.\nRequires admin access.",
 				"tags": [
 					"Tags"
 				],
@@ -2108,7 +2136,7 @@
 						}
 					}
 				},
-				"description": "Create a new store.\r\nRequires admin access.",
+				"description": "Create a new store.\nRequires admin access.",
 				"tags": [
 					"Stores"
 				],
@@ -2189,7 +2217,7 @@
 						}
 					}
 				},
-				"description": "Update an existing store.\r\nRequires admin access.",
+				"description": "Update an existing store.\nRequires admin access.",
 				"tags": [
 					"Stores"
 				],
@@ -2245,7 +2273,7 @@
 						}
 					}
 				},
-				"description": "Delete a store by ID.\r\nRequires admin access.",
+				"description": "Delete a store by ID.\nRequires admin access.",
 				"tags": [
 					"Stores"
 				],
@@ -2345,7 +2373,7 @@
 						}
 					}
 				},
-				"description": "Create a new review.\r\nRequires user authentication.",
+				"description": "Create a new review.\nRequires user authentication.",
 				"tags": [
 					"Reviews"
 				],
@@ -2436,7 +2464,7 @@
 						}
 					}
 				},
-				"description": "Update an existing review.\r\nRequires user authentication.",
+				"description": "Update an existing review.\nRequires user authentication.",
 				"tags": [
 					"Reviews"
 				],
@@ -2502,7 +2530,7 @@
 						}
 					}
 				},
-				"description": "Delete a review by composite key (userId and gameId).\r\nRequires user authentication.",
+				"description": "Delete a review by composite key (userId and gameId).\nRequires user authentication.",
 				"tags": [
 					"Reviews"
 				],
@@ -2592,7 +2620,7 @@
 						}
 					}
 				},
-				"description": "Create a new publisher.\r\nRequires admin access.",
+				"description": "Create a new publisher.\nRequires admin access.",
 				"tags": [
 					"Publishers"
 				],
@@ -2673,7 +2701,7 @@
 						}
 					}
 				},
-				"description": "Update an existing publisher.\r\nRequires admin access.",
+				"description": "Update an existing publisher.\nRequires admin access.",
 				"tags": [
 					"Publishers"
 				],
@@ -2729,7 +2757,7 @@
 						}
 					}
 				},
-				"description": "Delete a publisher by ID.\r\nRequires admin access.",
+				"description": "Delete a publisher by ID.\nRequires admin access.",
 				"tags": [
 					"Publishers"
 				],
@@ -2809,7 +2837,7 @@
 						}
 					}
 				},
-				"description": "Create a new parent platform.\r\nRequires admin access.",
+				"description": "Create a new parent platform.\nRequires admin access.",
 				"tags": [
 					"ParentPlatforms"
 				],
@@ -2890,7 +2918,7 @@
 						}
 					}
 				},
-				"description": "Update an existing parent platform.\r\nRequires admin access.",
+				"description": "Update an existing parent platform.\nRequires admin access.",
 				"tags": [
 					"ParentPlatforms"
 				],
@@ -2946,7 +2974,7 @@
 						}
 					}
 				},
-				"description": "Delete a parent platform by ID.\r\nRequires admin access.",
+				"description": "Delete a parent platform by ID.\nRequires admin access.",
 				"tags": [
 					"ParentPlatforms"
 				],
@@ -3084,7 +3112,7 @@
 						}
 					}
 				},
-				"description": "Create a new genre.\r\nRequires admin access.",
+				"description": "Create a new genre.\nRequires admin access.",
 				"tags": [
 					"Genres"
 				],
@@ -3165,7 +3193,7 @@
 						}
 					}
 				},
-				"description": "Update an existing genre.\r\nRequires admin access.",
+				"description": "Update an existing genre.\nRequires admin access.",
 				"tags": [
 					"Genres"
 				],
@@ -3221,7 +3249,7 @@
 						}
 					}
 				},
-				"description": "Delete a genre by ID.\r\nRequires admin access.",
+				"description": "Delete a genre by ID.\nRequires admin access.",
 				"tags": [
 					"Genres"
 				],
@@ -3259,7 +3287,7 @@
 						}
 					}
 				},
-				"description": "Get a list of all games, optionally filtered and paginated.\r\nReturns a paginated object with GameCardDto results.",
+				"description": "Get a list of all games, optionally filtered and paginated.\nReturns a paginated object with GameCardDto results.",
 				"tags": [
 					"Games"
 				],
@@ -3398,7 +3426,7 @@
 						}
 					}
 				},
-				"description": "Create a new game.\r\nRequires admin access.",
+				"description": "Create a new game.\nRequires admin access.",
 				"tags": [
 					"Games"
 				],
@@ -3437,7 +3465,7 @@
 						}
 					}
 				},
-				"description": "Get a game by ID.\r\nReturns a GameReadDto or throws if not found.",
+				"description": "Get a game by ID.\nReturns a GameReadDto or throws if not found.",
 				"tags": [
 					"Games"
 				],
@@ -3469,7 +3497,7 @@
 						}
 					}
 				},
-				"description": "Update an existing game.\r\nRequires admin access.",
+				"description": "Update an existing game.\nRequires admin access.",
 				"tags": [
 					"Games"
 				],
@@ -3510,7 +3538,7 @@
 						"description": "No content"
 					}
 				},
-				"description": "Delete a game by ID.\r\nRequires admin access.",
+				"description": "Delete a game by ID.\nRequires admin access.",
 				"tags": [
 					"Games"
 				],
@@ -3564,7 +3592,7 @@
 						}
 					}
 				},
-				"description": "Get one trailer (movie) for a game by ID.\r\nReturns a single trailer DTO.",
+				"description": "Get one trailer (movie) for a game by ID.\nReturns a single trailer DTO.",
 				"tags": [
 					"Games"
 				],
@@ -3614,7 +3642,7 @@
 						}
 					}
 				},
-				"description": "Get screenshots for a game by ID.\r\nReturns a list of screenshots DTOs.",
+				"description": "Get screenshots for a game by ID.\nReturns a list of screenshots DTOs.",
 				"tags": [
 					"Games"
 				],
@@ -3656,7 +3684,7 @@
 						}
 					}
 				},
-				"description": "Summarize reviews for a game using AI.\r\nCaches the summary on the Game entity.",
+				"description": "Summarize reviews for a game using AI.\nCaches the summary on the Game entity.",
 				"tags": [
 					"Games"
 				],
@@ -3741,7 +3769,7 @@
 						}
 					}
 				},
-				"description": "Create a new developer.\r\nRequires admin access.",
+				"description": "Create a new developer.\nRequires admin access.",
 				"tags": [
 					"Developers"
 				],
@@ -3822,7 +3850,7 @@
 						}
 					}
 				},
-				"description": "Update an existing developer.\r\nRequires admin access.",
+				"description": "Update an existing developer.\nRequires admin access.",
 				"tags": [
 					"Developers"
 				],
@@ -3878,7 +3906,7 @@
 						}
 					}
 				},
-				"description": "Delete a developer by ID.\r\nRequires admin access.",
+				"description": "Delete a developer by ID.\nRequires admin access.",
 				"tags": [
 					"Developers"
 				],
@@ -3899,6 +3927,38 @@
 						}
 					}
 				]
+			}
+		},
+		"/chat": {
+			"post": {
+				"operationId": "SendMessage",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ChatResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Chat"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ChatRequestDto"
+							}
+						}
+					}
+				}
 			}
 		}
 	},

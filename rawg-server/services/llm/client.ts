@@ -16,7 +16,7 @@ const openAIClient = new OpenAI({
 /**
  * Options for generating a single text response.
  */
-type GenerateTextOptions = {
+export type GenerateTextOptions = {
   /**
    * Model identifier to use for generation.
    * @default "gpt-4.1"
@@ -56,12 +56,25 @@ type GenerateTextOptions = {
 /**
  * Normalized result returned to callers.
  */
-type GenerateTextResult = {
-  /** Provider response id (e.g. OpenAI `response.id`). */
+export type GenerateTextResult = {
   id: string;
-  /** Plain text output extracted from the provider response. */
   text: string;
 };
+
+function extractResponseText(response: any): string {
+  if (typeof response?.output_text === "string")
+    return response.output_text.trim();
+
+  // Fallback: try to reconstruct text from structured output parts (SDK/provider-dependent).
+  const parts =
+    response?.output
+      ?.flatMap((o: any) => o?.content ?? [])
+      ?.map((c: any) => c?.text) ?? [];
+  return parts
+    .filter((t: any) => typeof t === "string" && t.length > 0)
+    .join("")
+    .trim();
+}
 
 export const llmClient = {
   /**
@@ -100,7 +113,7 @@ export const llmClient = {
     // Normalize provider response to `{ id, text }` for callers.
     return {
       id: response.id,
-      text: response.output_text,
+      text: extractResponseText(response),
     };
   },
 };
