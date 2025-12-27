@@ -18,6 +18,9 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { useChat } from "../../hooks/useChat";
 
+import notificationSound from "../../assets/sounds/notification.mp3";
+import popSound from "../../assets/sounds/pop.mp3";
+
 type Props = {
   isOpen: boolean;
   onClose: () => void;
@@ -28,13 +31,58 @@ export function ChatbotModal({ isOpen, onClose }: Props) {
   const [prompt, setPrompt] = useState("");
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
+  // Create audio objects once (avoid new Audio() per render)
+  const popAudioRef = useRef<HTMLAudioElement | null>(null);
+  const notificationAudioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Used to detect when a new message is appended
+  const lastMessageCountRef = useRef<number>(0);
+
+  const playSafe = async (audio: HTMLAudioElement | null) => {
+    if (!audio) return;
+    try {
+      audio.currentTime = 0;
+      await audio.play();
+    } catch {
+      // ignore autoplay/user-gesture restrictions
+    }
+  };
+
+  useEffect(() => {
+    if (!popAudioRef.current) {
+      popAudioRef.current = new Audio(popSound);
+      popAudioRef.current.volume = 0.2;
+    }
+    if (!notificationAudioRef.current) {
+      notificationAudioRef.current = new Audio(notificationSound);
+      notificationAudioRef.current.volume = 0.2;
+    }
+  }, []);
+
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isBotTyping, isOpen]);
 
+  // notification when bot replies
+  useEffect(() => {
+    const prev = lastMessageCountRef.current;
+    const next = messages.length;
+
+    if (next > prev) {
+      const last = messages[messages.length - 1];
+      if (last?.role === "bot") void playSafe(notificationAudioRef.current);
+    }
+
+    lastMessageCountRef.current = next;
+  }, [messages]);
+
   const send = async () => {
     const current = prompt;
     setPrompt("");
+
+    // pop on send gesture
+    void playSafe(popAudioRef.current);
+
     await sendMessage(current);
   };
 
