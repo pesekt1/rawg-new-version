@@ -12,6 +12,9 @@ Summarize the following customer reviews into a short paragraph.
 **Cons:**
 - ...
 
+**Final Verdict:**
+Provide a very brief final verdict based on the reviews.
+
 Rules:
 - Use bullet points for Pros/Cons.
 - Keep it concise (max ~6 bullets per section).
