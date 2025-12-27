@@ -15,7 +15,7 @@ const chatSchema = z.object({
 @Route("chat")
 @Tags("Chat")
 export class ChatController extends Controller {
-  @Post("/")
+  @Post()
   public async sendMessage(
     @Body() body: ChatRequestDto
   ): Promise<ChatResponseDto> {
