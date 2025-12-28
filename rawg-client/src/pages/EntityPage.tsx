@@ -1,21 +1,23 @@
-import { useParams } from "react-router-dom";
-import { Center, Text, Box, Heading, SimpleGrid } from "@chakra-ui/react";
-import EntityGrid from "../components/EntityGrid";
-import EntityCard from "../components/EntityCard";
-import useGenresPagination from "../domains/genres/useGenresPagination";
-import useDevelopersPagination from "../domains/developers/useDevelopersPagination";
-import useStoresPagination from "../domains/stores/useStoresPagination";
-import usePublishersPagination from "../domains/publishers/usePublishersPagination";
-import usePlatformsPagination from "../domains/platforms/usePlatformsPagination"; // <-- add this import
-import { Genre } from "../domains/genres/Genre";
-import { Developer } from "../domains/developers/Developer";
-import { Store } from "../domains/stores/Store";
-import { Publisher } from "../domains/publishers/Publisher";
-import { Platform } from "../domains/platforms/Platform"; // <-- add this import
+import { Box, Center, Heading, SimpleGrid, Text } from "@chakra-ui/react";
 import { UseInfiniteQueryResult } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
+import EntityCard from "../components/EntityCard";
+import EntityGrid from "../components/EntityGrid";
+import { Developer } from "../domains/developers/Developer";
+import useDevelopersPagination from "../domains/developers/useDevelopersPagination";
+import GameCardSkeleton from "../domains/games/components/GameCard/GameCardSkeleton"; // Import GameCardSkeleton
+import { Genre } from "../domains/genres/Genre";
+import useGenresPagination from "../domains/genres/useGenresPagination";
+import { Platform } from "../domains/platforms/Platform"; // <-- add this import
+import usePlatformsPagination from "../domains/platforms/usePlatformsPagination"; // <-- add this import
+import { Publisher } from "../domains/publishers/Publisher";
+import usePublishersPagination from "../domains/publishers/usePublishersPagination";
+import { Store } from "../domains/stores/Store";
+import useStoresPagination from "../domains/stores/useStoresPagination";
 import { Response } from "../services/api-client";
 import useGameQueryStore from "../state/state";
-import GameCardSkeleton from "../domains/games/components/GameCard/GameCardSkeleton"; // Import GameCardSkeleton
+
+const PAGE_SIZE = 20;
 
 type EntityConfig<T> = {
   hook: () => UseInfiniteQueryResult<Response<T>, Error>;
@@ -32,25 +34,25 @@ const entityConfig: Record<string, EntityConfig<any>> = {
     setter: useGameQueryStore.getState().setGenreId,
   },
   developers: {
-    hook: useDevelopersPagination,
+    hook: () => useDevelopersPagination(PAGE_SIZE),
     title: "Developers",
     renderDetails: (entity: Developer) => <p>ID: {entity.id}</p>,
     setter: useGameQueryStore.getState().setDeveloperId,
   },
   stores: {
-    hook: useStoresPagination,
+    hook: () => useStoresPagination(PAGE_SIZE),
     title: "Stores",
     renderDetails: (entity: Store) => <p>Slug: {entity.slug}</p>,
     setter: useGameQueryStore.getState().setStoreId,
   },
   publishers: {
-    hook: usePublishersPagination,
+    hook: () => usePublishersPagination(PAGE_SIZE),
     title: "Publishers",
     renderDetails: (entity: Publisher) => <p>ID: {entity.id}</p>,
     setter: useGameQueryStore.getState().setPublisherId,
   },
   platforms: {
-    hook: usePlatformsPagination,
+    hook: () => usePlatformsPagination(PAGE_SIZE),
     title: "Platforms",
     renderDetails: (entity: Platform) => <p>Slug: {entity.slug}</p>,
     setter: useGameQueryStore.getState().setPlatformId,
@@ -88,7 +90,7 @@ const EntityPage = () => {
           spacing={4}
           margin={10}
         >
-          {[...Array(10).keys()].map((skeleton) => (
+          {[...Array(20).keys()].map((skeleton) => (
             <GameCardSkeleton key={skeleton} />
           ))}
         </SimpleGrid>
