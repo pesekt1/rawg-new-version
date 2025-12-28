@@ -167,6 +167,42 @@ const theme = extendTheme({
         },
       }),
     },
+    Tabs: {
+      variants: {
+        profileSubnav: (props: any) => {
+          const isLight = props.colorMode === "light";
+          const inactive = isLight ? "gray.600" : "whiteAlpha.600";
+          const active = isLight ? "gray.900" : "white";
+          const border = isLight ? "gray.200" : "whiteAlpha.300";
+
+          return {
+            tablist: {
+              borderBottom: "1px solid",
+              borderColor: border,
+              gap: 6,
+            },
+            tab: {
+              px: 0,
+              pb: 2,
+              fontWeight: 600,
+              color: inactive,
+              _hover: { color: active },
+              _selected: {
+                color: active,
+                borderBottom: "2px solid",
+                borderColor: active,
+              },
+              _focusVisible: {
+                boxShadow: "0 0 0 3px rgba(255, 107, 107, 0.35)",
+              },
+            },
+            tabpanel: {
+              px: 0,
+            },
+          };
+        },
+      },
+    },
   },
 });
 

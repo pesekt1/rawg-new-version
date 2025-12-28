@@ -1,8 +1,20 @@
 import { Box, Heading, Spinner } from "@chakra-ui/react";
+import { InfiniteData } from "@tanstack/react-query";
+import React from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import StyledText from "../../../components/StyledText";
-import React from "react";
+import { Response } from "../../../services/api-client";
+import Review from "../Review";
 import ReviewCard from "./ReviewCard";
+
+interface Props {
+  reviews: InfiniteData<Response<Review>> | undefined;
+  isLoadingReviews: boolean;
+  fetchNextPage: () => void;
+  hasNextPage: boolean | undefined;
+  fetchedReviewsCount: number;
+  isGameDetail: boolean;
+}
 
 const ReviewsSection = ({
   reviews,
@@ -10,13 +22,8 @@ const ReviewsSection = ({
   fetchNextPage,
   hasNextPage,
   fetchedReviewsCount,
-}: {
-  reviews: any;
-  isLoadingReviews: boolean;
-  fetchNextPage: () => void;
-  hasNextPage: boolean | undefined;
-  fetchedReviewsCount: number;
-}) => (
+  isGameDetail,
+}: Props) => (
   <Box mt={4}>
     <Heading size="md" mb={2}>
       Reviews
@@ -31,9 +38,9 @@ const ReviewsSection = ({
         <React.Fragment key={index}>
           {page.results.map((review: any) => (
             <ReviewCard
-              key={review.userId}
+              key={`${review.userId}-${review.gameId}`}
               review={review}
-              isGameDetail={true} //optional prop to indicate game detail
+              isGameDetail={isGameDetail} //show game name or not
             />
           ))}
         </React.Fragment>

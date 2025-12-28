@@ -3,13 +3,19 @@ import { Response } from "../../services/api-client";
 import Review from "./Review";
 import reviewService from "./reviewService";
 
-const useReviews = (gameId: number) =>
+interface Props {
+  gameId?: number;
+  userId?: number;
+}
+
+const useReviews = ({ gameId, userId }: Props) =>
   useInfiniteQuery<Response<Review>, Error>({
-    queryKey: ["reviews", gameId],
+    queryKey: ["reviews", gameId, userId],
     queryFn: ({ pageParam = 1 }) =>
       reviewService.getAll({
         params: {
           gameId,
+          userId,
           page: pageParam,
         },
       }),

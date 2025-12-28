@@ -54,7 +54,7 @@ const GameDetailPage = () => {
     isLoading: isLoadingReviews,
     fetchNextPage,
     hasNextPage,
-  } = useReviews(gameId);
+  } = useReviews({ gameId });
 
   const { data: userReview } = useReview(gameId, user?.id || 0);
 
@@ -121,6 +121,7 @@ const GameDetailPage = () => {
             fetchNextPage={fetchNextPage}
             hasNextPage={hasNextPage}
             fetchedReviewsCount={fetchedReviewsCount}
+            isGameDetail={true}
           />
         )}
       </GridItem>
