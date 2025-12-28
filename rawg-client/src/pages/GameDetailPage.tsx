@@ -14,6 +14,7 @@ import AdminActions from "../domains/games/components/AdminActions";
 import GameDetailsSection from "../domains/games/components/GameDetailsSection";
 import GameScreenshots from "../domains/games/components/GameScreenshots/GameScreenshots";
 import GameTrailer from "../domains/games/components/GameTrailer";
+import SimilarGamesGrid from "../domains/games/components/SimilarGamesGrid";
 import useDeleteGame from "../domains/games/useDeleteGame";
 import useGame from "../domains/games/useGame";
 import ReviewButton from "../domains/reviews/components/ReviewButton";
@@ -73,6 +74,9 @@ const GameDetailPage = () => {
     );
   if (error || !game) throw error;
 
+  const similarGenreId = game.genres?.[0]?.id;
+  const similarTagId = !similarGenreId ? game.tags?.[0]?.id : undefined;
+
   return (
     <SimpleGrid
       columns={{
@@ -123,6 +127,12 @@ const GameDetailPage = () => {
       <GridItem>
         <GameTrailer gameId={game.id} />
         <GameScreenshots gameId={game.id} />
+        <SimilarGamesGrid
+          gameId={game.id}
+          genreId={similarGenreId}
+          tagId={similarTagId}
+          limit={8}
+        />
       </GridItem>
     </SimpleGrid>
   );
