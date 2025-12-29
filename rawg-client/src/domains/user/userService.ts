@@ -45,10 +45,11 @@ const userService = {
    * Register a new user.
    * @param username - The desired username.
    * @param password - The desired password.
+   * @param email - The user's email (optional).
    * @returns A promise resolving to the registration response.
    */
-  register: (username: string, password: string) =>
-    userClient.register(username, password),
+  register: (username: string, password: string, email?: string) =>
+    userClient.register(username, password, email),
 
   /**
    * Log out the current user by removing the token.

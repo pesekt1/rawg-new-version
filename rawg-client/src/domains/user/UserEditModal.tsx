@@ -16,20 +16,10 @@ import {
 } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { apiPost } from "../../services/api-client";
 import { useAuth } from "../auth/useAuth";
+import { uploadMyAvatar, validateAvatarFile } from "./avatarUpload";
 import { User } from "./User";
 import userService from "./userService";
-
-const MAX_AVATAR_BYTES = 5 * 1024 * 1024;
-
-async function uploadMyAvatar(file: File): Promise<{ avatarUrl: string }> {
-  const form = new FormData();
-  form.append("file", file);
-
-  // Uses axiosInstance baseURL + Authorization interceptor (project standard)
-  return apiPost<{ avatarUrl: string }, FormData>("/users/me/avatar", form);
-}
 
 interface UserEditModalProps {
   user: User;
@@ -110,14 +100,7 @@ const UserEditModal = ({
 
             // Only /users/me/avatar exists on the server
             if (avatarFile && currentUser?.id === user.id) {
-              if (!avatarFile.type.startsWith("image/")) {
-                throw new Error("Avatar must be an image file");
-              }
-              if (avatarFile.size > MAX_AVATAR_BYTES) {
-                throw new Error(
-                  `Avatar too large (max ${MAX_AVATAR_BYTES} bytes)`
-                );
-              }
+              validateAvatarFile(avatarFile);
 
               const { avatarUrl } = await uploadAvatarAsync(avatarFile);
               const merged = { ...updatedUser, avatarUrl };

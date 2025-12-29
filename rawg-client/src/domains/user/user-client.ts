@@ -38,7 +38,7 @@ export class UserClient {
    * @param password - The desired password.
    * @returns A promise resolving to the registration response.
    */
-  register = async (username: string, password: string) => {
+  register = async (username: string, password: string, email?: string) => {
     Sentry.addBreadcrumb({
       category: "auth",
       message: `Register attempt for user: ${username}`,
@@ -48,6 +48,7 @@ export class UserClient {
       const res = await axiosInstance.post(`/${this.basePath}`, {
         username,
         password,
+        email,
       });
       return res.data;
     } catch (error) {
