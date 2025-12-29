@@ -21,7 +21,7 @@ const UserCard = ({ user }: UserCardProps) => (
       </Box>
 
       <Box flexShrink={0}>
-        <UserAvatar user={user} size="md" />
+        <UserAvatar user={user} size="2xl" />
       </Box>
     </CardBody>
   </Card>

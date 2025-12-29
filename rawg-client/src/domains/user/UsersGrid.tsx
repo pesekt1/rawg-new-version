@@ -1,6 +1,6 @@
 import { SimpleGrid, Text } from "@chakra-ui/react";
-import UserCard from "./UserCard";
 import { User } from "../../interfaces/User";
+import UserCard from "./UserCard";
 
 interface UsersGridProps {
   users: User[];
@@ -14,7 +14,8 @@ const UsersGrid = ({ users, error }: UsersGridProps) => {
     <SimpleGrid
       columns={{ base: 1, md: 2, lg: 3, xl: 4, "2xl": 5 }}
       spacing={4}
-      margin={10}
+      marginRight={5}
+      marginTop={5}
     >
       {users.map((user) => (
         <UserCard key={user.id} user={user} />
