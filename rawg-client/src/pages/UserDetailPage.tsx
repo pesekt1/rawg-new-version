@@ -18,6 +18,7 @@ import { useAuth } from "../domains/auth/useAuth";
 import GameGrid from "../domains/games/components/GameGrid";
 import ReviewsSection from "../domains/reviews/components/ReviewsSection";
 import useReviews from "../domains/reviews/useReviews";
+import UserAvatar from "../domains/user/UserAvatar";
 import UserEditModal from "../domains/user/UserEditModal";
 import useUser from "../domains/user/useUser";
 import useGameQueryStore from "../state/state";
@@ -50,7 +51,10 @@ const UserProfilePage = () => {
 
   return (
     <Box p={4}>
-      <Heading mb={2}>{user.username}</Heading>
+      <HStack>
+        <UserAvatar user={user} size="2xl" />
+        <Heading mb={2}>{user.username}</Heading>
+      </HStack>
 
       <Tabs
         variant="profileSubnav"

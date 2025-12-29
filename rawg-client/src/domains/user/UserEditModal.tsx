@@ -1,24 +1,35 @@
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  ModalCloseButton,
+  Alert,
+  AlertIcon,
   Button,
   FormControl,
   FormLabel,
   Input,
-  Alert,
-  AlertIcon,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   VStack,
 } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
-import { User } from "../../interfaces/User";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import userService from "./userService";
+import { useEffect, useState } from "react";
+import { User } from "../../interfaces/User";
+import { apiPost } from "../../services/api-client";
 import { useAuth } from "../auth/useAuth";
+import userService from "./userService";
+
+const MAX_AVATAR_BYTES = 5 * 1024 * 1024;
+
+async function uploadMyAvatar(file: File): Promise<{ avatarUrl: string }> {
+  const form = new FormData();
+  form.append("file", file);
+
+  // Uses axiosInstance baseURL + Authorization interceptor (project standard)
+  return apiPost<{ avatarUrl: string }, FormData>("/users/me/avatar", form);
+}
 
 interface UserEditModalProps {
   user: User;
@@ -38,36 +49,48 @@ const UserEditModal = ({
 
   const [username, setUsername] = useState(user.username);
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(user.email ?? "");
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
 
   useEffect(() => {
     setUsername(user.username);
     setPassword("");
+    setEmail(user.email ?? "");
+    setAvatarFile(null);
   }, [user, isOpen]);
 
   const {
-    mutate,
-    isLoading: isSaving,
-    isError,
-    error: saveError,
-    reset: resetMutation,
+    mutateAsync: saveProfileAsync,
+    isLoading: isSavingProfile,
+    isError: isProfileError,
+    error: profileError,
+    reset: resetProfileMutation,
   } = useMutation({
-    mutationFn: (data: { username: string; password?: string }) =>
-      userService.put(user.id, data),
-    onSuccess: (updatedUser) => {
-      queryClient.invalidateQueries({ queryKey: ["user", user.id] });
-      setPassword("");
-      if (currentUser && updatedUser && currentUser.id === updatedUser.id) {
-        saveUser(updatedUser);
-      }
-      if (onSuccess) onSuccess(updatedUser);
-      onClose();
-    },
+    mutationFn: (data: {
+      username: string;
+      password?: string;
+      email?: string;
+    }) => userService.put(user.id, data),
   });
 
-  // Reset mutation state when modal closes
+  const {
+    mutateAsync: uploadAvatarAsync,
+    isLoading: isUploadingAvatar,
+    isError: isAvatarError,
+    error: avatarError,
+    reset: resetAvatarMutation,
+  } = useMutation({
+    mutationFn: (file: File) => uploadMyAvatar(file),
+  });
+
   useEffect(() => {
-    if (!isOpen) resetMutation();
-  }, [isOpen, resetMutation]);
+    if (!isOpen) {
+      resetProfileMutation();
+      resetAvatarMutation();
+    }
+  }, [isOpen, resetProfileMutation, resetAvatarMutation]);
+
+  const isSaving = isSavingProfile || isUploadingAvatar;
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
@@ -76,12 +99,47 @@ const UserEditModal = ({
         <ModalHeader>Edit User</ModalHeader>
         <ModalCloseButton />
         <form
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
-            mutate({
+
+            const updatedUser = await saveProfileAsync({
               username,
               ...(password ? { password } : {}),
+              email: email || undefined,
             });
+
+            // Only /users/me/avatar exists on the server
+            if (avatarFile && currentUser?.id === user.id) {
+              if (!avatarFile.type.startsWith("image/")) {
+                throw new Error("Avatar must be an image file");
+              }
+              if (avatarFile.size > MAX_AVATAR_BYTES) {
+                throw new Error(
+                  `Avatar too large (max ${MAX_AVATAR_BYTES} bytes)`
+                );
+              }
+
+              const { avatarUrl } = await uploadAvatarAsync(avatarFile);
+              const merged = { ...updatedUser, avatarUrl };
+
+              queryClient.invalidateQueries({ queryKey: ["user", user.id] });
+              if (currentUser && currentUser.id === merged.id) saveUser(merged);
+              onSuccess?.(merged);
+              onClose();
+              return;
+            }
+
+            queryClient.invalidateQueries({ queryKey: ["user", user.id] });
+            setPassword("");
+            if (
+              currentUser &&
+              updatedUser &&
+              currentUser.id === updatedUser.id
+            ) {
+              saveUser(updatedUser);
+            }
+            onSuccess?.(updatedUser);
+            onClose();
           }}
         >
           <ModalBody>
@@ -94,6 +152,7 @@ const UserEditModal = ({
                   isDisabled={isSaving}
                 />
               </FormControl>
+
               <FormControl>
                 <FormLabel>New Password</FormLabel>
                 <Input
@@ -104,14 +163,37 @@ const UserEditModal = ({
                   isDisabled={isSaving}
                 />
               </FormControl>
-              {isError && (
+
+              <FormControl>
+                <FormLabel>Email</FormLabel>
+                <Input
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Optional"
+                  isDisabled={isSaving}
+                />
+              </FormControl>
+
+              <FormControl isDisabled={isSaving || currentUser?.id !== user.id}>
+                <FormLabel>Profile image</FormLabel>
+                <Input
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp"
+                  onChange={(e) => setAvatarFile(e.target.files?.[0] ?? null)}
+                />
+              </FormControl>
+
+              {(isProfileError || isAvatarError) && (
                 <Alert status="error">
                   <AlertIcon />
-                  {(saveError as any)?.message || "Update failed"}
+                  {(profileError as any)?.message ||
+                    (avatarError as any)?.message ||
+                    "Update failed"}
                 </Alert>
               )}
             </VStack>
           </ModalBody>
+
           <ModalFooter>
             <Button
               onClick={onClose}

@@ -16,6 +16,7 @@ const UserAvatar = ({ user, size = "md", ...props }: UserAvatarProps) => {
   return (
     <Avatar
       name={user?.username}
+      src={user?.avatarUrl || undefined}
       size={size}
       cursor="pointer"
       bg={bg}
