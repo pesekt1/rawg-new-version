@@ -1,8 +1,8 @@
-import { AppDataSource } from "../startup/data-source";
-import { User } from "../entities/User";
 import jwt from "jsonwebtoken";
-import { hashPassword, comparePassword } from "./passwordUtils";
+import { User } from "../entities/User";
+import { AppDataSource } from "../startup/data-source";
 import { ConflictError, UnauthorizedError } from "../utils/errors";
+import { comparePassword, hashPassword } from "./passwordUtils";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -29,7 +29,8 @@ export class AuthService {
   static async register(
     username: string,
     password: string,
-    role: "admin" | "user" = "user"
+    role: "admin" | "user" = "user",
+    email?: string
   ) {
     const existing = await this.userRepository.findOneBy({ username });
     if (existing) {
@@ -37,9 +38,21 @@ export class AuthService {
     }
 
     const passwordHash = await hashPassword(password);
-    const user = this.userRepository.create({ username, passwordHash, role });
+    const user = this.userRepository.create({
+      username,
+      passwordHash,
+      role,
+      email,
+    });
     await this.userRepository.save(user);
-    return { id: user.id, username: user.username, role: user.role };
+
+    const token = jwt.sign(
+      { userId: user.id, username: user.username, role: user.role },
+      JWT_SECRET as string,
+      { expiresIn: "1d" }
+    );
+
+    return { token, user };
   }
 
   /**

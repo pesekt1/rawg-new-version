@@ -38,6 +38,7 @@ import { toUserDto } from "./dto/entityMappers";
 interface RegisterRequest {
   username: string;
   password: string;
+  email?: string;
 }
 
 interface LoginRequest {
@@ -82,9 +83,17 @@ export class UserController extends Controller {
   @Post()
   public async register(
     @Body() body: RegisterRequest
-  ): Promise<{ id: number; username: string; role: string }> {
-    const { username, password } = body;
-    return AuthService.register(username, password);
+  ): Promise<{ token: string; user: UserReadDto }> {
+    const { username, password, email } = body;
+
+    const { token, user } = await AuthService.register(
+      username,
+      password,
+      "user",
+      email
+    );
+
+    return { token, user: toUserDto(user) };
   }
 
   /**

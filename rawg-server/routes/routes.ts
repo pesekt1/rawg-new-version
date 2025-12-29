@@ -39,15 +39,6 @@ const multer = require('multer');
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
-    "RegisterRequest": {
-        "dataType": "refObject",
-        "properties": {
-            "username": {"dataType":"string","required":true},
-            "password": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "UserReadDto": {
         "dataType": "refObject",
         "properties": {
@@ -56,6 +47,16 @@ const models: TsoaRoute.Models = {
             "role": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["admin"]},{"dataType":"enum","enums":["user"]}],"required":true},
             "email": {"dataType":"string"},
             "avatarUrl": {"dataType":"string"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "RegisterRequest": {
+        "dataType": "refObject",
+        "properties": {
+            "username": {"dataType":"string","required":true},
+            "password": {"dataType":"string","required":true},
+            "email": {"dataType":"string"},
         },
         "additionalProperties": false,
     },

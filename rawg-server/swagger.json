@@ -7,22 +7,6 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"RegisterRequest": {
-				"properties": {
-					"username": {
-						"type": "string"
-					},
-					"password": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"username",
-					"password"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
 			"UserReadDto": {
 				"properties": {
 					"id": {
@@ -50,6 +34,25 @@
 					"id",
 					"username",
 					"role"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"RegisterRequest": {
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"username",
+					"password"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -1321,21 +1324,16 @@
 							"application/json": {
 								"schema": {
 									"properties": {
-										"role": {
-											"type": "string"
+										"user": {
+											"$ref": "#/components/schemas/UserReadDto"
 										},
-										"username": {
+										"token": {
 											"type": "string"
-										},
-										"id": {
-											"type": "number",
-											"format": "double"
 										}
 									},
 									"required": [
-										"role",
-										"username",
-										"id"
+										"user",
+										"token"
 									],
 									"type": "object"
 								}
