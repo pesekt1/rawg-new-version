@@ -141,5 +141,7 @@ export function toUserDto(user: User): UserReadDto {
     id: user.id,
     username: user.username,
     role: user.role,
+    email: user.email ?? undefined,
+    avatarUrl: user.avatarUrl ?? undefined,
   };
 }

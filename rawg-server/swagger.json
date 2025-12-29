@@ -38,6 +38,12 @@
 							"admin",
 							"user"
 						]
+					},
+					"email": {
+						"type": "string"
+					},
+					"avatarUrl": {
+						"type": "string"
 					}
 				},
 				"required": [
@@ -691,6 +697,9 @@
 						]
 					},
 					"password": {
+						"type": "string"
+					},
+					"email": {
 						"type": "string"
 					}
 				},
