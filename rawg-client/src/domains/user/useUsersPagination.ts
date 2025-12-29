@@ -1,5 +1,5 @@
 import useGetEntitiesPagination from "../../hooks/useGetEntitiesPagination";
-import { User } from "../../interfaces/User";
+import { User } from "./User";
 import userService from "./userService";
 
 const useUsersPagination = (pageSize: number = 10) =>

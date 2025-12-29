@@ -1,7 +1,7 @@
 import { useMemo } from "react";
-import { User } from "../../interfaces/User";
-import userService from "../user/userService";
 import useAuthStore from "../../state/useAuthStore";
+import { User } from "../user/User";
+import userService from "../user/userService";
 
 /**
  * React hook for accessing and managing authentication state in components.

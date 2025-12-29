@@ -1,10 +1,10 @@
 import { Box, Center, Heading, SimpleGrid, Text } from "@chakra-ui/react";
 import EntityGrid from "../components/EntityGrid";
 import GameCardSkeleton from "../domains/games/components/GameCard/GameCardSkeleton"; // Use skeleton for loading
+import { User } from "../domains/user/User";
 import UserCard from "../domains/user/UserCard";
 import useUsersPagination from "../domains/user/useUsersPagination";
 import { Entity } from "../interfaces/Entity";
-import { User } from "../interfaces/User";
 
 const PAGE_SIZE = 20;
 

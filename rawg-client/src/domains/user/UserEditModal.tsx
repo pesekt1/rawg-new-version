@@ -16,9 +16,9 @@ import {
 } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { User } from "../../interfaces/User";
 import { apiPost } from "../../services/api-client";
 import { useAuth } from "../auth/useAuth";
+import { User } from "./User";
 import userService from "./userService";
 
 const MAX_AVATAR_BYTES = 5 * 1024 * 1024;

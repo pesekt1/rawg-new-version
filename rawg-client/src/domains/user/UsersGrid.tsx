@@ -1,5 +1,5 @@
 import { SimpleGrid, Text } from "@chakra-ui/react";
-import { User } from "../../interfaces/User";
+import { User } from "./User";
 import UserCard from "./UserCard";
 
 interface UsersGridProps {

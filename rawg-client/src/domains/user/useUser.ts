@@ -1,6 +1,6 @@
 import useGetEntity from "../../hooks/useGetEntity";
-import { User } from "../../interfaces/User";
 import ApiClient from "../../services/api-client";
+import { User } from "./User";
 
 const apiClient = new ApiClient<User>("/users");
 
