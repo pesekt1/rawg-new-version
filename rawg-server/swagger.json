@@ -526,6 +526,12 @@
 					"passwordHash": {
 						"type": "string"
 					},
+					"email": {
+						"type": "string"
+					},
+					"avatarUrl": {
+						"type": "string"
+					},
 					"role": {
 						"type": "string",
 						"enum": [
@@ -1860,6 +1866,57 @@
 						}
 					}
 				]
+			}
+		},
+		"/users/me/avatar": {
+			"post": {
+				"operationId": "UploadMyAvatar",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"avatarUrl": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"avatarUrl"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Upload avatar for the authenticated user.\nmultipart/form-data with field name \"file\"",
+				"tags": [
+					"User"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": false,
+					"content": {
+						"multipart/form-data": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"file": {
+										"type": "string",
+										"format": "binary"
+									}
+								}
+							}
+						}
+					}
+				}
 			}
 		},
 		"/tags": {

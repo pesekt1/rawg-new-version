@@ -1,10 +1,10 @@
-import { User } from "../entities/User";
+import { ObjectType } from "typeorm";
+import { toUserDto } from "../controllers/dto/entityMappers";
 import { UserReadDto } from "../controllers/dto/UserReadDto";
 import { UserUpdateDto } from "../controllers/dto/UserUpdateDto";
+import { User } from "../entities/User";
 import { BaseDtoService } from "./baseDtoService";
-import { toUserDto } from "../controllers/dto/entityMappers";
 import { hashPassword } from "./passwordUtils";
-import { ObjectType } from "typeorm";
 
 /**
  * Service for managing User entities and mapping them to UserReadDto.
@@ -34,6 +34,17 @@ export class UserService extends BaseDtoService<User, UserReadDto> {
       updateData.passwordHash = await hashPassword(data.password);
     }
     const entity = await super.update(id, updateData);
+    return entity ? toUserDto(entity) : null;
+  }
+
+  /**
+   * Update only the user's avatarUrl.
+   */
+  async updateAvatarUrl(
+    id: number | string,
+    avatarUrl: string
+  ): Promise<UserReadDto | null> {
+    const entity = await super.update(id, { avatarUrl });
     return entity ? toUserDto(entity) : null;
   }
 }

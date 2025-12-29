@@ -4,8 +4,11 @@
  * All endpoints require JWT authentication.
  */
 
+import crypto from "crypto";
+import type Express from "express";
 import {
   Body,
+  Consumes,
   Controller,
   Delete,
   Get,
@@ -13,13 +16,16 @@ import {
   Post,
   Put,
   Query,
+  Request,
   Route,
   Security,
   SuccessResponse,
   Tags,
+  UploadedFile,
 } from "tsoa";
 import { PaginatedResponse } from "../interfaces/PaginatedResponse";
 import { AuthService } from "../services/authService";
+import { uploadAvatarToAzure } from "../services/azureBlobStorageService";
 import { gameLibraryService } from "../services/gameLibraryService";
 import { userService } from "../services/userService";
 import { wishlistService } from "../services/wishlistService";
@@ -37,6 +43,28 @@ interface RegisterRequest {
 interface LoginRequest {
   username: string;
   password: string;
+}
+
+type UploadedAvatarFile = {
+  size: number;
+  mimetype: string;
+  buffer: Buffer;
+  originalname?: string;
+};
+
+const DEFAULT_MAX_BYTES = 5 * 1024 * 1024; // 5MB
+
+function extFromMime(mime: string) {
+  switch (mime) {
+    case "image/png":
+      return ".png";
+    case "image/jpeg":
+      return ".jpg";
+    case "image/webp":
+      return ".webp";
+    default:
+      return null;
+  }
 }
 
 /**
@@ -212,5 +240,64 @@ export class UserController extends Controller {
   @Security("jwt")
   public async delete(@Path() id: number): Promise<{ message: string }> {
     return handleDelete(userService, id);
+  }
+
+  /**
+   * Upload avatar for the authenticated user.
+   * multipart/form-data with field name "file"
+   */
+  @Security("jwt")
+  @Post("me/avatar")
+  @Consumes("multipart/form-data")
+  @SuccessResponse("201", "Created")
+  public async uploadMyAvatar(
+    @Request() req: Express.Request,
+    @UploadedFile("file") file?: UploadedAvatarFile
+  ): Promise<{ avatarUrl: string }> {
+    const authUserId = ((req as any)?.user?.userId ??
+      (req as any)?.user?.id) as number | undefined;
+
+    if (!authUserId) {
+      this.setStatus(401);
+      throw new Error("Unauthorized");
+    }
+
+    if (!file) {
+      this.setStatus(400);
+      throw new Error('Missing file field "file"');
+    }
+
+    const maxBytes = Number(process.env.AVATAR_MAX_BYTES ?? DEFAULT_MAX_BYTES);
+    if (file.size > maxBytes) {
+      this.setStatus(413);
+      throw new Error(`File too large (max ${maxBytes} bytes)`);
+    }
+
+    const ext = extFromMime(file.mimetype);
+    if (!ext) {
+      this.setStatus(415);
+      throw new Error("Unsupported media type");
+    }
+
+    if (!file.buffer || file.buffer.length === 0) {
+      this.setStatus(400);
+      throw new Error("Empty upload");
+    }
+
+    const blobName = `avatars/users/${authUserId}/${Date.now()}-${crypto.randomUUID()}${ext}`;
+    const avatarUrl = await uploadAvatarToAzure({
+      blobName,
+      buffer: file.buffer,
+      contentType: file.mimetype,
+    });
+
+    const updated = await userService.updateAvatarUrl(authUserId, avatarUrl);
+    if (!updated) {
+      this.setStatus(404);
+      throw new Error("User not found");
+    }
+
+    this.setStatus(201);
+    return { avatarUrl };
   }
 }

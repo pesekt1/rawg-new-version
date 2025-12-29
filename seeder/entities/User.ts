@@ -20,6 +20,12 @@ export class User {
   @Column()
   passwordHash: string;
 
+  @Column({ nullable: true })
+  email?: string;
+
+  @Column({ nullable: true })
+  avatarUrl?: string;
+
   @Column({ default: "user" })
   role: "admin" | "user";
 

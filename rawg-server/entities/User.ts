@@ -1,10 +1,10 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
-  ManyToMany,
+  Entity,
   JoinTable,
+  ManyToMany,
   OneToMany,
+  PrimaryGeneratedColumn,
 } from "typeorm";
 import { Game } from "./Game";
 import { Review } from "./Review";
@@ -14,13 +14,19 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: "varchar", unique: true })
+  @Column({ unique: true })
   username: string;
 
-  @Column({ type: "varchar" })
+  @Column()
   passwordHash: string;
 
-  @Column({ type: "varchar", default: "user" })
+  @Column({ nullable: true })
+  email?: string;
+
+  @Column({ nullable: true, length: 2048 })
+  avatarUrl?: string;
+
+  @Column({ default: "user" })
   role: "admin" | "user";
 
   @ManyToMany(() => Game, (game) => game.wishlistedBy, {
