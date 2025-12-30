@@ -25,7 +25,10 @@ import {
 } from "tsoa";
 import { PaginatedResponse } from "../interfaces/PaginatedResponse";
 import { AuthService } from "../services/authService";
-import { uploadAvatarToAzure } from "../services/azureBlobStorageService";
+import {
+  deleteAllUserAvatars,
+  uploadAvatarToAzure,
+} from "../services/azureBlobStorageService";
 import { gameLibraryService } from "../services/gameLibraryService";
 import { userService } from "../services/userService";
 import { wishlistService } from "../services/wishlistService";
@@ -292,6 +295,8 @@ export class UserController extends Controller {
       this.setStatus(400);
       throw new Error("Empty upload");
     }
+
+    await deleteAllUserAvatars(authUserId); // delete previous avatars
 
     const blobName = `avatars/users/${authUserId}/${Date.now()}-${crypto.randomUUID()}${ext}`;
     const avatarUrl = await uploadAvatarToAzure({

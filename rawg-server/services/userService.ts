@@ -3,6 +3,7 @@ import { toUserDto } from "../controllers/dto/entityMappers";
 import { UserReadDto } from "../controllers/dto/UserReadDto";
 import { UserUpdateDto } from "../controllers/dto/UserUpdateDto";
 import { User } from "../entities/User";
+import { deleteAllUserAvatars } from "./azureBlobStorageService";
 import { BaseDtoService } from "./baseDtoService";
 import { hashPassword } from "./passwordUtils";
 
@@ -46,6 +47,20 @@ export class UserService extends BaseDtoService<User, UserReadDto> {
   ): Promise<UserReadDto | null> {
     const entity = await super.update(id, { avatarUrl });
     return entity ? toUserDto(entity) : null;
+  }
+
+  /**
+   * Delete a user by ID, also removing all their avatars from Azure Blob Storage (best-effort).
+   */
+  async delete(id: number): Promise<boolean> {
+    try {
+      await deleteAllUserAvatars(id);
+    } catch (e) {
+      // best-effort cleanup; user deletion should still proceed
+      console.warn("Failed to delete user avatar blobs:", e);
+    }
+
+    return super.delete(id);
   }
 }
 
