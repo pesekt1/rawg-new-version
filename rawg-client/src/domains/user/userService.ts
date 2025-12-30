@@ -30,6 +30,13 @@ const userService = {
   put: (id: number, data: Partial<User>) => apiClient.put(id, data),
 
   /**
+   * Delete a user by ID.
+   * @param id - The user's ID.
+   * @returns A promise resolving to the delete operation result.
+   */
+  delete: (id: number) => apiClient.delete(id),
+
+  /**
    * Log in a user and store the token.
    * @param username - The user's username.
    * @param password - The user's password.

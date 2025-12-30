@@ -12,10 +12,12 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  useToast,
   VStack,
 } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/useAuth";
 import { uploadMyAvatar, validateAvatarFile } from "./avatarUpload";
 import { User } from "./User";
@@ -35,12 +37,14 @@ const UserEditModal = ({
   onSuccess,
 }: UserEditModalProps) => {
   const queryClient = useQueryClient();
-  const { saveUser, user: currentUser } = useAuth();
+  const navigate = useNavigate();
+  const { saveUser, user: currentUser, logout } = useAuth();
 
   const [username, setUsername] = useState(user.username);
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState(user.email ?? "");
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const toast = useToast();
 
   useEffect(() => {
     setUsername(user.username);
@@ -165,6 +169,36 @@ const UserEditModal = ({
                   onChange={(e) => setAvatarFile(e.target.files?.[0] ?? null)}
                 />
               </FormControl>
+              <Button
+                colorScheme="red"
+                onClick={async () => {
+                  try {
+                    await userService.delete(user.id);
+
+                    toast({
+                      title: "User deleted",
+                      status: "success",
+                      duration: 3000,
+                      isClosable: true,
+                    });
+
+                    logout();
+                    onClose();
+                    navigate("/", { replace: true });
+                  } catch (error) {
+                    toast({
+                      title: "Error deleting user",
+                      description: (error as any)?.message || "Unknown error",
+                      status: "error",
+                      duration: 3000,
+                      isClosable: true,
+                    });
+                  }
+                }}
+                isDisabled={isSaving || currentUser?.id !== user.id}
+              >
+                Delete User
+              </Button>
 
               {(isProfileError || isAvatarError) && (
                 <Alert status="error">
