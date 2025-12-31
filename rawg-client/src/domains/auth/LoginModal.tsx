@@ -1,21 +1,21 @@
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
+  Alert,
+  AlertIcon,
   Button,
   FormControl,
   FormLabel,
   Input,
-  Alert,
-  AlertIcon,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
   useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { useAuth } from "./useAuth";
 import userService from "../user/userService";
+import { useAuth } from "./useAuth";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -47,7 +47,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Admin Login</ModalHeader>
+        <ModalHeader>Login</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           {error && (
