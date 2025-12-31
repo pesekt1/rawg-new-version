@@ -27,6 +27,8 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - mysql
+    env_file:
+    - ./seeder/.env
     environment:
       MYSQL_URL: mysql://root:rootpassword@mysql:3306/rawgDatabase
       GAME_PAGES: ${GAME_PAGES:-1} # Use the GAME_PAGES environment variable or default to 1
@@ -46,9 +48,8 @@ services:
     depends_on:
       mysql:
         condition: service_healthy # wait for mysql to be healthy - which means it is ready to accept connections
-    environment:
-      DATABASE_URL: mysql://root:rootpassword@mysql:3306/rawgDatabase
-      JWT_SECRET: dev_secret
+    env_file:
+      - ./rawg-server/.env
     ports:
       - "5000:5000"
     networks:
@@ -67,9 +68,8 @@ services:
     build:
       context: ./rawg-client
       dockerfile: Dockerfile
-    environment:
-      VITE_API_URL: http://localhost:5000
-      CHOKIDAR_USEPOLLING: true
+    env_file:
+      - ./rawg-client/.env
     depends_on:
       rawg-server:
         condition: service_healthy
