@@ -9,9 +9,27 @@ import OpenAI from "openai";
  * Contract:
  * - Exposes `generateText()` which returns `{ id, text }` regardless of provider specifics.
  */
-const openAIClient = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+
+let openAIClient: OpenAI | undefined;
+
+/**
+ * Get or create the OpenAI client instance.
+ * @returns OpenAI client instance.
+ * @throws If `OPENAI_API_KEY` is not set.
+ */
+function getOpenAIClient(): OpenAI {
+  if (openAIClient) return openAIClient;
+
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) {
+    throw new Error(
+      "Missing credentials. Please pass an `apiKey`, or set the `OPENAI_API_KEY` environment variable."
+    );
+  }
+
+  openAIClient = new OpenAI({ apiKey });
+  return openAIClient;
+}
 
 /**
  * Options for generating a single text response.
@@ -101,6 +119,9 @@ export const llmClient = {
     // - `instructions` behaves like a system/developer message
     // - `max_output_tokens` caps output length
     // - `previous_response_id` links to the prior response for continuity
+
+    const openAIClient = getOpenAIClient();
+
     const response = await openAIClient.responses.create({
       model,
       input: prompt,
