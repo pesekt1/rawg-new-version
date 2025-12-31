@@ -14,19 +14,19 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true })
+  @Column({ type: "varchar", length: 255, unique: true })
   username: string;
 
-  @Column()
+  @Column({ type: "varchar", length: 255 })
   passwordHash: string;
 
-  @Column({ nullable: true })
+  @Column({ type: "varchar", length: 255, nullable: true })
   email?: string;
 
-  @Column({ nullable: true, length: 2048 })
+  @Column({ type: "varchar", length: 2048, nullable: true })
   avatarUrl?: string;
 
-  @Column({ default: "user" })
+  @Column({ type: "enum", enum: ["admin", "user"], default: "user" })
   role: "admin" | "user";
 
   @ManyToMany(() => Game, (game) => game.wishlistedBy, {

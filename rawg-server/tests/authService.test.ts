@@ -3,7 +3,7 @@ import "dotenv/config"; // Ensure .env variables are loaded
 process.env.JWT_SECRET = "test_secret";
 
 import "reflect-metadata";
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 // Mock repository and dependencies
 const mockRepo = {
@@ -19,12 +19,6 @@ const user = {
   role: "user",
 };
 
-const userDto = {
-  id: 1,
-  username: "user",
-  role: "user",
-};
-
 // Mock AppDataSource.getRepository before importing AuthService
 vi.mock("../startup/data-source", () => ({
   AppDataSource: {
@@ -35,9 +29,9 @@ vi.mock("../startup/data-source", () => ({
 vi.mock("bcryptjs");
 vi.mock("jsonwebtoken");
 
-import { AuthService } from "../services/authService";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { AuthService } from "../services/authService";
 
 describe("AuthService", () => {
   beforeEach(() => {
@@ -47,11 +41,15 @@ describe("AuthService", () => {
   it("registers a new user", async () => {
     mockRepo.findOneBy.mockResolvedValue(null);
     mockRepo.create.mockReturnValue(user);
-    mockRepo.save.mockResolvedValue(userDto);
+    mockRepo.save.mockResolvedValue(user); // even though return value isn't used
     (bcrypt.hash as any).mockResolvedValue("hash");
+    (jwt.sign as any).mockReturnValue("token");
 
     const result = await AuthService.register("user", "pass");
-    expect(result).toEqual(userDto);
+    expect(result).toEqual({
+      token: "token",
+      user,
+    });
   });
 
   it("throws if username exists", async () => {
