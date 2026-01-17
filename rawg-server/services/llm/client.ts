@@ -79,6 +79,11 @@ export type GenerateTextResult = {
   text: string;
 };
 
+/**
+ * Tool definition compatible with the OpenAI Responses API `tools` field (function tools).
+ *
+ * `parameters` should be a JSON Schema object that describes the function arguments.
+ */
 export type ToolDefinition = Readonly<{
   type: "function";
   name: string;
@@ -86,20 +91,48 @@ export type ToolDefinition = Readonly<{
   parameters: Record<string, any>;
 }>;
 
+/**
+ * Async handler invoked when the model requests a tool call.
+ *
+ * @param args - Parsed tool arguments (typically from JSON).
+ * @returns Any JSON-serializable result to be passed back to the model.
+ */
 export type ToolHandler = (args: any) => Promise<any>;
 
+/**
+ * Options for `generateTextWithTools`, extending basic generation options with tool wiring.
+ */
 export type GenerateTextWithToolsOptions = GenerateTextOptions & {
+  /** Tool definitions exposed to the model. */
   tools: readonly ToolDefinition[];
+  /** Mapping from tool name to handler implementation. */
   toolHandlers: Record<string, ToolHandler>;
+  /**
+   * Max number of tool-call/continue rounds before returning a fallback message.
+   * @default 6
+   */
   maxToolRounds?: number;
 };
 
+/**
+ * Minimal normalized representation of a function call request from the Responses API.
+ */
 type FunctionCallItem = {
   name: string;
   arguments: any;
   call_id: string;
 };
 
+/**
+ * Parse a JSON value safely.
+ *
+ * - If `value` is an object, it is returned as-is.
+ * - If `value` is a string, attempts `JSON.parse`.
+ * - Otherwise returns `{}`.
+ *
+ * @param value - Possibly-stringified JSON value.
+ * @returns Parsed object (or `{}` on failure).
+ */
 function safeJsonParse(value: any): any {
   if (value == null) return {};
   if (typeof value === "object") return value;
@@ -111,6 +144,13 @@ function safeJsonParse(value: any): any {
   }
 }
 
+/**
+ * Extract all function/tool call requests from a Responses API response, defensively
+ * handling minor shape variations across SDK/provider versions.
+ *
+ * @param response - Raw provider response.
+ * @returns Normalized array of requested function calls.
+ */
 function extractFunctionCalls(response: any): FunctionCallItem[] {
   const out: FunctionCallItem[] = [];
 
@@ -142,6 +182,13 @@ function extractFunctionCalls(response: any): FunctionCallItem[] {
   return out;
 }
 
+/**
+ * Extract the primary textual answer from a Responses API response, falling back to
+ * concatenating structured content parts when `output_text` is absent.
+ *
+ * @param response - Raw provider response.
+ * @returns Best-effort reconstructed response text.
+ */
 function extractResponseText(response: any): string {
   if (typeof response?.output_text === "string")
     return response.output_text.trim();
@@ -201,6 +248,18 @@ export const llmClient = {
     };
   },
 
+  /**
+   * Generate text while allowing the model to call provided tools.
+   *
+   * Behavior:
+   * - Sends `tools` to the Responses API.
+   * - If the model emits tool calls, executes matching `toolHandlers`.
+   * - Feeds tool outputs back via `input` and continues until a final text response
+   *   is produced or `maxToolRounds` is exceeded.
+   *
+   * @param options - Generation + tool options (tools, handlers, loop limit).
+   * @returns Normalized `{ id, text }`.
+   */
   async generateTextWithTools({
     model = "gpt-4.1",
     prompt,

@@ -1,3 +1,16 @@
+/**
+ * System/developer prompt template for the in-app chatbot.
+ *
+ * This prompt is treated as "ground truth" behavioral policy for the assistant and is
+ * expected to be interpolated before sending to the LLM.
+ *
+ * Template variables:
+ * - `{{platformInfo}}`: Injected platform context (features, constraints, app rules).
+ *
+ * Output constraints:
+ * - Must return plain text only (no JSON).
+ * - Should prefer tool calls for live platform data and avoid inventing IDs/results.
+ */
 export default `You are the in-app assistant for our RAWG-based game database platform.
 
 Use the following platform context as ground truth:
