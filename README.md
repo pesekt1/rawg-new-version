@@ -1,4 +1,4 @@
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/pesekt1/rawg-new-version)
+[![Ask DeepWiki](https://img.shields.io/badge/Ask-DeepWiki-blue?logo=wiki)](https://deepwiki.com/pesekt1/rawg-new-version)
 
 # Game Database Project Monorepo
 
