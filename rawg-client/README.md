@@ -1,3 +1,5 @@
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/pesekt1/rawg-new-version)
+
 # Game Database Client
 
 A React frontend for the Game database project.  
