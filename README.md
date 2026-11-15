@@ -1,3 +1,5 @@
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/pesekt1/rawg-new-version)
+
 # Game Database Project Monorepo
 
 This monorepo contains a demo application stack using Docker Compose, including:
@@ -57,7 +59,6 @@ This monorepo contains a demo application stack using Docker Compose, including:
 This repository uses GitHub Actions for CI/CD:
 
 - **rawg-server**:
-
   - `.github/workflows/server-ci.yml`: Runs tests on push/pull request to `rawg-server/`.
   - `.github/workflows/ci-cd_rawg-server.yml`: Builds and deploys the backend to Azure on push to `main`.
 
